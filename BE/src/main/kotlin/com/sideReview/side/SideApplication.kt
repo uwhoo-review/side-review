@@ -8,4 +8,5 @@ class SideApplication
 
 fun main(args: Array<String>) {
 	runApplication<SideApplication>(*args)
+	
 }
