@@ -1,12 +1,16 @@
 import styled from "./style";
+import { Outlet } from "react-router-dom";
 
-const GNB = () => {
-
-    return (
-        <div css={styled.wrapper}>
-            <div css={styled.logo}>
-                SIDE REVIEW
-        </div></div>
-    )
-}
-export default GNB
+const GNB = (props: { children?: React.ReactNode }) => {
+  return (
+    <>
+      <div css={styled.wrapper}>
+        <div css={styled.logo}>SIDE REVIEW</div>
+      </div>
+      <div>
+        <Outlet />
+      </div>
+    </>
+  );
+};
+export default GNB;
