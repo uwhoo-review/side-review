@@ -1,7 +1,7 @@
-import MainLayout from "@src/component/templates/MainLayout/MainLayout";
+import MainTemplate from "@src/component/templates/MainTemplate/MainTemplate";
 
 const MainPage = () => {
-  return <MainLayout />;
+  return <MainTemplate />;
 };
 
 export default MainPage;
