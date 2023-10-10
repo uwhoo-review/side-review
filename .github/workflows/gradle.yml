@@ -12,8 +12,6 @@ env:
   S3_BUCKET_NAME: side-review-bucket
   CODE_DEPLOY_APPLICATION_NAME: uwhoo-code-deploy
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: code-deploy-group
-  GRADLE_USER_HOME: BE/gradle/wrapper
-  working-directory: ./BE
 permissions:
   contents: read
 
