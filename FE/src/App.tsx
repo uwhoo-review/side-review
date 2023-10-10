@@ -7,7 +7,10 @@ const App = () => (
   <>
     <Routes>
       <Route element={<GNB />}>
-        <Route path={"*"} element={<MainPage />} />
+        <Route path={"/*"} element={<MainPage />} />
+        <Route path={"/popular"} element={<div />} />
+        <Route path={"/newer"} element={<div />} />
+        <Route path={"/noopened"} element={<div />} />
       </Route>
     </Routes>
   </>

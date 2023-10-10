@@ -5,6 +5,11 @@
     "downlevelIteration": true,
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": [
+      "react/next",
+      "react-dom/next",
+      "@emotion/react/types/css-prop",
+    ],
     "sourceMap": true,
     "allowJs": true,
     "strict": true,
@@ -17,11 +22,6 @@
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "types": [
-      "react/next",
-      "react-dom/next",
-      "@emotion/react/types/css-prop",
-    ],
     "paths": {
       "@src/*": ["src/*"],
       "@res/*": ["res/*"]

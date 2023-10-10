@@ -1,15 +1,34 @@
 import styled from "./style";
-import { Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import HWButton from "@src/component/atoms/HWButton/HWButton";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   return (
     <>
       <div css={styled.wrapper}>
-        <div css={styled.logo}>SIDE REVIEW</div>
+        <div css={styled.leftGroups}>
+          <div css={styled.logo}>SIDE REVIEW</div>
+        </div>
+        <div css={styled.centerGroups}>
+          <NavLink to={"/"} className={({ isActive }) => (isActive ? "active" : "")}>
+            <button>Home</button>
+          </NavLink>
+          <NavLink to={"/popular"}>
+            <button>인기</button>
+          </NavLink>
+          <NavLink to={"/newer"}>
+            <button>최신</button>
+          </NavLink>
+          <NavLink to={"/noopened"}>
+            <button>공개</button>
+          </NavLink>
+        </div>
+        <div css={styled.rightGroups}>
+          <HWButton>회원가입</HWButton>
+        </div>
       </div>
-      <div>
-        <Outlet />
-      </div>
+      <Outlet />
+
     </>
   );
 };

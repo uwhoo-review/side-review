@@ -3,11 +3,21 @@ import { css } from "@emotion/react";
 export default {
   wrapper: css`
     width: 100%;
-    padding: 60px 260px 60px 260px;
+    height: calc(100% - 60px);
 
+    padding-top: 60px;
     background-color: #000;
     color: #fff;
+    .select-main {
+      height: 100%;
+      width: 100%;
 
-    box-sizing: border-box;
+      min-width: 1440px;
+    }
+    .scroll-area {
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+    }
   `,
 };

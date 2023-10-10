@@ -3,7 +3,7 @@ import CardList from "@src/component/molecules/CardList/CardList";
 
 const Content = () => {
   return (
-    <div css={styled.wrapper}>
+    <div className="contents-wrapper" css={styled.wrapper}>
       <CardList
         title={"리뷰 박스 인기 작품"}
         subTitle={"리뷰박스 유저들이 좋아하는 인기 작품을 확인해 보세요!"}
