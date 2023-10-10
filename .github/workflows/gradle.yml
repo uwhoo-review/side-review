@@ -1,79 +1,101 @@
-name: Java CI with Gradle
+name: Deploy to Amazon EC2
 
-# 어떤 브랜치를 체크할 지 설정
 on:
   push:
-    branches: [ "feature/backend-main" ]
-  pull_request:
-    branches: [ "feature/backend-main" ]
-    
-# 설정값 지정. S3 버킷 이름과 위에서 설정한 CodeDeploy 애플리케이션, 그룹 이름을 지정한다.
-env:
-  S3_BUCKET_NAME: side-review-bucket
-  CODE_DEPLOY_APP_NAME: uwhoo-code-deploy
-  CODE_DEPLOY_GROUP_NAME: code-deploy-group
+    branches:
+      - feature/backend-main
 
-# Workflow 설정
+# 본인이 설정한 값을 여기서 채워넣습니다.
+# 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름
+env:
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: side-review-bucket
+  CODE_DEPLOY_APPLICATION_NAME: uwhoo-code-deploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: code-deploy-group
+
+permissions:
+  contents: read
+
 jobs:
-  build:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-	
-    # 1. 기본 체크아웃
+
     steps:
-    - uses: actions/checkout@v3
+    # (1) 기본 체크아웃
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: chmod
+      run: chmod -R +x ./.github
+
+    - name: Generate .env file from Github Secrets
+      run: |
+          touch .env
+          echo "${{ secrets.ENV_DEPLOY }}" > .env
+          cat .env
+
+    - name: Debug - Check if .env was created
+      run: |
+          if [[ -f .env ]]; then
+            echo ".env exists!";
+          else
+            echo ".env does not exist!";
+          fi
+
+    - name: Make Zip File
+      run: |
+        ls -l .env
+        zip -qq -r ./$GITHUB_SHA.zip .env 
+        unzip -l ./$GITHUB_SHA.zip
+      shell: bash
+
+    # (2) JDK 11 세팅
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
-        distribution: 'adopt'
+        distribution: 'temurin'
         java-version: '11'
-        
-    # 2. application.properties를 프로젝트에 포함
-    - name: add Application.properties
-      run:
-        touch ./src/main/resources/application.properties
-      shell: bash
-      
-    - name: copy Application.properties
-      run:
-        echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
-      shell: bash
-        
-    # 3. gradle 권한 설정
-    - name: Grand execute permission for gradlew
-      run: chmod +x ./gradlew
-      shell: bash
-      
-    # 4. 빌드
+         
+    # (3) Gradle build (Test 제외)
     - name: Build with Gradle
-      run: ./gradlew build
-      shell: bash
+      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      with:
+        arguments: clean build -x test
 
-	# 5. 빌드 결과 파일(ROOT.war) 이동
-    - name: move build files
-      run: mv ./build/libs/ROOT.war ./
-      shell: bash
-
-	# 6. 빌드 결과와 appspec.yml, 관련 빌드 스크립트 .zip으로 압축
-    - name: zip build files
-      run: zip -r $GITHUB_SHA.zip ./appspec.yml ./ROOT.war ./scripts
-
-	# 7. AWS 인증과정
+    # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.S3_UPLOAD_ID }}
-        aws-secret-access-key: ${{ secrets.S3_UPLOAD_KEY }}
-        aws-region: ap-northeast-2
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
 
-	# 8. AWS S3에 빌드 결과 업로드
-    - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+     # (4-1) update appspec.yml(appspec.yml 파일에 있는 set-env-prod.sh를 set-env-beta.sh로 변경)
+    # - name: Update appspec.yml for main
+    #   if: github.ref == 'refs/heads/main'
+    #   run: |
+    #     sed -i 's/set-env-beta.sh/set-env-prod.sh/g' appspec.yml
 
-	# 9. CodeDeploy 실행
-    - name: deploy
+    # - name: Update appspec.yml for develop
+    #   if: github.ref == 'refs/heads/develop'
+    #   run: |
+        # sed -i 's/set-env-prod.sh/set-env-beta.sh/g' appspec.yml
+        
+
+    # (5) 빌드 결과물을 S3 버킷에 업로드
+    - name: Upload to AWS S3
+      run: |
+        aws deploy push \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
+          --source .
+
+    # (6) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
+    - name: Deploy to AWS EC2 from S3
       run: |
         aws deploy create-deployment \
-        --deployment-config-name CodeDeployDefault.AllAtOnce \
-        --application-name ${{ env.CODE_DEPLOY_APP_NAME }} \
-        --deployment-group-name ${{ env.CODE_DEPLOY_GROUP_NAME }} \
-        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+          --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
