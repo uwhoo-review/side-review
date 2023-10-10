@@ -16,7 +16,7 @@ env:
 # Workflow 설정
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 	
     # 1. 기본 체크아웃
     steps:
