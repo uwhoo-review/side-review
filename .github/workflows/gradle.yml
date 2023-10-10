@@ -59,7 +59,7 @@ jobs:
         
     # (3) Backend 디렉터리로 이동
     - name: Change to Backend Directory
-      run: cd backend
+      run: cd BE
     
     # (4) Gradle build (Test 제외)
     - name: Build with Gradle
