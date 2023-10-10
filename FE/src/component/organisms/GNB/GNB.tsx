@@ -1,6 +1,7 @@
 import styled from "./style";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
+import {IconSearch} from "@res/index";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   return (
@@ -24,6 +25,8 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </NavLink>
         </div>
         <div css={styled.rightGroups}>
+          <IconSearch />
+          <HWButton variant={"lowest"} customCss={styled.loginBtn}>로그인</HWButton>
           <HWButton>회원가입</HWButton>
         </div>
       </div>

@@ -45,6 +45,9 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
           +++
         </button>
       </div>
+      <div css={styled.previewBox}>
+
+      </div>
     </div>
   );
 };

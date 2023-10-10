@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 export default {
   wrapper: css`
-    height: 60px;
+    height: 52px;
     width: 100%;
     position: absolute;
     top: 0;
@@ -58,5 +58,13 @@ export default {
       }
     }
   `,
-  rightGroups: css``,
+  rightGroups: css`
+    display: flex;
+    //justify-content: center;
+    align-items: center;
+    gap: 10px;
+  `,
+  loginBtn: css`
+    color: #fff;
+  `
 };
