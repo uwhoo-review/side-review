@@ -13,6 +13,8 @@ export default {
       width: 100%;
 
       min-width: 1440px;
+      display: flex;
+      justify-content: center;
     }
     .scroll-area {
       height: 100%;
