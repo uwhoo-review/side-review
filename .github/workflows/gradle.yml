@@ -60,11 +60,14 @@ jobs:
     
     # (3) Gradle build (Test 제외)
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-      with:
-        gradle-version: 8.2.1
-        working-directory: ${{ env.working-directory }}
-        arguments: clean build -x test
+      #uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      run: |
+          cd your-specific-directory
+          ./gradlew clean build -x test
+      #with:
+      #  gradle-version: 8.2.1
+      #  working-directory: ${{ env.working-directory }}
+      #  arguments: clean build -x test
 
     # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
     - name: Configure AWS credentials
