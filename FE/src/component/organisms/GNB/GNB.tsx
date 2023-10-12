@@ -18,10 +18,10 @@ const GNB = (props: { children?: React.ReactNode }) => {
           <NavLink to={"/popular"}>
             <button>인기</button>
           </NavLink>
-          <NavLink to={"/newer"}>
+          <NavLink to={"/recently"}>
             <button>최신</button>
           </NavLink>
-          <NavLink to={"/noopened"}>
+          <NavLink to={"/upcoming"}>
             <button>공개</button>
           </NavLink>
         </div>

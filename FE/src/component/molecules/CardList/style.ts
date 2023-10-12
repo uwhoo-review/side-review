@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 export default {
   wrapper: css`
-    //margin-top: 70px;
+    margin-top: 70px;
   `,
   title: css`
     font-family: Pretendard, sans-serif;
@@ -65,6 +65,7 @@ export default {
     height: 670px;
     width: 100%;
     background-color: #121212;
+    margin-top: 43px;
     //transition: all 0.4s;
     animation: previewSlide 0.8s ease;
     /*display: none;

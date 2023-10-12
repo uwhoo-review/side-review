@@ -40,7 +40,6 @@ const HWCarouselPagination = ({
                 className={"icon-circle transition-all transition-hover-none ease-out duration-400"}
                 color={i === curPage ? activeColor : inactiveColor}
                 border={i === curPage ? "none" : "1px solid #84838d"}
-                size={size}
                 customCss={css`
                   ${dotStyle}
                 `}

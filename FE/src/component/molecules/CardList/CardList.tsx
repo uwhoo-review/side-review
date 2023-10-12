@@ -33,7 +33,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
       {/*</div>*/}
       <div css={styled.cardSlider}>
         <div className={"image-card-list"} css={styled.cardWrapper(currentPage)}>
-          {cardList.map((v: string, i: number) => {
+          {cardList.map((v: any, i: number) => {
             return (
               <ImageCard
                 src={v}
@@ -41,8 +41,17 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                 key={i}
                 rank={i + 1}
                 onClick={() => {
-                  setPreview(!preview);
-                  setSelectedCard(i + 1);
+                  if (selectedCard === null) {
+                    setPreview(true);
+                    setSelectedCard(i + 1);
+                  } else {
+                    if (selectedCard === i + 1) {
+                      setPreview(false);
+                      setSelectedCard(null);
+                    } else {
+                      setSelectedCard(i + 1);
+                    }
+                  }
                 }}
               />
             );
