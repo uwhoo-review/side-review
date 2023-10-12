@@ -66,6 +66,7 @@ jobs:
     - name: Run a Gradle build with Gradle Enterprise injection enabled
       run: |
         cd BE
+        chmod +x gradlew
         ./gradlew clean build -x test
       
     # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
