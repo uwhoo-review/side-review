@@ -1,10 +1,7 @@
-#!/usr/bin/env bash
-
 PROJECT_ROOT="/home/ubuntu/app"
 JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
-ENV_PATH="$PROJECT_ROOT/.env"
-DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
+DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
 TIME_NOW=$(date +%c)
 
@@ -17,9 +14,4 @@ if [ -z $CURRENT_PID ]; then
 else
   echo "$TIME_NOW > 실행중인 $CURRENT_PID 애플리케이션 종료 " >> $DEPLOY_LOG
   kill -15 $CURRENT_PID
-fi
-
-# .env 파일이 존재하면 환경변수 로드
-if [ -f $ENV_PATH ]; then
-    source $ENV_PATH
 fi
