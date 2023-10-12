@@ -54,9 +54,29 @@ export default {
     z-index: 1;
   `,
   previewBox: css`
+    @keyframes previewSlide {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
     height: 670px;
     width: 100%;
     background-color: #121212;
+    //transition: all 0.4s;
+    animation: previewSlide 0.8s ease;
+    /*display: none;
+    opacity: 0;
+    overflow: hidden;
+    &.open{
+      display: block;
+      opacity: 1;
+      transition: all 0.4s;
+    }*/
+    
+    
   `,
   flexBetween: css`
     display: flex;

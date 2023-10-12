@@ -73,7 +73,13 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
           +++
         </button>
       </div>
-      {preview && <div className="preview-wrapper" ref={boxRef} css={styled.previewBox} />}
+      {preview && (
+        <div
+          className={`preview-wrapper ${preview && "open"}`}
+          ref={boxRef}
+          css={styled.previewBox}
+        />
+      )}
     </div>
   );
 };
