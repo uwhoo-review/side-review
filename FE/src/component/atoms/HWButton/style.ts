@@ -1,15 +1,17 @@
 import { css } from "@emotion/react";
 
-export const root = (size: "large" | "medium" | "small") => {
+export const root = (size: "xlarge" | "large" | "medium" | "small") => {
   enum heightEnum {
-    large = "42px",
-    medium = "36px",
-    small = "30px",
+    xlarge = "54px",
+    large = "46px",
+    medium = "40px",
+    small = "36px",
   }
   enum paddingEnum {
-    large = "0 26.5px",
-    medium = "0 17.5px",
-    small = "0 13.5px",
+    xlarge = "0 37px",
+    large = "0 27px",
+    medium = "0 19px",
+    small = "0 16px",
   }
 
   return css`
@@ -20,29 +22,28 @@ export const root = (size: "large" | "medium" | "small") => {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #ffffff;
     svg {
       font-size: 1rem;
     }
   `;
 };
 
-export const variant = (
-  variant: "primary" | "secondary" | "lower" | "lowest" | "box"
-) => {
+export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | "box") => {
   switch (variant) {
     case "primary": {
       return css`
-        background-color: #2e7af2;
-        color: white;
+        background-color: #6d6ada;
+        color: #ffffff;
         &:hover {
-          background-color: #1a62d3;
+          background-color: #5354da;
         }
         .MuiTouchRipple-root {
           color: white;
         }
         &.Mui-disabled {
-          background-color: #d6d6d6;
-          color: #7d7e85;
+          background-color: #ffffff1f;
+          color: #ffffff66;
         }
       `;
     }
@@ -66,17 +67,16 @@ export const variant = (
     case "lower": {
       return css`
         background-color: unset;
-        color: #2e7af2;
-        border: solid 1px #d6d6d6;
+        color: #ffffff;
+        border: solid 1px #ffffff1f;
         &:hover {
-          background-color: #eff4fc;
+          background-color: #6d6ada0a;
         }
         .MuiTouchRipple-root {
-          color: #1e71d2;
+          color: #ffffff;
         }
         &.Mui-disabled {
-          border: solid 1px #d6d6d6;
-          color: #7d7e85;
+          color: #ffffff66;
         }
       `;
     }
@@ -115,7 +115,7 @@ export const variant = (
   return css``;
 };
 
-export const typography = (size: "large" | "medium" | "small") => {
+export const typography = (size: "xlarge" | "large" | "medium" | "small") => {
   switch (size) {
     case "large":
       return css`

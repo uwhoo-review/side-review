@@ -8,7 +8,7 @@ export default {
     color: ${color};
   `,
   variant: (name: string) => {
-    const fontColor = "#3e3e3e";
+    const fontColor = "#FFF";
 
     switch (name) {
       case "h4": {
@@ -297,6 +297,111 @@ export default {
           line-height: normal;
         `;
       }
+      case "displayL": {
+        return css`
+          font-size: 64px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 68px;
+        `;
+      }
+      case "displayM": {
+        return css`
+          font-size: 52px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 60px;
+        `;
+      }
+      case "headlineXL": {
+        return css`
+          font-size: 40px;
+          font-style: normal;
+          font-weight: 300;
+          line-height: 48px;
+        `;
+      }
+      case "headlineL": {
+        return css`
+          font-size: 36px;
+          font-style: normal;
+          font-weight: 300;
+          line-height: 44px;
+        `;
+      }
+      case "headlineM": {
+        return css`
+          font-size: 32px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 40px;
+        `;
+      }
+      case "headlineS": {
+        return css`
+          font-size: 28px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 38px;
+        `;
+      }
+      case "headlineXS": {
+        return css`
+          font-size: 22px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 30px;
+        `;
+      }
+      case "headlineXXS": {
+        return css`
+          font-size: 20px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 28px;
+        `;
+      }
+      case "bodyXL": {
+        return css`
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 28px;
+        `;
+      }
+      case "bodyL": {
+        return css`
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 24px;
+        `;
+      }
+      case "bodyM": {
+        return css`
+          font-size: 15px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 22px;
+        `;
+      }
+      case "bodyS": {
+        return css`
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 20px;
+        `;
+      }
+      case "bodyXS": {
+        return css`
+          font-size: 13px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 18px;
+        `;
+      }
+
       default: {
         return css``;
       }

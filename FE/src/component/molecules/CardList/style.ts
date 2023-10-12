@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 export default {
   wrapper: css`
     //margin-top: 70px;
-    
   `,
   title: css`
     font-family: Pretendard, sans-serif;
@@ -19,10 +18,11 @@ export default {
     font-style: normal;
     font-weight: 500;
     line-height: 30px;
-    margin-bottom: 40px;
+    //margin-bottom: 40px;
+    width: 100%;
   `,
   cardSlider: css`
-    width: 1440px;
+    width: 1396px;
     position: relative;
     overflow: hidden;
   `,
@@ -31,8 +31,9 @@ export default {
     align-items: center;
     gap: 20px;
 
-    transition: 0.5s;
-    transform: translate(-${currentPage * 236}px, 0px);
+    transition: 0.5s ease;
+    transform: translate(${(currentPage - 1) * -(1396 + 20)}px, 0px);
+    //transform: translate(${(currentPage - 1) * -100}%, 0px);
   `,
   leftPageBtn: css`
     position: absolute;
@@ -42,7 +43,6 @@ export default {
     background-color: #3e3e3e80;
     color: #ffffff;
     z-index: 1;
-    //display: none;
   `,
   rightPageBtn: css`
     position: absolute;
@@ -52,11 +52,18 @@ export default {
     background-color: #3e3e3e80;
     color: #ffffff;
     z-index: 1;
-    //display: none;
   `,
   previewBox: css`
     height: 670px;
     width: 100%;
     background-color: #121212;
-  `
+  `,
+  flexBetween: css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `,
+  dotPagination: css`
+    //float: right;
+  `,
 };

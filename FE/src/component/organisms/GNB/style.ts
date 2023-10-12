@@ -64,7 +64,4 @@ export default {
     align-items: center;
     gap: 10px;
   `,
-  loginBtn: css`
-    color: #fff;
-  `
 };

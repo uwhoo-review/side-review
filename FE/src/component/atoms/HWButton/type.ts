@@ -5,7 +5,7 @@ export interface HWButtonProps extends DOMAttributes<HTMLButtonElement> {
   className?: string;
   customCss?: SerializedStyles;
   variant?: "primary" | "secondary" | "lower" | "lowest" | "box";
-  size?: "large" | "medium" | "small";
+  size?: "xlarge" | "large" | "medium" | "small";
   children?: ReactNode;
   disabled?: boolean;
 }

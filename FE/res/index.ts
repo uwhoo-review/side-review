@@ -1,3 +1,10 @@
+/* ./card1 */
+import card1 from "./card/card1.png";
+import card2 from "./card/card2.png";
+import card3 from "./card/card3.png";
+import card4 from "./card/card4.png";
+import card5 from "./card/card5.png";
+
 /* ./icon */
 import IconNetflix from "./icon/ic_netflix.svg";
 import IconSearch from "./icon/ic_search.svg";
@@ -5,8 +12,14 @@ import IconStar from "./icon/ic_star.svg";
 import IconWatcha from "./icon/ic_watcha.svg";
 
 export {
+    card1,
+    card2,
+    card3,
+    card4,
+    card5,
+
     IconNetflix,
     IconSearch,
     IconStar,
-    IconWatcha
+    IconWatcha,
 }

@@ -4,22 +4,16 @@ import style from "./style";
 
 const HWTypography = React.forwardRef(
   (
-    {
-      className,
-      variant,
-      color = "inherit",
-      customCss,
-      ...props
-    }: HWTypographyProps,
+    { className, variant, color = "inherit", customCss, ...props }: HWTypographyProps,
     ref: React.Ref<HTMLSpanElement> | React.RefCallback<HTMLSpanElement>
   ) => {
     return (
-        <span
-            className={className}
-            css={[style.root, {color}, style.variant(variant), customCss]}
-            ref={ref}
-            {...props}
-        />
+      <span
+        className={className}
+        css={[style.root, { color }, style.variant(variant), customCss]}
+        ref={ref}
+        {...props}
+      />
     );
   }
 );
