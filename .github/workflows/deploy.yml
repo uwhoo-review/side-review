@@ -29,7 +29,6 @@ jobs:
       - name: Build # React Build
         run: |
           npm install
-          cd FE
           npm run build
         working-directory: ${{ env.working-directory }}
 
