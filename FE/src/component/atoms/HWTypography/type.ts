@@ -1,8 +1,7 @@
 import React from "react";
 import { SerializedStyles } from "@emotion/react";
 
-export interface HWTypographyProps
-  extends React.HTMLAttributes<HTMLSpanElement> {
+export interface HWTypographyProps extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string;
   customCss?: SerializedStyles;
   variant:
@@ -38,7 +37,20 @@ export interface HWTypographyProps
     | "helper Text2"
     | "dialog1"
     | "table title1"
-    | "cell1";
+    | "cell1"
+    | "displayL"
+    | "displayM"
+    | "headlineXL"
+    | "headlineL"
+    | "headlineM"
+    | "headlineS"
+    | "headlineXS"
+    | "headlineXXS"
+    | "bodyXL"
+    | "bodyL"
+    | "bodyM"
+    | "bodyS"
+    | "bodyXS";
   color?: string;
   children: React.ReactNode;
 }
