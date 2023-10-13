@@ -15,6 +15,7 @@ export default {
 
     display: flex;
     justify-content: space-between;
+    z-index: 10;
   `,
   logo: css`
     font-family: Poppins, sans-serif;
@@ -63,5 +64,25 @@ export default {
     //justify-content: center;
     align-items: center;
     gap: 10px;
+  `,
+
+  searchWrapper: css`
+    position: absolute;
+    top: 52px;
+
+    width: 100%;
+    height: 238px;
+    background-color: #121212;
+    opacity: 0;
+    visibility: hidden;
+
+    border-top: 1px solid #ffffff12;
+    box-sizing: border-box;
+    z-index: 1;
+    transition: opacity 1s ease;
+    &.open {
+      opacity: 1;
+      visibility: visible;
+    }
   `,
 };

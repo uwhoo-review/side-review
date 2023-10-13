@@ -3,8 +3,10 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { IconSearch } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
+import {useState} from "react";
 
 const GNB = (props: { children?: React.ReactNode }) => {
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <>
       <div css={styled.wrapper}>
@@ -26,7 +28,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </NavLink>
         </div>
         <div css={styled.rightGroups}>
-          <HWIconButton>
+          <HWIconButton onClick={() => setOpen(!open)}>
             <IconSearch />
           </HWIconButton>
           <HWButton variant={"lower"}>
@@ -35,6 +37,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
           <HWButton variant={"primary"} >회원가입</HWButton>
         </div>
       </div>
+      <div className={`search-wrapper ${open && "open"}`} css={styled.searchWrapper} />
       <Outlet />
     </>
   );
