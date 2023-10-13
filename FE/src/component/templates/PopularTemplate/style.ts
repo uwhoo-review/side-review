@@ -10,11 +10,12 @@ export default {
     color: #fff;
     .select-main {
       height: 100%;
-      width: 100%;
-
-      min-width: 1396px;
-      display: flex;
-      justify-content: center;
+      width: 1396px;
     }
   `,
+  subWrapper: css`
+    display: flex;
+    justify-content: center;
+  `,
+
 };

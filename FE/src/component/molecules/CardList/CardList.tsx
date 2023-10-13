@@ -40,6 +40,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                 className={"image-card"}
                 key={i}
                 rank={i + 1}
+                customCss={styled.card}
                 onClick={() => {
                   if (selectedCard === null) {
                     setPreview(true);

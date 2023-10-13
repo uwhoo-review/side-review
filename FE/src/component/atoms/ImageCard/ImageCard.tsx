@@ -1,16 +1,18 @@
 import styled from "./style";
 import {IconNetflix, IconStar, IconWatcha} from "@res/index";
 import {Avatar, AvatarGroup} from "@mui/material";
+import {SerializedStyles} from "@emotion/react";
 
 interface ImageCardProps {
   src: string;
   className?: string;
   rank?: number;
   onClick?: (e: React.MouseEvent) => void;
+  customCss?: SerializedStyles;
 }
-const ImageCard = ({ src, className, rank, onClick }: ImageCardProps) => {
+const ImageCard = ({ src, className, rank, onClick, customCss }: ImageCardProps) => {
   return (
-    <div className={className} css={styled.wrapper} onClick={onClick}>
+    <div className={className} css={[styled.wrapper, customCss]} onClick={onClick}>
       {rank && <div css={styled.rank}>{rank}</div>}
       <img css={styled.imgWrapper} alt="" src={src} />
       <div>

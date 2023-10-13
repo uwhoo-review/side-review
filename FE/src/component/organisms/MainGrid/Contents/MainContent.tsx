@@ -34,7 +34,7 @@ const CARD_GROUP_1 = [
   card5,
 ];
 
-const Content = () => {
+const MainContent = () => {
   return (
     <div className="contents-wrapper" css={styled.wrapper}>
       <CardList
@@ -51,4 +51,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default MainContent;

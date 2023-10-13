@@ -35,6 +35,9 @@ export default {
     transform: translate(${(currentPage - 1) * -(1396 + 20)}px, 0px);
     //transform: translate(${(currentPage - 1) * -100}%, 0px);
   `,
+  card: css`
+    cursor: pointer;
+  `,
   leftPageBtn: css`
     position: absolute;
     top: calc(50% - 30px);
@@ -56,10 +59,10 @@ export default {
   previewBox: css`
     @keyframes previewSlide {
       from {
-        transform: scaleX(0);
+        height: 0px;
       }
       to {
-        transform: scaleX(1);
+        height: 670px;
       }
     }
     height: 670px;
@@ -67,9 +70,17 @@ export default {
     background-color: #121212;
     margin-top: 43px;
     //transition: all 0.4s;
+    //opacity: 0;
+    //visibility: hidden;
+
+    //&.open {
+    //  opacity: 1;
+    //  visibility: visible;
+    //  height: 670px;
+    //}
     animation: previewSlide 0.8s ease;
     /*display: none;
-    opacity: 0;
+    
     overflow: hidden;
     &.open{
       display: block;
