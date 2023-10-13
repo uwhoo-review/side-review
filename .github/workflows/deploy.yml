@@ -17,9 +17,8 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build # React Build
-        run: |
-          cd FE
-          yarn build
+        run: yarn build
+        working-directory: ./FE
         env:
           CI: ""
 
