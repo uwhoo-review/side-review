@@ -16,7 +16,9 @@ jobs:
         run: npm install
       
       - name: Build React app
-        run: npm run build
+        run: |
+          cd FE
+          npm run build
       
       - name: Firebase login
         run: firebase login:ci --token "${{ secrets.FIREBASE_TOKEN }}"
