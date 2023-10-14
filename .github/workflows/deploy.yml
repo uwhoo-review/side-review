@@ -1,56 +1,25 @@
-name: Deploy to CloudFront
-on: 
+name: Deploy to Firebase Hosting
+
+on:
   push:
     branches:
       - feature/frontend-main
-env:
-  working-directory: ./FE
-  AWS_REGION: ap-northeast-2
-  S3_BUCKET_NAME: side-review-bucket
-  CODE_DEPLOY_APPLICATION_NAME: uwhoo-code-deploy
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: code-deploy-group
-  
+
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code. # Repo checkout
-        uses: actions/checkout@v3
-
-      #- name: Set up Node
-      #  uses: actions/setup-node@v2
-      #  with: 
-      #    node-version: 18.x
-
-      #- name: Install Dependencies # 의존 파일 설치
-      #  run: yarn install --immutable
-      #  working-directory: ${{ env.working-directory }}
-
-      - name: Build # React Build
-        run: |
-          npm install
-          npm run build
-        working-directory: ${{ env.working-directory }}
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Upload to S3 # Upload build file to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          BUCKET_NAME: ${{ env.S3_BUCKET_NAME}}
-        run: aws s3 cp --recursive --region ap-northeast-2 build s3://$BUCKET_NAME
-
-      - name: CloudFront 
-        uses: chetan/invalidate-cloudfront-action@v2
-        env:
-          DISTRIBUTION: ${{ secrets.AWS_CLOUDFRONT_ID }}
-          PATHS: "./FE/*"
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build React app
+        run: npm run build
+      
+      - name: Firebase login
+        run: firebase login:ci --token "${{ secrets.FIREBASE_TOKEN }}"
+      
+      - name: Deploy to Firebase Hosting
+        run: firebase deploy --only hosting
