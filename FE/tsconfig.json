@@ -30,7 +30,5 @@
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "exclude": ["node_modules", "./src/__test__/**/*"],
-  "include": ["src", "@types", "types",
-    "src/custom.d.ts"
-  ]
+  "include": ["src", "@types", "types", "src/custom.d.ts"]
 }

@@ -2,9 +2,9 @@
   "name": "FE",
   "packageManager": "yarn@3.6.3",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.js --hot",
-    "build": "webpack --config webpack.prod.js",
-    "dev-build": "webpack --config webpack.dev.js"
+    "start": "webpack-dev-server --progress --node-env development --config webpack.dev.js --hot",
+    "build": "webpack --progress --node-env production --config webpack.prod.js",
+    "build-dev": "webpack --node-env development --config webpack.prod.js"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
@@ -36,6 +36,7 @@
     "react-refresh-typescript": "^2.0.9",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
+    "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.4",
     "typescript": "^4.8.4",
     "typescript-plugin-css-modules": "^4.1.1",
