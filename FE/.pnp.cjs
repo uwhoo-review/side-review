@@ -34,6 +34,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:53837c94fe0f74fafc75833122c429cfaa547fd5fc7a6d940cac3b691a98f8d8c1a980b7cdd8cd9afbd5a152244f09ae2b693859798df1e2ad67d70e49a9f4d3#npm:7.23.0"],\
             ["@emotion/react", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:11.11.1"],\
             ["@emotion/styled", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:11.11.0"],\
+            ["@mui/icons-material", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:5.14.13"],\
             ["@mui/material", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:5.14.12"],\
             ["@pmmmwh/react-refresh-webpack-plugin", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:0.5.11"],\
             ["@svgr/webpack", "npm:8.1.0"],\
@@ -3259,6 +3260,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@mui/icons-material", [\
+        ["npm:5.14.13", {\
+          "packageLocation": "./.yarn/cache/@mui-icons-material-npm-5.14.13-2b0bb8f346-8.zip/node_modules/@mui/icons-material/",\
+          "packageDependencies": [\
+            ["@mui/icons-material", "npm:5.14.13"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:5.14.13", {\
+          "packageLocation": "./.yarn/__virtual__/@mui-icons-material-virtual-5e6efc87d2/0/cache/@mui-icons-material-npm-5.14.13-2b0bb8f346-8.zip/node_modules/@mui/icons-material/",\
+          "packageDependencies": [\
+            ["@mui/icons-material", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:5.14.13"],\
+            ["@babel/runtime", "npm:7.23.1"],\
+            ["@mui/material", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:5.14.12"],\
+            ["@types/mui__material", null],\
+            ["@types/react", "npm:18.2.23"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@mui/material",\
+            "@types/mui__material",\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@mui/material", [\
         ["npm:5.14.12", {\
           "packageLocation": "./.yarn/cache/@mui-material-npm-5.14.12-d2e82ab296-8.zip/node_modules/@mui/material/",\
@@ -5134,6 +5162,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-typescript", "virtual:53837c94fe0f74fafc75833122c429cfaa547fd5fc7a6d940cac3b691a98f8d8c1a980b7cdd8cd9afbd5a152244f09ae2b693859798df1e2ad67d70e49a9f4d3#npm:7.23.0"],\
             ["@emotion/react", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:11.11.1"],\
             ["@emotion/styled", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:11.11.0"],\
+            ["@mui/icons-material", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:5.14.13"],\
             ["@mui/material", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:5.14.12"],\
             ["@pmmmwh/react-refresh-webpack-plugin", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:0.5.11"],\
             ["@svgr/webpack", "npm:8.1.0"],\

@@ -4,6 +4,7 @@ import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { IconSearch } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import {useState} from "react";
+import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -37,7 +38,9 @@ const GNB = (props: { children?: React.ReactNode }) => {
           <HWButton variant={"primary"} >회원가입</HWButton>
         </div>
       </div>
-      <div className={`search-wrapper ${open && "open"}`} css={styled.searchWrapper} />
+      <div className={`search-wrapper ${open && "open"}`} css={styled.searchWrapper}>
+        <SearchBar />
+      </div>
       <Outlet />
     </>
   );

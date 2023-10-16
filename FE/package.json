@@ -5,7 +5,7 @@
     "start": "webpack-dev-server --progress --node-env development --config webpack.dev.js --hot",
     "build": "webpack --progress --node-env production --config webpack.prod.js",
     "build-dev": "webpack --node-env development --config webpack.prod.js",
-    "deploy" : "yarn build && firebase deploy"
+    "deploy": "yarn build && firebase deploy"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",
@@ -51,6 +51,7 @@
     "@babel/preset-typescript": "^7.23.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.13",
     "@mui/material": "^5.14.12",
     "axios": "^1.5.1",
     "file-loader": "^6.2.0",
