@@ -56,3 +56,4 @@ launch.json
 #/.pnp
 #.pnp.js
 /res/locales/*
+/.firebase/

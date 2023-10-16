@@ -57,7 +57,7 @@ export default {
     z-index: 1;
   `,
   previewBox: css`
-    @keyframes previewSlide {
+    @keyframes heightSlide {
       from {
         height: 0px;
       }
@@ -78,7 +78,7 @@ export default {
     //  visibility: visible;
     //  height: 670px;
     //}
-    animation: previewSlide 0.8s ease;
+    animation: heightSlide 0.8s ease;
     /*display: none;
     
     overflow: hidden;

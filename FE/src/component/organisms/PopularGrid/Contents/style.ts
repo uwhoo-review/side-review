@@ -52,7 +52,7 @@ export default {
     justify-content: center;
     align-items: center;
 
-    @keyframes previewSlide {
+    @keyframes translateXSlide {
       from {
         transform: translateX(-150%);
       }
@@ -60,7 +60,7 @@ export default {
         transform: translateX(0%);
       }
     }
-    animation: previewSlide 1s ease;
+    animation: translateXSlide 1s ease;
     /*    
     visibility: hidden;
     opacity: 0;
