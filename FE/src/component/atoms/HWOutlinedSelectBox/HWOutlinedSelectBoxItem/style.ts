@@ -17,10 +17,20 @@ export const root = css`
     padding: 0px 10px;
     border-radius: 4px;
     color: #fff;
+    justify-content: space-between;
+    .icon-check{
+      color: #B6B2EA;
+    }
   }
+  &:hover {
+    .menu-box {
+      background-color: #b6b2ea26;
+    }
+  }
+
   &.Mui-selected {
     .menu-box {
-      background-color: ${Color.dark.elevation02};
+      background-color: #b6b2ea26;
     }
 
     &:hover {
@@ -29,12 +39,8 @@ export const root = css`
       }
     }
   }
+
   &.Mui-disabled {
     color: #d6d6d6;
-  }
-  &:hover {
-    .menu-box {
-      background-color: #b6b2ea26;
-    }
   }
 `;

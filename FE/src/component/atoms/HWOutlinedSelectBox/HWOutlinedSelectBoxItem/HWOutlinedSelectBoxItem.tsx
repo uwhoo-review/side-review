@@ -2,6 +2,7 @@ import { MenuItem } from "@mui/material";
 import React from "react";
 import { HWOutlinedSelectBoxItemProps } from "./type";
 import * as style from "./style";
+import { IconCheck } from "@res/index";
 
 const HWOutlinedSelectBoxItem = ({
   className,
@@ -10,8 +11,10 @@ const HWOutlinedSelectBoxItem = ({
   value,
   divider,
   disabled = false,
+  selected,
   ...props
 }: HWOutlinedSelectBoxItemProps) => {
+  console.log(value, divider, props);
   return (
     <MenuItem
       className={className}
@@ -19,9 +22,13 @@ const HWOutlinedSelectBoxItem = ({
       value={value}
       divider={divider}
       disabled={disabled}
+      selected={selected}
       {...props}
     >
-      <div className={"menu-box"}>{children}</div>
+      <div className={"menu-box"}>
+        {children}
+        {selected && <IconCheck className={"icon-check"} />}
+      </div>
     </MenuItem>
   );
 };

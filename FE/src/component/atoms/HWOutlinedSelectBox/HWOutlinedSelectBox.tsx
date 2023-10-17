@@ -166,7 +166,7 @@ const HWOutlinedSelectBox = React.forwardRef(
           display = displayMultiple.reduce((output, child, index) => {
             output.push(child);
             if (index < displayMultiple.length - 1) {
-              output.push(", ");
+              output.push(" ");
             }
             return output;
           }, []);
