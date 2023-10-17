@@ -72,7 +72,24 @@ module.exports = merge(common, {
       },
       {
         test: /\.svg$/,
-        use: ["@svgr/webpack"],
+        use: [
+          {
+            loader: "@svgr/webpack",
+          },
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8 * 1024, // 8kb
+              fallback: {
+                loader: "file-loader",
+                options: {
+                  esModule: false,
+                  name: "static/media/[name][contenthash:8].[ext]",
+                },
+              },
+            },
+          },
+        ],
       }
     ],
   },

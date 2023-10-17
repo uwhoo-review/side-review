@@ -5,6 +5,7 @@ import { IconSearch } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import {useState} from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
+import FilterGroups from "@src/component/molecules/FilterGroups/FilterGroups";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -39,7 +40,8 @@ const GNB = (props: { children?: React.ReactNode }) => {
         </div>
       </div>
       <div className={`search-wrapper ${open && "open"}`} css={styled.searchWrapper}>
-        <SearchBar />
+        {/*<SearchBar />*/}
+        <FilterGroups />
       </div>
       <Outlet />
     </>

@@ -1,35 +1,31 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export const root = css`
-  font-family: Noto Sans KR;
-  font-size: 14px;
+  font-family: Pretendard;
+  font-size: 15px;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-
-  background-color: #ffffff;
-  padding: 4px 5px;
-
-  height: 36px;
-
+  font-weight: 500;
+  line-height: 22px;
+  padding: 0;
+  height: 40px;
   .menu-box {
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
-    padding: 0px 7px;
-    color: #000;
+    padding: 0px 10px;
+    border-radius: 4px;
+    color: #fff;
   }
   &.Mui-selected {
-    background-color: #ffffff;
     .menu-box {
-      background-color: #dfecff;
+      background-color: ${Color.dark.elevation02};
     }
 
     &:hover {
-      background-color: #ffffff;
       .menu-box {
-        background-color: #dfecff;
+        background-color: #b6b2ea26;
       }
     }
   }
@@ -37,9 +33,8 @@ export const root = css`
     color: #d6d6d6;
   }
   &:hover {
-    background-color: #ffffff;
     .menu-box {
-      background-color: #ffffff;
+      background-color: #b6b2ea26;
     }
   }
 `;

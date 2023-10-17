@@ -63,7 +63,19 @@ module.exports = merge(common, {
       },
       {
         test: /\.svg$/,
-        use: ["@svgr/webpack"],
+        use: [
+          {
+            loader: "@svgr/webpack",
+          },
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8 * 1024, // 8kb
+              fallback: "file-loader",
+              name: "[name].[ext]",
+            },
+          },
+        ],
       }
     ],
   },

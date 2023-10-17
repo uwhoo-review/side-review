@@ -6,20 +6,23 @@ import card4 from "./card/card4.png";
 import card5 from "./card/card5.png";
 
 /* ./icon */
-import IconNetflix from "./icon/ic_netflix.svg";
-import IconSearch from "./icon/ic_search.svg";
-import IconStar from "./icon/ic_star.svg";
-import IconWatcha from "./icon/ic_watcha.svg";
+import { ReactComponent as IconCheck } from "./icon/ic_check.svg";
+import { ReactComponent as IconChevronDown } from "./icon/ic_chevron_down.svg";
+import { ReactComponent as IconNetflix } from "./icon/ic_netflix.svg";
+import { ReactComponent as IconSearch } from "./icon/ic_search.svg";
+import { ReactComponent as IconStar } from "./icon/ic_star.svg";
+import { ReactComponent as IconWatcha } from "./icon/ic_watcha.svg";
 
 export {
-    card1,
-    card2,
-    card3,
-    card4,
-    card5,
-
-    IconNetflix,
-    IconSearch,
-    IconStar,
-    IconWatcha,
-}
+  card1,
+  card2,
+  card3,
+  card4,
+  card5,
+  IconCheck,
+  IconChevronDown,
+  IconNetflix,
+  IconSearch,
+  IconStar,
+  IconWatcha,
+};

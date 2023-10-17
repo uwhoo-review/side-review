@@ -7,6 +7,7 @@ import style from "./style";
 import { EmotionJSX } from "@emotion/react/types/jsx-namespace";
 import HWTypography from "../HWTypography/HWTypography";
 import { ArrowDropDown } from "@mui/icons-material";
+import {IconChevronDown} from "@res/index";
 
 function areEqualValues(a: any, b: any) {
   if (typeof b === "object" && b !== null) {
@@ -42,7 +43,7 @@ const HWOutlinedSelectBox = React.forwardRef(
       helperText,
       readOnly,
       width = "400px",
-      height = "36px",
+      height = "46px",
       onChange,
       disablePortal = false,
       multiple,
@@ -192,12 +193,7 @@ const HWOutlinedSelectBox = React.forwardRef(
           }}
           {...props}
         >
-          <div
-            className="HW-Outlined-SelectBox-Contents-Wrapper"
-            css={css`
-              background-color: white;
-            `}
-          >
+          <div className="HW-Outlined-SelectBox-Contents-Wrapper">
             {label && (
               <label className="HW-Outlined-SelectBox-Label" css={style.label}>
                 {label}
@@ -221,7 +217,7 @@ const HWOutlinedSelectBox = React.forwardRef(
               >
                 {display}
               </div>
-              <ArrowDropDown className="HW-Outlined-SelectBox-Icon" />
+              <IconChevronDown className="HW-Outlined-SelectBox-Icon" />
             </div>
           </div>
           {helperText && (
@@ -247,7 +243,11 @@ const HWOutlinedSelectBox = React.forwardRef(
             disablePortal={disablePortal}
             PaperProps={{
               ...PaperProps,
-              sx: { ...style.popover(anchorEl?.clientWidth), ...PaperProps.sx },
+              sx: {
+                ...style.popover(anchorEl?.clientWidth),
+                boxSizing: "border-box",
+                ...PaperProps.sx,
+              },
             }}
             anchorOrigin={{
               horizontal: "left",

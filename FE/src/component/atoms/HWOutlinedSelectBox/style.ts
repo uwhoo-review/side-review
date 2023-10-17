@@ -1,25 +1,26 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export default {
   container: css`
     position: relative;
     min-width: 150px;
     vertical-align: top;
-    border-radius: 4px;
-    color: #acb0bc;
+    border-radius: 8px;
+    color: #c7c8d3;
     :hover {
-      .HW-Outlined-SelectBox-Fieldset {
-        border-color: #3e3e3e;
+      .HW-Outlined-SelectBox-Contents {
+        color: #fff;
       }
-      color: #3e3e3e;
     }
 
     &.HW-Focused,
     :focus-within {
-      .HW-Outlined-SelectBox-Fieldset {
-        border-color: #2e7af2;
+      .HW-Outlined-SelectBox-Contents {
+        border-color: #6D6ADA;
+        box-shadow: 0 0 0 3px rgba(83, 84, 218, 0.7);
+        color: #fff;
       }
-      color: #2e7af2;
     }
     &.HW-Error {
       .HW-Outlined-SelectBox-Contents {
@@ -58,12 +59,13 @@ export default {
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 8px;
     position: relative;
-    border: 1px solid #cecece;
+    border: 1px solid #2c2c34;
     cursor: pointer;
-    color: #3e3e3e;
-    height: ${height ? height : "36px"};
+    color: #c7c8d3;
+    height: ${height ? height : "46px"};
+    background-color: #121212;
     .HW-Outlined-SelectBox-Icon {
       position: absolute;
       right: 6px;
@@ -78,19 +80,18 @@ export default {
   input: css`
     width: 100%;
     //height: 100%;
-    padding: 0px 41px 0px 10px;
+    padding: 0px 36px 0px 16px;
     box-sizing: border-box;
-    font-size: 14px;
-    line-height: 24px;
+    font-family: Pretendard;
+    font-size: 15px;
+    font-style: normal;
     font-weight: 500;
-    font-family: Noto Sans KR;
-    letter-spacing: 0;
+    line-height: 22px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     color: inherit;
     :empty:before {
-      color: #a7a7a7;
       content: attr(placeholder);
     }
   `,
@@ -143,11 +144,16 @@ export default {
     margin-bottom: 10px;
     margin-left: 6px;
   `,
+
+
   popover: (width?: number) => ({
     width: width,
-    boxShadow: "0px 2px 8px 0px #9090904D",
+
+    backgroundColor: `${Color.dark.elevation02}`,
+    boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.04);",
     maxHeight: `${36 * 6 + 16}px`,
-    border: "1px solid #257CFF",
+    border: `1px solid ${Color.dark.grey300}`,
+    padding: "4px 6px",
     ".MuiMenu-list": {
       padding: 0,
     },
@@ -156,7 +162,7 @@ export default {
       borderRadius: "0px 4px 3px 0px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#7d7e85",
+      backgroundColor: "#121212",
       borderRadius: "10px",
       minHeight: "30px",
       backgroundClip: "padding-box",

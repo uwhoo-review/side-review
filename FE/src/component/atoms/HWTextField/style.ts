@@ -3,26 +3,21 @@ import { css } from "@emotion/react";
 export default {
   container: (width: string, fullWidth: boolean) => css`
     position: relative;
-    //color: #acb0bc;
-    border-radius: 4px;
+    color: #fff;
+    border-radius: 8px;
     width: ${fullWidth ? "100%" : width};
-
     :hover {
       .HW-Outlined-TextFiled-Wrapper {
-        background-color: white !important;
         box-shadow: ${"0 0 5px #257cff"};
       }
-      //color: #3e3e3e;
     }
 
     &.HW-Focused,
     :focus-within {
       .HW-Outlined-TextFiled-Wrapper {
-        border: 1px solid #257cff;
-        background-color: white !important;
-        box-shadow: ${"0 0 5px #257cff"};
+        border: 1px solid #6d6ada;
+        box-shadow: 0 0 0 3px rgba(83, 84, 218, 0.7);
       }
-      //color: #2e7af2;
     }
     &.HW-Error {
       .HW-Outlined-TextFiled-Wrapper {
@@ -88,11 +83,11 @@ export default {
   wrapper: (size: "medium" | "small") => css`
     position: relative;
     box-sizing: border-box;
-    height: ${size === "medium" ? "36px" : "30px"};
+    height: ${size === "medium" ? "46px" : "40px"};
     width: 100%;
-    //padding: 0px 12px;
-    background-color: white;
-    border: 1px solid #cecece;
+    padding: 0 16px;
+    background-color: #121212;
+    border: 1px solid #2c2c34;
     border-radius: 3px;
   `,
   fieldset: css`
@@ -140,8 +135,8 @@ export default {
     align-items: center;
     height: 100%;
     white-space: nowrap;
-    color: rgba(0, 0, 0, 0.54);
-    margin-right: 8px;
+    //color: rgba(0, 0, 0, 0.54);
+    margin-right: 20px;
   `,
   input: (size: "medium" | "small") => css`
     min-width: 0;
@@ -150,17 +145,17 @@ export default {
     height: 100%;
     outline: none;
     border: 0;
-    padding: 0 12px;
+    //padding: 0 16px;
     background-color: transparent;
     box-sizing: border-box;
 
-    font-family: Noto Sans KR;
-    font-size: 14px;
+    font-family: Pretendard;
+    font-size: 15px;
     font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    color: #000000;
-
+    font-weight: 400;
+    line-height: 22px;
+    color: #fff;
+    padding: 0;
     ::-webkit-outer-spin-button,
     ::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -175,7 +170,7 @@ export default {
     }
     margin: 0;
     ::placeholder {
-      color: #a7a7a7;
+      color: #84838d;
     }
 
     :disabled {
@@ -199,7 +194,8 @@ export default {
     align-items: center;
     height: 100%;
     white-space: nowrap;
-    color: rgba(0, 0, 0, 0.54);
+    //color: rgba(0, 0, 0, 0.54);
+    margin-left: 20px;
   `,
   helperText: css`
     color: #3e3e3e;
