@@ -14,7 +14,6 @@ const HWOutlinedSelectBoxItem = ({
   selected,
   ...props
 }: HWOutlinedSelectBoxItemProps) => {
-  console.log(value, divider, props);
   return (
     <MenuItem
       className={className}

@@ -67,6 +67,9 @@ export default {
   `,
 
   searchWrapper: css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     top: 52px;
 
@@ -84,5 +87,9 @@ export default {
       opacity: 1;
       visibility: visible;
     }
+  `,
+  searchGrid: css`
+    //height: 100%;
+    width: 1396px;
   `,
 };

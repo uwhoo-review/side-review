@@ -194,7 +194,7 @@ const HWOutlinedSelectBox = React.forwardRef(
           {...props}
         >
           <div className="HW-Outlined-SelectBox-Contents-Wrapper">
-            {label && (
+            {label !== undefined && (
               <label className="HW-Outlined-SelectBox-Label" css={style.label}>
                 {label}
                 {required && <span style={{ color: "red" }}>*</span>}

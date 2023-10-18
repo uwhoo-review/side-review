@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { IconSearch } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
-import {useState} from "react";
+import { useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import FilterGroups from "@src/component/molecules/FilterGroups/FilterGroups";
 
@@ -33,15 +33,19 @@ const GNB = (props: { children?: React.ReactNode }) => {
           <HWIconButton onClick={() => setOpen(!open)}>
             <IconSearch />
           </HWIconButton>
-          <HWButton variant={"lower"}>
+          <HWButton variant={"lower"} size={"small"}>
             로그인
           </HWButton>
-          <HWButton variant={"primary"} >회원가입</HWButton>
+          <HWButton variant={"primary"} size={"small"}>
+            회원가입
+          </HWButton>
         </div>
       </div>
       <div className={`search-wrapper ${open && "open"}`} css={styled.searchWrapper}>
-        {/*<SearchBar />*/}
-        <FilterGroups />
+        <div css={styled.searchGrid}>
+          <SearchBar />
+          <FilterGroups />
+        </div>
       </div>
       <Outlet />
     </>

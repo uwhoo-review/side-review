@@ -9,7 +9,7 @@ const HWButton = React.forwardRef<HTMLButtonElement, HWButtonProps>(
       className,
       customCss,
       variant = "primary",
-      size = "medium",
+      size = "large",
       children,
       disabled,
       ...props

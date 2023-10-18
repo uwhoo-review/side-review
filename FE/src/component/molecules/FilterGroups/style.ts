@@ -1,11 +1,10 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export default {
   wrapper: css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    margin-top: 20px;
+    width: 100%;
   `,
   flexBetween: css`
     display: flex;
@@ -19,5 +18,16 @@ export default {
   `,
   chip: css`
     margin-right: 8px;
-  `
+  `,
+  typography: css`
+    display: block;
+    color: ${Color.dark.grey800};
+  `,
+  filterGroups: css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+  `,
 };
