@@ -154,19 +154,20 @@ export default {
     maxHeight: `${36 * 6 + 16}px`,
     border: `1px solid ${Color.dark.grey300}`,
     padding: "4px 6px",
+    marginTop: "10px",
     ".MuiMenu-list": {
       padding: 0,
     },
     "&::-webkit-scrollbar": {
-      width: "14px",
-      borderRadius: "0px 4px 3px 0px",
+      width: "12px",
+      borderRadius: "10px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#121212",
+      backgroundColor: "#42424A",
       borderRadius: "10px",
-      minHeight: "30px",
+      minHeight: "10px",
       backgroundClip: "padding-box",
-      border: "4px solid transparent",
+      border: "3px solid transparent",
     },
   }),
 };
