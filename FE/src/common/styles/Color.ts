@@ -1,6 +1,8 @@
 export default {
   dark: {
     primary900: "#E3E2F5",
+    primary800: "#B6B2EA",
+    primary700: "#6D6ADA",
 
     grey900: "#F9F9FD",
     grey800: "#D9DAE5",

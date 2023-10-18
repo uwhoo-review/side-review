@@ -6,6 +6,7 @@ import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import { useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import FilterGroups from "@src/component/molecules/FilterGroups/FilterGroups";
+import ScrollTopButton from "@src/component/atoms/ScrollTopButton/ScrollTopButton";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -47,6 +48,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
           <FilterGroups />
         </div>
       </div>
+      <ScrollTopButton />
       <Outlet />
     </>
   );
