@@ -6,10 +6,16 @@ import card4 from "./card/card4.png";
 import card5 from "./card/card5.png";
 
 /* ./icon */
+import { ReactComponent as IconCancel } from "./icon/ic_cancel.svg";
 import { ReactComponent as IconCheck } from "./icon/ic_check.svg";
+import { ReactComponent as IconCheckboxCheck } from "./icon/ic_checkbox_check.svg";
+import { ReactComponent as IconCheckboxOff } from "./icon/ic_checkbox_off.svg";
+import { ReactComponent as IconCheckboxOn } from "./icon/ic_checkbox_on.svg";
 import { ReactComponent as IconChevronDown } from "./icon/ic_chevron_down.svg";
+import { ReactComponent as IconInit } from "./icon/ic_init.svg";
 import { ReactComponent as IconNetflix } from "./icon/ic_netflix.svg";
 import { ReactComponent as IconSearch } from "./icon/ic_search.svg";
+import { ReactComponent as IconSettings } from "./icon/ic_settings.svg";
 import { ReactComponent as IconStar } from "./icon/ic_star.svg";
 import { ReactComponent as IconWatcha } from "./icon/ic_watcha.svg";
 
@@ -19,10 +25,16 @@ export {
   card3,
   card4,
   card5,
+  IconCancel,
   IconCheck,
+  IconCheckboxCheck,
+  IconCheckboxOff,
+  IconCheckboxOn,
   IconChevronDown,
+  IconInit,
   IconNetflix,
   IconSearch,
+  IconSettings,
   IconStar,
   IconWatcha,
 };

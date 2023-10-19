@@ -1,5 +1,5 @@
 import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
-import { IconSearch } from "@res/index";
+import {IconCancel, IconInit, IconSearch} from "@res/index";
 import styled from "./style";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
@@ -12,13 +12,13 @@ const SearchBar = () => {
       <div css={styled.searchGroups}>
         <HWTextField
           startAdorment={<IconSearch />}
-          endAdorment={<IconSearch />}
+          endAdorment={<IconCancel />}
           placeholder={"제목, 이물 검색"}
           fullWidth={true}
         />
         <div css={styled.searchBtnGroups}>
           <HWButton variant={"lowest"}>
-            <IconSearch />
+            <IconInit />
             <div>초기화</div>
           </HWButton>
           <HWButton variant={"primary"}>적용</HWButton>

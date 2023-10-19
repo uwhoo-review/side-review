@@ -42,7 +42,7 @@ const HWOutlinedSelectBox = React.forwardRef(
       error,
       helperText,
       readOnly,
-      width = "400px",
+      width = "200px",
       height = "46px",
       onChange,
       disablePortal = false,

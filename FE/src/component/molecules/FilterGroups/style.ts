@@ -30,4 +30,31 @@ export default {
 
     gap: 20px;
   `,
+  sliderWrapper: css`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100px;
+    width: 296px;
+  `,
+  yearRangeWrapper: css`
+    height: 100px;
+    width: 296px;
+  `,
+  yearRangeGroups: css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  `,
+  currentYear: css`
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  `,
+  typographyCheck: css`
+    color: ${Color.dark.grey700};
+    //font-size: 13px;
+
+  `
 };

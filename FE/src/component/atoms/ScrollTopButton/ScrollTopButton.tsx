@@ -10,7 +10,6 @@ const ScrollTopButton = () => {
 
   useEffect(() => {
     const scrollDiv = document.querySelector(".scroll-area");
-    console.log(scrollDiv);
     const handleShowButton = () => {
       (scrollDiv?.scrollTop || 0) > 100 ? setShowButton(true) : setShowButton(false);
     };
