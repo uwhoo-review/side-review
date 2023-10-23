@@ -1,13 +1,7 @@
 import { css } from "@emotion/react";
-import { CSSInterpolation } from "@emotion/serialize";
+// import { CSSInterpolation } from "@emotion/serialize";
 
-export const tooltip = (
-  css: {
-    (template: TemplateStringsArray, ...args: CSSInterpolation[]): string;
-    (...args: CSSInterpolation[]): string;
-  },
-  variant: string
-) => {
+export const tooltip = (css: any, variant: string) => {
   return variant === "secondary"
     ? css`
         background-color: unset;

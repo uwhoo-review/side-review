@@ -2,6 +2,9 @@ import styled from "./style";
 import ImageCard from "@src/component/atoms/ImageCard/ImageCard";
 import { useRef, useState } from "react";
 import HWCarouselFixedPagination from "@src/component/molecules/HWCarouselFixedPagination/HWCarouselFixedPagination";
+import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
+import ReviewCard from "@src/component/atoms/ReviewCard/ReviewCard";
+import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
 interface CardListProps {
   title: string;
   subTitle: string;
@@ -58,8 +61,9 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             );
           })}
         </div>
-        <button
-          css={styled.leftPageBtn}
+        <CarouselArrow
+          direction={"left"}
+          customCss={styled.leftPageBtn}
           onClick={() => {
             if (currentPage == 1) {
               setCurrentPage(1);
@@ -67,11 +71,10 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
               setCurrentPage(currentPage - 1);
             }
           }}
-        >
-          ---
-        </button>
-        <button
-          css={styled.rightPageBtn}
+        />
+        <CarouselArrow
+          direction={"right"}
+          customCss={styled.rightPageBtn}
           onClick={() => {
             if (currentPage == 5) {
               setCurrentPage(5);
@@ -79,19 +82,29 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
               setCurrentPage(currentPage + 1);
             }
           }}
-        >
-          +++
-        </button>
+        />
       </div>
-      {preview && (
+      {preview && <PreviewBox customCss={styled.previewBox} />}
+    </div>
+  );
+};
+
+{/*(
         <div
           className={`preview-wrapper ${preview && "open"}`}
           ref={boxRef}
           css={styled.previewBox}
-        />
-      )}
-    </div>
-  );
-};
+        >
+          <ReviewCard best={true} date={"2023.02.29"}>
+            초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이
+            시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물. 초능력을 숨긴
+            채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이 시대와 세대를
+            넘어 닥치는 거 블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
+          </ReviewCard>
+          <ReviewCard best={false} date={"2023.02.29"}>
+            asd
+          </ReviewCard>
+        </div>
+      )*/}
 
 export default CardList;

@@ -43,8 +43,8 @@ export default {
     top: calc(50% - 30px);
     left: 30px;
 
-    background-color: #3e3e3e80;
-    color: #ffffff;
+    //background-color: #3e3e3e80;
+    //color: #ffffff;
     z-index: 1;
   `,
   rightPageBtn: css`
@@ -57,7 +57,7 @@ export default {
     z-index: 1;
   `,
   previewBox: css`
-    @keyframes heightSlide {
+   /* @keyframes heightSlide {
       from {
         height: 0px;
       }
@@ -69,26 +69,8 @@ export default {
     width: 100%;
     background-color: #121212;
     margin-top: 43px;
-    //transition: all 0.4s;
-    //opacity: 0;
-    //visibility: hidden;
-
-    //&.open {
-    //  opacity: 1;
-    //  visibility: visible;
-    //  height: 670px;
-    //}
     animation: heightSlide 0.8s ease;
-    /*display: none;
-    
-    overflow: hidden;
-    &.open{
-      display: block;
-      opacity: 1;
-      transition: all 0.4s;
-    }*/
-    
-    
+*/
   `,
   flexBetween: css`
     display: flex;
