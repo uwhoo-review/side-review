@@ -4,6 +4,26 @@ import { SerializedStyles } from "@emotion/react";
 export interface HWTypographyProps extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string;
   customCss?: SerializedStyles;
+  family?:
+    | "Poppins"
+    | "Poppins-Black"
+    | "Poppins-ExtraBold"
+    | "Poppins-Bold"
+    | "Poppins-SemiBold"
+    | "Poppins-Regular"
+    | "Poppins-Light"
+    | "Poppins-ExtraLight"
+    | "Poppins-Thin"
+    | "Pretendard"
+    | "Pretendard-Black"
+    | "Pretendard-ExtraBold"
+    | "Pretendard-Bold"
+    | "Pretendard-SemiBold"
+    | "Pretendard-Regular"
+    | "Pretendard-Light"
+    | "Pretendard-ExtraLight"
+    | "Pretendard-Thin";
+
   variant:
     | "h4"
     | "h4_2"

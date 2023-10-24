@@ -7,6 +7,9 @@ export default {
   color: (color: string) => css`
     color: ${color};
   `,
+  family: (family: string) => css`
+    font-family: ${family};
+  `,
   variant: (name: string) => {
     const fontColor = "#FFF";
 

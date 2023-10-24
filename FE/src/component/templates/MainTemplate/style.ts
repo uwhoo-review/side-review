@@ -8,10 +8,6 @@ export default {
     padding-top: 52px;
     background-color: #000;
     color: #fff;
-    .select-main {
-      height: 100%;
-      width: 1396px;
-    }
     //.select-main {
     //  height: 100%;
     //  width: 100%;
@@ -22,7 +18,7 @@ export default {
     //}
   `,
   subWrapper: css`
-    display: flex;
-    justify-content: center;
+    //display: flex;
+    //justify-content: center;
   `,
 };

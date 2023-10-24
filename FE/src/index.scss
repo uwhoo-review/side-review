@@ -1,33 +1,26 @@
 @font-face {
-  font-family: "Poppins";
-  src: url(/res/fonts/Poppins-Thin.ttf) format("truetype");
-  font-weight: 100;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-Black";
   src:
   url(/res/fonts/Poppins-Black.ttf) format("truetype");
   font-weight: 900;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-ExtraBold";
   src:
   url(/res/fonts/Poppins-ExtraBold.ttf) format("truetype");
   font-weight: 800;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-Bold";
   src:
   url(/res/fonts/Poppins-Bold.ttf) format("truetype");
   font-weight: 700;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-SemiBold";
   src:
   url(/res/fonts/Poppins-SemiBold.ttf) format("truetype");
   font-weight: 600;
@@ -42,26 +35,26 @@
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-Regular";
   src:
   url(/res/fonts/Poppins-Regular.ttf) format("truetype");
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-Light";
   src: url(/res/fonts/Poppins-Light.ttf) format("truetype");
   font-weight: 300;
   font-display: swap;
 }
 @font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-ExtraLight";
   src: url(/res/fonts/Poppins-ExtraLight.ttf) format("truetype");
 
   font-weight: 200;
 }
 @font-face {
-  font-family: "Poppins";
+  font-family: "Poppins-Thin";
   src: url(/res/fonts/Poppins-Thin.ttf) format("truetype");
   font-weight: 100;
   font-display: swap;
@@ -178,6 +171,18 @@ html {
     .custom-scroll-area {
 
     }
+
+    .main-grid-center {
+      height: 100%;
+      width: 1396px;
+
+      min-width: 1396px;
+      display: flex;
+      justify-content: center;
+    }
+
+
+
     div{
       ::-webkit-scrollbar {
         width: 15px;
@@ -204,6 +209,65 @@ div {
   font-family: Pretendard,sans-serif;
   margin: 0;
 }
+
+.flex {
+  display: flex;
+  & .flex-justify-between {
+    justify-content: space-between;
+  }
+  & .flex-justify-center {
+    justify-content: center;
+  }
+  & .flex-align-center {
+    align-items: center;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  //grid-template-rows: 14rem repeat(9, 13rem) repeat(2, 11rem) 9rem 4rem;
+}
+.grid .col-1  { grid-column-end: span 1;  }
+.grid .row-1  { grid-row-end: span 1;     }
+.grid .col-2  { grid-column-end: span 2;  }
+.grid .row-2  { grid-row-end: span 2;     }
+.grid .col-3  { grid-column-end: span 3;  }
+.grid .row-3  { grid-row-end: span 3;     }
+.grid .col-4  { grid-column-end: span 4;  }
+.grid .row-4  { grid-row-end: span 4;     }
+.grid .col-5  { grid-column-end: span 5;  }
+.grid .row-5  { grid-row-end: span 5;     }
+.grid .col-6  { grid-column-end: span 6;  }
+.grid .row-6  { grid-row-end: span 6;     }
+.grid .col-7  { grid-column-end: span 7;  }
+.grid .row-7  { grid-row-end: span 7;     }
+.grid .col-8  { grid-column-end: span 8;  }
+.grid .row-8  { grid-row-end: span 8;     }
+.grid .col-9  { grid-column-end: span 9;  }
+.grid .row-9  { grid-row-end: span 9;     }
+.grid .col-10 { grid-column-end: span 10; }
+.grid .row-10 { grid-row-end: span 10;    }
+.grid .col-11 { grid-column-end: span 11; }
+.grid .row-11 { grid-row-end: span 11;    }
+.grid .col-full { grid-column: 1 / 12;     }
+
+
+
+
+.margin-top-8 {
+  margin-top: 8px;
+}
+.margin-top-16 {
+  margin-top: 16px;
+}
+.margin-top-20 {
+  margin-top: 20px;
+}
+.margin-top-24 {
+  margin-top: 24px;
+}
+
 
 @keyframes smoothAppear {
   from {
