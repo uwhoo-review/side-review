@@ -10,6 +10,7 @@
 /.vscode/
 /.project
 /.classpath
-
+../.github
+../.idea
 # Ignore Gradle specific files
 .gradle/
