@@ -10,7 +10,6 @@ export default {
     font-style: normal;
     font-weight: 600;
     line-height: 40px;
-    margin-bottom: 20px;
   `,
   subTitle: css`
     font-family: Pretendard, sans-serif;
@@ -18,8 +17,9 @@ export default {
     font-style: normal;
     font-weight: 500;
     line-height: 30px;
-    //margin-bottom: 40px;
+    margin-bottom: 40px;
     width: 100%;
+    margin-top: 20px;
   `,
   cardSlider: css`
     width: 1396px;

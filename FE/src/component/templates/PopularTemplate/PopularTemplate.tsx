@@ -6,9 +6,7 @@ const PopularTemplate = () => {
     <>
       <div className="popular-template-wrapper" css={styled.wrapper}>
         <div className={"scroll-area none-draggable"} css={styled.subWrapper}>
-          <div className={"select-main"}>
-            <PopularContent />
-          </div>
+          <PopularContent />
         </div>
       </div>
     </>

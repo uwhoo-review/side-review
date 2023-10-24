@@ -103,7 +103,18 @@ export default {
   `,
   launch: css`
     position: absolute;
-    top:0;
+    top: 0;
     right: 0;
+  `,
+  rating: css`
+    font-size: 20px;
+    svg {
+      width: 1em;
+      height: 1em;
+      flex-shrink: 0;
+    }
+  `,
+  icons: css`
+    font-size: 20px;
   `
 };

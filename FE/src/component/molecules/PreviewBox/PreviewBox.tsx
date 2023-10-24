@@ -2,13 +2,23 @@ import ReviewCard from "@src/component/atoms/ReviewCard/ReviewCard";
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import Divider from "@src/component/atoms/Divider/Divider";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
-import {IconLaunch, IconNetflix, IconStar, IconWatcha} from "@res/index";
+import {
+  IconLaunch,
+  IconNetflix,
+  IconRating,
+  IconRatingEmpty,
+  IconStar,
+  IconWatcha,
+} from "@res/index";
 import Color from "@src/common/styles/Color";
-import { Avatar, AvatarGroup } from "@mui/material";
+import { Avatar, AvatarGroup, Rating } from "@mui/material";
 import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
+import { useState } from "react";
 
 const PreviewBox = ({ customCss }: any) => {
+  const [rating, setRating] = useState<number | null>(1.5);
+
   return (
     <CenterWrapper css={styled.centerWrapper}>
       <div className="preview-box-wrapper" css={[styled.wrapper, customCss]}>
@@ -28,7 +38,7 @@ const PreviewBox = ({ customCss }: any) => {
               />
             </div>
             <div css={styled.rightContents}>
-              <IconLaunch css={styled.launch}/>
+              <IconLaunch css={styled.launch} />
               <div>
                 <HWTypography
                   variant={"headlineS"}
@@ -45,8 +55,16 @@ const PreviewBox = ({ customCss }: any) => {
                       평균 별점
                     </HWTypography>
                   </div>
-                  <div className={"margin-top-8"}>
-                    <IconStar /> 3.5 <Divider direction={"v"} />{" "}
+                  <div className={"margin-top-8 flex flex-align-center gap-10"}>
+                    <IconStar css={styled.icons} />
+                    <HWTypography
+                      variant={"headlineXXS"}
+                      family={"Pretendard-SemiBold"}
+                      color={Color.dark.grey500}
+                    >
+                      3.5
+                    </HWTypography>
+                    <Divider direction={"v"} />{" "}
                     <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
                       200+
                     </HWTypography>
@@ -58,8 +76,19 @@ const PreviewBox = ({ customCss }: any) => {
                       내 별점
                     </HWTypography>
                   </div>
-                  <div className={"margin-top-8"}>
-                    <IconStar /> <IconStar /> <IconStar /> <IconStar /> <IconStar />{" "}
+                  <div className={"margin-top-12 flex flex-align-center gap-10"}>
+                    <Rating
+                      name="rating-value"
+                      value={rating}
+                      max={5}
+                      precision={0.5}
+                      onChange={(e, val) => {
+                        setRating(val);
+                      }}
+                      css={styled.rating}
+                      emptyIcon={<IconRatingEmpty />}
+                      icon={<IconRating />}
+                    />
                     <Divider direction={"v"} />{" "}
                     <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
                       별점을 매겨주세요!

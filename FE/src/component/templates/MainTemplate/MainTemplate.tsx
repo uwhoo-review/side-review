@@ -6,9 +6,7 @@ const MainTemplate = () => {
     <>
       <div css={styled.wrapper}>
         <div className={"scroll-area none-draggable"} css={styled.subWrapper}>
-          {/*<div className={"select-main"}>*/}
-            <MainContent />
-          {/*</div>*/}
+          <MainContent />
         </div>
       </div>
     </>

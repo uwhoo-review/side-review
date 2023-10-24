@@ -8,14 +8,14 @@ export default {
     padding-top: 52px;
     background-color: #000;
     color: #fff;
-    .select-main {
-      height: 100%;
-      width: 1396px;
-    }
+    //.select-main {
+    //  height: 100%;
+    //  width: 1396px;
+    //}
   `,
   subWrapper: css`
-    display: flex;
-    justify-content: center;
+    //display: flex;
+    //justify-content: center;
   `,
 
 };
