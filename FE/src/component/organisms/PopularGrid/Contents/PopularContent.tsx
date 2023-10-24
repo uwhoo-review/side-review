@@ -4,6 +4,7 @@ import ImageCard from "@src/component/atoms/ImageCard/ImageCard";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import {card1, card2, card3, card4, card5} from "@res/index";
+import PreviewBoxVertical from "@src/component/molecules/PreviewBoxVertical/PreviewBoxVertical";
 const PopularContent = () => {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -26,7 +27,7 @@ const PopularContent = () => {
           {open && (
             <div className={`side-preview-wrapper ${open && "open"}`} css={styled.leftBox}>
               <div className={`floating-box ${open && "open"}`} css={styled.floatWrapper}>
-                preview
+                <PreviewBoxVertical />
               </div>
             </div>
           )}
