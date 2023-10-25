@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 @RequiredArgsConstructor
 @Slf4j
-class youtubeScheduler(val service: youtubeService) {
+class YoutubeScheduler(val service: YoutubeService) {
 
     @Scheduled(cron = "0 0 0 * * *")
     fun schedule() {

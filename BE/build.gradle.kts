@@ -30,10 +30,22 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	// OpenFeign
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
 	compileOnly("org.projectlombok:lombok")
+	compileOnly("com.google.api-client:google-api-client:1.23.0")
+	compileOnly("com.google.oauth-client:google-oauth-client-jetty:1.23.0")
 	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.8")
+	}
 }
 
 tasks.withType<KotlinCompile> {
