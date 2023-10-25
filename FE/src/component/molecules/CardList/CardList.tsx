@@ -3,7 +3,6 @@ import ImageCard from "@src/component/atoms/ImageCard/ImageCard";
 import { useRef, useState } from "react";
 import HWCarouselFixedPagination from "@src/component/molecules/HWCarouselFixedPagination/HWCarouselFixedPagination";
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
-import ReviewCard from "@src/component/atoms/ReviewCard/ReviewCard";
 import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 interface CardListProps {
@@ -31,11 +30,6 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             }}
           />
         </div>
-
-        {/*<div>*/}
-        {/*  {currentPage}*/}
-        {/*  {selectedCard}*/}
-        {/*</div>*/}
         <div css={styled.cardSlider}>
           <div className={"image-card-list"} css={styled.cardWrapper(currentPage)}>
             {cardList.map((v: any, i: number) => {

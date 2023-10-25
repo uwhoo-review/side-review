@@ -105,6 +105,7 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
+    cursor: pointer;
   `,
   rating: css`
     font-size: 20px;
@@ -116,5 +117,8 @@ export default {
   `,
   icons: css`
     font-size: 20px;
-  `
+  `,
+  modal: css`
+    //height: 100px;
+  `,
 };

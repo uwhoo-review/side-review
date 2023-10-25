@@ -11,13 +11,16 @@ import {
   IconWatcha,
 } from "@res/index";
 import Color from "@src/common/styles/Color";
-import { Avatar, AvatarGroup, Rating } from "@mui/material";
+import { Avatar, AvatarGroup, Modal, Rating } from "@mui/material";
 import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PreviewBox = ({ customCss }: any) => {
   const [rating, setRating] = useState<number | null>(1.5);
+  const [detailOpen, setDetailOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   return (
     <CenterWrapper css={styled.centerWrapper}>
@@ -38,7 +41,13 @@ const PreviewBox = ({ customCss }: any) => {
               />
             </div>
             <div css={styled.rightContents}>
-              <IconLaunch css={styled.launch} />
+              <IconLaunch
+                css={styled.launch}
+                onClick={() => {
+                  setDetailOpen(!detailOpen);
+                  navigate("/detail");
+                }}
+              />
               <div>
                 <HWTypography
                   variant={"headlineS"}

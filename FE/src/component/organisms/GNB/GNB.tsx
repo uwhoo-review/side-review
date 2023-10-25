@@ -10,6 +10,7 @@ import ScrollTopButton from "@src/component/atoms/ScrollTopButton/ScrollTopButto
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [slideOpen, setSlideOpen] = useState<boolean>(false);
   return (
     <>
       <div css={styled.wrapper}>
@@ -49,7 +50,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
         </div>
       </div>
       <ScrollTopButton />
-      <Outlet />
+      {/*<Outlet />*/}
     </>
   );
 };

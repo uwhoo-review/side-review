@@ -92,4 +92,34 @@ export default {
     //height: 100%;
     width: 1396px;
   `,
+  detailSlide: css`
+    overflow: hidden;
+
+    position: absolute;
+    bottom: 0;
+    height: 1000px;
+    width: 100%;
+    div {
+      height: 100%;
+      width: 100%;
+    }
+    & > div.open,
+    & > div.close {
+      transform: translateY(100%);
+      transition: 0.4s ease-in-out;
+    }
+    & > div.close {
+      transform: translateY(0);
+    }
+    .contents {
+      z-index: 10;
+
+      height: 100%;
+      width: 100%;
+      background: lightblue;
+      color: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      margin: 0;
+    }
+  `,
 };
