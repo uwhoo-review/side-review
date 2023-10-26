@@ -71,10 +71,10 @@ export default {
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 52px;
-
+    top: 0px;
+    padding-top: 52px;
     width: 100%;
-    height: 238px;
+    height: 290px;
     background-color: #121212;
     opacity: 0;
     visibility: hidden;
