@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam
 interface YoutubeClient {
     @GetMapping("/videos")
     fun getVideoList(
-        @RequestHeader("Authorization", required = true) access_token: String,
+//        @RequestHeader("Authorization", required = true) access_token: String,
         @RequestParam("key") api_key: String = "AIzaSyDhGP_UeMcdyD-LL7iP2nvUK_IQj41G84w",
         @RequestParam("part") part: String = "topicDetails",
         @RequestParam("maxResults") maxResults: Long = 200L,
