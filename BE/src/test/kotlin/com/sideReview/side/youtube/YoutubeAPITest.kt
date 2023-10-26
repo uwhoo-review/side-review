@@ -12,8 +12,20 @@ class YoutubeAPITest(@Autowired private val client: YoutubeClient) {
 
     @Test
     fun getTest() {
-        logger.error("시작했다")
+        logger.error("getTest 시작")
         val get = client.getVideoList(maxResults = 500L)
+        logger.error(get.toString())
+        logger.info("items : " + get.items.toString())
+
+        // 다음 페이지
+        val get2 = client.getVideoList(pageToken = get.nextPageToken)
+        logger.info(get2.toString())
+    }
+
+    @Test
+    fun idSearchTest() {
+        logger.error("nullIdListTest 시작")
+        val get = client.getVideoDetail(id = listOf("ZRyiyAggeDM"))
         logger.error(get.toString())
         logger.info("items : " + get.items.toString())
     }

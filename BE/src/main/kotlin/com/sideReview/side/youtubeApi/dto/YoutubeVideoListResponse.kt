@@ -1,9 +1,12 @@
 package com.sideReview.side.youtubeApi.dto
 
-data class YoutubeResponse(
+data class YoutubeVideoListResponse(
     var kind: String = "",
     var etag: String = "",
-    var items: MutableList<YoutubeResponseItem> = mutableListOf()
+    var items: MutableList<YoutubeVideoListItem> = mutableListOf(),
+    var nextPageToken: String? = "",
+    var prevPageToken: String? = "",
+    var pageInfo: YoutubeResponsePageInfo
 ) {
     init {
         // drama만 필터링
@@ -19,11 +22,11 @@ data class YoutubeResponse(
     }
 }
 
-data class YoutubeResponseItem(
+data class YoutubeVideoListItem(
     var kind: String = "",
     var etag: String = "",
     var id: String = "",
-    var topicDetails: YoutubeResponseItemTopicDetail = YoutubeResponseItemTopicDetail()
+    var topicDetails: YoutubeVideoListItemTopicDetail = YoutubeVideoListItemTopicDetail()
 )
 
-data class YoutubeResponseItemTopicDetail(var topicCategories: List<String> = emptyList())
+data class YoutubeVideoListItemTopicDetail(var topicCategories: List<String> = emptyList())
