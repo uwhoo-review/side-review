@@ -25,8 +25,8 @@ const ReviewCard = ({
   radius = "10px",
   backgroundColor = Color.dark.elevation16,
   best = true,
-  spoiler = true,
-  footer = true,
+  spoiler = false,
+  footer = false,
   date,
   line,
   customCss,
@@ -52,24 +52,26 @@ const ReviewCard = ({
         <div css={styled.dateDiv}>{date}</div>
       </div>
       <div css={[styled.contents, line && styled.lineClamp(line)]}>{children}</div>
-      <Divider />
       {footer && (
-        <div css={styled.bottomWrapper}>
-          <div css={styled.flex1}>
-            <div css={styled.flex2}>
+        <>
+          <Divider />
+          <div css={styled.bottomWrapper}>
+            <div css={styled.flex1}>
+              <div css={styled.flex2}>
+                <IconThumbUp />
+                100
+              </div>
+              <div css={styled.flex2}>
+                <IconThumbDown />
+                20
+              </div>
+            </div>
+            <div css={styled.flex1}>
               <IconThumbUp />
-              100
-            </div>
-            <div css={styled.flex2}>
               <IconThumbDown />
-              20
             </div>
           </div>
-          <div css={styled.flex1}>
-            <IconThumbUp />
-            <IconThumbDown />
-          </div>
-        </div>
+        </>
       )}
     </div>
   );
