@@ -23,6 +23,8 @@ import { ReactComponent as IconSearch } from "./icon/ic_search.svg";
 import { ReactComponent as IconSettings } from "./icon/ic_settings.svg";
 import { ReactComponent as IconStar } from "./icon/ic_star.svg";
 import { ReactComponent as IconThumbUp } from "./icon/ic_thumb_up.svg";
+import { ReactComponent as IconThumbDown } from "./icon/ic_thumb_down.svg";
+import { ReactComponent as IconUpDown } from "./icon/ic_up_down.svg";
 import { ReactComponent as IconWatcha } from "./icon/ic_watcha.svg";
 
 export {
@@ -48,5 +50,7 @@ export {
   IconSettings,
   IconStar,
   IconThumbUp,
+  IconThumbDown,
+  IconUpDown,
   IconWatcha,
 };

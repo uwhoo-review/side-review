@@ -1,9 +1,8 @@
 import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import bg1 from "@res/background/bg_moving.png";
-import ImageCard from "@src/component/atoms/ImageCard/ImageCard";
 import { card1, IconNetflix, IconRating, IconRatingEmpty, IconStar, IconWatcha } from "@res/index";
-import DefaultCard from "@src/component/atoms/DefaultCard/DefaultCard";
+import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import { Avatar, AvatarGroup, Rating } from "@mui/material";
 import Color from "@src/common/styles/Color";
@@ -11,14 +10,13 @@ import HWButton from "@src/component/atoms/HWButton/HWButton";
 import Divider from "@src/component/atoms/Divider/Divider";
 import {useState} from "react";
 const InformationBox = ({ url = bg1 }: any) => {
-  const [rating, setRating] = useState<number | null>(1.5);
 
   return (
     <div className={"information-box-wrapper"} css={[styled.wrapper(url)]}>
       <CenterWrapper customCss={styled.centerWrapper}>
         <div css={styled.subWrapper}>
           <div>
-            <DefaultCard src={card1} width={"276px"} height={"414px"} />
+            <DefaultImage src={card1} width={"276px"} height={"414px"} />
           </div>
           <div className={"grid"} css={styled.rightBox}>
             <div className="col-full">
@@ -156,66 +154,6 @@ const InformationBox = ({ url = bg1 }: any) => {
                 <IconNetflix />
               </Avatar>
             </AvatarGroup>
-          </div>
-        </div>
-        <div css={styled.inputGroups}>
-          <div css={styled.ratingGroups}>
-            <div css={styled.ratingBox}>
-              <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"}>
-                평균 별점
-              </HWTypography>
-              <div className={"margin-top-12 flex flex-align-center gap-10"}>
-                <Rating
-                  name="rating-value"
-                  value={3.5}
-                  max={5}
-                  precision={0.5}
-                  css={styled.rating}
-                  emptyIcon={<IconRatingEmpty />}
-                  icon={<IconStar />}
-                  readOnly={true}
-                  // getLabelText={(value) => value.toString()}
-                />
-                <HWTypography
-                  variant={"headlineXXS"}
-                  family={"Pretendard-SemiBold"}
-                  color={Color.dark.grey900}
-                >
-                  3.5
-                </HWTypography>
-                <Divider direction={"v"} />{" "}
-                <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                  200+
-                </HWTypography>
-              </div>
-            </div>
-            <div css={styled.ratingBox}>
-              <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"}>
-                내 별점
-              </HWTypography>
-              <div className={"margin-top-12 flex flex-align-center gap-10"}>
-                <Rating
-                  name="rating-value"
-                  value={rating}
-                  max={5}
-                  precision={0.5}
-                  css={styled.rating}
-                  emptyIcon={<IconRatingEmpty />}
-                  icon={<IconRating />}
-                  onChange={(e, val) => {
-                    setRating(val);
-                  }}
-                />
-                <Divider direction={"v"} />{" "}
-                <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                  별점을 매겨주세요!
-                </HWTypography>
-              </div>
-            </div>
-          </div>
-          <div css={styled.btnGroups}>
-            <HWButton>링크 공유</HWButton>
-            <HWButton>리뷰 쓰기</HWButton>
           </div>
         </div>
       </CenterWrapper>

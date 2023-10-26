@@ -3,14 +3,14 @@ import {IconNetflix, IconStar, IconWatcha} from "@res/index";
 import {Avatar, AvatarGroup} from "@mui/material";
 import {SerializedStyles} from "@emotion/react";
 
-interface ImageCardProps {
+interface ContentCardProps {
   src: string;
   className?: string;
   rank?: number;
   onClick?: (e: React.MouseEvent) => void;
   customCss?: SerializedStyles;
 }
-const ImageCard = ({ src, className, rank, onClick, customCss }: ImageCardProps) => {
+const ContentCard = ({ src, className, rank, onClick, customCss }: ContentCardProps) => {
   return (
     <div className={className} css={[styled.wrapper, customCss]} onClick={onClick}>
       {rank && <div css={styled.rank}>{rank}</div>}
@@ -42,4 +42,4 @@ const ImageCard = ({ src, className, rank, onClick, customCss }: ImageCardProps)
   );
 };
 
-export default ImageCard;
+export default ContentCard;

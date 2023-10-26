@@ -71,15 +71,15 @@ export default {
       }
     }
   `,
-  color: (color: "1" | "2" | "3" | "4" | "5" | "6" | "7" | undefined) => {
+  color: (color?: string) => {
     switch (color) {
-      case "1": {
+      case "best": {
         return css`
-          background-color: rgba(46, 195, 242, 0.1);
-          color: #2ec3f2;
+          background-color: rgba(3, 218, 198, 0.12);
+          color: #03DAC6;
         `;
       }
-      case "2": {
+      case "spoiler": {
         return css`
           background-color: rgba(38, 188, 89, 0.1);
           color: #26bc59;
@@ -114,6 +114,12 @@ export default {
           background-color: rgba(84, 168, 253, 0.1);
           color: #54a8fd;
         `;
+      }
+      default: {
+        return css`
+          background-color: #000;
+          color: #fff;
+        `
       }
     }
   },

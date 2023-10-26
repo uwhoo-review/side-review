@@ -1,5 +1,5 @@
 import styled from "./style";
-import ImageCard from "@src/component/atoms/ImageCard/ImageCard";
+import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { useRef, useState } from "react";
 import HWCarouselFixedPagination from "@src/component/molecules/HWCarouselFixedPagination/HWCarouselFixedPagination";
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
@@ -34,7 +34,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
           <div className={"image-card-list"} css={styled.cardWrapper(currentPage)}>
             {cardList.map((v: any, i: number) => {
               return (
-                <ImageCard
+                <ContentCard
                   src={v}
                   className={"image-card"}
                   key={i}

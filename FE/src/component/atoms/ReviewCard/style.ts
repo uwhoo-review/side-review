@@ -15,6 +15,10 @@ export default {
 
     padding: 14px;
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   `,
   topWrapper: css`
     display: flex;
@@ -24,15 +28,12 @@ export default {
     height: 24px;
     margin-bottom: 10px;
   `,
-
+  chipWrapper: css`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  `,
   bestDiv: css`
-    width: 117px;
-    height: 24px;
-    border-radius: 6px;
-    background-color: #03dac61f;
-
-    color: #03dac6;
-
     font-family: Poppins;
     font-size: 14px;
     font-style: normal;
@@ -44,6 +45,13 @@ export default {
     align-items: center;
 
     gap: 4px;
+  `,
+  spoiler: css`
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
   `,
   dateDiv: css`
     color: ${Color.dark.grey500};
@@ -62,6 +70,7 @@ export default {
     -webkit-line-clamp: ${line};
     -webkit-box-orient: vertical;
 
+    height: 100%;
     color: ${Color.dark.grey900};
     font-family: Pretendard;
     font-size: 14px;
@@ -69,12 +78,30 @@ export default {
     font-weight: 500;
     line-height: 20px;
   `,
-  footer: css`
+  bottomWrapper: css`
     height: 32px;
-    border-top: 1px solid ${Color.dark.grey300};
+    // border-top: 1px solid ${Color.dark.grey300};
 
+    margin-top: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+  `,
+  flex1: css`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    color: ${Color.dark.grey500};
+  `,
+  flex2: css`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: ${Color.dark.grey400};
+    font-family: Poppins;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
   `,
 };

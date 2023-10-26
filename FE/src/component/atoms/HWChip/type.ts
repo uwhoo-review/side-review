@@ -5,8 +5,8 @@ export interface HWChipProps {
   className?: string;
   customCss?: SerializedStyles;
   variant?: "number" | "text" | "tag";
-  label?: number | string;
-  color?: "1" | "2" | "3" | "4" | "5" | "6" | "7";
+  label?: number | string | ReactNode;
+  color?: string;
   max?: number;
   onDelete?: () => void;
 }

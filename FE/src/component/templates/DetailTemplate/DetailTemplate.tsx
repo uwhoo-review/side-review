@@ -1,5 +1,6 @@
 import styled from "./style";
 import DetailGrid from "@src/component/organisms/DetailGrid/Contents/DetailGrid";
+import BoxList from "@src/component/molecules/BoxList/BoxList";
 
 const DetailTemplate = () => {
   return (

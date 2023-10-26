@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "./style";
-import ImageCard from "@src/component/atoms/ImageCard/ImageCard";
+import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import {card1, card2, card3, card4, card5} from "@res/index";
@@ -35,7 +35,7 @@ const PopularContent = () => {
             <div className={`image-card-list ${open && "open"}`} css={styled.cardWrapper}>
               {[...new Array(12)].map((v: any, i: number) => {
                 return (
-                  <ImageCard
+                  <ContentCard
                     src={card1}
                     className={"image-card"}
                     key={i}
