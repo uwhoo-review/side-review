@@ -4,10 +4,7 @@ import img1 from "@res/temp/img1.png";
 import img2 from "@res/temp/img2.png";
 import img3 from "@res/temp/img3.png";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
-import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import PersonCardList from "@src/component/molecules/PersonCardList/PersonCardList";
-import ReviewCard from "@src/component/atoms/ReviewCard/ReviewCard";
-import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import RatingDetailBox from "@src/component/molecules/RatingDetailBox/RatingDetailBox";
 import ReviewCardList from "@src/component/molecules/ReviewCardList/ReviewCardList";
 
@@ -28,19 +25,19 @@ const DetailGrid = () => {
             height={"189"}
           />,
           <iframe
-            key={1}
+            key={2}
             src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
             width={"334"}
             height={"189"}
           />,
           <iframe
-            key={1}
+            key={3}
             src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
             width={"334"}
             height={"189"}
           />,
           <iframe
-            key={1}
+            key={4}
             src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
             width={"334"}
             height={"189"}

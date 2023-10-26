@@ -22,6 +22,12 @@ export default {
     justify-content: space-between;
     align-items: center;
   `,
+  contentTotalWrapper: css`
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+  `,
+  grid: css``,
   contentWrapper: css`
     display: grid;
     grid-template-rows: repeat(2, 1fr);

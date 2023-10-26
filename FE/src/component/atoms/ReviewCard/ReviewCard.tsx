@@ -1,7 +1,7 @@
 import styled from "./style";
 import Color from "@src/common/styles/Color";
 import { SerializedStyles } from "@emotion/react";
-import {IconThumbDown, IconThumbUp} from "@res/index";
+import { IconThumbDown, IconThumbUp } from "@res/index";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
 import Divider from "@src/component/atoms/Divider/Divider";
 
@@ -28,7 +28,7 @@ const ReviewCard = ({
   spoiler = true,
   footer = true,
   date,
-  line = 4,
+  line,
   customCss,
   children,
 }: ReviewCardProps) => {
@@ -51,7 +51,7 @@ const ReviewCard = ({
         </div>
         <div css={styled.dateDiv}>{date}</div>
       </div>
-      <div css={styled.contents(line)}>{children}</div>
+      <div css={[styled.contents, line && styled.lineClamp(line)]}>{children}</div>
       <Divider />
       {footer && (
         <div css={styled.bottomWrapper}>
@@ -64,7 +64,6 @@ const ReviewCard = ({
               <IconThumbDown />
               20
             </div>
-
           </div>
           <div css={styled.flex1}>
             <IconThumbUp />

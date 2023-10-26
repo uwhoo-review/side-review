@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 
 export default {
-  wrapper: css`
+  wrapper: (bgColor: string) => css`
     height: 52px;
     width: 100%;
     position: absolute;
     top: 0;
-    background-color: #121212;
+    background-color: ${bgColor ? bgColor : "#121212"};
     color: #ffffff;
     display: flex;
     align-items: center;

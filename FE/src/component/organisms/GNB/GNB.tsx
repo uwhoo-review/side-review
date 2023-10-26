@@ -1,19 +1,39 @@
 import styled from "./style";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { IconSearch } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import FilterGroups from "@src/component/molecules/FilterGroups/FilterGroups";
 import ScrollTopButton from "@src/component/atoms/ScrollTopButton/ScrollTopButton";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [slideOpen, setSlideOpen] = useState<boolean>(false);
+  const [bgColor, setBgColor] = useState("#121212");
+  const { pathname } = useLocation();
+  const [scrollTop, setScrollTop] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (pathname === "/detail" && scrollTop) setBgColor("transparent");
+    else setBgColor("#121212");
+  }, [pathname, scrollTop]);
+
+  useEffect(() => {
+    const scrollDiv = document.querySelector(".scroll-area");
+    const handleShowButton = () => {
+      (scrollDiv?.scrollTop || 0) === 0 ? setScrollTop(true) : setScrollTop(false);
+    };
+    scrollDiv?.addEventListener("scroll", handleShowButton);
+
+    return () => {
+      scrollDiv?.removeEventListener("scroll", handleShowButton);
+    };
+  }, []);
+
   return (
     <>
-      <div css={styled.wrapper}>
+      <div css={styled.wrapper(bgColor)}>
         <div css={styled.leftGroups}>
           <div css={styled.logo}>SIDE REVIEW</div>
         </div>

@@ -62,14 +62,7 @@ export default {
     font-weight: 500;
     line-height: 20px;
   `,
-  contents: (line: number) => css`
-    word-break: break-all;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: ${line};
-    -webkit-box-orient: vertical;
-
+  contents: css`
     height: 100%;
     color: ${Color.dark.grey900};
     font-family: Pretendard;
@@ -77,6 +70,14 @@ export default {
     font-style: normal;
     font-weight: 500;
     line-height: 20px;
+  `,
+  lineClamp: (line?: number) => css`
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: ${line};
+    -webkit-box-orient: vertical;
   `,
   bottomWrapper: css`
     height: 32px;
