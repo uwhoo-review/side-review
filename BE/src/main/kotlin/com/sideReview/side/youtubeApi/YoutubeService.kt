@@ -12,6 +12,6 @@ class YoutubeService(val client: YoutubeClient) {
 
         logger.info(target.items.toString())
 
-        val detail = client.getVideoList(part = "snippet")
+        val detail = client.getVideoDetail(id = listOf("ZRyiyAggeDM"))
     }
 }

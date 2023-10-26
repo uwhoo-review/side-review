@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam
     configuration = [YoutubeLoggingConfig::class]
 )
 interface YoutubeClient {
+    /*
+    * mostPopular 차트에서 데이터 가져오기
+    * YoutubeVideoListResponse 생성자에서 드라마만 필터링.
+    * */
     @GetMapping("/videos")
     fun getVideoList(
 //        @RequestHeader("Authorization", required = true) access_token: String,
@@ -24,6 +28,10 @@ interface YoutubeClient {
         @RequestParam("pageToken") pageToken: String? = null
     ): YoutubeVideoListResponse
 
+
+    /*
+    * getVideoList에서 가져온 데이터의 id를 가지고 detail 겁색
+    * */
     @GetMapping("/videos")
     fun getVideoDetail(
         @RequestParam("key") api_key: String = "AIzaSyDhGP_UeMcdyD-LL7iP2nvUK_IQj41G84w",
