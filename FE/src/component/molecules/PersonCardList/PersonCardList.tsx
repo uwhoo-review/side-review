@@ -12,7 +12,6 @@ const PersonCardList = ({ cardList }: PersonCardListProps) => {
   return (
     <div css={styled.wrapper}>
       <CenterWrapper>
-        <div css={styled.title}>출연 ∙ 제작</div>
         <div css={styled.sliderWrapper}>
           <CarouselArrow
             direction={"left"}

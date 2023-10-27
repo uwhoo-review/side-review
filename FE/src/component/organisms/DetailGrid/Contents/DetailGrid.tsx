@@ -7,6 +7,8 @@ import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import PersonCardList from "@src/component/molecules/PersonCardList/PersonCardList";
 import RatingDetailBox from "@src/component/molecules/RatingDetailBox/RatingDetailBox";
 import ReviewCardList from "@src/component/molecules/ReviewCardList/ReviewCardList";
+import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
+import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 
 const DetailGrid = () => {
   return (
@@ -14,7 +16,11 @@ const DetailGrid = () => {
       <InformationBox />
       <RatingDetailBox />
       <ReviewCardList />
-      <PersonCardList cardList={[...new Array(15)]} />
+      <CenterWrapper>
+        <WrapperTitle title={"출연 ∙ 제작"} />
+        <PersonCardList cardList={[...new Array(15)]} />
+      </CenterWrapper>
+
       <BoxList
         title={"트레일러"}
         boxList={[

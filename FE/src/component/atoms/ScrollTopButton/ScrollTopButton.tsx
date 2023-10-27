@@ -8,7 +8,7 @@ const ScrollTopButton = () => {
     scrollDiv?.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  useEffect(() => {
+/*  useEffect(() => {
     const scrollDiv = document.querySelector(".scroll-area");
     const handleShowButton = () => {
       (scrollDiv?.scrollTop || 0) > 100 ? setShowButton(true) : setShowButton(false);
@@ -18,11 +18,11 @@ const ScrollTopButton = () => {
     return () => {
       scrollDiv?.removeEventListener("scroll", handleShowButton);
     };
-  }, []);
+  }, []);*/
 
   return (
     <>
-      {showButton && (
+      {(
         <div css={styled.wrapper} onClick={scrollToTop}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -3,7 +3,6 @@ import Color from "@src/common/styles/Color";
 
 export default {
   wrapper: css`
-    margin-top: 70px;
   `,
   title: css`
     font-family: Pretendard, sans-serif;
