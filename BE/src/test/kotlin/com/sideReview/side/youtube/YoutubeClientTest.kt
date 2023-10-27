@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class YoutubeAPITest(@Autowired private val client: YoutubeClient) {
+class YoutubeClientTest(@Autowired private val client: YoutubeClient) {
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
 
     @Test
