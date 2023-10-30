@@ -25,5 +25,8 @@ export default {
     elevation12: "#333333",
     elevation16: "#363636",
     elevation24: "#383838",
+
+    baseWhite: "#ffffff",
+    baseBlack: "#000000",
   },
 };

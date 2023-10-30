@@ -17,7 +17,7 @@ import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const PreviewBox = ({ customCss }: any) => {
+const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
   const [rating, setRating] = useState<number | null>(1.5);
   const [detailOpen, setDetailOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const PreviewBox = ({ customCss }: any) => {
     <CenterWrapper css={styled.centerWrapper}>
       <div className="preview-box-wrapper" css={[styled.wrapper, customCss]}>
         <div css={styled.leftWrapper}>
-          <CarouselArrow direction={"left"} />
+          <CarouselArrow direction={"left"} onClick={onPrev} />
         </div>
         <div css={styled.contents}>
           <div css={styled.topContents}>
@@ -121,44 +121,6 @@ const PreviewBox = ({ customCss }: any) => {
                   </div>
                 </div>
               </div>
-              {/*<div className={"grid margin-top-20"}>
-                <div className={"col-4"}>
-                  <div>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-                      시청등급
-                    </HWTypography>
-                  </div>
-                  <div className={"margin-top-8"}>
-                    <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      청소년 관람 불가
-                    </HWTypography>
-                  </div>
-                </div>
-                <div className={"col-4"}>
-                  <div>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-                      공개 회차
-                    </HWTypography>
-                  </div>
-                  <div className={"margin-top-8"}>
-                    <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      20부작
-                    </HWTypography>
-                  </div>
-                </div>
-                <div className={"col-4"}>
-                  <div>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-                      공개일
-                    </HWTypography>
-                  </div>
-                  <div className={"margin-top-8"}>
-                    <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      2023.02.29
-                    </HWTypography>
-                  </div>
-                </div>
-              </div>*/}
               <div className={"grid margin-top-20"}>
                 <div className={"col-8"}>
                   <div>
@@ -222,7 +184,7 @@ const PreviewBox = ({ customCss }: any) => {
           </div>
         </div>
         <div css={styled.rightWrapper}>
-          <CarouselArrow direction={"right"} />
+          <CarouselArrow direction={"right"} onClick={onNext} />
         </div>
       </div>
     </CenterWrapper>

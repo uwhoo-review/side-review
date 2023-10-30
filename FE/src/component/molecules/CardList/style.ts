@@ -25,15 +25,23 @@ export default {
     width: 1396px;
     position: relative;
     overflow: hidden;
+
+    :hover {
+      .hover-arrow {
+        z-index: 1;
+        display: flex;
+        visibility: visible;
+      }
+    }
   `,
-  cardWrapper: (currentPage: number) => css`
+  cardWrapper: (currentPage: number, inActive: boolean) => css`
     display: flex;
     align-items: center;
-    gap: 20px;
+    width: 100%;
+    gap: ${inActive ? "40px" : "20px"};
 
-    transition: 0.5s ease;
+    transition: 0.5s ease transform;
     transform: translate(${(currentPage - 1) * -(1396 + 20)}px, 0px);
-    //transform: translate(${(currentPage - 1) * -100}%, 0px);
   `,
   card: css`
     cursor: pointer;
@@ -45,7 +53,8 @@ export default {
 
     //background-color: #3e3e3e80;
     //color: #ffffff;
-    z-index: 1;
+    z-index: 0;
+    display: none;
   `,
   rightPageBtn: css`
     position: absolute;
@@ -54,7 +63,9 @@ export default {
 
     background-color: #3e3e3e80;
     color: #ffffff;
-    z-index: 1;
+    z-index: 0;
+    display: none;
+
   `,
   previewBox: css`
    /* @keyframes heightSlide {

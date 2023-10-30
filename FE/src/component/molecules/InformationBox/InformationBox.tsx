@@ -143,7 +143,7 @@ const InformationBox = ({ url = bg1 }: any) => {
             </div>
           </div>
           <div css={styled.avatarWrapper}>
-            <AvatarGroup max={5} css={styled.avatarGroup}>
+            <AvatarGroup css={styled.avatarGroup}>
               <Avatar css={styled.avatar}>
                 <IconNetflix />
               </Avatar>

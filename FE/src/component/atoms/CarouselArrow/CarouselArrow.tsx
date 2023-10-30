@@ -4,6 +4,7 @@ import { SerializedStyles } from "@emotion/react";
 
 interface CarouselArrowProps {
   direction: string;
+  className?: string;
   height?: string;
   width?: string;
   radius?: string;
@@ -13,6 +14,7 @@ interface CarouselArrowProps {
 }
 
 const CarouselArrow = ({
+  className,
   direction,
   height = "52px",
   width = "30px",
@@ -23,6 +25,7 @@ const CarouselArrow = ({
 }: CarouselArrowProps) => {
   return (
     <div
+      className={className}
       css={[styled.wrapper(width, height, radius, backgroundColor), customCss]}
       onClick={onClick}
     >

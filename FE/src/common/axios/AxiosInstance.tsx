@@ -2,8 +2,11 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 
 export const axiosBaseInstance = axios.create({
-  baseURL: "",
-  headers: {},
+  baseURL: "https://api.themoviedb.org/3",
+  headers: {
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0OWJjZmNhOWZkNWY0NGQyMjZhYzgzMTU5NzZhY2ZkYyIsInN1YiI6IjY1MWUzMmE0M2QzNTU3MDExY2ZmZThhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-uufjYqYRvt2OC66c1euvWmZdEOGy-gGvmRoQ1fP2AA",
+  },
 });
 
 export const axiosAuthInstance = axios.create({
@@ -11,8 +14,7 @@ export const axiosAuthInstance = axios.create({
   headers: {},
 });
 
-
-const AxiosViewerInterceptor = ({ children }: any) => {
+const AxiosInterceptor = ({ children }: any) => {
   const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
@@ -27,6 +29,7 @@ const AxiosViewerInterceptor = ({ children }: any) => {
 
     const responseInterceptor = axiosBaseInstance.interceptors.response.use(
       async (response: AxiosResponse) => {
+        console.log(response)
         response.data = response.data ? response.data : response.data;
         return response;
       },
@@ -73,4 +76,4 @@ const AxiosViewerInterceptor = ({ children }: any) => {
   return isRender && children;
 };
 
-export { AxiosViewerInterceptor };
+export { AxiosInterceptor };

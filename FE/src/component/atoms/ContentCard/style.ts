@@ -1,9 +1,10 @@
 import { css } from "@emotion/react";
 
 export default {
-  wrapper: css`
+  wrapper: (inActive: boolean) => css`
     position: relative;
     border-radius: 10px;
+    opacity: ${inActive ? "0.5" : "1"};
   `,
   rank: css`
     position: absolute;
@@ -31,23 +32,35 @@ export default {
     justify-content: space-between;
     align-items: center;
   `,
+  iconStar: css`
+    font-size: 18px;
+  `,
+  typo1: css`
+    margin-left: 8px;
+  `,
   avatarGroup: css`
     div {
       border: none !important;
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+      background-color: #121212;
     }
   `,
   avatar: css`
     background-color: transparent;
     border: none !important;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
+    font-size: 24px !important;
+    //z-index: 1;
   `,
-  imgWrapper: css`
-    height: 324px;
-    width: 216px;
+  imgWrapper: (inActive: boolean) => css`
+    width: ${inActive ? "196px" : "216px"};
+    height: ${inActive ? "294px" : "324px"};
     border-right: 10px;
+  `,
+  description: css`
+    margin-top: 10px;
   `,
 };

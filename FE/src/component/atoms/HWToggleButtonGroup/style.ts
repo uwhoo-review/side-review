@@ -1,19 +1,23 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export const root = css`
-  min-width: 36px;
+  //min-width: 106px;
   width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
 
   flex-shrink: 0;
+  border-radius: 8px;
 
+  background-color: ${Color.dark.elevation01};
+  border: 1px solid ${Color.dark.grey100};
   color: #7d7e85;
   :hover {
     color: #3e3e3e;
   }
-  .MuiButtonBase-root {
+/*  .MuiButtonBase-root {
     border-radius: unset;
   }
   .MuiButtonBase-root:first-of-type {
@@ -26,5 +30,5 @@ export const root = css`
   }
   .MuiButtonBase-root:not(:first-of-type) {
     margin-left: -1px;
-  }
+  }*/
 `;

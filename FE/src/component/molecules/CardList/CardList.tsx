@@ -13,8 +13,25 @@ interface CardListProps {
 const CardList = ({ title, subTitle, cardList }: CardListProps) => {
   const boxRef = useRef<HTMLDivElement>(null);
   const [preview, setPreview] = useState<boolean>(false);
-  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [selectedCard, setSelectedCard] = useState<string | number | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const onPrevHandler = () => {
+    if (currentPage == 1) {
+      setCurrentPage(1);
+    } else {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const onNextHandler = () => {
+    if (currentPage == 5) {
+      setCurrentPage(5);
+    } else {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div css={styled.wrapper}>
       <CenterWrapper>
@@ -31,25 +48,32 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
           />
         </div>
         <div css={styled.cardSlider}>
-          <div className={"image-card-list"} css={styled.cardWrapper(currentPage)}>
+          <CarouselArrow
+            className={"hover-arrow left"}
+            direction={"left"}
+            customCss={styled.leftPageBtn}
+            onClick={onPrevHandler}
+          />
+          <div className={"image-card-list"} css={styled.cardWrapper(currentPage, preview)}>
             {cardList.map((v: any, i: number) => {
               return (
                 <ContentCard
+                  className={`image-card`}
                   src={v}
-                  className={"image-card"}
                   key={i}
                   rank={i + 1}
                   customCss={styled.card}
+                  inActive={preview && selectedCard !== i}
                   onClick={() => {
                     if (selectedCard === null) {
                       setPreview(true);
-                      setSelectedCard(i + 1);
+                      setSelectedCard(i);
                     } else {
-                      if (selectedCard === i + 1) {
+                      if (selectedCard === i) {
                         setPreview(false);
                         setSelectedCard(null);
                       } else {
-                        setSelectedCard(i + 1);
+                        setSelectedCard(i);
                       }
                     }
                   }}
@@ -58,52 +82,18 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             })}
           </div>
           <CarouselArrow
-            direction={"left"}
-            customCss={styled.leftPageBtn}
-            onClick={() => {
-              if (currentPage == 1) {
-                setCurrentPage(1);
-              } else {
-                setCurrentPage(currentPage - 1);
-              }
-            }}
-          />
-          <CarouselArrow
+            className={"hover-arrow left"}
             direction={"right"}
             customCss={styled.rightPageBtn}
-            onClick={() => {
-              if (currentPage == 5) {
-                setCurrentPage(5);
-              } else {
-                setCurrentPage(currentPage + 1);
-              }
-            }}
+            onClick={onNextHandler}
           />
         </div>
       </CenterWrapper>
-      {preview && <PreviewBox customCss={styled.previewBox} />}
+      {preview && (
+        <PreviewBox customCss={styled.previewBox} onPrev={onPrevHandler} onNext={onNextHandler} />
+      )}
     </div>
   );
 };
-
-{
-  /*(
-        <div
-          className={`preview-wrapper ${preview && "open"}`}
-          ref={boxRef}
-          css={styled.previewBox}
-        >
-          <ReviewCard best={true} date={"2023.02.29"}>
-            초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이
-            시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물. 초능력을 숨긴
-            채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이 시대와 세대를
-            넘어 닥치는 거 블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
-          </ReviewCard>
-          <ReviewCard best={false} date={"2023.02.29"}>
-            asd
-          </ReviewCard>
-        </div>
-      )*/
-}
 
 export default CardList;

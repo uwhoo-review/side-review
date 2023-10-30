@@ -81,7 +81,7 @@ export default {
 
     border-top: 1px solid #ffffff12;
     box-sizing: border-box;
-    z-index: 1;
+    z-index: 2;
     transition: opacity 1s ease;
     &.open {
       opacity: 1;

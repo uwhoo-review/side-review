@@ -25,24 +25,18 @@ const SearchResultContent = () => {
 
   const props1 = (value: string) => {
     return {
-      disableOutlined: true,
       checked: toggle1 === value,
       onClick: () => {
         setToggle1(value);
       },
-      width: "40px",
-      height: "40px",
     };
   };
   const props2 = (value: string) => {
     return {
-      disableOutlined: true,
       checked: toggle2 === value,
       onClick: () => {
         setToggle2(value);
       },
-      width: "40px",
-      height: "40px",
     };
   };
 
@@ -51,8 +45,8 @@ const SearchResultContent = () => {
       <CenterWrapper>
         <WrapperTitle title={"일치하는 검색어"} subTitle={"14"} />
         <HWToggleButtonGroup>
-          <HWToggleButton {...props1("a")}>a</HWToggleButton>
-          <HWToggleButton {...props1("b")}>b</HWToggleButton>
+          <HWToggleButton {...props1("a")}>드라마</HWToggleButton>
+          <HWToggleButton {...props1("b")}>인물</HWToggleButton>
         </HWToggleButtonGroup>
         <div css={styled.subWrapper}>
           <>
@@ -88,8 +82,8 @@ const SearchResultContent = () => {
       <CenterWrapper>
         <WrapperTitle title={"연관 검색어"} subTitle={"24"} />
         <HWToggleButtonGroup>
-          <HWToggleButton {...props2("a")}>a</HWToggleButton>
-          <HWToggleButton {...props2("b")}>b</HWToggleButton>
+          <HWToggleButton {...props2("a")}>드라마</HWToggleButton>
+          <HWToggleButton {...props2("b")}>인물</HWToggleButton>
         </HWToggleButtonGroup>
         <div css={styled.subWrapper}>
           <>

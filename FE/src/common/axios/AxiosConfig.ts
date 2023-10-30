@@ -1,16 +1,22 @@
+import { axiosBaseInstance } from "@src/common/axios/AxiosInstance";
+
 export const CODE_AXIOS = {};
 
 export const UWAxios = {
-  dashboard: {
-    async getList() {
-/*      const res = await HdAxios.get<DashboardInfoListDO>(axiosInstanceVisualization, {
-        method: "get",
-        url: `/visual-analytics/projects/${projectId}/dashboards${filterStr}`,
-        vaCode: CODE_AXIOS.DASHBOARD_GET_LIST,
-      });
+  discover: {
+    async getTvList() {
+      const res = await axiosBaseInstance.get(
+        `discover/tv?watch_region=KR&sort_by=popularity.desc`
+      );
 
-      if (axios.isAxiosError(res)) throw res;
-      return (res as AxiosResponse<DashboardInfoListDO>).data.dashboard;*/
+      return res.data;
+    },
+  },
+  trending: {
+    async getTvList() {
+      const res = await axiosBaseInstance.get(`trending/tv/week?language=ko`);
+
+      return res.data;
     },
   },
 };

@@ -1,6 +1,7 @@
 import styled from "./style";
 import CardList from "@src/component/molecules/CardList/CardList";
 import { card1, card2, card3, card4, card5 } from "@res/index";
+import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 const CARD_GROUP_1 = [
   card1,
   card2,
@@ -34,7 +35,7 @@ const CARD_GROUP_1 = [
   card5,
 ];
 
-const MainContent = () => {
+const MainContent = ({data}:any) => {
   return (
     <div className="contents-wrapper" css={styled.wrapper}>
       <CardList

@@ -1,26 +1,31 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export const root = (width: string, height: string) => css`
-  min-width: 36px;
+  min-width: 106px;
   width: ${width ? width : "fit-content"};
   height: ${height};
-  border: 1px solid #d6d6d6;
-  border-radius: 4px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0px 6px;
   flex-shrink: 0;
   z-index: 0;
+  background-color: ${Color.dark.elevation01};
+  border: 1px solid ${Color.dark.grey100};
   color: #7d7e85;
-  background-color: #ffffff;
+
   :hover {
     color: #3e3e3e;
   }
+  margin: 3px;
+  
   /* Common/ButtonMedium */
+  font-family: Pretendard;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600;
   line-height: 24px;
 
   &.HW_Disabled {
@@ -32,12 +37,8 @@ export const root = (width: string, height: string) => css`
   }
 
   &.HW_Checked {
-    border: 1px solid #2e7af2;
-    background-color: #eff4fc;
-    color: #2e7af2;
-    :hover {
-      color: #2e7af2;
-    }
+    background-color: ${Color.dark.grey300};
+    color: ${Color.dark.baseWhite};
     z-index: 1;
   }
   &.HW_DisableOutlined {

@@ -8,9 +8,10 @@ import UpcomingPage from "@src/pages/UpcomingPage/UpcomingPage";
 import DetailPage from "@src/pages/DetailPage/DetailPage";
 import ReviewPage from "@src/pages/ReviewPage/ReviewPage";
 import SearchResultPage from "@src/pages/SearchResultPage/SearchResultPage";
+import {AxiosInterceptor} from "@src/common/axios/AxiosInstance";
 
 const App = () => (
-  <>
+  <AxiosInterceptor>
     <GNB />
     <Routes>
       <Route path={"/*"} element={<MainPage />} />
@@ -25,7 +26,7 @@ const App = () => (
         <Route path={"*"} index element={<SearchResultPage />} />
       </Route>
     </Routes>
-  </>
+  </AxiosInterceptor>
 );
 
 export default App;
