@@ -3,11 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.7.16"
 	id("io.spring.dependency-management") version "1.0.15.RELEASE"
-	kotlin("jvm") version "1.6.21"
+	kotlin("jvm") version "1.9.0"
 	kotlin("plugin.spring") version "1.6.21"
 	kotlin("plugin.jpa") version "1.6.21"
 }
-
 group = "com.sideReview"
 version = "0.0.1-SNAPSHOT"
 
@@ -23,6 +22,11 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven("https://maven.tryformation.com/releases") {
+		content {
+			includeGroup("com.jillesvangurp")
+		}
+	}
 }
 
 dependencies {
@@ -33,6 +37,10 @@ dependencies {
 
 	// OpenFeign
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
+	// AWS OpenSearch Client library
+	implementation("com.jillesvangurp:search-client:2.1.4")
+
 
 	compileOnly("org.projectlombok:lombok")
 	compileOnly("com.google.api-client:google-api-client:1.23.0")
