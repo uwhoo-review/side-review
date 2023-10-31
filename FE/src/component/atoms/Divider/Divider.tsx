@@ -21,10 +21,9 @@ const Divider = ({
           xmlns="http://www.w3.org/2000/svg"
           width={length}
           height="2"
-          viewBox="0 0 690 2"
           fill="none"
         >
-          <path d="M1 1L689 1.00006" stroke={color} strokeLinecap="round" />
+          <line x1="0" x2={length} y1="0" y2="0" stroke={color} />
         </svg>
       )}
       {direction === "v" && (
@@ -33,10 +32,9 @@ const Divider = ({
           xmlns="http://www.w3.org/2000/svg"
           width="2"
           height={length}
-          viewBox="0 0 2 16"
           fill="none"
         >
-          <path d="M1 1L0.999999 15" stroke={color} strokeLinecap="round" />
+          <line x1="0" x2="0" y1="0" y2={length} stroke={color} />
         </svg>
       )}
     </>

@@ -8,25 +8,28 @@ import UpcomingPage from "@src/pages/UpcomingPage/UpcomingPage";
 import DetailPage from "@src/pages/DetailPage/DetailPage";
 import ReviewPage from "@src/pages/ReviewPage/ReviewPage";
 import SearchResultPage from "@src/pages/SearchResultPage/SearchResultPage";
-import {AxiosInterceptor} from "@src/common/axios/AxiosInstance";
+import { AxiosInterceptor } from "@src/common/axios/AxiosInstance";
+import { CommonProvider } from "@src/providers/CommonProvider";
 
 const App = () => (
-  <AxiosInterceptor>
-    <GNB />
-    <Routes>
-      <Route path={"/*"} element={<MainPage />} />
-      <Route path={"popular"} element={<PopularPage />} />
-      <Route path={"recently"} element={<RecentlyPage />} />
-      <Route path={"upcoming"} element={<UpcomingPage />} />
-      <Route path={"detail"}>
-        <Route path={"*"} index element={<DetailPage />} />
-        <Route path={"reviewTotal"} element={<ReviewPage />} />
-      </Route>
-      <Route path={"search"}>
-        <Route path={"*"} index element={<SearchResultPage />} />
-      </Route>
-    </Routes>
-  </AxiosInterceptor>
+  <CommonProvider>
+    <AxiosInterceptor>
+      <GNB />
+      <Routes>
+        <Route path={"/*"} element={<MainPage />} />
+        <Route path={"popular"} element={<PopularPage />} />
+        <Route path={"recently"} element={<RecentlyPage />} />
+        <Route path={"upcoming"} element={<UpcomingPage />} />
+        <Route path={"detail"}>
+          <Route path={"*"} index element={<DetailPage />} />
+          <Route path={"reviewTotal"} element={<ReviewPage />} />
+        </Route>
+        <Route path={"search"}>
+          <Route path={"*"} index element={<SearchResultPage />} />
+        </Route>
+      </Routes>
+    </AxiosInterceptor>
+  </CommonProvider>
 );
 
 export default App;

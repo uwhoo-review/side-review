@@ -6,11 +6,12 @@ import Color from "@src/common/styles/Color";
 import Divider from "@src/component/atoms/Divider/Divider";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { Rating } from "@mui/material";
-import {useState} from "react";
+import { useState } from "react";
+import ReviewModal from "@src/component/molecules/ReviewModal/ReviewModal";
 
 const RatingDetailBox = () => {
   const [rating, setRating] = useState<number | null>(1.5);
-
+  const [dialog, setDialog] = useState(false);
   return (
     <div>
       <CenterWrapper>
@@ -39,7 +40,7 @@ const RatingDetailBox = () => {
                 >
                   3.5
                 </HWTypography>
-                <Divider direction={"v"} />{" "}
+                <Divider direction={"v"} length={"14px"} />
                 <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
                   200+
                 </HWTypography>
@@ -62,7 +63,7 @@ const RatingDetailBox = () => {
                     setRating(val);
                   }}
                 />
-                <Divider direction={"v"} />{" "}
+                <Divider direction={"v"} length={"14px"}/>
                 <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
                   별점을 매겨주세요!
                 </HWTypography>
@@ -71,10 +72,15 @@ const RatingDetailBox = () => {
           </div>
           <div css={styled.btnGroups}>
             <HWButton variant={"lower"}>링크 공유</HWButton>
-            <HWButton>리뷰 쓰기</HWButton>
+            <HWButton onClick={() => setDialog(true)}>리뷰 쓰기</HWButton>
           </div>
         </div>
       </CenterWrapper>
+      <ReviewModal
+        width={"800px"}
+        open={dialog}
+        onClose={() => setDialog(false)}
+      />
     </div>
   );
 };

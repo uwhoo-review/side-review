@@ -2,9 +2,10 @@ import { useState } from "react";
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
+import {Dialog, Modal} from "@mui/material";
 
-const BoxList = ({ title, subTitle, boxList }: any) => {
-  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+const BoxList = ({ title, subTitle, boxList}: any) => {
+  const [selectedCard, setSelectedCard] = useState<any | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   return (
     <div css={styled.wrapper}>
@@ -22,7 +23,10 @@ const BoxList = ({ title, subTitle, boxList }: any) => {
               }
             }}
           />
-          <div className={"image-card-list"} css={styled.cardWrapper(currentPage)}>
+          <div
+            className={"image-card-list"}
+            css={styled.cardWrapper(currentPage)}
+          >
             {boxList.map((v: any, i: number) => {
               return v;
             })}

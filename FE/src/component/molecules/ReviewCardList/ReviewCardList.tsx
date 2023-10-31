@@ -7,9 +7,12 @@ import HWToggle from "@src/component/atoms/HWToggle/HWToggle";
 import Color from "@src/common/styles/Color";
 import { IconUpDown } from "@res/index";
 import { useNavigate } from "react-router-dom";
+import {useState} from "react";
+import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
 
-const ReviewCardList = ({ total = false }: any) => {
+const ReviewCardList = ({ total = false, list }: any) => {
   const navigate = useNavigate();
+  const [dialog, setDialog] = useState(null);
 
   return (
     <div className={"review-list-wrapper"} css={styled.wrapper}>
@@ -83,14 +86,14 @@ const ReviewCardList = ({ total = false }: any) => {
               됐고 시끄럽기만 했다. 거기에 이들의 이야기와 전개에 너무 많은 개연성 문제와 급전개가
               많아서 다른 작가진이 이 서브플롯을 맡은게 아닌가 싶을 정도였다. 어찌보면 어른스러운
               아이들과 유치한 어른들이라는 재미있는 대비 구도를 만들고자 한 시도일 수도 있으나, 그
-              유치한 수준과 방향이 완전히 어긋나버렸다고 생각한다.
-              스토리 라인이다. 데이빗 하버의 짐은 너무 급격하게 캐릭터가 변한 나머지 당황스러웠고,
-              시즌이 끝날 때까지 적응이 안 됐다. 위노나 라이더의 극성이고 과장된 연기도 시즌 1과
-              2에서는 절박한 모성애로 어느 정도 이해할 수 있었으나, 이번 시즌에서는 도저히 몰입이 안
-              됐고 시끄럽기만 했다. 거기에 이들의 이야기와 전개에 너무 많은 개연성 문제와 급전개가
-              많아서 다른 작가진이 이 서브플롯을 맡은게 아닌가 싶을 정도였다. 어찌보면 어른스러운
-              아이들과 유치한 어른들이라는 재미있는 대비 구도를 만들고자 한 시도일 수도 있으나, 그
-              유치한 수준과 방향이 완전히 어긋나버렸다고 생각한다.
+              유치한 수준과 방향이 완전히 어긋나버렸다고 생각한다. 스토리 라인이다. 데이빗 하버의
+              짐은 너무 급격하게 캐릭터가 변한 나머지 당황스러웠고, 시즌이 끝날 때까지 적응이 안
+              됐다. 위노나 라이더의 극성이고 과장된 연기도 시즌 1과 2에서는 절박한 모성애로 어느
+              정도 이해할 수 있었으나, 이번 시즌에서는 도저히 몰입이 안 됐고 시끄럽기만 했다. 거기에
+              이들의 이야기와 전개에 너무 많은 개연성 문제와 급전개가 많아서 다른 작가진이 이
+              서브플롯을 맡은게 아닌가 싶을 정도였다. 어찌보면 어른스러운 아이들과 유치한 아이들과
+              유치한 어른들이라는 재미있는 대비 구도를 만들고자 한 시도일 수도 있으나, 그 유치한
+              수준과 방향이 완전히 어긋나버렸다고 생각한다.
             </ReviewCard>
             <ReviewCard
               date={"2023.02.29"}
@@ -193,67 +196,36 @@ const ReviewCardList = ({ total = false }: any) => {
           </div>
         ) : (
           <div css={styled.contentWrapper}>
-            <>
-              <ReviewCard
-                date={"2023.02.29"}
-                best={true}
-                spoiler={true}
-                footer={true}
-                width={"452px"}
-                height={"280px"}
-              >
-                #전 시즌보다 더욱 80년대 촌스러움을 강조한 의상, 소품, 미술, 음악까지 레트로
-                감성으로 충만하다.  #드라마 곳곳에 오마주한 추억의 명작들을 품고있다.  #아역배우들의
-                폭풍성장..;; 니네 조금 낯설다..  #이번 시즌 최고의 빌런 빌리는... 마인드 플레이어
-                보다 더 무서움..;;; 개인적으로 씬스틸러였던 잘생쁜 로빈은 우마서먼과 에단호크의
-                딸...마야호크😊 #가능하다면 시즌 1, 2 정주행 추천..ㅎㅎ
-              </ReviewCard>
-              <ReviewCard
-                date={"2023.02.29"}
-                best={true}
-                spoiler={true}
-                footer={true}
-                width={"452px"}
-                height={"280px"}
-              >
-                #전 시즌보다 더욱 80년대 촌스러움을 강조한 의상, 소품, 미술, 음악까지 레트로
-                감성으로 충만하다.  #드라마 곳곳에 오마주한 추억의 명작들을 품고있다.  #아역배우들의
-                폭풍성장..;; 니네 조금 낯설다..  #이번 시즌 최고의 빌런 빌리는... 마인드 플레이어
-                보다 더 무서움..;;; 개인적으로 씬스틸러였던 잘생쁜 로빈은 우마서먼과 에단호크의
-                딸...마야호크😊 #가능하다면 시즌 1, 2 정주행 추천..ㅎㅎ
-              </ReviewCard>
-              <ReviewCard
-                date={"2023.02.29"}
-                best={true}
-                spoiler={true}
-                footer={true}
-                width={"452px"}
-                height={"280px"}
-              >
-                #전 시즌보다 더욱 80년대 촌스러움을 강조한 의상, 소품, 미술, 음악까지 레트로
-                감성으로 충만하다.  #드라마 곳곳에 오마주한 추억의 명작들을 품고있다.  #아역배우들의
-                폭풍성장..;; 니네 조금 낯설다..  #이번 시즌 최고의 빌런 빌리는... 마인드 플레이어
-                보다 더 무서움..;;; 개인적으로 씬스틸러였던 잘생쁜 로빈은 우마서먼과 에단호크의
-                딸...마야호크😊 #가능하다면 시즌 1, 2 정주행 추천..ㅎㅎ
-              </ReviewCard>
-              <ReviewCard
-                date={"2023.02.29"}
-                best={true}
-                spoiler={true}
-                footer={true}
-                width={"452px"}
-                height={"280px"}
-              >
-                #전 시즌보다 더욱 80년대 촌스러움을 강조한 의상, 소품, 미술, 음악까지 레트로
-                감성으로 충만하다.  #드라마 곳곳에 오마주한 추억의 명작들을 품고있다.  #아역배우들의
-                폭풍성장..;; 니네 조금 낯설다..  #이번 시즌 최고의 빌런 빌리는... 마인드 플레이어
-                보다 더 무서움..;;; 개인적으로 씬스틸러였던 잘생쁜 로빈은 우마서먼과 에단호크의
-                딸...마야호크😊 #가능하다면 시즌 1, 2 정주행 추천..ㅎㅎ
-              </ReviewCard>
-            </>
+            {list.map((v: any, i: number) => {
+              return (
+                <ReviewCard
+                  date={"2023.02.29"}
+                  best={true}
+                  spoiler={true}
+                  footer={true}
+                  width={"452px"}
+                  height={"280px"}
+                  onClick={() => setDialog(v.contents)}
+                >
+                  {v.contents}
+                </ReviewCard>
+              );
+            })}
           </div>
         )}
       </CenterWrapper>
+      <HWDialog open={Boolean(dialog)} onClose={() => setDialog(null)}>
+        <ReviewCard
+            date={"2023.02.29"}
+            best={true}
+            spoiler={true}
+            footer={true}
+            width={"800px"}
+            height={"570px"}
+        >
+          {dialog}
+        </ReviewCard>
+      </HWDialog>
     </div>
   );
 };

@@ -33,7 +33,7 @@ const PopularContent = () => {
           )}
           <div className={`popular-cards-wrapper`} css={styled.rightBox}>
             <div className={`image-card-list ${open && "open"}`} css={styled.cardWrapper}>
-              {[...new Array(12)].map((v: any, i: number) => {
+              {[...new Array(30)].map((v: any, i: number) => {
                 return (
                   <ContentCard
                     src={card1}

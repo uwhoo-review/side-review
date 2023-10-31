@@ -17,6 +17,7 @@ interface ReviewCardProps {
   footer?: boolean;
   date?: string;
   line?: number;
+  onClick?: () => void;
 }
 
 const ReviewCard = ({
@@ -31,9 +32,10 @@ const ReviewCard = ({
   line,
   customCss,
   children,
+  onClick,
 }: ReviewCardProps) => {
   return (
-    <div css={[styled.wrapper(width, height, radius, backgroundColor), customCss]}>
+    <div css={[styled.wrapper(width, height, radius, backgroundColor), customCss]} onClick={onClick}>
       <div css={styled.topWrapper}>
         <div css={styled.chipWrapper}>
           {best && (

@@ -73,7 +73,7 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
                     >
                       3.5
                     </HWTypography>
-                    <Divider direction={"v"} />{" "}
+                    <Divider direction={"v"} length={"14px"} />{" "}
                     <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
                       200+
                     </HWTypography>
@@ -98,7 +98,7 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
                       emptyIcon={<IconRatingEmpty />}
                       icon={<IconRating />}
                     />
-                    <Divider direction={"v"} />{" "}
+                    <Divider direction={"v"} length={"14px"} />{" "}
                     <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
                       별점을 매겨주세요!
                     </HWTypography>
