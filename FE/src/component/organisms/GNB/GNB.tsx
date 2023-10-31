@@ -47,8 +47,8 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </NavLink>
         </div>
         <div css={styled.rightGroups}>
-          <HWIconButton onClick={() => setOpen(!open)}>
-            <IconSearch />
+          <HWIconButton onClick={() => setOpen(!open)} css={styled.iconSearch(open)}>
+            <IconSearch  />
           </HWIconButton>
           <HWButton variant={"lower"} size={"small"}>
             로그인

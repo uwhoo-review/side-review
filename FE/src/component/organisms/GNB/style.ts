@@ -65,7 +65,12 @@ export default {
     align-items: center;
     gap: 10px;
   `,
-
+  iconSearch: (open:boolean)=>css`
+    color: #ffffff;
+    background-color: ${open ? "#FFFFFF1A" : "transparent"};
+    border-radius: 6px;
+  `
+  ,
   searchWrapper: css`
     display: flex;
     justify-content: center;
