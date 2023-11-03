@@ -1,4 +1,4 @@
-package com.sideReview.side.tmdb.dto
+package com.sideReview.side.tmdb.document
 
 data class ContentDocument(
         val id: String,

@@ -5,7 +5,8 @@ import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
-@EnableFeignClients(basePackages = ["com.sideReview.side.youtubeApi"])
+@EnableFeignClients
+//@EnableFeignClients(basePackages = ["com.sideReview.side.youtubeApi"])
 class SideApplication
 
 fun main(args: Array<String>) {
