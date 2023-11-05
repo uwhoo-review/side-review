@@ -13,7 +13,7 @@ interface CardListProps {
 const CardList = ({ title, subTitle, cardList }: CardListProps) => {
   const boxRef = useRef<HTMLDivElement>(null);
   const [preview, setPreview] = useState<boolean>(false);
-  const [selectedCard, setSelectedCard] = useState<string | number | null>(null);
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const onPrevHandler = () => {
@@ -90,7 +90,17 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
         </div>
       </CenterWrapper>
       {preview && (
-        <PreviewBox customCss={styled.previewBox} onPrev={onPrevHandler} onNext={onNextHandler} />
+        <PreviewBox
+          customCss={styled.previewBox}
+          onPrev={() => {
+            console.log(selectedCard)
+            if (selectedCard !== null && (+selectedCard > 0)) setSelectedCard(+selectedCard - 1);
+          }}
+          onNext={() => {
+            console.log(selectedCard)
+            if (selectedCard !== null && (+selectedCard < cardList.length)) setSelectedCard(+selectedCard + 1);
+          }}
+        />
       )}
     </div>
   );

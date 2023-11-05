@@ -57,7 +57,9 @@ const ReviewCard = ({
       {footer && (
         <>
           <Divider />
-          <div css={styled.bottomWrapper}>
+          <div css={styled.bottomWrapper} onClick={(e) => {
+            e.stopPropagation( );
+          }}>
             <div css={styled.flex1}>
               <div css={styled.flex2}>
                 <IconThumbUp />
@@ -68,7 +70,7 @@ const ReviewCard = ({
                 20
               </div>
             </div>
-            <div css={styled.flex1}>
+            <div css={styled.flex1} >
               <IconThumbUp />
               <IconThumbDown />
             </div>

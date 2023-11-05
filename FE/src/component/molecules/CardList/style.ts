@@ -30,7 +30,6 @@ export default {
       .hover-arrow {
         z-index: 1;
         display: flex;
-        visibility: visible;
       }
     }
   `,
@@ -41,7 +40,7 @@ export default {
     gap: ${inActive ? "40px" : "20px"};
 
     transition: 0.5s ease transform;
-    transform: translate(${(currentPage - 1) * -(1396 + 20)}px, 0px);
+    transform: translate(${(currentPage - 1) * -(432 + 40)}px, 0px);
   `,
   card: css`
     cursor: pointer;
@@ -50,9 +49,7 @@ export default {
     position: absolute;
     top: calc(50% - 30px);
     left: 30px;
-
-    //background-color: #3e3e3e80;
-    //color: #ffffff;
+    
     z-index: 0;
     display: none;
   `,

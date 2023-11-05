@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export default {
   wrapper: (bgColor: string) => css`
@@ -77,25 +78,26 @@ export default {
   `
   ,
   searchWrapper: css`
-/*    display: flex;
+    display: flex;
     justify-content: center;
-    align-items: center;*/
+    align-items: center;
     position: fixed;
     top: 0px;
-    padding-top: 52px;
+    margin-top: 52px;
     width: 100%;
     height: 290px;
-    background-color: #121212;
+    background-color: ${Color.dark.elevation02};
     opacity: 0;
     visibility: hidden;
-
-    border-top: 1px solid #ffffff12;
+    z-index: 0;
+    
+    border-top: 1px solid #42424A;
     box-sizing: border-box;
-    //z-index: 1;
     transition: opacity 1s ease;
     &.open {
       opacity: 1;
       visibility: visible;
+      z-index: 2;
     }
   `,
   searchGrid: css`

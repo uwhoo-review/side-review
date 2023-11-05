@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export default {
   container: (width: string, fullWidth: boolean) => css`
@@ -47,21 +48,23 @@ export default {
     }
   `,
   label: () => css`
-    font-family: Noto Sans KR;
-    font-size: 13px;
+    font-family: Pretendard;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    color: #656565;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+
+    color: ${Color.dark.grey800};
     overflow: hidden;
     max-width: calc(100% - 24px);
-    width: 100%;
     box-sizing: border-box;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
     margin-bottom: 10px;
     margin-left: 6px;
+    width: 100%;
+    height: 20px;
   `,
   labelOverflowInherit: () => css`
     font-family: Noto Sans KR;

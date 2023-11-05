@@ -5,5 +5,6 @@ export default {
     width: 100%;
     height: calc(100%);
     color: #fff;
+    padding-top: 52px;
   `,
 };

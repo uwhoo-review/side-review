@@ -81,25 +81,22 @@ export default {
     }
   `,
   avatarGroup: css`
-    //display: flex;
-    //flex-direction: unset;
-    justify-content: start;
+    justify-content: flex-end;
     div {
       border: none !important;
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
-      background-color: transparent;
-      border: none !important;
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+      background-color: #121212;
     }
   `,
   avatar: css`
-    //background-color: transparent;
-    //border: none !important;
-    //width: 28px;
-    //height: 28px;
+    background-color: transparent;
+    border: none !important;
+    width: 24px;
+    height: 24px;
+    font-size: 30px !important;
+    //z-index: 1;
   `,
   launch: css`
     position: absolute;

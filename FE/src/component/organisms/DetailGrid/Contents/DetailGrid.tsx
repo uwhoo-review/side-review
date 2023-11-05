@@ -89,10 +89,10 @@ const DetailGrid = () => {
             height={"189px"}
             onClick={() => setDialog(<DefaultImage src={img4} width={"100%"} height={"100%"} />)}
           />,
-          <DefaultImage key={2} src={img2} width={"334px"} height={"189px"} />,
-          <DefaultImage key={3} src={img3} width={"334px"} height={"189px"} />,
-          <DefaultImage key={4} src={img1} width={"334px"} height={"189px"} />,
-          <DefaultImage key={5} src={img4} width={"334px"} height={"189px"} />,
+          <DefaultImage key={2} src={img2} width={"334px"} height={"189px"} onClick={() => setDialog(<DefaultImage src={img2} width={"100%"} height={"100%"} />)}/>,
+          <DefaultImage key={3} src={img3} width={"334px"} height={"189px"} onClick={() => setDialog(<DefaultImage src={img3} width={"100%"} height={"100%"} />)}/>,
+          <DefaultImage key={4} src={img1} width={"334px"} height={"189px"} onClick={() => setDialog(<DefaultImage src={img1} width={"100%"} height={"100%"} />)}/>,
+          <DefaultImage key={5} src={img4} width={"334px"} height={"189px"} onClick={() => setDialog(<DefaultImage src={img4} width={"100%"} height={"100%"} />)}/>,
         ]}
       />
       <HWDialog open={Boolean(dialog)} onClose={() => setDialog(null)}>

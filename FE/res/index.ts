@@ -11,6 +11,7 @@ import { ReactComponent as IconCheck } from "./icon/ic_check.svg";
 import { ReactComponent as IconCheckboxCheck } from "./icon/ic_checkbox_check.svg";
 import { ReactComponent as IconCheckboxOff } from "./icon/ic_checkbox_off.svg";
 import { ReactComponent as IconCheckboxOn } from "./icon/ic_checkbox_on.svg";
+import { ReactComponent as IconChevronDoubleDown } from "./icon/ic_chevron_doubledown.svg";
 import { ReactComponent as IconChevronDown } from "./icon/ic_chevron_down.svg";
 import { ReactComponent as IconChevronLeft } from "./icon/ic_chevron_left.svg";
 import { ReactComponent as IconChevronRight } from "./icon/ic_chevron_right.svg";
@@ -39,6 +40,7 @@ export {
   IconCheckboxCheck,
   IconCheckboxOff,
   IconCheckboxOn,
+  IconChevronDoubleDown,
   IconChevronDown,
   IconChevronLeft,
   IconChevronRight,

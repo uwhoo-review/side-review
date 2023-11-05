@@ -16,7 +16,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
   const { pathname } = useLocation();
   const [scrollTop, setScrollTop] = useState<boolean>(true);
 
-  useEffect(() => {
+/*  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (e.target) {
         const target = e.target;
@@ -29,7 +29,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
     return () => {
       window.removeEventListener("click", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen]);*/
 
   useEffect(() => {
     // const scrollDiv = document.querySelector(".scroll-area");
@@ -73,12 +73,12 @@ const GNB = (props: { children?: React.ReactNode }) => {
             >
               <IconSearch />
             </HWIconButton>
-            <HWButton variant={"lower"} size={"small"}>
+{/*            <HWButton variant={"lower"} size={"small"}>
               로그인
             </HWButton>
             <HWButton variant={"primary"} size={"small"}>
               회원가입
-            </HWButton>
+            </HWButton>*/}
           </div>
         </div>
       </header>

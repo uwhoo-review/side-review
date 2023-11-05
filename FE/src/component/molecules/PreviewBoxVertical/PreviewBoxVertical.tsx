@@ -16,10 +16,13 @@ import Color from "@src/common/styles/Color";
 import { Avatar, AvatarGroup, Rating } from "@mui/material";
 import styled from "./style";
 import { useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 const PreviewBoxVertical = ({ customCss }: any) => {
   const [rating, setRating] = useState<number | null>(1.5);
   const [viewState, setViewState] = useState<"info" | "review">("info");
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="preview-box-wrapper" css={[styled.wrapper, customCss]}>
@@ -47,7 +50,9 @@ const PreviewBoxVertical = ({ customCss }: any) => {
               >
                 제목 <span css={styled.yearSpan}> 2023 </span>
               </HWTypography>
-              <IconLaunch css={styled.launch} />
+              <IconLaunch css={styled.launch}                 onClick={() => {
+                navigate("/detail");
+              }}/>
             </div>
           </div>
           <div css={styled.bottomContents}>

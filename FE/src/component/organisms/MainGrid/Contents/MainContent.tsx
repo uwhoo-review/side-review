@@ -12,27 +12,7 @@ const CARD_GROUP_1 = [
   card2,
   card3,
   card4,
-  card5,
-  card1,
-  card2,
-  card3,
-  card4,
-  card5,
-  card1,
-  card2,
-  card3,
-  card4,
-  card5,
-  card1,
-  card2,
-  card3,
-  card4,
-  card5,
-  card1,
-  card2,
-  card3,
-  card4,
-  card5,
+  card5
 ];
 
 const MainContent = ({data}:any) => {

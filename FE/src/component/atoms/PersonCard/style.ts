@@ -5,7 +5,7 @@ export default {
     display: inline-flex;
     align-items: center;
     gap: 16px;
-    width: 220px;
+    //width: 220px;
   `,
   textGroup: css`
     width: 120px;

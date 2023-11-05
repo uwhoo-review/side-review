@@ -8,10 +8,21 @@ import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { Rating } from "@mui/material";
 import { useState } from "react";
 import ReviewModal from "@src/component/molecules/ReviewModal/ReviewModal";
+import { useLocation } from "react-router-dom";
 
 const RatingDetailBox = () => {
   const [rating, setRating] = useState<number | null>(1.5);
   const [dialog, setDialog] = useState(false);
+  const location = useLocation();
+
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 링크가 복사되었어요.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div>
       <CenterWrapper>
@@ -63,7 +74,7 @@ const RatingDetailBox = () => {
                     setRating(val);
                   }}
                 />
-                <Divider direction={"v"} length={"14px"}/>
+                <Divider direction={"v"} length={"14px"} />
                 <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
                   별점을 매겨주세요!
                 </HWTypography>
@@ -71,16 +82,14 @@ const RatingDetailBox = () => {
             </div>
           </div>
           <div css={styled.btnGroups}>
-            <HWButton variant={"lower"}>링크 공유</HWButton>
+            <HWButton variant={"lower"} onClick={() => handleCopyClipBoard(`${location.pathname}`)}>
+              링크 공유
+            </HWButton>
             <HWButton onClick={() => setDialog(true)}>리뷰 쓰기</HWButton>
           </div>
         </div>
       </CenterWrapper>
-      <ReviewModal
-        width={"800px"}
-        open={dialog}
-        onClose={() => setDialog(false)}
-      />
+      <ReviewModal width={"800px"} open={dialog} onClose={() => setDialog(false)} />
     </div>
   );
 };

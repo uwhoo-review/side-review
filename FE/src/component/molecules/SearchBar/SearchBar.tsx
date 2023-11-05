@@ -11,11 +11,9 @@ const SearchBar = () => {
 
   return (
     <div css={styled.wrapper}>
-      <HWTypography variant={"bodyS"} css={styled.typography}>
-        어떤 작품을 찾으세요?
-      </HWTypography>
       <div css={styled.searchGroups}>
         <HWTextField
+          label={"어떤 작품을 찾으세요?"}
           startAdorment={<IconSearch />}
           endAdorment={<IconCancel />}
           placeholder={"제목, 이물 검색"}
