@@ -4,21 +4,10 @@ import { useEffect, useState } from "react";
 const ScrollTopButton = () => {
   const [showButton, setShowButton] = useState(false);
   const scrollToTop = () => {
-    const scrollDiv = document.querySelector(".scroll-area");
-    scrollDiv?.scrollTo({ top: 0, behavior: "smooth" });
+    // const scrollDiv = document.querySelector(".scroll-area");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-/*  useEffect(() => {
-    const scrollDiv = document.querySelector(".scroll-area");
-    const handleShowButton = () => {
-      (scrollDiv?.scrollTop || 0) > 100 ? setShowButton(true) : setShowButton(false);
-    };
-
-    scrollDiv?.addEventListener("scroll", handleShowButton);
-    return () => {
-      scrollDiv?.removeEventListener("scroll", handleShowButton);
-    };
-  }, []);*/
 
   return (
     <>

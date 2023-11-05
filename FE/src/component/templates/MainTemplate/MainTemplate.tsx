@@ -8,7 +8,7 @@ const MainTemplate = () => {
   const queryClient = useQueryClient();
   const { status, data, error } = useQuery({
     queryKey: ["discover", "tv"],
-    // queryFn: async () => await UWAxios.trending.getTvList(),
+    queryFn: async () => await UWAxios.sample.getSample(),
   });
   useEffect(() => {
     console.log(data);
@@ -16,14 +16,12 @@ const MainTemplate = () => {
 
   return (
     <>
-      <div css={styled.wrapper}>
+      <section css={styled.wrapper}>
         {/*{status === "pending" && "loading"}*/}
         {(
-          <div className={"scroll-area none-draggable"} css={styled.subWrapper}>
             <MainContent data={data} />
-          </div>
         )}
-      </div>
+      </section>
     </>
   );
 };

@@ -147,13 +147,13 @@
 html {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  background-color: #121212;
+  //overflow: hidden;
   body{
     height: 100%;
     width: 100%;
     div#root {
       width: 100%;
-      height: 100%;
       margin: 0;
     }
     .none-draggable{
@@ -164,9 +164,9 @@ html {
       //user-select: none;
     }
     .scroll-area {
-      height: 100%;
       width: 100%;
-      overflow: scroll;
+      position: relative;
+      //overflow-y: scroll;
       //min-width: 1440px;
     }
     .custom-scroll-area {

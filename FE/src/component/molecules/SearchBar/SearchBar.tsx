@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const SearchBar = () => {
   const navigate = useNavigate();
-  const [textVal, setTextVal] = useState<string>("string");
+  const [textVal, setTextVal] = useState<string>("");
 
   return (
     <div css={styled.wrapper}>
@@ -22,6 +22,11 @@ const SearchBar = () => {
           fullWidth={true}
           value={textVal}
           onChange={(e) => setTextVal(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              navigate({ pathname: "/search", search: `?query=${textVal}` });
+            }
+          }}
         />
         <div css={styled.searchBtnGroups}>
           <HWButton variant={"lowest"}>

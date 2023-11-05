@@ -13,7 +13,7 @@ export default {
       position: absolute;
       content: "";
 
-      background: linear-gradient(0deg, rgba(0, 0, 0) 5%, rgba(0, 0, 0, 0.5) 100%);
+      background: linear-gradient(0deg, #121212 5%, rgba(0, 0, 0, 0.5) 100%);
 
       //background-blend-mode: multiply;
       //background: linear-gradient(0deg, #000 20%, rgba(0, 0, 0, 0) 100%);

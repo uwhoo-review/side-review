@@ -3,6 +3,15 @@ import { axiosBaseInstance } from "@src/common/axios/AxiosInstance";
 export const CODE_AXIOS = {};
 
 export const UWAxios = {
+  sample: {
+    async getSample() {
+      const res = await axiosBaseInstance.get(
+          `contents`
+      );
+
+      return res.data;
+    },
+  },
   discover: {
     async getTvList() {
       const res = await axiosBaseInstance.get(

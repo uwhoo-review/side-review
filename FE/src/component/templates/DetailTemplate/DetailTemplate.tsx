@@ -5,11 +5,9 @@ import BoxList from "@src/component/molecules/BoxList/BoxList";
 const DetailTemplate = () => {
   return (
     <>
-      <div className="detail-template-wrapper" css={styled.wrapper}>
-        <div className={"scroll-area none-draggable"} css={styled.subWrapper}>
-          <DetailGrid />
-        </div>
-      </div>
+      <section className="detail-template-wrapper" css={styled.wrapper}>
+        <DetailGrid />
+      </section>
     </>
   );
 };

@@ -4,7 +4,7 @@ export default {
   wrapper: (bgColor: string) => css`
     height: 52px;
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     background-color: ${bgColor ? bgColor : "#121212"};
     color: #ffffff;
@@ -13,9 +13,14 @@ export default {
     padding: 0 30px;
     box-sizing: border-box;
 
+    z-index: 10;
+  `,
+  subWrapper: css`
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: space-between;
-    z-index: 10;
+    align-items: center;
   `,
   logo: css`
     font-family: Poppins, sans-serif;
@@ -72,10 +77,10 @@ export default {
   `
   ,
   searchWrapper: css`
-    display: flex;
+/*    display: flex;
     justify-content: center;
-    align-items: center;
-    position: absolute;
+    align-items: center;*/
+    position: fixed;
     top: 0px;
     padding-top: 52px;
     width: 100%;
@@ -86,7 +91,7 @@ export default {
 
     border-top: 1px solid #ffffff12;
     box-sizing: border-box;
-    z-index: 2;
+    //z-index: 1;
     transition: opacity 1s ease;
     &.open {
       opacity: 1;
