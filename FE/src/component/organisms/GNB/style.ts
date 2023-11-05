@@ -14,6 +14,7 @@ export default {
     padding: 0 30px;
     box-sizing: border-box;
 
+    min-width: 800px;
     z-index: 10;
   `,
   subWrapper: css`
@@ -78,9 +79,6 @@ export default {
   `
   ,
   searchWrapper: css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: fixed;
     top: 0px;
     margin-top: 52px;
@@ -94,6 +92,11 @@ export default {
     border-top: 1px solid #42424A;
     box-sizing: border-box;
     transition: opacity 1s ease;
+    
+    //overflow-x: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &.open {
       opacity: 1;
       visibility: visible;
@@ -101,8 +104,9 @@ export default {
     }
   `,
   searchGrid: css`
+    //min-width: 1440px;
+    //align-items: center;
     //height: 100%;
-    width: 1396px;
   `,
   detailSlide: css`
     overflow: hidden;

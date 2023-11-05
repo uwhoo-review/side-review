@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import FilterGroups from "@src/component/molecules/FilterGroups/FilterGroups";
 import ScrollTopButton from "@src/component/atoms/ScrollTopButton/ScrollTopButton";
+import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -87,10 +88,13 @@ const GNB = (props: { children?: React.ReactNode }) => {
         css={styled.searchWrapper}
         ref={searchEl}
       >
-        <div css={styled.searchGrid}>
-          <SearchBar />
-          <FilterGroups />
-        </div>
+        <CenterWrapper customCss={styled.searchGrid}>
+          <div>
+            <SearchBar />
+            <FilterGroups />
+          </div>
+        </CenterWrapper>
+
       </div>
       <ScrollTopButton />
       {/*<Outlet />*/}
