@@ -9,8 +9,10 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 40px;
   `,
   typo1: css`
+    margin-left: 20px;
     font-family: Poppins;
     font-size: 28px;
     font-style: normal;

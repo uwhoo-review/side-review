@@ -85,7 +85,7 @@ export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | 
         background-color: unset;
         color: #2e7af2;
         &:hover {
-          background-color: #eff4fc;
+          background-color: #6d6ada0a;
         }
         .MuiTouchRipple-root {
           color: #1e71d2;

@@ -27,7 +27,7 @@ const SearchBar = () => {
           }}
         />
         <div css={styled.searchBtnGroups}>
-          <HWButton variant={"lowest"}>
+          <HWButton variant={"lowest"} size={"large"}>
             <IconInit />
             <div>초기화</div>
           </HWButton>

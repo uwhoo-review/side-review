@@ -16,8 +16,7 @@ export default {
   searchGroups: css`
     display: flex;
     justify-content: space-between;
-    align-items: center;
-
+    align-items: flex-end;
     gap: 20px;
   `,
   searchBtnGroups: css`
@@ -25,5 +24,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+    //height: 100%;
   `,
 };

@@ -72,27 +72,26 @@ export default {
     align-items: center;
     gap: 10px;
   `,
-  iconSearch: (open:boolean)=>css`
+  iconSearch: (open: boolean) => css`
     color: #ffffff;
     background-color: ${open ? "#FFFFFF1A" : "transparent"};
     border-radius: 6px;
-  `
-  ,
+  `,
   searchWrapper: css`
     position: fixed;
     top: 0px;
     margin-top: 52px;
     width: 100%;
-    height: 290px;
+    height: 238px;
     background-color: ${Color.dark.elevation02};
     opacity: 0;
     visibility: hidden;
     z-index: 0;
-    
-    border-top: 1px solid #42424A;
+
+    border-top: 1px solid #42424a;
     box-sizing: border-box;
     transition: opacity 1s ease;
-    
+
     //overflow-x: auto;
     display: flex;
     justify-content: center;

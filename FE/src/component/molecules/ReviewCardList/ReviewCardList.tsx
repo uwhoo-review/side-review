@@ -7,8 +7,9 @@ import HWToggle from "@src/component/atoms/HWToggle/HWToggle";
 import Color from "@src/common/styles/Color";
 import { IconUpDown } from "@res/index";
 import { useNavigate } from "react-router-dom";
-import {useState} from "react";
+import { useState } from "react";
 import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
+import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 
 const ReviewCardList = ({ total = false, list }: any) => {
   const navigate = useNavigate();
@@ -16,22 +17,26 @@ const ReviewCardList = ({ total = false, list }: any) => {
 
   return (
     <div className={"review-list-wrapper"} css={styled.wrapper}>
-      <CenterWrapper>
-        <div css={styled.topWrapper}>
-          <div>
-            <HWTypography variant={"headlineM"} family={"Pretendard-SemiBold"}>
-              유저 리뷰
-            </HWTypography>
-            <span css={styled.typo1}>109 reviews</span>
-          </div>
-          <div>
-            {!total && (
-              <HWButton variant={"lowest"} onClick={() => navigate("reviewTotal")}>
-                리뷰 전체보기
-              </HWButton>
-            )}
-          </div>
-        </div>
+      <>
+        <WrapperTitle
+          title={"유저 리뷰"}
+          subTitle={"109 reviews"}
+          rightWrapper={
+            <div>
+              {!total && (
+                <HWTypography
+                  variant={"bodyXL"}
+                  family={"Pretendard-SemiBold"}
+                  color={Color.dark.primary800}
+                  customCss={styled.typo1}
+                  onClick={() => navigate("reviewTotal")}
+                >
+                  리뷰 전체보기
+                </HWTypography>
+              )}
+            </div>
+          }
+        />
         <div css={styled.filterWrapper}>
           <div>
             <HWToggle label={"스포일러 포함"} />
@@ -213,15 +218,15 @@ const ReviewCardList = ({ total = false, list }: any) => {
             })}
           </div>
         )}
-      </CenterWrapper>
+      </>
       <HWDialog open={Boolean(dialog)} onClose={() => setDialog(null)}>
         <ReviewCard
-            date={"2023.02.29"}
-            best={true}
-            spoiler={true}
-            footer={true}
-            width={"800px"}
-            height={"570px"}
+          date={"2023.02.29"}
+          best={true}
+          spoiler={true}
+          footer={true}
+          width={"800px"}
+          height={"570px"}
         >
           {dialog}
         </ReviewCard>

@@ -1,7 +1,9 @@
 import { css } from "@emotion/react";
 
 export default {
-  wrapper: css``,
+  wrapper: css`
+    margin-bottom: 70px;
+  `,
   inputGroups: css`
     display: flex;
     justify-content: space-between;

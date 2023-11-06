@@ -17,7 +17,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
   const { pathname } = useLocation();
   const [scrollTop, setScrollTop] = useState<boolean>(true);
 
-/*  useEffect(() => {
+  /*  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (e.target) {
         const target = e.target;
@@ -33,21 +33,25 @@ const GNB = (props: { children?: React.ReactNode }) => {
   }, [isOpen]);*/
 
   useEffect(() => {
-    // const scrollDiv = document.querySelector(".scroll-area");
+    const scrollDiv = document.querySelector("#root");
 
     const handleShowButton = () => {
-      window.scrollY === 0 ? setScrollTop(true) : setScrollTop(false);
+      (scrollDiv?.scrollTop || 0) === 0 ? setScrollTop(true) : setScrollTop(false);
     };
 
-    window.addEventListener("scroll", handleShowButton);
+    scrollDiv?.addEventListener("scroll", handleShowButton);
     return () => {
-      window?.removeEventListener("scroll", handleShowButton);
+      scrollDiv?.removeEventListener("scroll", handleShowButton);
     };
   }, []);
 
   return (
     <>
-      <header css={styled.wrapper(scrollTop && pathname === "/detail" ? "transparent" : "#232323")}>
+      <header
+        css={styled.wrapper(
+          scrollTop && !isOpen && pathname === "/detail" ? "transparent" : "#232323"
+        )}
+      >
         <div css={styled.subWrapper}>
           <div css={styled.leftGroups}>
             <div css={styled.logo}>SIDE REVIEW</div>
@@ -74,7 +78,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
             >
               <IconSearch />
             </HWIconButton>
-{/*            <HWButton variant={"lower"} size={"small"}>
+            {/*            <HWButton variant={"lower"} size={"small"}>
               로그인
             </HWButton>
             <HWButton variant={"primary"} size={"small"}>
@@ -94,7 +98,6 @@ const GNB = (props: { children?: React.ReactNode }) => {
             <FilterGroups />
           </div>
         </CenterWrapper>
-
       </div>
       <ScrollTopButton />
       {/*<Outlet />*/}

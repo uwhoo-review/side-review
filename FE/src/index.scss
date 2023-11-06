@@ -148,14 +148,16 @@ html {
   height: 100%;
   width: 100%;
   background-color: #121212;
-  //overflow: hidden;
+  overflow: hidden;
   min-width: 1440px;
   body{
     height: 100%;
     width: 100%;
     div#root {
+      height: 100%;
       width: 100%;
       margin: 0;
+      overflow: auto;
     }
     .none-draggable{
       //-ms-user-select: none;
@@ -175,20 +177,27 @@ html {
     }
 
     div{
-      ::-webkit-scrollbar {
-        //display: none;
-        width: 15px;
-        height: 15px;
-        border-radius: 0px 4px 3px 0px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background-color: #7d7e85;
-        border-radius: 10px;
-        min-height: 30px;
-        background-clip: padding-box;
-        border: 4px solid transparent;
-      }
+
+
     }
+  }
+  ::-webkit-scrollbar {
+    //display: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 0px 4px 3px 0px;
+    background-color: #121212;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #42424A;
+    border-radius: 10px;
+    min-height: 30px;
+    background-clip: padding-box;
+    border: 4px solid transparent;
+  }
+  ::-webkit-scrollbar-button:vertical:start:decrement {
+    display: block;
+    height: 52px;
   }
 }
 
