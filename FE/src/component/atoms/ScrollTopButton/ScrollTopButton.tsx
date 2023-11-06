@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 const ScrollTopButton = () => {
   const [showButton, setShowButton] = useState(false);
   const scrollToTop = () => {
-    // const scrollDiv = document.querySelector(".scroll-area");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const scrollDiv = document.querySelector("#root");
+    scrollDiv?.scrollTo({ top: 0, behavior: "smooth" });
   };
 
 

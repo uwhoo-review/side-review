@@ -20,6 +20,8 @@ export default {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    
+    margin-bottom: 40px;
   `,
   sub2: css`
     background-color: ${Color.dark.elevation01};
@@ -33,11 +35,14 @@ export default {
     flex-wrap: wrap;
     gap: 20px;
     min-height: 380px;
+
+    margin-bottom: 40px;
   `,
   plusBtn: css`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   `
 }
