@@ -16,9 +16,17 @@ import Color from "@src/common/styles/Color";
 import { Avatar, AvatarGroup, Rating } from "@mui/material";
 import styled from "./style";
 import { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ContentProps } from "@src/interfaces/api.interface";
+import { SerializedStyles } from "@emotion/react";
+import { VIDEO_URL } from "@src/variables/tmdbConstants";
 
-const PreviewBoxVertical = ({ customCss }: any) => {
+interface PreviewBoxVerticalProps {
+  item: ContentProps;
+  customCss?: SerializedStyles;
+}
+
+const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
   const [rating, setRating] = useState<number | null>(1.5);
   const [viewState, setViewState] = useState<"info" | "review">("info");
   const navigate = useNavigate();
@@ -31,14 +39,17 @@ const PreviewBoxVertical = ({ customCss }: any) => {
             <iframe
               width="412"
               height="232"
-              src="https://www.youtube.com/embed/Sf5xHaa_vxc?si=Yy4QSfD6mpokGb6l"
+              src={VIDEO_URL + item.trailer}
               title="Video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
-            <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
-              초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이
-              시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물
+            <HWTypography
+              variant={"bodyS"}
+              family={"Pretendard"}
+              color={Color.dark.grey500}
+              customCss={styled.synopsis}
+            >
+              {item.synopsis}
             </HWTypography>
           </div>
           <div css={styled.middleContents}>
@@ -48,11 +59,14 @@ const PreviewBoxVertical = ({ customCss }: any) => {
                 family={"Pretendard-SemiBold"}
                 color={Color.dark.grey900}
               >
-                제목 <span css={styled.yearSpan}> 2023 </span>
+                {item.name} <span css={styled.yearSpan}>{item.year}</span>
               </HWTypography>
-              <IconLaunch css={styled.launch}                 onClick={() => {
-                navigate("/detail");
-              }}/>
+              <IconLaunch
+                css={styled.launch}
+                onClick={() => {
+                  navigate("/detail");
+                }}
+              />
             </div>
           </div>
           <div css={styled.bottomContents}>
@@ -72,11 +86,11 @@ const PreviewBoxVertical = ({ customCss }: any) => {
                         family={"Pretendard-SemiBold"}
                         color={Color.dark.grey500}
                       >
-                        3.5
+                        {item.rating}
                       </HWTypography>
                       <Divider direction={"v"} length={"14px"} />{" "}
                       <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                        200+
+                        @TODO  리뷰ㅜ갯수
                       </HWTypography>
                     </div>
                   </div>
@@ -99,7 +113,7 @@ const PreviewBoxVertical = ({ customCss }: any) => {
                         emptyIcon={<IconRatingEmpty />}
                         icon={<IconRating />}
                       />
-                      <Divider direction={"v"} length={"14px"}/>{" "}
+                      <Divider direction={"v"} length={"14px"} />{" "}
                       <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
                         별점을 매겨주세요!
                       </HWTypography>
@@ -116,7 +130,7 @@ const PreviewBoxVertical = ({ customCss }: any) => {
                     </div>
                     <div className={"margin-top-8"}>
                       <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                        슈퍼히어로, 액션, SF스릴러, 느와르, 판타지, 첩보, 로맨스,
+                        {item.genre}
                       </HWTypography>
                     </div>
                   </div>
@@ -130,7 +144,7 @@ const PreviewBoxVertical = ({ customCss }: any) => {
                     </div>
                     <div className={"margin-top-8"}>
                       <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                        청소년 관람 불가
+                        {item.age}
                       </HWTypography>
                     </div>
                   </div>
@@ -169,7 +183,7 @@ const PreviewBoxVertical = ({ customCss }: any) => {
 
                     <div className={"margin-top-8"}>
                       <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                        김혜진, 김영은, 김지훈, 노소은, 류고은,류고은,류고은
+                        {item.actors.join(",")}
                       </HWTypography>
                     </div>
                   </div>

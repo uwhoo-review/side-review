@@ -81,6 +81,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                       if (selectedCard.id === v.id) {
                         setPreview(false);
                         setSelectedCard(null);
+                        setSelectedCardIdx(null);
                       } else {
                         setSelectedCard(v);
                         setSelectedCardIdx(i);

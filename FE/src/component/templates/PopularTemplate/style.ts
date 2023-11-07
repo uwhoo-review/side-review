@@ -5,16 +5,12 @@ export default {
     width: 100%;
     height: calc(100%);
     color: #fff;
-
-    padding-top: 52px;
-    //.select-main {
-    //  height: 100%;
-    //  width: 1396px;
-    //}
   `,
   subWrapper: css`
     //display: flex;
     //justify-content: center;
   `,
-
+  contents: css`
+    padding-top: 52px;
+  `,
 };

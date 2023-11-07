@@ -27,6 +27,14 @@ export default {
       border: none;
     }
   `,
+  synopsis: css`
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  `,
   middleContents: css`
     position: relative;
   `,

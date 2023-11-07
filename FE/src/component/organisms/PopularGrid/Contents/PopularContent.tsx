@@ -6,9 +6,11 @@ import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { card1, card2, card3, card4, card5 } from "@res/index";
 import PreviewBoxVertical from "@src/component/molecules/PreviewBoxVertical/PreviewBoxVertical";
 import { IMAGE_URL } from "@src/variables/tmdbConstants";
-const PopularContent = () => {
+import { ContentProps, ContentsDO } from "@src/interfaces/api.interface";
+const PopularContent = ({ data }: any) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [selectedCard, setSelectedCard] = useState<ContentProps | null>(null);
+  const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
 
   return (
     <div className="popular-content-wrapper" css={styled.wrapper}>
@@ -26,16 +28,16 @@ const PopularContent = () => {
           </div>
         </div>
         <div css={styled.contentWrapper}>
-          {open && (
-            <div className={`side-preview-wrapper ${open && "open"}`} css={styled.leftBox}>
-              <div className={`floating-box ${open && "open"}`} css={styled.floatWrapper}>
-                <PreviewBoxVertical />
+          {selectedCard && (
+            <div className={`side-preview-wrapper ${selectedCard && "open"}`} css={styled.leftBox}>
+              <div className={`floating-box ${selectedCard && "open"}`} css={styled.floatWrapper}>
+                <PreviewBoxVertical item={selectedCard} />
               </div>
             </div>
           )}
           <div className={`popular-cards-wrapper`} css={styled.rightBox}>
-            <div className={`image-card-list ${open && "open"}`} css={styled.cardWrapper}>
-              {[...new Array(30)].map((v: any, i: number) => {
+            <div className={`image-card-list ${selectedCard && "open"}`} css={styled.cardWrapper}>
+              {data?.popular.map((v: ContentProps, i: number) => {
                 return (
                   <ContentCard
                     key={v.id}
@@ -47,18 +49,21 @@ const PopularContent = () => {
                     age={v.age}
                     year={v.year}
                     rating={v.rating}
-                    inActive={open && selectedCard !== i}
+                    inActive={open && selectedCard?.id !== v.id}
                     customCss={styled.card}
                     onClick={() => {
                       if (selectedCard === null) {
                         setOpen(true);
-                        setSelectedCard(i);
+                        setSelectedCard(v);
+                        setSelectedCardIdx(i);
                       } else {
-                        if (selectedCard === i) {
+                        if (selectedCard.id === v.id) {
                           setOpen(false);
                           setSelectedCard(null);
+                          setSelectedCardIdx(null);
                         } else {
-                          setSelectedCard(i);
+                          setSelectedCard(v);
+                          setSelectedCardIdx(i);
                         }
                       }
                     }}
@@ -66,8 +71,6 @@ const PopularContent = () => {
                 );
               })}
             </div>
-
-            {/*<button onClick={() => setOpen(!open)}>IMAGE</button>*/}
           </div>
         </div>
       </CenterWrapper>
