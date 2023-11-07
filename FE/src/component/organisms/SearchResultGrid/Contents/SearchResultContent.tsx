@@ -14,12 +14,12 @@ import person1 from "@res/temp/person1.png";
 import {card1, card3, IconChevronDoubleDown} from "@res/index";
 const SearchResultContent = () => {
   const [contentsList, setContentsList] = useState([
+/*    <ContentCard src={card3} />,
     <ContentCard src={card3} />,
     <ContentCard src={card3} />,
     <ContentCard src={card3} />,
     <ContentCard src={card3} />,
-    <ContentCard src={card3} />,
-    <ContentCard src={card3} />,
+    <ContentCard src={card3} />,*/
   ]);
   const [toggle1, setToggle1] = useState<string>("a");
   const [toggle2, setToggle2] = useState<string>("a");
@@ -62,12 +62,12 @@ const SearchResultContent = () => {
                     onClick={() => {
                       setContentsList((prev) => [
                         ...prev,
-                        <ContentCard src={card3} />,
+/*                        <ContentCard src={card3} />,
                         <ContentCard src={""} />,
                         <ContentCard src={""} />,
                         <ContentCard src={card3} />,
                         <ContentCard src={""} />,
-                        <ContentCard src={""} />,
+                        <ContentCard src={""} />,*/
                       ]);
                     }}
                   >
@@ -97,9 +97,9 @@ const SearchResultContent = () => {
                   onClick={() => {
                     setContentsList((prev) => [
                       ...prev,
+/*                      <ContentCard src={""} />,
                       <ContentCard src={""} />,
-                      <ContentCard src={""} />,
-                      <ContentCard src={""} />,
+                      <ContentCard src={""} />,*/
                     ]);
                   }}
                 >
@@ -120,13 +120,13 @@ const SearchResultContent = () => {
           <>
             {toggle2 === "a" && (
               <div css={styled.sub1}>
+{/*                <ContentCard src={""} />
                 <ContentCard src={""} />
                 <ContentCard src={""} />
                 <ContentCard src={""} />
                 <ContentCard src={""} />
                 <ContentCard src={""} />
-                <ContentCard src={""} />
-                <ContentCard src={""} />
+                <ContentCard src={""} />*/}
               </div>
             )}
             {toggle2 === "b" && (

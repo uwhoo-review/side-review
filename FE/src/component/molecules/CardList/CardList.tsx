@@ -5,15 +5,18 @@ import HWCarouselFixedPagination from "@src/component/molecules/HWCarouselFixedP
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
+import { IMAGE_URL } from "@src/variables/tmdbConstants";
+import { ContentProps } from "@src/interfaces/api.interface";
 interface CardListProps {
   title: string;
   subTitle: string;
-  cardList?: any;
+  cardList: ContentProps[];
 }
 const CardList = ({ title, subTitle, cardList }: CardListProps) => {
   const boxRef = useRef<HTMLDivElement>(null);
   const [preview, setPreview] = useState<boolean>(false);
-  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [selectedCard, setSelectedCard] = useState<ContentProps | null>(null);
+  const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const onPrevHandler = () => {
@@ -55,25 +58,32 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             onClick={onPrevHandler}
           />
           <div className={"image-card-list"} css={styled.cardWrapper(currentPage, preview)}>
-            {cardList.map((v: any, i: number) => {
+            {cardList.map((v, i: number) => {
               return (
                 <ContentCard
+                  key={v.id}
                   className={`image-card`}
-                  src={v}
-                  key={i}
+                  src={IMAGE_URL + v.poster}
                   rank={i + 1}
+                  contentName={v.name}
+                  platform={v.platform}
+                  age={v.age}
+                  year={v.year}
+                  rating={v.rating}
+                  inActive={preview && selectedCard?.id !== v.id}
                   customCss={styled.card}
-                  inActive={preview && selectedCard !== i}
                   onClick={() => {
                     if (selectedCard === null) {
                       setPreview(true);
-                      setSelectedCard(i);
+                      setSelectedCard(v);
+                      setSelectedCardIdx(i);
                     } else {
-                      if (selectedCard === i) {
+                      if (selectedCard.id === v.id) {
                         setPreview(false);
                         setSelectedCard(null);
                       } else {
-                        setSelectedCard(i);
+                        setSelectedCard(v);
+                        setSelectedCardIdx(i);
                       }
                     }
                   }}
@@ -89,16 +99,21 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
           />
         </div>
       </CenterWrapper>
-      {preview && (
+      {selectedCard && (
         <PreviewBox
+          item={selectedCard}
           customCss={styled.previewBox}
           onPrev={() => {
-            console.log(selectedCard)
-            if (selectedCard !== null && (+selectedCard > 0)) setSelectedCard(+selectedCard - 1);
+            if (selectedCardIdx !== null && selectedCardIdx > 0) {
+              setSelectedCard(cardList[selectedCardIdx - 1]);
+              setSelectedCardIdx(selectedCardIdx - 1);
+            }
           }}
           onNext={() => {
-            console.log(selectedCard)
-            if (selectedCard !== null && (+selectedCard < cardList.length)) setSelectedCard(+selectedCard + 1);
+            if (selectedCardIdx !== null && selectedCardIdx < cardList.length) {
+              setSelectedCard(cardList[selectedCardIdx + 1]);
+              setSelectedCardIdx(selectedCardIdx + 1);
+            }
           }}
         />
       )}

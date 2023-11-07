@@ -14,7 +14,7 @@ import { CommonProvider } from "@src/providers/CommonProvider";
 const App = () => (
   <CommonProvider>
     <AxiosInterceptor>
-      <div className={"scroll-area none-draggable"}>
+      {/*<div className={"scroll-area none-draggable"}>*/}
         <GNB />
         <Routes>
           <Route path={"/*"} element={<MainPage />} />
@@ -29,7 +29,7 @@ const App = () => (
             <Route path={"*"} index element={<SearchResultPage />} />
           </Route>
         </Routes>
-      </div>
+      {/*</div>*/}
     </AxiosInterceptor>
   </CommonProvider>
 );

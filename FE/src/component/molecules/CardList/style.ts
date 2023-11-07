@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 export default {
   wrapper: css`
-    margin-top: 70px;
+    margin-bottom: 100px;
   `,
   title: css`
     font-family: Pretendard, sans-serif;

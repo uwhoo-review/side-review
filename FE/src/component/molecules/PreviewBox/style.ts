@@ -39,7 +39,7 @@ export default {
   topContents: css`
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    //align-items: center;
 
     gap: 20px;
   `,
@@ -118,4 +118,12 @@ export default {
   modal: css`
     //height: 100px;
   `,
+  synopsis: css`
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  `
 };

@@ -5,6 +5,7 @@ import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { card1, card2, card3, card4, card5 } from "@res/index";
 import PreviewBoxVertical from "@src/component/molecules/PreviewBoxVertical/PreviewBoxVertical";
+import { IMAGE_URL } from "@src/variables/tmdbConstants";
 const PopularContent = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
@@ -37,10 +38,15 @@ const PopularContent = () => {
               {[...new Array(30)].map((v: any, i: number) => {
                 return (
                   <ContentCard
-                    src={card1}
-                    className={"image-card"}
-                    key={i}
+                    key={v.id}
+                    className={`image-card`}
+                    src={IMAGE_URL + v.poster}
                     rank={i + 1}
+                    contentName={v.name}
+                    platform={v.platform}
+                    age={v.age}
+                    year={v.year}
+                    rating={v.rating}
                     inActive={open && selectedCard !== i}
                     customCss={styled.card}
                     onClick={() => {

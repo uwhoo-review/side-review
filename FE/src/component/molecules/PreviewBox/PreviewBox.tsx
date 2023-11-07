@@ -16,8 +16,18 @@ import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {VIDEO_URL} from "@src/variables/tmdbConstants";
+import {ContentProps} from "@src/interfaces/api.interface";
+import {SerializedStyles} from "@emotion/react";
 
-const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
+interface PreviewBoxProps {
+  item: ContentProps;
+  onPrev: () => void;
+  onNext: () => void;
+  customCss?: SerializedStyles;
+}
+
+const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
   const [rating, setRating] = useState<number | null>(1.5);
   const [detailOpen, setDetailOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -34,9 +44,9 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
               <iframe
                 width="640"
                 height="360"
-                src="https://www.youtube.com/embed/Sf5xHaa_vxc?si=Yy4QSfD6mpokGb6l"
+                src={VIDEO_URL + item.trailer}
+                // src={"https://www.youtube.com/embed/d9iBOTL4zgc?si=SOmiTCZ_GCe5WIK7"}
                 title="Video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
               />
             </div>
@@ -54,7 +64,7 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
                   family={"Pretendard-SemiBold"}
                   color={Color.dark.grey900}
                 >
-                  제목 <span css={styled.yearSpan}> 2023 </span>
+                  {item.name} <span css={styled.yearSpan}> {item.year} </span>
                 </HWTypography>
               </div>
               <div className={"grid margin-top-16"}>
@@ -71,11 +81,11 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
                       family={"Pretendard-SemiBold"}
                       color={Color.dark.grey500}
                     >
-                      3.5
+                      {item.rating}
                     </HWTypography>
                     <Divider direction={"v"} length={"14px"} />{" "}
                     <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      200+
+                      @TODO 평점 갯수 입력해야함!!
                     </HWTypography>
                   </div>
                 </div>
@@ -115,8 +125,7 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
                   </div>
                   <div className={"margin-top-8"}>
                     <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      슈퍼히어로, 액션, SF스릴러, 느와르, 판타지, 첩보, 로맨스, 어드벤쳐, 휴먼,
-                      드라마, 학원
+                      {item.genre}
                     </HWTypography>
                   </div>
                 </div>
@@ -131,7 +140,7 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
 
                   <div className={"margin-top-8"}>
                     <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      김혜진, 김영은, 김지훈, 노소은, 류고은,류고은,류고은
+                      {item.actors.join(",")}
                     </HWTypography>
                   </div>
                 </div>
@@ -157,11 +166,9 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
                 </div>
               </div>
               <div className={"grid margin-top-20"}>
-                <div className={"col-full"}>
+                <div className={"col-full"} css={styled.synopsis}>
                   <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
-                    초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온
-                    부모들이 시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션
-                    히어로물
+                    {item.synopsis}
                   </HWTypography>
                 </div>
               </div>
@@ -175,10 +182,10 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
               세대를 넘어 닥치는 거
               블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
             </ReviewCard>
-            <ReviewCard best={false} date={"2023.02.29"} line={4}>
+            <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
               asd
             </ReviewCard>
-            <ReviewCard best={false} date={"2023.02.29"} line={4}>
+            <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
               asd
             </ReviewCard>
           </div>

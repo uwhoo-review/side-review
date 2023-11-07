@@ -3,8 +3,11 @@ import { css } from "@emotion/react";
 export default {
   wrapper: css`
     width: 100%;
-    height: calc(100%);
+    height: 100%;
     color: #fff;
-    padding-top: 52px;
   `,
+  contents: css`
+    padding-top: 52px;
+    //border: 1px solid transparent;
+  `
 };

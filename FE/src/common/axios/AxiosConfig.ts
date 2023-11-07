@@ -1,14 +1,12 @@
 import { axiosBaseInstance } from "@src/common/axios/AxiosInstance";
+import { ContentsDO } from "@src/interfaces/api.interface";
 
 export const CODE_AXIOS = {};
 
 export const UWAxios = {
   sample: {
     async getSample() {
-      const res = await axiosBaseInstance.get(
-          `contents`
-      );
-
+      const res = await axiosBaseInstance.get<ContentsDO>(`contents`);
       return res.data;
     },
   },
