@@ -3,10 +3,11 @@ import styled from "./style";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
-import {card1, card2, card3, card4, card5} from "@res/index";
+import { card1, card2, card3, card4, card5 } from "@res/index";
 import PreviewBoxVertical from "@src/component/molecules/PreviewBoxVertical/PreviewBoxVertical";
 const PopularContent = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
 
   return (
     <div className="popular-content-wrapper" css={styled.wrapper}>
@@ -40,8 +41,21 @@ const PopularContent = () => {
                     className={"image-card"}
                     key={i}
                     rank={i + 1}
-                    // customCss={styled.card}
-                    onClick={() => setOpen(!open)}
+                    inActive={open && selectedCard !== i}
+                    customCss={styled.card}
+                    onClick={() => {
+                      if (selectedCard === null) {
+                        setOpen(true);
+                        setSelectedCard(i);
+                      } else {
+                        if (selectedCard === i) {
+                          setOpen(false);
+                          setSelectedCard(null);
+                        } else {
+                          setSelectedCard(i);
+                        }
+                      }
+                    }}
                   />
                 );
               })}

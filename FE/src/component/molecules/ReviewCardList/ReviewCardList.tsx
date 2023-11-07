@@ -13,7 +13,6 @@ import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 
 const ReviewCardList = ({ total = false, list }: any) => {
   const navigate = useNavigate();
-  const [dialog, setDialog] = useState(null);
 
   return (
     <div className={"review-list-wrapper"} css={styled.wrapper}>
@@ -210,7 +209,7 @@ const ReviewCardList = ({ total = false, list }: any) => {
                   footer={true}
                   width={"452px"}
                   height={"280px"}
-                  onClick={() => setDialog(v.contents)}
+                  useModal={true}
                 >
                   {v.contents}
                 </ReviewCard>
@@ -219,18 +218,6 @@ const ReviewCardList = ({ total = false, list }: any) => {
           </div>
         )}
       </>
-      <HWDialog open={Boolean(dialog)} onClose={() => setDialog(null)}>
-        <ReviewCard
-          date={"2023.02.29"}
-          best={true}
-          spoiler={true}
-          footer={true}
-          width={"800px"}
-          height={"570px"}
-        >
-          {dialog}
-        </ReviewCard>
-      </HWDialog>
     </div>
   );
 };

@@ -38,6 +38,9 @@ export default {
       gap: 20px;
     }
   `,
+  card: css`
+    cursor: pointer;
+  `,
   floatWrapper: css`
     position: sticky;
     top: 90px;

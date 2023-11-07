@@ -168,7 +168,7 @@ const PreviewBox = ({ customCss, onPrev, onNext }: any) => {
             </div>
           </div>
           <div css={styled.bottomContents}>
-            <ReviewCard best={true} date={"2023.02.29"} line={4}>
+            <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
               초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이
               시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물. 초능력을
               숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이 시대와
