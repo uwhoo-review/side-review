@@ -56,11 +56,13 @@ const ContentCard = ({
         <DefaultImage width="100%" height="100%" alt="" src={src} />
       </div>
       <div css={styled.description}>
-        <div className={"title"}>{contentName}</div>
+        <div className={"title"} css={styled.title}>{contentName}</div>
         <div css={styled.flexBetween}>
           <div className={"title-star"} css={styled.flexBetween}>
-            <IconStar css={styled.iconStar} />
-            <HWTypography variant={"bodyXS"}>{rating || 0}</HWTypography>
+            <div css={styled.rating}>
+              <IconStar css={styled.iconStar} />
+              <HWTypography variant={"bodyXS"}>{rating || 0}</HWTypography>
+            </div>
             <HWTypography variant={"bodyXS"} color={Color.dark.grey400} css={styled.typo1}>
               {year}
             </HWTypography>

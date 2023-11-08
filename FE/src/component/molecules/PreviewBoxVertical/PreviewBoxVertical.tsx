@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { ContentProps } from "@src/interfaces/api.interface";
 import { SerializedStyles } from "@emotion/react";
 import { VIDEO_URL } from "@src/variables/tmdbConstants";
+import HWChip from "@src/component/atoms/HWChip/HWChip";
 
 interface PreviewBoxVerticalProps {
   item: ContentProps;
@@ -43,64 +44,70 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
               title="Video"
               allowFullScreen
             />
-            <HWTypography
-              variant={"bodyS"}
-              family={"Pretendard"}
-              color={Color.dark.grey500}
-              customCss={styled.synopsis}
-            >
-              {item.synopsis}
-            </HWTypography>
           </div>
           <div css={styled.middleContents}>
-            <div>
+            <IconLaunch
+              css={styled.launch}
+              onClick={() => {
+                navigate("/detail");
+              }}
+            />
+            <div className={"flex flex-align-center"}>
               <HWTypography
                 variant={"headlineS"}
                 family={"Pretendard-SemiBold"}
                 color={Color.dark.grey900}
+                css={styled.typoTitle}
               >
-                {item.name} <span css={styled.yearSpan}>{item.year}</span>
+                {item.name}
               </HWTypography>
-              <IconLaunch
-                css={styled.launch}
-                onClick={() => {
-                  navigate("/detail");
-                }}
-              />
+              <HWTypography
+                variant={"bodyXL"}
+                family={"Poppins"}
+                color={Color.dark.grey500}
+                css={styled.typoYear}
+              >
+                {item.year}
+              </HWTypography>
+              <HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />
             </div>
           </div>
           <div css={styled.bottomContents}>
             {viewState === "info" && (
               <div className={"bottom-info"}>
-                <div className={"grid margin-top-16"}>
-                  <div className={"col-4"}>
+                <div className={"grid"}>
+                  <div className={"col-5"}>
                     <div>
                       <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
                         평균 별점
                       </HWTypography>
                     </div>
-                    <div className={"margin-top-8 flex flex-align-center gap-10"}>
-                      <IconStar css={styled.icons} />
-                      <HWTypography
-                        variant={"headlineXXS"}
-                        family={"Pretendard-SemiBold"}
-                        color={Color.dark.grey500}
-                      >
-                        {item.rating}
-                      </HWTypography>
+                    <div className={"margin-top-12 flex flex-align-center gap-10"}>
+                      <div className={"flex flex-align-center gap-5"}>
+                        <IconStar css={styled.icons} />
+                        <HWTypography
+                          variant={"headlineXXS"}
+                          family={"Pretendard-SemiBold"}
+                          color={Color.dark.grey900}
+                        >
+                          {item.rating}
+                        </HWTypography>
+                      </div>
                       <Divider direction={"v"} length={"14px"} />{" "}
                       <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                        @TODO  리뷰ㅜ갯수
+                        @TODO
                       </HWTypography>
                     </div>
                   </div>
-                  <div className={"col-8"}>
+                  <div className={"col-7"}>
                     <div>
                       <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
                         내 별점
                       </HWTypography>
                     </div>
-                    <div className={"margin-top-12 flex flex-align-center gap-10"}>
+                    <div
+                      className={"margin-top-12 flex flex-align-center gap-5"}
+                    >
                       <Rating
                         name="rating-value"
                         value={rating}
@@ -114,7 +121,11 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                         icon={<IconRating />}
                       />
                       <Divider direction={"v"} length={"14px"} />{" "}
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                      <HWTypography
+                        variant={"bodyXS"}
+                        family={"Pretendard"}
+                        color={Color.dark.grey500}
+                      >
                         별점을 매겨주세요!
                       </HWTypography>
                     </div>
@@ -129,13 +140,13 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
                         {item.genre}
                       </HWTypography>
                     </div>
                   </div>
                 </div>
-                <div className={"grid margin-top-20"}>
+                {/*<div className={"grid margin-top-20"}>
                   <div className={"col-4"}>
                     <div>
                       <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
@@ -143,7 +154,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
                         {item.age}
                       </HWTypography>
                     </div>
@@ -155,7 +166,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
                         20부작
                       </HWTypography>
                     </div>
@@ -172,7 +183,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       </HWTypography>
                     </div>
                   </div>
-                </div>
+                </div>*/}
                 <div className={"grid margin-top-20"}>
                   <div className={"col-8"}>
                     <div>
@@ -182,7 +193,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                     </div>
 
                     <div className={"margin-top-8"}>
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
                         {item.actors.join(",")}
                       </HWTypography>
                     </div>
@@ -208,18 +219,28 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                     </div>
                   </div>
                 </div>
+                <div className={"margin-top-30"}>
+                  <HWTypography
+                    variant={"bodyS"}
+                    family={"Pretendard"}
+                    color={Color.dark.grey500}
+                    customCss={styled.synopsis}
+                  >
+                    {item.synopsis}
+                  </HWTypography>
+                </div>
               </div>
             )}
             {viewState === "review" && (
               <div className={"bottom-review"}>
-                <ReviewCard width={"100%"} best={true} date={"2023.02.29"} line={4}>
+                <ReviewCard width={"100%"} best={true} date={"2023.02.29"} line={4} useModal={true}>
                   초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온
                   부모들이 시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물.
                   초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온
                   부모들이 시대와 세대를 넘어 닥치는 거
                   블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
                 </ReviewCard>
-                <ReviewCard width={"100%"} best={false} date={"2023.02.29"} line={4}>
+                <ReviewCard width={"100%"} best={false} date={"2023.02.29"} line={4} useModal={true}>
                   asd
                 </ReviewCard>
               </div>

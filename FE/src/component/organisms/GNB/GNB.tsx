@@ -49,7 +49,8 @@ const GNB = (props: { children?: React.ReactNode }) => {
     <>
       <header
         css={styled.wrapper(
-          scrollTop && !isOpen && pathname === "/detail" ? "transparent" : "#232323"
+          scrollTop && !isOpen && pathname === "/detail" ? "transparent" : "#232323",
+            scrollTop
         )}
       >
         <div css={styled.subWrapper}>

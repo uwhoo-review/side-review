@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export default {
   wrapper: css`
@@ -60,10 +61,13 @@ export default {
     position: sticky;
     top: 90px;
     width: 100%;
-    height: 792px;
-    background-color: #121212;
+    height: 711px;
+
+    padding: 20px;
+    box-sizing: border-box;
 
     border-radius: 10px;
+    background-color: ${Color.dark.elevation02};
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.5);
     @keyframes translateXSlide {
       from {

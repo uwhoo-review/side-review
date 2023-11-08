@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import Color from "@src/common/styles/Color";
 
 export default {
-  wrapper: (bgColor: string) => css`
+  wrapper: (bgColor: string, scrollTop: boolean) => css`
     height: 52px;
     width: 100%;
     position: fixed;
@@ -16,6 +16,8 @@ export default {
 
     min-width: 800px;
     z-index: 10;
+
+    box-shadow: ${scrollTop ? "none" : "0px 6px 10px 0px rgba(0, 0, 0, 0.30)"};
   `,
   subWrapper: css`
     width: 100%;

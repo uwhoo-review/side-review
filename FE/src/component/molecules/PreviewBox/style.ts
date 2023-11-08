@@ -63,15 +63,21 @@ export default {
     align-items: center;
     //margin-top: 30px;
   `,
-  yearSpan: css`
-    color: ${Color.dark.grey500};
+  typoTitle: css`
+    margin-right: 8px;
+  `,
+  typoYear: css`
+    margin-right: 8px;
+  `,
+  chipAge: css`
     font-family: Poppins;
-    font-size: 18px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: 20px;
+    border-radius: 6px;
+    border-radius: 6px;
   `,
-
   flexBetween: css`
     display: flex;
     justify-content: space-between;
@@ -126,5 +132,5 @@ export default {
     word-break: break-all;
     overflow: hidden;
     text-overflow: ellipsis;
-  `
+  `,
 };

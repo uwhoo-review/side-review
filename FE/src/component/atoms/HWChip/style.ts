@@ -85,10 +85,10 @@ export default {
           color: #26bc59;
         `;
       }
-      case "3": {
+      case "age": {
         return css`
-          background-color: rgba(255, 106, 58, 0.1);
-          color: #ff6a3a;
+          background-color: rgba(207, 102, 121, 0.15);
+          color: #CF6679;
         `;
       }
       case "4": {

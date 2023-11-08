@@ -37,11 +37,11 @@ export default {
     display: flex;
     align-items: flex-end;
     width: 100%;
-
+    min-height: 379px;
     transition: 0.5s ease transform;
     transform: translate(${(currentPage - 1) * -(432 + 40)}px, 0px);
+    gap: ${active ? "40px" : "20px"};
     .content-slide {
-      margin-right: ${active ? "40px" : "20px"};
     }
   `,
   card: css`

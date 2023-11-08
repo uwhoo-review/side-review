@@ -35,9 +35,15 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+  `,
+  rating: css`
+    display: flex;
+    align-items: center;
+    gap: 4px;
   `,
   iconStar: css`
-    font-size: 18px;
+    font-size: 14px;
   `,
   typo1: css`
     margin-left: 8px;
@@ -65,12 +71,17 @@ export default {
 
     border-radius: 10px;
     overflow: hidden;
+    transition: 0.1s ease height;
 
+    margin-bottom: 10px;
     &:hover {
       img {
         transform: scale(1.1);
       }
     }
+  `,
+  title: css`
+    margin-bottom: 2px;
   `,
   description: css`
     margin-top: 10px;

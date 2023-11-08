@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { VIDEO_URL } from "@src/variables/tmdbConstants";
 import { ContentProps } from "@src/interfaces/api.interface";
 import { SerializedStyles } from "@emotion/react";
+import HWChip from "@src/component/atoms/HWChip/HWChip";
 
 interface PreviewBoxProps {
   item: ContentProps;
@@ -59,14 +60,24 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     navigate("/detail");
                   }}
                 />
-                <div>
+                <div className={"flex flex-align-center"}>
                   <HWTypography
                     variant={"headlineS"}
                     family={"Pretendard-SemiBold"}
                     color={Color.dark.grey900}
+                    css={styled.typoTitle}
                   >
-                    {item.name} <span css={styled.yearSpan}> {item.year} </span>
+                    {item.name}
                   </HWTypography>
+                  <HWTypography
+                    variant={"bodyXL"}
+                    family={"Poppins"}
+                    color={Color.dark.grey500}
+                    css={styled.typoYear}
+                  >
+                    {item.year}
+                  </HWTypography>
+                  <HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />
                 </div>
                 <div className={"grid margin-top-16"}>
                   <div className={"col-4"}>
@@ -80,13 +91,13 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       <HWTypography
                         variant={"headlineXXS"}
                         family={"Pretendard-SemiBold"}
-                        color={Color.dark.grey500}
+                        color={Color.dark.grey900}
                       >
                         {item.rating}
                       </HWTypography>
                       <Divider direction={"v"} length={"14px"} />{" "}
                       <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                        @TODO 평점 갯수 입력해야함!!
+                        @TODO 평점
                       </HWTypography>
                     </div>
                   </div>
@@ -110,7 +121,11 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                         icon={<IconRating />}
                       />
                       <Divider direction={"v"} length={"14px"} />{" "}
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                      <HWTypography
+                        variant={"bodyS"}
+                        family={"Pretendard"}
+                        color={Color.dark.grey500}
+                      >
                         별점을 매겨주세요!
                       </HWTypography>
                     </div>
@@ -125,7 +140,11 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                      <HWTypography
+                        variant={"bodyS"}
+                        family={"Pretendard"}
+                        color={Color.dark.grey500}
+                      >
                         {item.genre}
                       </HWTypography>
                     </div>
@@ -140,7 +159,11 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     </div>
 
                     <div className={"margin-top-8"}>
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                      <HWTypography
+                        variant={"bodyS"}
+                        family={"Pretendard"}
+                        color={Color.dark.grey500}
+                      >
                         {item.actors.join(",")}
                       </HWTypography>
                     </div>

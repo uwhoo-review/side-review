@@ -8,8 +8,6 @@ export default {
     justify-content: space-between;
     align-items: center;
 
-    padding: 20px;
-    box-sizing: border-box;
     width: 100%;
     height: 100%;
   `,
@@ -23,13 +21,14 @@ export default {
     justify-content: space-between;
     align-items: center;
     gap: 14px;
+    margin-bottom: 20px;
     iframe {
       border: none;
     }
   `,
   synopsis: css`
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     word-break: break-all;
     overflow: hidden;
@@ -37,6 +36,21 @@ export default {
   `,
   middleContents: css`
     position: relative;
+    margin-bottom: 20px;
+  `,
+  typoTitle: css`
+    margin-right: 8px;
+  `,
+  typoYear: css`
+    margin-right: 8px;
+  `,
+  chipAge: css`
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 6px;
   `,
   bottomContents: css`
     /*.bottom-info {
@@ -61,21 +75,17 @@ export default {
       }
       animation: translateX-2 1s ease;
     }*/
+    .bottom-review{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
   `,
   footerBtn: css`
     position: absolute;
     bottom: 20px;
     right: 20px;
   `,
-  yearSpan: css`
-    color: ${Color.dark.grey500};
-    font-family: Poppins;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 20px;
-  `,
-
   flexBetween: css`
     display: flex;
     justify-content: space-between;
@@ -85,25 +95,22 @@ export default {
     }
   `,
   avatarGroup: css`
-    //display: flex;
-    //flex-direction: unset;
-    justify-content: start;
+    justify-content: flex-end;
     div {
       border: none !important;
-      width: 28px;
-      height: 28px;
-      font-size: 12px;
-      background-color: transparent;
-      border: none !important;
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+      background-color: #121212;
     }
   `,
   avatar: css`
-    //background-color: transparent;
-    //border: none !important;
-    //width: 28px;
-    //height: 28px;
+    background-color: transparent;
+    border: none !important;
+    width: 30px;
+    height: 30px;
+    font-size: 30px !important;
+    //z-index: 1;
   `,
   launch: css`
     position: absolute;
@@ -114,6 +121,7 @@ export default {
   `,
   rating: css`
     font-size: 20px;
+    column-gap: 5px;
     svg {
       width: 1em;
       height: 1em;
