@@ -12,5 +12,7 @@ export default {
   `,
   contents: css`
     padding-top: 52px;
+    height: 100%;
+    box-sizing: border-box;
   `,
 };

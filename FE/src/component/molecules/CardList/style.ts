@@ -33,14 +33,16 @@ export default {
       }
     }
   `,
-  cardWrapper: (currentPage: number, inActive: boolean) => css`
+  cardWrapper: (currentPage: number, active: boolean) => css`
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
-    gap: ${inActive ? "40px" : "20px"};
 
     transition: 0.5s ease transform;
     transform: translate(${(currentPage - 1) * -(432 + 40)}px, 0px);
+    .content-slide {
+      margin-right: ${active ? "40px" : "20px"};
+    }
   `,
   card: css`
     cursor: pointer;
@@ -49,7 +51,7 @@ export default {
     position: absolute;
     top: calc(50% - 30px);
     left: 30px;
-    
+
     z-index: 0;
     display: none;
   `,
@@ -62,10 +64,9 @@ export default {
     color: #ffffff;
     z-index: 0;
     display: none;
-
   `,
   previewBox: css`
-   /* @keyframes heightSlide {
+    /* @keyframes heightSlide {
       from {
         height: 0px;
       }

@@ -13,7 +13,11 @@ const PopularTemplate = () => {
   return (
     <>
       <div className="popular-template-wrapper" css={styled.wrapper}>
-        <div css={styled.contents}>{status === "success" && <PopularContent data={data} />}</div>
+        <div css={styled.contents}>
+          {status === "success" && (
+            <PopularContent data={data} />
+          )}
+        </div>
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import { SerializedStyles } from "@emotion/react";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
+import { useEffect, useState } from "react";
 
 interface ContentCardProps {
   src: string;
@@ -15,7 +16,7 @@ interface ContentCardProps {
   year: string;
   rank?: number;
   onClick?: (e: React.MouseEvent) => void;
-  inActive?: boolean;
+  active: boolean;
   className?: string;
   customCss?: SerializedStyles;
 }
@@ -30,18 +31,30 @@ const ContentCard = ({
   rank,
   onClick,
   customCss,
-  inActive = false,
+  active,
   ...props
 }: ContentCardProps) => {
+  let classNames = [];
+  classNames.push(
+    "content-card-wrapper",
+    active ? `active` : "in-active",
+    className ? `${className}` : null
+  );
+  classNames = classNames.filter(Boolean);
+
   return (
     <div
-      className={className}
-      css={[styled.wrapper(inActive), customCss]}
-      onClick={onClick}
+      className={classNames.join(" ")}
+      css={[styled.wrapper(active), customCss]}
+      onClick={(e) => {
+        onClick && onClick(e);
+      }}
       {...props}
     >
       {rank && <div css={styled.rank}>{rank}</div>}
-      <DefaultImage customCss={styled.imgWrapper(inActive)} alt="" src={src} />
+      <div className={`card-box`} css={styled.imgWrapper(active)}>
+        <DefaultImage width="100%" height="100%" alt="" src={src} />
+      </div>
       <div css={styled.description}>
         <div className={"title"}>{contentName}</div>
         <div css={styled.flexBetween}>

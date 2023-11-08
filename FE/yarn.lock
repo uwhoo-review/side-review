@@ -3389,6 +3389,7 @@ __metadata:
     react-refresh: ^0.14.0
     react-refresh-typescript: ^2.0.9
     react-router-dom: ^6.16.0
+    react-virtuoso: ^4.6.2
     sass: ^1.68.0
     sass-loader: ^13.3.2
     style-loader: ^3.3.3
@@ -10835,6 +10836,16 @@ __metadata:
     react: ">=16.6.0"
     react-dom: ">=16.6.0"
   checksum: 75602840106aa9c6545149d6d7ae1502fb7b7abadcce70a6954c4b64a438ff1cd16fc77a0a1e5197cdd72da398f39eb929ea06f9005c45b132ed34e056ebdeb1
+  languageName: node
+  linkType: hard
+
+"react-virtuoso@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "react-virtuoso@npm:4.6.2"
+  peerDependencies:
+    react: ">=16 || >=17 || >= 18"
+    react-dom: ">=16 || >=17 || >= 18"
+  checksum: 97daa55b68bb36c25a4a4d2fdd7a60418a019113551018e899f0f5689be57cdadd539e2f10d4d6cd96aa79105e6a5dc03ba6af9856cca168d0ec8e74b231f8fd
   languageName: node
   linkType: hard
 

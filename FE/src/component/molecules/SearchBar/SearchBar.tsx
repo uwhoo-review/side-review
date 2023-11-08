@@ -5,6 +5,7 @@ import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { isNullOrEmpty } from "@src/tools/commonTools";
 const SearchBar = () => {
   const navigate = useNavigate();
   const [textVal, setTextVal] = useState<string>("");
@@ -15,13 +16,13 @@ const SearchBar = () => {
         <HWTextField
           label={"어떤 작품을 찾으세요?"}
           startAdorment={<IconSearch />}
-          endAdorment={<IconCancel />}
+          endAdorment={!isNullOrEmpty(textVal) && <IconCancel />}
           placeholder={"제목, 이물 검색"}
           fullWidth={true}
           value={textVal}
           onChange={(e) => setTextVal(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               navigate({ pathname: "/search", search: `?query=${textVal}` });
             }
           }}

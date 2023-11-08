@@ -109,6 +109,8 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
+    cursor: pointer;
+    color: ${Color.dark.grey500};
   `,
   rating: css`
     font-size: 20px;

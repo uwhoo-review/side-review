@@ -4,8 +4,8 @@ const DefaultImage = ({
   className,
   src = "",
   alt = "",
-  width = "216px",
-  height = "324px",
+  width = "100%",
+  height = "100%",
   customCss,
   onClick,
   ...props

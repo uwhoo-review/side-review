@@ -17,6 +17,7 @@ import { ReactComponent as IconChevronLeft } from "./icon/ic_chevron_left.svg";
 import { ReactComponent as IconChevronRight } from "./icon/ic_chevron_right.svg";
 import { ReactComponent as IconInit } from "./icon/ic_init.svg";
 import { ReactComponent as IconLaunch } from "./icon/ic_launch.svg";
+import { ReactComponent as IconLink } from "./icon/ic_link.svg";
 import { ReactComponent as IconRating } from "./icon/ic_rating.svg";
 import { ReactComponent as IconRatingEmpty } from "./icon/ic_rating_emtpy.svg";
 import { ReactComponent as IconSearch } from "./icon/ic_search.svg";
@@ -25,6 +26,7 @@ import { ReactComponent as IconStar } from "./icon/ic_star.svg";
 import { ReactComponent as IconThumbUp } from "./icon/ic_thumb_up.svg";
 import { ReactComponent as IconThumbDown } from "./icon/ic_thumb_down.svg";
 import { ReactComponent as IconUpDown } from "./icon/ic_up_down.svg";
+import { ReactComponent as IconWrite } from "./icon/ic_write.svg";
 
 /* ./logo */
 import { ReactComponent as IconApple } from "./logo/ic_apple.svg";
@@ -50,6 +52,7 @@ export {
   IconChevronRight,
   IconInit,
   IconLaunch,
+  IconLink,
   IconRating,
   IconRatingEmpty,
   IconSearch,
@@ -58,6 +61,7 @@ export {
   IconThumbUp,
   IconThumbDown,
   IconUpDown,
+  IconWrite,
 
   IconApple,
   IconDesney,

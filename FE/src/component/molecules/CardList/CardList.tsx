@@ -57,21 +57,12 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             customCss={styled.leftPageBtn}
             onClick={onPrevHandler}
           />
-          <div className={"image-card-list"} css={styled.cardWrapper(currentPage, preview)}>
+          <div className={"image-card-list"} css={styled.cardWrapper(currentPage, !!selectedCard)}>
             {cardList.map((v, i: number) => {
               return (
-                <ContentCard
+                <div
+                  className={"content-slide"}
                   key={v.id}
-                  className={`image-card`}
-                  src={IMAGE_URL + v.poster}
-                  rank={i + 1}
-                  contentName={v.name}
-                  platform={v.platform}
-                  age={v.age}
-                  year={v.year}
-                  rating={v.rating}
-                  inActive={preview && selectedCard?.id !== v.id}
-                  customCss={styled.card}
                   onClick={() => {
                     if (selectedCard === null) {
                       setPreview(true);
@@ -88,7 +79,20 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                       }
                     }
                   }}
-                />
+                >
+                  <ContentCard
+                    className={`image-card`}
+                    src={IMAGE_URL + v.poster}
+                    rank={i + 1}
+                    contentName={v.name}
+                    platform={v.platform}
+                    age={v.age}
+                    year={v.year}
+                    rating={v.rating}
+                    active={selectedCard ? selectedCard.id === v.id : true}
+                    customCss={styled.card}
+                  />
+                </div>
               );
             })}
           </div>

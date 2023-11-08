@@ -1,7 +1,15 @@
 import { css } from "@emotion/react";
 
 export default {
-  wrapper: css``,
+  wrapper: css`
+    width: 100%;
+    height: 100%;
+    padding-top: 70px;
+    box-sizing: border-box;
+  `,
+  centerWrapper: css`
+    height: 100%;
+  `,
   header: css``,
   headline: css`
     font-family: Pretendard-SemiBold;
@@ -12,8 +20,9 @@ export default {
   contentWrapper: css`
     display: flex;
     justify-content: flex-end;
-    //align-items: stretch;
-    margin-top: 40px;
+    //margin-top: 40px;
+    height: calc(100% - 70px);
+    //box-sizing: border-box;
   `,
   leftBox: css`
     flex-basis: 452px;
@@ -23,20 +32,26 @@ export default {
   rightBox: css`
     flex-basis: 900px;
     flex-grow: 1;
+
+    height: 100%;
+    & > div {
+      width: 100%;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
     //width: 100%;
     //transition: 1s ease;
-
   `,
-  cardWrapper: css`
+  cardWrapper: (active: boolean) => css`
     display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 20px;
+    column-gap: ${active ? "40px" : "20px"};
+    row-gap: 40px;
 
-    transition: 1s ease;
-    &.open {
-      gap: 20px;
-    }
+    transition: 1s ease transform;
   `,
   card: css`
     cursor: pointer;

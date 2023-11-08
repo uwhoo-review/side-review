@@ -8,6 +8,6 @@ export default {
   `,
   contents: css`
     padding-top: 52px;
-    //border: 1px solid transparent;
+    overflow: hidden;
   `
 };

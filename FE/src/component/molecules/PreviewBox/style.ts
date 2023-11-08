@@ -15,7 +15,7 @@ export default {
   `,
   centerWrapper: css`
     width: 100%;
-    background-color: #121212;
+    background-color: ${Color.dark.elevation02};
     @keyframes heightSlide {
       from {
         opacity: 0;
@@ -59,7 +59,7 @@ export default {
   bottomContents: css`
     gap: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     //margin-top: 30px;
   `,
@@ -103,6 +103,7 @@ export default {
     top: 0;
     right: 0;
     cursor: pointer;
+    color: ${Color.dark.grey500};
   `,
   rating: css`
     font-size: 20px;

@@ -16,9 +16,9 @@ import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {VIDEO_URL} from "@src/variables/tmdbConstants";
-import {ContentProps} from "@src/interfaces/api.interface";
-import {SerializedStyles} from "@emotion/react";
+import { VIDEO_URL } from "@src/variables/tmdbConstants";
+import { ContentProps } from "@src/interfaces/api.interface";
+import { SerializedStyles } from "@emotion/react";
 
 interface PreviewBoxProps {
   item: ContentProps;
@@ -33,168 +33,175 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
   const navigate = useNavigate();
 
   return (
-    <CenterWrapper css={styled.centerWrapper}>
-      <div className="preview-box-wrapper" css={[styled.wrapper, customCss]}>
-        <div css={styled.leftWrapper}>
-          <CarouselArrow direction={"left"} onClick={onPrev} />
-        </div>
-        <div css={styled.contents}>
-          <div css={styled.topContents}>
-            <div css={styled.leftContents}>
-              <iframe
-                width="640"
-                height="360"
-                src={VIDEO_URL + item.trailer}
-                // src={"https://www.youtube.com/embed/d9iBOTL4zgc?si=SOmiTCZ_GCe5WIK7"}
-                title="Video"
-                allowFullScreen
-              />
-            </div>
-            <div css={styled.rightContents}>
-              <IconLaunch
-                css={styled.launch}
-                onClick={() => {
-                  setDetailOpen(!detailOpen);
-                  navigate("/detail");
-                }}
-              />
-              <div>
-                <HWTypography
-                  variant={"headlineS"}
-                  family={"Pretendard-SemiBold"}
-                  color={Color.dark.grey900}
-                >
-                  {item.name} <span css={styled.yearSpan}> {item.year} </span>
-                </HWTypography>
+    <div css={styled.centerWrapper}>
+      <CenterWrapper>
+        <div className="preview-box-wrapper" css={[styled.wrapper, customCss]}>
+          {/*<div css={styled.leftWrapper}>
+            <CarouselArrow direction={"left"} onClick={onPrev} />
+          </div>*/}
+          <div css={styled.contents}>
+            <div css={styled.topContents}>
+              <div css={styled.leftContents}>
+                <iframe
+                  width="640"
+                  height="360"
+                  src={VIDEO_URL + item.trailer}
+                  // src={"https://www.youtube.com/embed/d9iBOTL4zgc?si=SOmiTCZ_GCe5WIK7"}
+                  title="Video"
+                  allowFullScreen
+                />
               </div>
-              <div className={"grid margin-top-16"}>
-                <div className={"col-4"}>
-                  <div>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-                      평균 별점
-                    </HWTypography>
-                  </div>
-                  <div className={"margin-top-8 flex flex-align-center gap-10"}>
-                    <IconStar css={styled.icons} />
-                    <HWTypography
-                      variant={"headlineXXS"}
-                      family={"Pretendard-SemiBold"}
-                      color={Color.dark.grey500}
-                    >
-                      {item.rating}
-                    </HWTypography>
-                    <Divider direction={"v"} length={"14px"} />{" "}
-                    <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      @TODO 평점 갯수 입력해야함!!
-                    </HWTypography>
-                  </div>
-                </div>
-                <div className={"col-8"}>
-                  <div>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-                      내 별점
-                    </HWTypography>
-                  </div>
-                  <div className={"margin-top-12 flex flex-align-center gap-10"}>
-                    <Rating
-                      name="rating-value"
-                      value={rating}
-                      max={5}
-                      precision={0.5}
-                      onChange={(e, val) => {
-                        setRating(val);
-                      }}
-                      css={styled.rating}
-                      emptyIcon={<IconRatingEmpty />}
-                      icon={<IconRating />}
-                    />
-                    <Divider direction={"v"} length={"14px"} />{" "}
-                    <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      별점을 매겨주세요!
-                    </HWTypography>
-                  </div>
-                </div>
-              </div>
-              <Divider className={"margin-top-24"} />
-              <div className={"grid margin-top-16"}>
-                <div className={"col-full"}>
-                  <div>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-                      장르
-                    </HWTypography>
-                  </div>
-                  <div className={"margin-top-8"}>
-                    <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      {item.genre}
-                    </HWTypography>
-                  </div>
-                </div>
-              </div>
-              <div className={"grid margin-top-20"}>
-                <div className={"col-8"}>
-                  <div>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-                      출연진
-                    </HWTypography>
-                  </div>
-
-                  <div className={"margin-top-8"}>
-                    <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                      {item.actors.join(",")}
-                    </HWTypography>
-                  </div>
-                </div>
-                <div className={"col-4"}>
-                  <div>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-                      작품 제공 서비스
-                    </HWTypography>
-                  </div>
-                  <div className={"margin-top-8"}>
-                    <AvatarGroup max={5} css={styled.avatarGroup}>
-                      <Avatar css={styled.avatar}>
-                        <IconNetflix />
-                      </Avatar>
-                      <Avatar css={styled.avatar}>
-                        <IconWatcha />
-                      </Avatar>
-                      <Avatar css={styled.avatar}>
-                        <IconNetflix />
-                      </Avatar>
-                    </AvatarGroup>
-                  </div>
-                </div>
-              </div>
-              <div className={"grid margin-top-20"}>
-                <div className={"col-full"} css={styled.synopsis}>
-                  <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
-                    {item.synopsis}
+              <div css={styled.rightContents}>
+                <IconLaunch
+                  css={styled.launch}
+                  onClick={() => {
+                    setDetailOpen(!detailOpen);
+                    navigate("/detail");
+                  }}
+                />
+                <div>
+                  <HWTypography
+                    variant={"headlineS"}
+                    family={"Pretendard-SemiBold"}
+                    color={Color.dark.grey900}
+                  >
+                    {item.name} <span css={styled.yearSpan}> {item.year} </span>
                   </HWTypography>
                 </div>
+                <div className={"grid margin-top-16"}>
+                  <div className={"col-4"}>
+                    <div>
+                      <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
+                        평균 별점
+                      </HWTypography>
+                    </div>
+                    <div className={"margin-top-8 flex flex-align-center gap-10"}>
+                      <IconStar css={styled.icons} />
+                      <HWTypography
+                        variant={"headlineXXS"}
+                        family={"Pretendard-SemiBold"}
+                        color={Color.dark.grey500}
+                      >
+                        {item.rating}
+                      </HWTypography>
+                      <Divider direction={"v"} length={"14px"} />{" "}
+                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                        @TODO 평점 갯수 입력해야함!!
+                      </HWTypography>
+                    </div>
+                  </div>
+                  <div className={"col-8"}>
+                    <div>
+                      <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
+                        내 별점
+                      </HWTypography>
+                    </div>
+                    <div className={"margin-top-12 flex flex-align-center gap-10"}>
+                      <Rating
+                        name="rating-value"
+                        value={rating}
+                        max={5}
+                        precision={0.5}
+                        onChange={(e, val) => {
+                          setRating(val);
+                        }}
+                        css={styled.rating}
+                        emptyIcon={<IconRatingEmpty />}
+                        icon={<IconRating />}
+                      />
+                      <Divider direction={"v"} length={"14px"} />{" "}
+                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                        별점을 매겨주세요!
+                      </HWTypography>
+                    </div>
+                  </div>
+                </div>
+                <Divider className={"margin-top-24"} />
+                <div className={"grid margin-top-16"}>
+                  <div className={"col-full"}>
+                    <div>
+                      <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
+                        장르
+                      </HWTypography>
+                    </div>
+                    <div className={"margin-top-8"}>
+                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                        {item.genre}
+                      </HWTypography>
+                    </div>
+                  </div>
+                </div>
+                <div className={"grid margin-top-20"}>
+                  <div className={"col-8"}>
+                    <div>
+                      <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
+                        출연진
+                      </HWTypography>
+                    </div>
+
+                    <div className={"margin-top-8"}>
+                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                        {item.actors.join(",")}
+                      </HWTypography>
+                    </div>
+                  </div>
+                  <div className={"col-4"}>
+                    <div>
+                      <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
+                        작품 제공 서비스
+                      </HWTypography>
+                    </div>
+                    <div className={"margin-top-8"}>
+                      <AvatarGroup max={5} css={styled.avatarGroup}>
+                        <Avatar css={styled.avatar}>
+                          <IconNetflix />
+                        </Avatar>
+                        <Avatar css={styled.avatar}>
+                          <IconWatcha />
+                        </Avatar>
+                        <Avatar css={styled.avatar}>
+                          <IconNetflix />
+                        </Avatar>
+                      </AvatarGroup>
+                    </div>
+                  </div>
+                </div>
+                <div className={"grid margin-top-20"}>
+                  <div className={"col-full"}>
+                    <HWTypography
+                      variant={"bodyS"}
+                      family={"Pretendard"}
+                      color={Color.dark.grey500}
+                      css={styled.synopsis}
+                    >
+                      {item.synopsis}
+                    </HWTypography>
+                  </div>
+                </div>
               </div>
             </div>
+            <div css={styled.bottomContents}>
+              <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
+                초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온
+                부모들이 시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물.
+                초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온
+                부모들이 시대와 세대를 넘어 닥치는 거
+                블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
+              </ReviewCard>
+              <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
+                asd
+              </ReviewCard>
+              <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
+                asd
+              </ReviewCard>
+            </div>
           </div>
-          <div css={styled.bottomContents}>
-            <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
-              초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이
-              시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물. 초능력을
-              숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온 부모들이 시대와
-              세대를 넘어 닥치는 거
-              블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
-            </ReviewCard>
-            <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
-              asd
-            </ReviewCard>
-            <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
-              asd
-            </ReviewCard>
-          </div>
+          {/*<div css={styled.rightWrapper}>
+            <CarouselArrow direction={"right"} onClick={onNext} />
+          </div>*/}
         </div>
-        <div css={styled.rightWrapper}>
-          <CarouselArrow direction={"right"} onClick={onNext} />
-        </div>
-      </div>
-    </CenterWrapper>
+      </CenterWrapper>
+    </div>
   );
 };
 

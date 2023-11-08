@@ -1,10 +1,13 @@
 import { css } from "@emotion/react";
 
 export default {
-  wrapper: (inActive: boolean) => css`
+  wrapper: (active: boolean) => css`
     position: relative;
     border-radius: 10px;
-    opacity: ${inActive ? "0.5" : "1"};
+    opacity: ${active ? 1 : 0.5};
+    &:hover {
+      opacity: 1;
+    }
   `,
   rank: css`
     position: absolute;
@@ -26,6 +29,7 @@ export default {
     letter-spacing: 0.15px;
 
     border-radius: 0 10px 0 10px;
+    z-index: 1;
   `,
   flexBetween: css`
     display: flex;
@@ -55,10 +59,18 @@ export default {
     font-size: 24px !important;
     //z-index: 1;
   `,
-  imgWrapper: (inActive: boolean) => css`
-    width: ${inActive ? "196px" : "216px"};
-    height: ${inActive ? "294px" : "324px"};
-    border-right: 10px;
+  imgWrapper: (active: boolean) => css`
+    width: ${active ? "216px" : "196px"};
+    height: ${active ? "324px" : "294px"};
+
+    border-radius: 10px;
+    overflow: hidden;
+
+    &:hover {
+      img {
+        transform: scale(1.1);
+      }
+    }
   `,
   description: css`
     margin-top: 10px;
