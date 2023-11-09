@@ -113,6 +113,7 @@ export default {
   `,
   rating: css`
     font-size: 20px;
+    column-gap: 5px;
     svg {
       width: 1em;
       height: 1em;
