@@ -1,13 +1,13 @@
 package com.sideReview.side.tmdb.dto
 
-data class TMDBResponse(
+data class TmdbResponse(
         val page: Int,
-        val results: List<TMDBContent>,
+        val results: List<TbdbContent>,
         val total_results: Int,
         val total_pages: Int
 )
-data class TMDBContent(
-        val first_air_date: String,
+data class TbdbContent(
+        val first_air_date: String ?= null,
         val genre_ids: List<Int>,
         val id: Int,
         val name: String,

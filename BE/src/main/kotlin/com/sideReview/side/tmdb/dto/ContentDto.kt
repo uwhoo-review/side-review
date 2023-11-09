@@ -8,9 +8,9 @@ data class ContentDto(
     val genre: List<Int>,
     val year: String ?= null,
     val synopsis: String,
-    val trailer: String = "d9iBOTL4zgc",
+    val trailer: String ?= null,
     val poster: String ?= null,
-    val actors: List<String> = listOf("김영은", "김지훈", "노소은", "류고은", "김혜진"),
-    val rating: Double = 3.5,
-    val age: Int = 29
+    val actors: List<String> ?= null,
+    val rating: Double ?= null,
+    val age: Int ?= null
 )
