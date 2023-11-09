@@ -24,6 +24,7 @@ export default {
     margin-bottom: 20px;
     iframe {
       border: none;
+      border-radius: 6px;
     }
   `,
   synopsis: css`

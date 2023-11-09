@@ -18,7 +18,7 @@ const PopularContent = ({ data }: any) => {
 
   useEffect(() => {
     if (data.popular)
-      setPopularList([...data.popular, ...data.popular, ...data.popular, ...data.popular]);
+      setPopularList([...data.popular]);
   }, []);
 
   return (
@@ -46,9 +46,12 @@ const PopularContent = ({ data }: any) => {
           )}
           <div className={`popular-cards-wrapper`} css={styled.rightBox}>
             <Virtuoso
+              style={{ height: "500px" }}
               ref={virtuosoRef}
               data={popularList}
+              useWindowScroll={true}
               totalCount={popularList.length}
+              defaultItemHeight={500}
               itemContent={(idx, v) => {
                 return (
                   <div className={`image-card-list`} css={styled.cardWrapper(!!selectedCard)}>

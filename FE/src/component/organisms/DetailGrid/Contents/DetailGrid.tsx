@@ -11,8 +11,7 @@ import ReviewCardList from "@src/component/molecules/ReviewCardList/ReviewCardLi
 import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useState } from "react";
-import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
-import HWAlert from "@src/component/atoms/HWAlert";
+import styled from "./style";
 
 const DetailGrid = () => {
   const [dialog, setDialog] = useState<any>(null);
@@ -57,24 +56,28 @@ const DetailGrid = () => {
               src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
               width={"334"}
               height={"189"}
+              css={styled.box}
             />,
             <iframe
               key={2}
               src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
               width={"334"}
               height={"189"}
+              css={styled.box}
             />,
             <iframe
               key={3}
               src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
               width={"334"}
               height={"189"}
+              css={styled.box}
             />,
             <iframe
               key={4}
               src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
               width={"334"}
               height={"189"}
+              css={styled.box}
             />,
           ]}
         />
@@ -87,6 +90,7 @@ const DetailGrid = () => {
               width={"334px"}
               height={"189px"}
               onClick={() => setDialog(<DefaultImage src={img4} width={"100%"} height={"100%"} />)}
+              css={styled.box}
             />,
             <DefaultImage
               key={2}
@@ -94,6 +98,7 @@ const DetailGrid = () => {
               width={"334px"}
               height={"189px"}
               onClick={() => setDialog(<DefaultImage src={img2} width={"100%"} height={"100%"} />)}
+              css={styled.box}
             />,
             <DefaultImage
               key={3}
@@ -101,6 +106,7 @@ const DetailGrid = () => {
               width={"334px"}
               height={"189px"}
               onClick={() => setDialog(<DefaultImage src={img3} width={"100%"} height={"100%"} />)}
+              css={styled.box}
             />,
             <DefaultImage
               key={4}
@@ -108,6 +114,7 @@ const DetailGrid = () => {
               width={"334px"}
               height={"189px"}
               onClick={() => setDialog(<DefaultImage src={img1} width={"100%"} height={"100%"} />)}
+              css={styled.box}
             />,
             <DefaultImage
               key={5}
@@ -115,14 +122,11 @@ const DetailGrid = () => {
               width={"334px"}
               height={"189px"}
               onClick={() => setDialog(<DefaultImage src={img4} width={"100%"} height={"100%"} />)}
+              css={styled.box}
             />,
           ]}
         />
       </CenterWrapper>
-
-      <HWDialog open={Boolean(dialog)} onClose={() => setDialog(null)}>
-        <>{dialog}</>
-      </HWDialog>
     </>
   );
 };

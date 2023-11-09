@@ -1,7 +1,7 @@
 import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
-import { IconRating, IconRatingEmpty, IconStar } from "@res/index";
+import { IconLink, IconRating, IconRatingEmpty, IconStar, IconWrite } from "@res/index";
 import Color from "@src/common/styles/Color";
 import Divider from "@src/component/atoms/Divider/Divider";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
@@ -81,10 +81,17 @@ const RatingDetailBox = () => {
           </div>
         </div>
         <div css={styled.btnGroups}>
-          <HWButton variant={"lower"} onClick={() => handleCopyClipBoard(`${location.pathname}`)}>
-            링크 공유
+          <HWButton
+            variant={"lower"}
+            onClick={() => handleCopyClipBoard(`${location.pathname}`)}
+            customCss={styled.btn1}
+          >
+            <IconLink /> 링크 공유
           </HWButton>
-          <HWButton onClick={() => setDialog(true)}>리뷰 쓰기</HWButton>
+          <HWButton variant={"primary"} onClick={() => setDialog(true)} customCss={styled.btn2}>
+            <IconWrite />
+            리뷰 쓰기
+          </HWButton>
         </div>
       </div>
       <ReviewModal width={"800px"} open={dialog} onClose={() => setDialog(false)} />

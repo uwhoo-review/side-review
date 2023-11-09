@@ -50,6 +50,7 @@ export default {
       height: 360px;
 
       border: none;
+      border-radius: 6px;
     }
   `,
   rightContents: css`

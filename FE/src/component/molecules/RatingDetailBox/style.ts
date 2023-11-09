@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export default {
   wrapper: css`
@@ -15,6 +16,12 @@ export default {
   btnGroups: css`
     display: flex;
     gap: 16px;
+  `,
+  btn1: css`
+    gap: 10px;
+  `,
+  btn2: css`
+    gap: 10px;
   `,
   ratingBox: css`
     display: flex;

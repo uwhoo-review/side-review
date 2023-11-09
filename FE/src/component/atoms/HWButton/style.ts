@@ -67,7 +67,7 @@ export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | 
     case "lower": {
       return css`
         background-color: unset;
-        color: #ffffff;
+        color: #6d6ada;
         border: solid 1px #ffffff1f;
         &:hover {
           background-color: #6d6ada0a;
