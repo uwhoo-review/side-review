@@ -1,7 +1,9 @@
 package com.sideReview.side.common.constant
 
 enum class ProviderEnum(val value: Int) {
-    NETFLIX(213),
-    DISNEY(2739),
-    APPLE(2552)
+    NETFLIX(8),
+    DISNEY(337),
+    APPLE(350),
+    WAVVE(356),
+    WHATCHA(97)
 }

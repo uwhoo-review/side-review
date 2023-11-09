@@ -1,15 +1,15 @@
 package com.sideReview.side.tmdb.document
 
 data class ContentDocument(
-        val id: String,
+        val id: Int,
         val name: String,
-        val platform: List<String> ?= null,
-        val genre: List<String> ?= null,
+        var platform: List<String> ?= null,
+        var genre: List<String> ?= null,
         val rating: Double ?= null,
         val first_air_date: String ?= null,
         val synopsis: String ?= null,
-        val trailer: List<String> ?= null,
-        val photo: List<String> ?= null,
-        val poster: String ?= null,
-        val avg_star_rating: Double ?= null
+        var trailer: List<String> ?= null,
+        var photo: List<String> ?= null,
+        var poster: String ?= null,
+        var avg_star_rating: Double ?= null
 )
