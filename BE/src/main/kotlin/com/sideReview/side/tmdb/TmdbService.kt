@@ -44,6 +44,7 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
                 genre = genreList,
                 year = content.first_air_date?.substring(0, 4)
             )
+
             if(i < 10) latest.add(contentDto)
             else popular.add(contentDto)
         }
