@@ -5,7 +5,7 @@ data class ContentDto(
     val id: Int,
     val name: String,
     val platform: List<String>,
-    val genre: List<Int>,
+    val genre: List<String>,
     val year: String ?= null,
     val synopsis: String,
     val trailer: String ?= null,

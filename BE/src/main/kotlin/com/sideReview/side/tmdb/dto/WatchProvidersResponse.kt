@@ -5,8 +5,8 @@ data class WatchProvidersResponse(
     val results: Map<String, ProviderInfo>
 )
 data class ProviderInfo(
-    val link: String,
-    val flatrate: List<ProviderDetail>,
+    val link: String?,
+    val flatrate: List<ProviderDetail>?,
     val ads: List<ProviderDetail>?,
     val buy: List<ProviderDetail>?
 )

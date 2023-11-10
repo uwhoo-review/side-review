@@ -1,5 +1,6 @@
 package com.sideReview.side.common.util
 
+import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.tmdb.document.ContentDocument
 import com.sideReview.side.tmdb.dto.TbdbContent
 
@@ -19,6 +20,12 @@ object MapperUtil {
                 poster = tbdbContent.poster_path,
                 avg_star_rating = null
             )
+        }
+    }
+
+    fun mapGenreCodeToString(numbers: List<Int>): List<String> {
+        return numbers.mapNotNull { number ->
+            GenreEnum.values().find { it.id == number }?.genre
         }
     }
 
