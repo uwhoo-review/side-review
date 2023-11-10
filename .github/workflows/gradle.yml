@@ -66,6 +66,7 @@ jobs:
     # (3) Key store 변환
     - name: Generate Keystore file from Github Secrets
       run: |
+        echo "$KEYSTORE"
         echo "$KEYSTORE" > ./keystore/keystore.b64
         base64 -d -i ./keystore/keystore.b64 > ./BE/keystore.p12
       env:
