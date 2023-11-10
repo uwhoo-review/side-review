@@ -6,12 +6,13 @@ plugins {
 	kotlin("jvm") version "1.9.0"
 	kotlin("plugin.spring") version "1.6.21"
 	kotlin("plugin.jpa") version "1.6.21"
+	kotlin("plugin.serialization") version "1.6.21"
 }
 group = "com.sideReview"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_11
+	sourceCompatibility = JavaVersion.VERSION_17
 }
 
 configurations {
@@ -39,7 +40,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
 	// AWS OpenSearch Client library
-	implementation("com.jillesvangurp:search-client:2.1.4")
+	implementation("com.jillesvangurp:search-client:2.0.4")
 
 
 	compileOnly("org.projectlombok:lombok")
@@ -59,7 +60,7 @@ dependencyManagement {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "11"
+		jvmTarget = "17"
 	}
 }
 
