@@ -55,7 +55,7 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '11'
-    # (3) Key story 변환
+    # (3) Key store 변환
     - name: Generate Keystore file from Github Secrets
       run: |
         echo "$KEYSTORE" > ./keystore/keystore.b64
