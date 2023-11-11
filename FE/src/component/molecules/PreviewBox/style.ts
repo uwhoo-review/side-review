@@ -111,6 +111,7 @@ export default {
     right: 0;
     cursor: pointer;
     color: ${Color.dark.grey500};
+    font-size: 24px;
   `,
   rating: css`
     font-size: 20px;

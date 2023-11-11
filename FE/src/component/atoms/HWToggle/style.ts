@@ -1,23 +1,36 @@
 import { css } from "@emotion/react";
 
 export const root = css`
-  .MuiSwitch-root {
+  height: 24px;
+  width: 44px;
+  padding: 0;
+  .MuiSwitch-track {
+    border-radius: 14px;
+    background-color: #84838d;
+    opacity: 1;
+  }
+  .MuiSwitch-thumb {
+    background-color: #fff;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .MuiSwitch-switchBase {
+    padding: 2px;
+    
+    .MuiSwitch-input {
+      left: 0;
+      width: 100%;
+    }
+    
+    &.Mui-checked {
+      & + .MuiSwitch-track {
+        background-color: #6d6ada;
+        opacity: 1;
+      }
+    }
   }
 
-  .MuiSwitch-switchBase {
-    &.Mui-checked .MuiSwitch-thumb {
-      background-color: #2e7af2;
-    }
-    .MuiSwitch-thumb {
-      background-color: #fafafa;
-    }
-    &.Mui-checked ~ .MuiSwitch-track {
-      background-color: #2e7af2;
-    }
-    ~ .MuiSwitch-track {
-      background-color: #7d7e85;
-    }
-  }
   .MuiSwitch-switchBase.Mui-disabled {
     &.Mui-checked .MuiSwitch-thumb {
       background-color: #a5c4f7;
@@ -38,4 +51,6 @@ export const root = css`
 
 export const form = css`
   width: fit-content;
+  margin: 0;
+  gap: 10px;
 `;

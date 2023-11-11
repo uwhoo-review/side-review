@@ -3,6 +3,7 @@ import { FormControlLabel,  Switch } from "@mui/material";
 import { HWToggleProps } from "./type";
 import * as style from "./style";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
+import Color from "@src/common/styles/Color";
 
 const HWToggle = React.forwardRef(
   (
@@ -24,9 +25,9 @@ const HWToggle = React.forwardRef(
       if (typeof label === "string") {
         tempLabel =
           size === "medium" ? (
-            <HWTypography variant="body2">{label}</HWTypography>
+            <HWTypography variant="body2" color={Color.dark.grey700}>{label}</HWTypography>
           ) : (
-            <HWTypography variant="inputLabel2">{label}</HWTypography>
+            <HWTypography variant="body2" color={Color.dark.grey700}>{label}</HWTypography>
           );
       }
 
