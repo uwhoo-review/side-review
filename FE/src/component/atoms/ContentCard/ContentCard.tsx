@@ -1,11 +1,14 @@
 import styled from "./style";
-import { IconNetflix, IconStar, IconTving, IconWatcha } from "@res/index";
+import { IconLaunch, IconNetflix, IconStar, IconTving, IconWatcha } from "@res/index";
 import { Avatar, AvatarGroup } from "@mui/material";
 import { SerializedStyles } from "@emotion/react";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
 import { useEffect, useState } from "react";
+import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
+import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
+import {useNavigate} from "react-router-dom";
 
 interface ContentCardProps {
   src: string;
@@ -34,6 +37,8 @@ const ContentCard = ({
   active,
   ...props
 }: ContentCardProps) => {
+  const navigate = useNavigate();
+
   let classNames = [];
   classNames.push(
     "content-card-wrapper",
@@ -56,7 +61,18 @@ const ContentCard = ({
         <DefaultImage width="100%" height="100%" alt="" src={src} />
       </div>
       <div css={styled.description}>
-        <div className={"title"} css={styled.title}>{contentName}</div>
+        <div className={"title"} css={styled.title}>
+          {contentName}
+          <IconLaunch
+            className={"icon-launch"}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/detail");
+
+            }}
+            css={styled.Launch}
+          />
+        </div>
         <div css={styled.flexBetween}>
           <div className={"title-star"} css={styled.flexBetween}>
             <div css={styled.rating}>
@@ -67,26 +83,14 @@ const ContentCard = ({
               {year}
             </HWTypography>
           </div>
-          <AvatarGroup max={4} css={styled.avatarGroup}>
-            <Avatar css={styled.avatar}>
+          <HWAvatarGroup max={3}>
+            <HWAvatar>
               <IconWatcha />
-            </Avatar>
-            <Avatar css={styled.avatar}>
+            </HWAvatar>
+            <HWAvatar>
               <IconNetflix />
-            </Avatar>
-            <Avatar css={styled.avatar}>
-              <IconTving />
-            </Avatar>
-            <Avatar css={styled.avatar}>
-              <IconTving />
-            </Avatar>
-            <Avatar css={styled.avatar}>
-              <IconTving />
-            </Avatar>
-            <Avatar css={styled.avatar}>
-              <IconTving />
-            </Avatar>
-          </AvatarGroup>
+            </HWAvatar>
+          </HWAvatarGroup>
         </div>
       </div>
     </div>

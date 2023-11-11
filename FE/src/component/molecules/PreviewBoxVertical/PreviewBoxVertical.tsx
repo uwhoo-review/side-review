@@ -21,6 +21,8 @@ import { ContentProps } from "@src/interfaces/api.interface";
 import { SerializedStyles } from "@emotion/react";
 import { VIDEO_URL } from "@src/variables/tmdbConstants";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
+import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
+import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 
 interface PreviewBoxVerticalProps {
   item: ContentProps;
@@ -194,7 +196,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
 
                     <div className={"margin-top-8"}>
                       <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
-                        {item.actors.join(",")}
+                        {item.actors?.join(",")}
                       </HWTypography>
                     </div>
                   </div>
@@ -205,17 +207,14 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <AvatarGroup max={5} css={styled.avatarGroup}>
-                        <Avatar css={styled.avatar}>
-                          <IconNetflix />
-                        </Avatar>
-                        <Avatar css={styled.avatar}>
+                      <HWAvatarGroup max={3}>
+                        <HWAvatar>
                           <IconWatcha />
-                        </Avatar>
-                        <Avatar css={styled.avatar}>
+                        </HWAvatar>
+                        <HWAvatar>
                           <IconNetflix />
-                        </Avatar>
-                      </AvatarGroup>
+                        </HWAvatar>
+                      </HWAvatarGroup>
                     </div>
                   </div>
                 </div>

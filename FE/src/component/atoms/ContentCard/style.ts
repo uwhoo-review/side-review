@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export default {
   wrapper: (active: boolean) => css`
@@ -7,6 +8,9 @@ export default {
     opacity: ${active ? 1 : 0.5};
     &:hover {
       opacity: 1;
+      .icon-launch{
+        display: block;
+      }
     }
   `,
   rank: css`
@@ -82,6 +86,15 @@ export default {
   `,
   title: css`
     margin-bottom: 2px;
+    position: relative;
+  `,
+  Launch: css`
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 16px;
+    color: ${Color.dark.grey500};
+    display: none;
   `,
   description: css`
     margin-top: 10px;
