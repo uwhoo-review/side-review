@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export const axiosBaseInstance = axios.create({
   // baseURL: "https://api.themoviedb.org/3",
-  baseURL: "http://15.164.189.220:8080",
+  baseURL: "https://15.164.189.220:8080",
   headers: {
     // Authorization:
     //   "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0OWJjZmNhOWZkNWY0NGQyMjZhYzgzMTU5NzZhY2ZkYyIsInN1YiI6IjY1MWUzMmE0M2QzNTU3MDExY2ZmZThhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-uufjYqYRvt2OC66c1euvWmZdEOGy-gGvmRoQ1fP2AA",

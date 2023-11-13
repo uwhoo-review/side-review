@@ -83,7 +83,7 @@ const ContentCard = ({
               {year}
             </HWTypography>
           </div>
-          <HWAvatarGroup max={3}>
+          <HWAvatarGroup max={3} direction={"right"}>
             <HWAvatar>
               <IconWatcha />
             </HWAvatar>
