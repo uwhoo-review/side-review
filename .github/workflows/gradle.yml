@@ -69,7 +69,6 @@ jobs:
         echo "$KEYSTORE"
         echo "$KEYSTORE" > keystore.b64
         base64 -d -i ./keystore.b64 > ./BE/keystore.p12
-        cp ./BE/keystore.p12 /opt/codedeploy-agent/keystore.p12
       env:
         KEYSTORE: ${{ secrets.APP_KEYSTORE_BASE64 }}
         
