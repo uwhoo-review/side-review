@@ -2,6 +2,7 @@ package com.sideReview.side.tmdb
 
 import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.common.util.MapperUtil.mapGenreCodeToString
+import com.sideReview.side.common.util.MapperUtil.mapProviderStringToCode
 import com.sideReview.side.tmdb.document.ContentDocument
 import com.sideReview.side.tmdb.dto.*
 import lombok.extern.slf4j.Slf4j
@@ -80,7 +81,7 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
                     val provider = providerInfo.flatrate[i].provider_name.split(" ")[0]
                     if (!providerList.contains(provider)) providerList.add(provider)
                 }
-                doc.platform = providerList
+                doc.platform = mapProviderStringToCode(providerList)
             }
             // 테스트용 break
             if(i%100 == 0) logger.info("[Provider] processing...: $i")
