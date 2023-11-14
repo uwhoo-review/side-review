@@ -1,6 +1,7 @@
 package com.sideReview.side.tmdb
 
 import com.sideReview.side.tmdb.dto.TmdbResponse
+import com.sideReview.side.tmdb.dto.VideoResponse
 import com.sideReview.side.tmdb.dto.WatchProvidersResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.openfeign.FeignClient
@@ -27,4 +28,9 @@ interface TmdbClient {
     fun findOneProvider(@RequestHeader("Authorization") apiKey: String,
                     @PathVariable(name = "id", required = true) tmdbId : Int
     ) : WatchProvidersResponse
+
+    @GetMapping("tv/{id}/videos?language=ko-KR")
+    fun findOneVideo(@RequestHeader("Authorization") apiKey: String,
+                        @PathVariable(name = "id", required = true) tmdbId : Int
+    ) : VideoResponse
 }

@@ -1,11 +1,11 @@
 package com.sideReview.side.tmdb.dto
 
 data class ContentDto(
-    //TODO : 장르 Enum class, actor, trailer, rating, age
+    //TODO : actor, trailer, rating, age
     val id: Int,
     val name: String,
     val platform: List<String>,
-    val genre: List<Int>,
+    val genre: List<String>,
     val year: String ?= null,
     val synopsis: String,
     val trailer: String ?= null,

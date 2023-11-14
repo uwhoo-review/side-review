@@ -22,6 +22,6 @@ class MainContentsController @Autowired constructor(private val tmdbService: Tmd
 
     @GetMapping("/init")
     fun getTmdb(): ResponseEntity<Any> {
-        return ResponseEntity.ok(tmdbService.getAllProviderById(tmdbService.getAllContents()));
+        return ResponseEntity.ok(tmdbService.getMoreInfo(tmdbService.getAllContents()));
     }
 }

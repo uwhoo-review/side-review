@@ -1,5 +1,7 @@
 package com.sideReview.side.common.util
 
+import com.sideReview.side.common.constant.GenreEnum
+import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.tmdb.document.ContentDocument
 import com.sideReview.side.tmdb.dto.TbdbContent
 
@@ -22,4 +24,20 @@ object MapperUtil {
         }
     }
 
+    fun mapGenreCodeToString(numbers: List<Int>): List<String> {
+        return numbers.mapNotNull { number ->
+            GenreEnum.values().find { it.id == number }?.genre
+        }
+    }
+    fun mapProviderStringToCode(strings: List<String>): List<Int> {
+        return strings.mapNotNull { string ->
+            ProviderEnum.values().find { it.name == string.uppercase() }?.value
+        }
+    }
+
+    fun mapProviderCodeToString(numbers: List<Int>): List<String> {
+        return numbers.mapNotNull { number ->
+            ProviderEnum.values().find { it.value == number }?.name.toString()
+        }
+    }
 }

@@ -3,7 +3,7 @@ package com.sideReview.side.tmdb.document
 data class ContentDocument(
         val id: Int,
         val name: String,
-        var platform: List<String> ?= null,
+        var platform: List<Int> ?= null,
         var genre: List<String> ?= null,
         val rating: Double ?= null,
         val first_air_date: String ?= null,
