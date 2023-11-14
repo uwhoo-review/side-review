@@ -15,9 +15,18 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("https://uwhoo-review.site", "https://localhost",
-            "https://www.uwhoo-review.site", "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com") // 허용하려는 도메인을 추가
-        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        configuration.addAllowedOriginPattern("*")
+        configuration.addAllowedOrigin("*")
+//            "https://uwhoo-review.site", "https://localhost",
+//            "https://www.uwhoo-review.site", "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
+//        )
+        configuration.addAllowedMethod("GET")
+        configuration.addAllowedMethod("POST")
+        configuration.addAllowedMethod("PUT")
+        configuration.addAllowedMethod("DELETE")
+        configuration.addAllowedMethod("OPTIONS")
+//        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+
         configuration.allowCredentials = true
         configuration.addAllowedHeader("*")
 
@@ -25,6 +34,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         source.registerCorsConfiguration("**", configuration)
         return source
     }
+
     override fun configure(http: HttpSecurity) {
         http
             .authorizeRequests()
