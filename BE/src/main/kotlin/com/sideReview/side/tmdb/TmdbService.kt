@@ -45,7 +45,7 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
                 name = content.name,
                 poster = content.poster_path,
                 synopsis = content.overview,
-                platform = mapProviderCodeToString(FilterPlatformList(providersResponse)),
+                platform = mapProviderCodeToString(filterPlatformList(providersResponse)),
                 genre = genreList,
                 year = content.first_air_date?.substring(0, 4),
                 trailer = filterTrailerKey(videoResponse).firstOrNull()
@@ -78,7 +78,7 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
             val id = doc.id
 
             val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", id)
-            doc.platform = FilterPlatformList(providersResponse)
+            doc.platform = filterPlatformList(providersResponse)
 
             val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", id)
             doc.trailer = filterTrailerKey(videoResponse)
@@ -100,7 +100,7 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
         return videoList
     }
 
-    fun FilterPlatformList(providersResponse : WatchProvidersResponse) : List<Int> {
+    fun filterPlatformList(providersResponse : WatchProvidersResponse) : List<Int> {
         val providerInfo: ProviderInfo ?= providersResponse.results["KR"]
         val flatrateSize = providerInfo?.flatrate?.size
         val providerList : MutableList<String> = mutableListOf()

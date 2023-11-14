@@ -51,8 +51,8 @@ class OpenSearchService {
                     text(ContentDocument::synopsis)
                     keyword(ContentDocument::trailer)
                     keyword(ContentDocument::poster)
-                    date(ContentDocument::first_air_date)
-                    number<Float>(ContentDocument::avg_star_rating)
+                    date(ContentDocument::firstAirDate)
+                    number<Float>(ContentDocument::avgStarRating)
                 }
             }
         }.onFailure {
