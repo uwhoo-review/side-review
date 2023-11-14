@@ -6,6 +6,7 @@ export default {
     position: relative;
     border-radius: 10px;
     opacity: ${active ? 1 : 0.5};
+    width: fit-content;
     &:hover {
       opacity: 1;
       .icon-launch{

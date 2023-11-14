@@ -4,13 +4,10 @@ import Color from "@src/common/styles/Color";
 export default {
   wrapper: css`
     width: 100%;
-    height: 100%;
     padding-top: 70px;
     box-sizing: border-box;
   `,
-  centerWrapper: css`
-    height: 100%;
-  `,
+  centerWrapper: css``,
   header: css``,
   headline: css`
     font-family: Pretendard-SemiBold;
@@ -20,42 +17,59 @@ export default {
   `,
   contentWrapper: css`
     display: flex;
-    justify-content: flex-end;
+    //justify-content: flex-end;
     //margin-top: 40px;
-    height: calc(100% - 70px);
     //box-sizing: border-box;
   `,
   leftBox: css`
-    flex-basis: 452px;
+    width: 452px;
     margin-right: 20px;
-    //width: 452px;
   `,
   rightBox: css`
-    flex-basis: 900px;
     flex-grow: 1;
-
-    height: 100%;
+    width: 100%;
     & > div {
-      width: 100%;
+      //width: 100%;
       &::-webkit-scrollbar {
-        display: none;
+        //display: none;
       }
     }
-    //width: 100%;
-    //transition: 1s ease;
   `,
   cardWrapper: (active: boolean) => css`
-    display: flex;
-    align-items: flex-end;
+    /*    display: flex;
+    
     justify-content: flex-end;
     flex-wrap: wrap;
     column-gap: ${active ? "40px" : "20px"};
     row-gap: 40px;
 
+    transition: 1s ease transform;*/
+  `,
+  listContainer: css`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
     transition: 1s ease transform;
+  `,
+  itemContainer: (active: boolean) => css`
+    display: flex;
+    flex: none;
+    align-content: stretch;
+    align-items: flex-end;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    width: ${active ? `calc(100% / 4)` : `calc(100% / 6)`};
+    height: 380px;
+  `,
+  item: css`
+    flex: 1;
+    white-space: nowrap;
   `,
   card: css`
     cursor: pointer;
+  `,
+  cardBox: css`
+    display: inline-block;
   `,
   floatWrapper: css`
     position: sticky;
