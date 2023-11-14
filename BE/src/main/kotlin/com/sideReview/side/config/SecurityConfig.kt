@@ -16,17 +16,19 @@ open class SecurityConfig {
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.addAllowedOriginPattern("*")
-        configuration.addAllowedOrigin("*")
-//            "https://uwhoo-review.site", "https://localhost",
-//            "https://www.uwhoo-review.site", "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
-//        )
-        configuration.addAllowedMethod("GET")
-        configuration.addAllowedMethod("POST")
-        configuration.addAllowedMethod("PUT")
-        configuration.addAllowedMethod("DELETE")
-        configuration.addAllowedMethod("OPTIONS")
-//        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//        configuration.addAllowedOriginPattern("*")
+        configuration.allowedOriginPatterns= listOf("*")
+//        configuration.addAllowedOrigin("*")
+        configuration.allowedOrigins= listOf(
+            "https://uwhoo-review.site", "https://localhost",
+            "https://www.uwhoo-review.site", "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
+        )
+//        configuration.addAllowedMethod("GET")
+//        configuration.addAllowedMethod("POST")
+//        configuration.addAllowedMethod("PUT")
+//        configuration.addAllowedMethod("DELETE")
+//        configuration.addAllowedMethod("OPTIONS")
+        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
 
         configuration.allowCredentials = true
         configuration.addAllowedHeader("*")
