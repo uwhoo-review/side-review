@@ -2,6 +2,7 @@ package com.sideReview.side.tmdb
 
 import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.common.util.MapperUtil.mapGenreCodeToString
+import com.sideReview.side.common.util.MapperUtil.mapProviderCodeToString
 import com.sideReview.side.common.util.MapperUtil.mapProviderStringToCode
 import com.sideReview.side.tmdb.document.ContentDocument
 import com.sideReview.side.tmdb.dto.*
@@ -36,14 +37,18 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
         for(i in 0..<size){
             val content : TbdbContent = tmdb.results[i]
             val genreList : List<String> = mapGenreCodeToString(content.genre_ids)
+            val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", content.id)
+            val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", content.id)
+
             val contentDto : ContentDto = ContentDto(
                 id = content.id,
                 name = content.name,
                 poster = content.poster_path,
                 synopsis = content.overview,
-                platform = listOf("netflix"),
+                platform = mapProviderCodeToString(FilterPlatformList(providersResponse)),
                 genre = genreList,
-                year = content.first_air_date?.substring(0, 4)
+                year = content.first_air_date?.substring(0, 4),
+                trailer = filterTrailerKey(videoResponse).firstOrNull()
             )
 
             if(i < 10) latest.add(contentDto)
@@ -67,27 +72,48 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
         return MapperUtil.mapTmdbToDocument(dtoList)
     }
 
-    fun getAllProviderById(docList : List<ContentDocument>) : List<ContentDocument>{
-        var i : Int = 0;
+    fun getMoreInfo(docList : List<ContentDocument>) : List<ContentDocument>{
+        var i : Int = 1;
         for(doc in docList){
             val id = doc.id
-            val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", id)
-            val providerInfo: ProviderInfo ?= providersResponse.results["KR"]
-            val flatrateSize = providerInfo?.flatrate?.size
-            val providerList : MutableList<String> = mutableListOf()
 
-            if(providersResponse.results.isNotEmpty() && flatrateSize != null) {
-                for (i in 0..<flatrateSize) {
-                    val provider = providerInfo.flatrate[i].provider_name.split(" ")[0]
-                    if (!providerList.contains(provider)) providerList.add(provider)
-                }
-                doc.platform = mapProviderStringToCode(providerList)
-            }
-            // 테스트용 break
-            if(i%100 == 0) logger.info("[Provider] processing...: $i")
+            val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", id)
+            doc.platform = FilterPlatformList(providersResponse)
+
+            val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", id)
+            doc.trailer = filterTrailerKey(videoResponse)
+
+            if(i%100 == 0) logger.info("Get more info processing ... $i / ${docList.size}")
             i++
-            if(i == 500) break;
         }
         return docList
+    }
+
+    fun filterTrailerKey(videoResponse: VideoResponse) : List<String> {
+        videoResponse.results.sortedWith(compareBy({ it.type == "Trailer" }, { it.published_at }))
+        val videoList : MutableList<String> = mutableListOf()
+        for (video in videoResponse.results){
+            if(video.official){
+                videoList.add(video.key)
+            }
+        }
+        return videoList
+    }
+
+    fun FilterPlatformList(providersResponse : WatchProvidersResponse) : List<Int> {
+        val providerInfo: ProviderInfo ?= providersResponse.results["KR"]
+        val flatrateSize = providerInfo?.flatrate?.size
+        val providerList : MutableList<String> = mutableListOf()
+        var providerCodeList : List<Int> = emptyList()
+
+        if(providersResponse.results.isNotEmpty() && flatrateSize != null) {
+            for (i in 0..<flatrateSize) {
+                val provider = providerInfo.flatrate[i].provider_name.split(" ")[0]
+                if (!providerList.contains(provider)) providerList.add(provider)
+            }
+            providerCodeList = mapProviderStringToCode(providerList)
+
+        }
+        return providerCodeList
     }
 }
