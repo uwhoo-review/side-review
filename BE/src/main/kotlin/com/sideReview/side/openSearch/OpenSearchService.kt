@@ -1,15 +1,14 @@
 package com.sideReview.side.openSearch
 
-import com.jillesvangurp.ktsearch.KtorRestClient
-import com.jillesvangurp.ktsearch.Node
-import com.jillesvangurp.ktsearch.SearchClient
-import com.jillesvangurp.ktsearch.createIndex
+import com.jillesvangurp.ktsearch.*
+import com.sideReview.side.tmdb.TmdbService
 import com.sideReview.side.tmdb.document.ContentDocument
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchService {
+class OpenSearchService(val tmdbService: TmdbService) {
     private val client: SearchClient
 
     init {
@@ -63,6 +62,27 @@ class OpenSearchService {
         }
     }
 
-    fun insert() {
+    /*
+    * 스케줄러에서 실행, 주기적으로 OpenSearch에 데이터를 넣어줌.
+    * */
+    suspend fun insert() {
+        val docs = tmdbService.getMoreInfo(tmdbService.getAllContents())
+        coroutineScope {
+            client.bulk {
+                docs.forEach { doc ->
+                    index(
+                        source = DEFAULT_JSON.encodeToString(
+                            ContentDocument.serializer(),
+                            doc
+                        ),
+                        index = "Content"
+                    )
+                }
+            }
+        }
+    }
+
+    suspend fun get() {
+        println(client.getIndex("Content"))
     }
 }
