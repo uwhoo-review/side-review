@@ -3,11 +3,13 @@ package com.sideReview.side.openSearch
 import com.jillesvangurp.ktsearch.KtorRestClient
 import com.jillesvangurp.ktsearch.Node
 import com.jillesvangurp.ktsearch.SearchClient
+import com.jillesvangurp.ktsearch.createIndex
+import com.sideReview.side.tmdb.document.ContentDocument
 import kotlinx.coroutines.runBlocking
-import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 
+@Service
 class OpenSearchService {
-    private val logger = LoggerFactory.getLogger(this.javaClass)!!
     private val client: SearchClient
 
     init {
@@ -22,11 +24,42 @@ class OpenSearchService {
 
         runBlocking {
             val engineInfo = client.engineInfo()
-            logger.info("**** Open Search Client connection ****")
-            logger.info(engineInfo.name)
-            logger.info(engineInfo.clusterName)
-            logger.info(engineInfo.version.number)
-            logger.info("****************************************")
+            println("**** Open Search Client connection ****")
+            println(engineInfo.name)
+            println(engineInfo.clusterName)
+            println(engineInfo.version.number)
+            println("****************************************")
+        }
+    }
+
+    /*
+    * 첫 시작 시 Index 생성.
+    * Application Runner 에서 사용
+    * */
+    public suspend fun initIndex() {
+
+        kotlin.runCatching {
+            client.createIndex("Content") {
+                mappings(dynamicEnabled = false) {
+                    keyword(ContentDocument::id)
+                    text(ContentDocument::name)
+                    keyword(ContentDocument::photo)
+                    number<Int>(ContentDocument::genre)
+                    number<Int>(ContentDocument::platform)
+                    keyword(ContentDocument::rating)
+                    number<Int>(ContentDocument::genre)
+                    text(ContentDocument::synopsis)
+                    keyword(ContentDocument::trailer)
+                    keyword(ContentDocument::poster)
+                    date(ContentDocument::first_air_date)
+                    number<Float>(ContentDocument::avg_star_rating)
+                }
+            }
+        }.onFailure {
+            println("Schema already exist.")
+        }.onSuccess { s ->
+            println(s)
+            println("Schema creation complete.")
         }
     }
 
