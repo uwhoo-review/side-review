@@ -49,13 +49,16 @@ dependencies {
 
 
     compileOnly("org.projectlombok:lombok")
-    compileOnly("com.google.api-client:google-api-client:1.23.0")
-    compileOnly("com.google.oauth-client:google-oauth-client-jetty:1.23.0")
+    // youtube
+//    compileOnly("com.google.api-client:google-api-client:1.23.0")
+//    compileOnly("com.google.oauth-client:google-oauth-client-jetty:1.23.0")
+
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
+// OpenFeign
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.8")

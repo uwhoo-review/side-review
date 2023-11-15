@@ -75,7 +75,7 @@ class OpenSearchService(val tmdbService: TmdbService) {
                             ContentDocument.serializer(),
                             doc
                         ),
-                        index = "Content"
+                        index = "content"
                     )
                 }
             }
@@ -83,6 +83,6 @@ class OpenSearchService(val tmdbService: TmdbService) {
     }
 
     suspend fun get() {
-        println(client.getIndex("Content"))
+        println(client.getIndex("content"))
     }
 }
