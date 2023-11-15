@@ -68,14 +68,13 @@ class OpenSearchService(val tmdbService: TmdbService) {
     suspend fun insert() {
         val docs = tmdbService.getMoreInfo(tmdbService.getAllContents())
         coroutineScope {
-            client.bulk {
+            client.bulk(bulkSize = docs.size, target = "content") {
                 docs.forEach { doc ->
                     index(
                         source = DEFAULT_JSON.encodeToString(
                             ContentDocument.serializer(),
                             doc
                         ),
-                        index = "content",
                         id = doc.id.toString()
 
                     )
