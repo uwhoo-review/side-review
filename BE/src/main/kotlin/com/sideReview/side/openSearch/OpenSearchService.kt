@@ -75,7 +75,9 @@ class OpenSearchService(val tmdbService: TmdbService) {
                             ContentDocument.serializer(),
                             doc
                         ),
-                        index = "content"
+                        index = "content",
+                        id = doc.id.toString()
+
                     )
                 }
             }
