@@ -67,8 +67,53 @@ class OpenSearchService(val tmdbService: TmdbService) {
     * */
     suspend fun insert() {
         val docs = tmdbService.getMoreInfo(tmdbService.getAllContents())
+        val itemCallBack = object : BulkItemCallBack {
+            override fun itemFailed(
+                operationType: OperationType,
+                item: BulkResponse.ItemDetails
+            ) {
+                println(
+                    """
+      ${operationType.name} failed
+      ${item.id} with ${item.status}
+      """.trimMargin()
+                )
+                println(item.error)
+                println(item.toString())
+                println("---------------")
+
+            }
+
+            override fun itemOk(
+                operationType: OperationType,
+                item: BulkResponse.ItemDetails
+            ) {
+//                println(
+//                    """ \n
+//      operation $operationType completed!
+//      id: ${item.id}
+//      sq_no: ${item.seqNo}
+//      primary_term ${item.primaryTerm}
+//      \n
+//    """.trimIndent()
+//                )
+            }
+
+            override fun bulkRequestFailed(
+                e: Exception,
+                ops: List<Pair<String, String?>>
+            ) {
+                println(
+                    """
+                        \n
+      Request failure ${e.message}.
+      Unless you set 
+    """.trimIndent()
+                )
+            }
+        }
         coroutineScope {
-            client.bulk(bulkSize = docs.size, target = "content") {
+            client.bulk(bulkSize = docs.size, target = "content", callBack = itemCallBack) {
                 docs.forEach { doc ->
                     index(
                         source = DEFAULT_JSON.encodeToString(
