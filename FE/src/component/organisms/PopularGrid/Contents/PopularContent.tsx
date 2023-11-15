@@ -88,10 +88,10 @@ const PopularContent = ({ data }: any) => {
                     }}
                     css={styled.item}
                   >
-                    {/*<ContentCard
+                    <ContentCard
                       key={v.id}
                       className={`image-card`}
-                      src={IMAGE_URL + v?.poster}
+                      srcId={v.poster}
                       rank={i + 1}
                       contentName={v.name}
                       platform={v.platform}
@@ -100,8 +100,8 @@ const PopularContent = ({ data }: any) => {
                       rating={v.rating}
                       active={selectedCard ? selectedCard?.id === v.id : true}
                       customCss={styled.card}
-                    />*/}
-                    {isScrolling ? (
+                    />
+{/*                    {isScrolling ? (
                       <ContentEmptyCard active={selectedCard ? selectedCard?.id === v.id : true} />
                     ) : (
                       <ContentCard
@@ -117,7 +117,7 @@ const PopularContent = ({ data }: any) => {
                         active={selectedCard ? selectedCard?.id === v.id : true}
                         customCss={styled.card}
                       />
-                    )}
+                    )}*/}
                   </div>
                 );
               }}

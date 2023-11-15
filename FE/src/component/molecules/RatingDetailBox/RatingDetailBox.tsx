@@ -84,11 +84,15 @@ const RatingDetailBox = () => {
           <HWButton
             variant={"lower"}
             onClick={() => handleCopyClipBoard(`${location.pathname}`)}
-            customCss={styled.btn1}
+            // customCss={styled.btn1}
           >
             <IconLink /> 링크 공유
           </HWButton>
-          <HWButton variant={"primary"} onClick={() => setDialog(true)} customCss={styled.btn2}>
+          <HWButton
+            variant={"primary"}
+            onClick={() => setDialog(true)}
+            // customCss={styled.btn2}
+          >
             <IconWrite />
             리뷰 쓰기
           </HWButton>

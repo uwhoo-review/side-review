@@ -76,19 +76,19 @@ export default {
       case "best": {
         return css`
           background-color: rgba(3, 218, 198, 0.12);
-          color: #03DAC6;
+          color: #03dac6;
         `;
       }
       case "spoiler": {
         return css`
-          background-color: rgba(38, 188, 89, 0.1);
-          color: #26bc59;
+          background-color: rgba(255, 196, 0, 0.12);
+          color: #ffc400;
         `;
       }
       case "age": {
         return css`
           background-color: rgba(207, 102, 121, 0.15);
-          color: #CF6679;
+          color: #cf6679;
         `;
       }
       case "4": {
@@ -119,7 +119,7 @@ export default {
         return css`
           background-color: #000;
           color: #fff;
-        `
+        `;
       }
     }
   },

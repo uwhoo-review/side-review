@@ -24,6 +24,7 @@ export const root = (size: "xlarge" | "large" | "medium" | "small") => {
     align-items: center;
     justify-content: center;
     color: #ffffff;
+    gap: 6px;
     svg {
       font-size: 1rem;
     }
