@@ -1,3 +1,5 @@
+import { IMAGE_URL, THUMBNAIL_URL, VIDEO_URL } from "@src/variables/tmdbConstants";
+
 export function isNullOrEmpty(v: any) {
   return v === null || v === undefined || v === "";
 }
@@ -74,4 +76,33 @@ export function getDateDiff(_date1: Date, _date2: Date) {
       }
     }
   }
+}
+
+export function getCardURL({
+  type,
+  srcId,
+  size,
+  autoplay,
+}: {
+  type: string;
+  srcId: string;
+  size?: string;
+  autoplay?: boolean;
+}) {
+  const id = srcId?.replaceAll(/^\/|.jpg$/gi, "");
+  let res = "";
+  if (type === "content") {
+    if (size) res = `${IMAGE_URL}/${size}/${id}.jpg`;
+    else res = `${IMAGE_URL}/w500/${id}.jpg`;
+  } else if (type === "photo") {
+    if (size) res = `${IMAGE_URL}/${size}/${id}.jpg`;
+    else res = `${IMAGE_URL}/original/${id}.jpg`;
+  } else if (type === "trailer") {
+    res = `${VIDEO_URL}/${id}?mute=1${autoplay ? "&autoplay=1" : ""}`;
+  } else if (type === "thumbnail") {
+    if (size) res = `${THUMBNAIL_URL}/${id}/${size}.jpg`;
+    else res = `${THUMBNAIL_URL}/${id}/mqdefault.jpg`;
+  }
+
+  return res;
 }

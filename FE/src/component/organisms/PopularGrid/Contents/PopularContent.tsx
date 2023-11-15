@@ -107,7 +107,7 @@ const PopularContent = ({ data }: any) => {
                       <ContentCard
                         key={v.id}
                         className={`image-card`}
-                        src={IMAGE_URL + v?.poster}
+                        srcId={v.poster}
                         rank={i + 1}
                         contentName={v.name}
                         platform={v.platform}

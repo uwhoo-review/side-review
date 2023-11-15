@@ -22,6 +22,7 @@ import { SerializedStyles } from "@emotion/react";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
+import { getCardURL } from "@src/tools/commonTools";
 
 interface PreviewBoxProps {
   item: ContentProps;
@@ -46,10 +47,9 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
             <div css={styled.topContents}>
               <div css={styled.leftContents}>
                 <iframe
-                  width="640"
-                  height="360"
-                  src={VIDEO_URL + item.trailer}
-                  // src={"https://www.youtube.com/embed/d9iBOTL4zgc?si=SOmiTCZ_GCe5WIK7"}
+                  width="100%"
+                  height="100%"
+                  src={getCardURL({ type: "trailer", srcId: item.trailer })}
                   title="Video"
                   allowFullScreen
                 />

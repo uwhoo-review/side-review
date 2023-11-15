@@ -11,15 +11,54 @@ import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
 import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import person1 from "@res/temp/person1.png";
-import {card1, card3, IconChevronDoubleDown} from "@res/index";
+import { card1, card3, IconChevronDoubleDown } from "@res/index";
+import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
 const SearchResultContent = () => {
   const [contentsList, setContentsList] = useState([
-/*    <ContentCard src={card3} />,
-    <ContentCard src={card3} />,
-    <ContentCard src={card3} />,
-    <ContentCard src={card3} />,
-    <ContentCard src={card3} />,
-    <ContentCard src={card3} />,*/
+    <ContentCard
+      key={DUMMY_CONTENT.id}
+      className={`image-card`}
+      srcId={DUMMY_CONTENT.poster}
+      contentName={DUMMY_CONTENT.name}
+      platform={DUMMY_CONTENT.platform}
+      age={DUMMY_CONTENT.age}
+      year={DUMMY_CONTENT.year}
+      rating={DUMMY_CONTENT.rating}
+      active
+    />,
+    <ContentCard
+      key={DUMMY_CONTENT.id}
+      className={`image-card`}
+      srcId={DUMMY_CONTENT.poster}
+      contentName={DUMMY_CONTENT.name}
+      platform={DUMMY_CONTENT.platform}
+      age={DUMMY_CONTENT.age}
+      year={DUMMY_CONTENT.year}
+      rating={DUMMY_CONTENT.rating}
+      active
+    />,
+    <ContentCard
+      key={DUMMY_CONTENT.id}
+      className={`image-card`}
+      srcId={DUMMY_CONTENT.poster}
+      contentName={DUMMY_CONTENT.name}
+      platform={DUMMY_CONTENT.platform}
+      age={DUMMY_CONTENT.age}
+      year={DUMMY_CONTENT.year}
+      rating={DUMMY_CONTENT.rating}
+      active
+    />,
+    <ContentCard
+      key={DUMMY_CONTENT.id}
+      className={`image-card`}
+      srcId={DUMMY_CONTENT.poster}
+      contentName={DUMMY_CONTENT.name}
+      platform={DUMMY_CONTENT.platform}
+      age={DUMMY_CONTENT.age}
+      year={DUMMY_CONTENT.year}
+      rating={DUMMY_CONTENT.rating}
+      active
+    />,
   ]);
   const [toggle1, setToggle1] = useState<string>("a");
   const [toggle2, setToggle2] = useState<string>("a");
@@ -60,15 +99,7 @@ const SearchResultContent = () => {
                     family={"Pretendard-SemiBold"}
                     color={Color.dark.primary800}
                     onClick={() => {
-                      setContentsList((prev) => [
-                        ...prev,
-/*                        <ContentCard src={card3} />,
-                        <ContentCard src={""} />,
-                        <ContentCard src={""} />,
-                        <ContentCard src={card3} />,
-                        <ContentCard src={""} />,
-                        <ContentCard src={""} />,*/
-                      ]);
+                      setContentsList((prev) => [...prev]);
                     }}
                   >
                     더보기
@@ -80,61 +111,95 @@ const SearchResultContent = () => {
             {toggle1 === "b" && (
               <>
                 <div css={styled.sub2}>
-                  <PersonCard width="97px" height={"97px"} src={person1} className={"image-card"} onClick={() => {}} />
-                  <PersonCard width="97px" height={"97px"} src={person1} className={"image-card"} onClick={() => {}} />
-                  <PersonCard width="97px" height={"97px"} src={person1} className={"image-card"} onClick={() => {}} />
-                  <PersonCard width="97px" height={"97px"} src={person1} className={"image-card"} onClick={() => {}} />
-                  <PersonCard width="97px" height={"97px"} src={person1} className={"image-card"} onClick={() => {}} />
-                  <PersonCard width="97px" height={"97px"} src={person1} className={"image-card"} onClick={() => {}} />
-                  <PersonCard width="97px" height={"97px"} src={person1} className={"image-card"} onClick={() => {}} />
-                  <PersonCard width="97px" height={"97px"} src={person1} className={"image-card"} onClick={() => {}} />
-
+                  <PersonCard
+                    width="97px"
+                    height={"97px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
+                  <PersonCard
+                    width="97px"
+                    height={"97px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
+                  <PersonCard
+                    width="97px"
+                    height={"97px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
+                  <PersonCard
+                    width="97px"
+                    height={"97px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
+                  <PersonCard
+                    width="97px"
+                    height={"97px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
+                  <PersonCard
+                    width="97px"
+                    height={"97px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
+                  <PersonCard
+                    width="97px"
+                    height={"97px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
+                  <PersonCard
+                    width="97px"
+                    height={"97px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
                 </div>
-                <HWTypography
-                  variant={"headlineXXS"}
-                  family={"Pretendard-SemiBold"}
-                  color={Color.dark.primary800}
-                  onClick={() => {
-                    setContentsList((prev) => [
-                      ...prev,
-/*                      <ContentCard src={""} />,
-                      <ContentCard src={""} />,
-                      <ContentCard src={""} />,*/
-                    ]);
-                  }}
-                >
-                  더보기
-                </HWTypography>
+                <div css={styled.plusBtn}>
+                  <HWTypography
+                    variant={"headlineXXS"}
+                    family={"Pretendard-SemiBold"}
+                    color={Color.dark.primary800}
+                    onClick={() => {
+                      setContentsList((prev) => [...prev]);
+                    }}
+                  >
+                    더보기
+                  </HWTypography>
+                  <IconChevronDoubleDown />
+                </div>
               </>
             )}
           </>
         </div>
       </CenterWrapper>
       <CenterWrapper>
-        <WrapperTitle title={"연관 검색어"} subTitle={"24"} customCss={styled.subTitle}/>
+        <WrapperTitle title={"연관 검색어"} subTitle={"24"} customCss={styled.subTitle} />
         <HWToggleButtonGroup customCss={styled.toggle}>
           <HWToggleButton {...props2("a")}>드라마</HWToggleButton>
           <HWToggleButton {...props2("b")}>인물</HWToggleButton>
         </HWToggleButtonGroup>
         <div css={styled.subWrapper}>
           <>
-            {toggle2 === "a" && (
-              <div css={styled.sub1}>
-{/*                <ContentCard src={""} />
-                <ContentCard src={""} />
-                <ContentCard src={""} />
-                <ContentCard src={""} />
-                <ContentCard src={""} />
-                <ContentCard src={""} />
-                <ContentCard src={""} />*/}
-              </div>
-            )}
+            {toggle2 === "a" && <div css={styled.sub1}>{contentsList.map((v) => v)}</div>}
             {toggle2 === "b" && (
               <div css={styled.sub2}>
-                <PersonCard src={""} className={"image-card"} onClick={() => {}} />
-                <PersonCard src={""} className={"image-card"} onClick={() => {}} />
-                <PersonCard src={""} className={"image-card"} onClick={() => {}} />
-                <PersonCard src={""} className={"image-card"} onClick={() => {}} />
+                <PersonCard src={person1} className={"image-card"} onClick={() => {}} />
+                <PersonCard src={person1} className={"image-card"} onClick={() => {}} />
+                <PersonCard src={person1} className={"image-card"} onClick={() => {}} />
               </div>
             )}
           </>

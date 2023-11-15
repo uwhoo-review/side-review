@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 export default {
   wrapper: css`
-    margin-top: 70px;
+    margin-bottom: 70px;
   `,
   title: css`
     font-family: Pretendard, sans-serif;
@@ -30,13 +30,21 @@ export default {
     display: flex;
     align-items: center;
     gap: 20px;
+    flex-wrap: nowrap;
 
     transition: 0.5s ease;
     transform: translate(${(currentPage - 1) * -(1396 + 20)}px, 0px);
-    //transform: translate(${(currentPage - 1) * -100}%, 0px);
   `,
   card: css`
+    width: 334px;
+    height: 190px;
     cursor: pointer;
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;    
+    
   `,
   leftPageBtn: css`
     position: absolute;

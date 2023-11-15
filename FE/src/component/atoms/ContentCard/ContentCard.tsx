@@ -8,10 +8,11 @@ import Color from "@src/common/styles/Color";
 import { useEffect, useState } from "react";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getCardURL } from "@src/tools/commonTools";
 
 interface ContentCardProps {
-  src: string;
+  srcId: string;
   contentName: string;
   rating: number;
   platform: string[];
@@ -24,7 +25,7 @@ interface ContentCardProps {
   customCss?: SerializedStyles;
 }
 const ContentCard = ({
-  src,
+  srcId,
   contentName,
   rating,
   platform,
@@ -58,7 +59,12 @@ const ContentCard = ({
     >
       {rank && <div css={styled.rank}>{rank}</div>}
       <div className={`card-box`} css={styled.imgWrapper(active)}>
-        <DefaultImage width="100%" height="100%" alt="" src={src} />
+        <DefaultImage
+          width="100%"
+          height="100%"
+          alt=""
+          src={getCardURL({ type: "content", srcId: srcId })}
+        />
       </div>
       <div css={styled.description}>
         <div className={"title"} css={styled.title}>
@@ -68,7 +74,6 @@ const ContentCard = ({
             onClick={(e) => {
               e.stopPropagation();
               navigate("/detail");
-
             }}
             css={styled.Launch}
           />

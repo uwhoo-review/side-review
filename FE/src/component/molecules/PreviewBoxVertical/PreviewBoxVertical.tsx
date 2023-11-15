@@ -23,6 +23,7 @@ import { VIDEO_URL } from "@src/variables/tmdbConstants";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
+import { getCardURL } from "@src/tools/commonTools";
 
 interface PreviewBoxVerticalProps {
   item: ContentProps;
@@ -40,9 +41,9 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
         <div css={styled.contents}>
           <div css={styled.topContents}>
             <iframe
-              width="412"
-              height="232"
-              src={VIDEO_URL + item.trailer}
+              width="100%"
+              height="100%"
+              src={getCardURL({ type: "trailer", srcId: item.trailer })}
               title="Video"
               allowFullScreen
             />
@@ -107,9 +108,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                         내 별점
                       </HWTypography>
                     </div>
-                    <div
-                      className={"margin-top-12 flex flex-align-center gap-5"}
-                    >
+                    <div className={"margin-top-12 flex flex-align-center gap-5"}>
                       <Rating
                         name="rating-value"
                         value={rating}
@@ -142,7 +141,11 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
+                      <HWTypography
+                        variant={"bodyS"}
+                        family={"Pretendard"}
+                        color={Color.dark.grey500}
+                      >
                         {item.genre}
                       </HWTypography>
                     </div>
@@ -195,7 +198,11 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                     </div>
 
                     <div className={"margin-top-8"}>
-                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
+                      <HWTypography
+                        variant={"bodyS"}
+                        family={"Pretendard"}
+                        color={Color.dark.grey500}
+                      >
                         {item.actors?.join(",")}
                       </HWTypography>
                     </div>
@@ -239,7 +246,13 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                   부모들이 시대와 세대를 넘어 닥치는 거
                   블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
                 </ReviewCard>
-                <ReviewCard width={"100%"} best={false} date={"2023.02.29"} line={4} useModal={true}>
+                <ReviewCard
+                  width={"100%"}
+                  best={false}
+                  date={"2023.02.29"}
+                  line={4}
+                  useModal={true}
+                >
                   asd
                 </ReviewCard>
               </div>

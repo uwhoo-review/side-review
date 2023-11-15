@@ -18,6 +18,7 @@ import { ReactComponent as IconChevronRight } from "./icon/ic_chevron_right.svg"
 import { ReactComponent as IconInit } from "./icon/ic_init.svg";
 import { ReactComponent as IconLaunch } from "./icon/ic_launch.svg";
 import { ReactComponent as IconLink } from "./icon/ic_link.svg";
+import { ReactComponent as IconPlay } from "./icon/ic_play.svg";
 import { ReactComponent as IconRating } from "./icon/ic_rating.svg";
 import { ReactComponent as IconRatingEmpty } from "./icon/ic_rating_emtpy.svg";
 import { ReactComponent as IconSearch } from "./icon/ic_search.svg";
@@ -53,6 +54,7 @@ export {
   IconInit,
   IconLaunch,
   IconLink,
+  IconPlay,
   IconRating,
   IconRatingEmpty,
   IconSearch,

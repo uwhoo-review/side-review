@@ -22,6 +22,8 @@ export default {
     align-items: center;
     gap: 14px;
     margin-bottom: 20px;
+    width: 412px;
+    height: 232px;
     iframe {
       border: none;
       border-radius: 6px;
@@ -76,7 +78,7 @@ export default {
       }
       animation: translateX-2 1s ease;
     }*/
-    .bottom-review{
+    .bottom-review {
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -120,7 +122,6 @@ export default {
     cursor: pointer;
     color: ${Color.dark.grey500};
     font-size: 24px;
-
   `,
   rating: css`
     font-size: 20px;

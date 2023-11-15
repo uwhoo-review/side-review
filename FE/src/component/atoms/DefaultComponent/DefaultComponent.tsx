@@ -1,11 +1,7 @@
 import styled from "./style";
 
 const DefaultComponent = () => {
-
-
-  return (
-      <></>
-  )
-}
+  return <div css={styled.wrapper}></div>;
+};
 
 export default DefaultComponent;

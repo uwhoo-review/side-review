@@ -24,10 +24,10 @@ const SearchResultHeader = () => {
             <HWChip label={"액션"} />
             <HWChip label={"액션"} />
             <HWChip label={"액션"} />
-            <HWButton variant={"lowest"}>
+            {/*<HWButton variant={"lowest"}>
               <IconInit />
               <div>초기화</div>
-            </HWButton>
+            </HWButton>*/}
           </div>
         </div>
       </CenterWrapper>

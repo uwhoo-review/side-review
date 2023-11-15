@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export const root = (size: "xlarge" | "large" | "medium" | "small") => {
   enum heightEnum {
@@ -34,7 +35,7 @@ export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | 
     case "primary": {
       return css`
         background-color: #6d6ada;
-        color: #ffffff;
+        color: ${Color.dark.baseWhite};
         &:hover {
           background-color: #5354da;
         }
@@ -67,7 +68,7 @@ export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | 
     case "lower": {
       return css`
         background-color: unset;
-        color: #6d6ada;
+        color: ${Color.dark.primary700};
         border: solid 1px #ffffff1f;
         &:hover {
           background-color: #6d6ada0a;
@@ -83,15 +84,16 @@ export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | 
     case "lowest": {
       return css`
         background-color: unset;
-        color: #2e7af2;
+        color: ${Color.dark.primary700};
         &:hover {
           background-color: #6d6ada0a;
         }
         .MuiTouchRipple-root {
-          color: #1e71d2;
+          color: #bb86fc;
+          //color: yellow;
         }
         &.Mui-disabled {
-          color: #7d7e85;
+          color: #ffffff66;
         }
       `;
     }

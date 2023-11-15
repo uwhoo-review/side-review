@@ -7,6 +7,7 @@ import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { IMAGE_URL } from "@src/variables/tmdbConstants";
 import { ContentProps } from "@src/interfaces/api.interface";
+import { getCardURL } from "@src/tools/commonTools";
 interface CardListProps {
   title: string;
   subTitle: string;
@@ -82,7 +83,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                 >
                   <ContentCard
                     className={`image-card`}
-                    src={IMAGE_URL + v.poster}
+                    srcId={v.poster}
                     rank={i + 1}
                     contentName={v.name}
                     platform={v.platform}

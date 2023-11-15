@@ -44,11 +44,10 @@ export default {
     gap: 20px;
   `,
   leftContents: css`
-    flex-grow: 1;
+    width: 640px;
+    height: 360px;
+    flex-shrink: 0;
     iframe {
-      width: 640px;
-      height: 360px;
-
       border: none;
       border-radius: 6px;
     }

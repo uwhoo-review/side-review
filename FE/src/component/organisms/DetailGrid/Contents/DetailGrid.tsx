@@ -12,6 +12,8 @@ import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useState } from "react";
 import styled from "./style";
+import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
+import PhotoCard from "@src/component/atoms/PhotoCard/PhotoCard";
 
 const DetailGrid = () => {
   const [dialog, setDialog] = useState<any>(null);
@@ -51,79 +53,24 @@ const DetailGrid = () => {
         <BoxList
           title={"트레일러"}
           boxList={[
-            <iframe
-              key={1}
-              src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
-              width={"334"}
-              height={"189"}
-              css={styled.box}
-            />,
-            <iframe
-              key={2}
-              src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
-              width={"334"}
-              height={"189"}
-              css={styled.box}
-            />,
-            <iframe
-              key={3}
-              src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
-              width={"334"}
-              height={"189"}
-              css={styled.box}
-            />,
-            <iframe
-              key={4}
-              src={"https://www.youtube.com/embed/cqf0Ni3Jo_I?si=nZpAgMee9mFVwBax"}
-              width={"334"}
-              height={"189"}
-              css={styled.box}
-            />,
+            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
+            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
+            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
+            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
+            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
+            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
           ]}
         />
         <BoxList
           title={"포토"}
+          useModal={true}
           boxList={[
-            <DefaultImage
-              key={1}
-              src={img4}
-              width={"334px"}
-              height={"189px"}
-              onClick={() => setDialog(<DefaultImage src={img4} width={"100%"} height={"100%"} />)}
-              css={styled.box}
-            />,
-            <DefaultImage
-              key={2}
-              src={img2}
-              width={"334px"}
-              height={"189px"}
-              onClick={() => setDialog(<DefaultImage src={img2} width={"100%"} height={"100%"} />)}
-              css={styled.box}
-            />,
-            <DefaultImage
-              key={3}
-              src={img3}
-              width={"334px"}
-              height={"189px"}
-              onClick={() => setDialog(<DefaultImage src={img3} width={"100%"} height={"100%"} />)}
-              css={styled.box}
-            />,
-            <DefaultImage
-              key={4}
-              src={img1}
-              width={"334px"}
-              height={"189px"}
-              onClick={() => setDialog(<DefaultImage src={img1} width={"100%"} height={"100%"} />)}
-              css={styled.box}
-            />,
-            <DefaultImage
-              key={5}
-              src={img4}
-              width={"334px"}
-              height={"189px"}
-              onClick={() => setDialog(<DefaultImage src={img4} width={"100%"} height={"100%"} />)}
-              css={styled.box}
-            />,
+            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
+            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
+            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
+            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
+            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
+            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
           ]}
         />
       </CenterWrapper>
