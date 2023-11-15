@@ -128,6 +128,7 @@ class OpenSearchService(val tmdbService: TmdbService) {
         }
     }
 
+    // test용 임시 함수
     suspend fun get() {
         println(client.getIndex("content"))
     }
