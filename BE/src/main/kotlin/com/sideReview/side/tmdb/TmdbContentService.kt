@@ -43,7 +43,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             val contentDto : ContentDto = ContentDto(
                 id = content.id,
                 name = content.name,
-                poster = content.poster_path,
+                poster = content.poster_path?.substring(1),
                 synopsis = content.overview,
                 platform = mapProviderCodeToString(filterPlatformList(providersResponse)),
                 genre = genreList,

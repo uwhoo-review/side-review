@@ -18,7 +18,7 @@ object MapperUtil {
                 synopsis = tbdbContent.overview,
                 trailer = null,
                 photo = null,
-                poster = tbdbContent.poster_path,
+                poster = tbdbContent.poster_path?.substring(1),
                 avgStarRating = null
             )
         }
