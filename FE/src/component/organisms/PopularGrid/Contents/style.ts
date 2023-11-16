@@ -45,11 +45,14 @@ export default {
 
     transition: 1s ease transform;*/
   `,
-  listContainer: css`
+  listContainer: (active: boolean) => css`
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
     transition: 1s ease transform;
+
+    // column-gap: ${active ? "40px" : "20px"};
+    
   `,
   itemContainer: (active: boolean) => css`
     display: flex;
@@ -64,6 +67,8 @@ export default {
   item: css`
     flex: 1;
     white-space: nowrap;
+    display: flex;
+    justify-content: center;
   `,
   card: css`
     cursor: pointer;

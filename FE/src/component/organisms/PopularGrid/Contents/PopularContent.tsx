@@ -57,12 +57,18 @@ const PopularContent = ({ data }: any) => {
               ref={virtuosoRef}
               data={popularList}
               useWindowScroll={true}
-              overscan={6}
+              // overscan={6}
               components={{
                 List: forwardRef((props, ref) => (
-                  <div {...props} css={styled.listContainer} ref={ref} />
+                  <div {...props} css={styled.listContainer(!!selectedCard)} ref={ref} />
                 )),
-                Item: (props) => <div {...props} css={styled.itemContainer(!!selectedCard)} />,
+                Item: (props) => (
+                  <div
+                    {...props}
+                    className={"item-container"}
+                    css={styled.itemContainer(!!selectedCard)}
+                  />
+                ),
               }}
               isScrolling={setIsScrolling}
               itemContent={(i, v) => {
@@ -101,7 +107,7 @@ const PopularContent = ({ data }: any) => {
                       active={selectedCard ? selectedCard?.id === v.id : true}
                       customCss={styled.card}
                     />
-{/*                    {isScrolling ? (
+                    {/*                    {isScrolling ? (
                       <ContentEmptyCard active={selectedCard ? selectedCard?.id === v.id : true} />
                     ) : (
                       <ContentCard
