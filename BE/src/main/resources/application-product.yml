@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: product
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,7 +22,7 @@ spring:
           sniff-interval: 30000
   jackson:
     time-zone: Asia/Seoul
-    
+
 api:
   tmdb:
     key: eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0OWJjZmNhOWZkNWY0NGQyMjZhYzgzMTU5NzZhY2ZkYyIsInN1YiI6IjY1MWUzMmE0M2QzNTU3MDExY2ZmZThhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-uufjYqYRvt2OC66c1euvWmZdEOGy-gGvmRoQ1fP2AA
@@ -31,3 +34,6 @@ server:
     key-store-type: PKCS12
     key-store-password: uwhoo1234!
     key-alias: spring
+
+logging:
+  config: classpath:logback-product.xml
