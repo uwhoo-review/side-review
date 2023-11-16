@@ -10,16 +10,6 @@ spring:
     url: jdbc:mariadb://mdb1.cmgya1upayhs.ap-northeast-2.rds.amazonaws.com:3306/test
     username: root
     password: rootroot
-  data:
-    elasticsearch:
-      cluster-nodes: 15.164.189.220:9200
-      username: uwho
-      password: Uwho1234!
-      rest:
-        client:
-          sniffer.enabled: true
-          sniff-after-connect-failure: true
-          sniff-interval: 30000
   jackson:
     time-zone: Asia/Seoul
 
