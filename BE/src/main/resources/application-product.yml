@@ -1,7 +1,6 @@
 spring:
-  config:
-    activate:
-      on-profile: product
+  profiles:
+    active: product
   jpa:
     hibernate:
       ddl-auto: update
