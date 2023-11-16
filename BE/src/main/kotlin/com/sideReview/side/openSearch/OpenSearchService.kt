@@ -65,7 +65,7 @@ class OpenSearchService(val tmdbContentService: TmdbContentService) {
     /*
     * 스케줄러에서 실행, 주기적으로 OpenSearch에 데이터를 넣어줌.
     * */
-    suspend fun insert() {
+    suspend fun insert(idxName: String) {
         val docs = tmdbContentService.getMoreInfo(tmdbContentService.getAllContents())
         val itemCallBack = object : BulkItemCallBack {
             override fun itemFailed(
@@ -113,7 +113,7 @@ class OpenSearchService(val tmdbContentService: TmdbContentService) {
             }
         }
         coroutineScope {
-            client.bulk(bulkSize = docs.size, target = "content", callBack = itemCallBack) {
+            client.bulk(bulkSize = docs.size, target = idxName, callBack = itemCallBack) {
                 docs.forEach { doc ->
                     index(
                         source = DEFAULT_JSON.encodeToString(
@@ -129,7 +129,7 @@ class OpenSearchService(val tmdbContentService: TmdbContentService) {
     }
 
     // test용 임시 함수
-    suspend fun get() {
-        println(client.getIndex("content"))
+    suspend fun get(idxName: String) {
+        println(client.getIndex(idxName))
     }
 }
