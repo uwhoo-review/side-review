@@ -1,14 +1,14 @@
 package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.*
-import com.sideReview.side.tmdb.TmdbService
+import com.sideReview.side.tmdb.TmdbContentService
 import com.sideReview.side.tmdb.document.ContentDocument
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchService(val tmdbService: TmdbService) {
+class OpenSearchService(val tmdbContentService: TmdbContentService) {
     private val client: SearchClient
 
     init {
@@ -65,8 +65,8 @@ class OpenSearchService(val tmdbService: TmdbService) {
     /*
     * 스케줄러에서 실행, 주기적으로 OpenSearch에 데이터를 넣어줌.
     * */
-    suspend fun insert() {
-        val docs = tmdbService.getMoreInfo(tmdbService.getAllContents())
+    suspend fun insert(idxName: String) {
+        val docs = tmdbContentService.getMoreInfo(tmdbContentService.getAllContents())
         val itemCallBack = object : BulkItemCallBack {
             override fun itemFailed(
                 operationType: OperationType,
@@ -113,7 +113,7 @@ class OpenSearchService(val tmdbService: TmdbService) {
             }
         }
         coroutineScope {
-            client.bulk(bulkSize = docs.size, target = "content", callBack = itemCallBack) {
+            client.bulk(bulkSize = docs.size, target = idxName, callBack = itemCallBack) {
                 docs.forEach { doc ->
                     index(
                         source = DEFAULT_JSON.encodeToString(
@@ -129,7 +129,7 @@ class OpenSearchService(val tmdbService: TmdbService) {
     }
 
     // test용 임시 함수
-    suspend fun get() {
-        println(client.getIndex("content"))
+    suspend fun get(idxName: String) {
+        println(client.getIndex(idxName))
     }
 }

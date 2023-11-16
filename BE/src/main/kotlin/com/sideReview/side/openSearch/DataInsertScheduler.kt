@@ -13,7 +13,7 @@ class DataInsertScheduler(val openSearchService: OpenSearchService) {
     fun insertData() {
         runBlocking {
             kotlin.runCatching {
-                openSearchService.insert()
+                openSearchService.insert("content")
             }.onSuccess {
                 println("::: Open Search bulk insert success :::")
             }.onFailure { action ->

@@ -12,10 +12,10 @@ class SchedulerSvcTest @Autowired constructor(val openSearchService: OpenSearchS
     fun insertTest() {
         runBlocking {
             println("############# insert #############")
-            openSearchService.insert()
+            openSearchService.insert("content")
             println("##################################")
             println("############# get ################")
-            openSearchService.get()
+            openSearchService.get("content")
             println("##################################")
 
         }
