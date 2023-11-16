@@ -75,7 +75,7 @@ jobs:
     - name: Run a Gradle build with Gradle Enterprise injection enabled
       run: |
         cd BE
-        gradle clean build -x test -Dspring.profiles.active=product
+        gradle clean build -x test
       #  chmod +x gradlew
       
       
