@@ -4,32 +4,10 @@ import com.jillesvangurp.ktsearch.*
 import com.sideReview.side.tmdb.TmdbContentService
 import com.sideReview.side.tmdb.document.ContentDocument
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchService(val tmdbContentService: TmdbContentService) {
-    private val client: SearchClient
-
-    init {
-        client = SearchClient(
-            KtorRestClient(
-                https = false,
-                user = "uwho",
-                password = "Uwho1234!",
-                nodes = arrayOf(Node("15.164.189.220", 9200))
-            )
-        )
-
-        runBlocking {
-            val engineInfo = client.engineInfo()
-            println("**** Open Search Client connection ****")
-            println(engineInfo.name)
-            println(engineInfo.clusterName)
-            println(engineInfo.version.number)
-            println("****************************************")
-        }
-    }
+class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val client: SearchClient) {
 
     /*
     * 첫 시작 시 Index 생성.

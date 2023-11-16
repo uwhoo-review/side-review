@@ -7,13 +7,13 @@ import org.springframework.scheduling.annotation.Scheduled
 
 @Configuration
 @EnableScheduling
-class DataInsertScheduler(val openSearchService: OpenSearchService) {
+class DataInsertScheduler(val openSearchSaveService: OpenSearchSaveService) {
 
     @Scheduled(cron = "0 0 0 * * *")
     fun insertData() {
         runBlocking {
             kotlin.runCatching {
-                openSearchService.insert("content")
+                openSearchSaveService.insert("content")
             }.onSuccess {
                 println("::: Open Search bulk insert success :::")
             }.onFailure { action ->

@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class SchedulerSvcTest @Autowired constructor(val openSearchService: OpenSearchService) {
+class SchedulerSvcTest @Autowired constructor(val openSearchSaveService: OpenSearchSaveService) {
 
     @Test
     fun insertTest() {
         runBlocking {
             println("############# insert #############")
-            openSearchService.insert("content")
+            openSearchSaveService.insert("content")
             println("##################################")
             println("############# get ################")
-            openSearchService.get("content")
+            openSearchSaveService.get("content")
             println("##################################")
 
         }
