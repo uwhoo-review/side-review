@@ -1,0 +1,29 @@
+spring:
+  config:
+    activate:
+      on-profile: product
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://mdb1.cmgya1upayhs.ap-northeast-2.rds.amazonaws.com:3306/test
+    username: root
+    password: rootroot
+  jackson:
+    time-zone: Asia/Seoul
+
+api:
+  tmdb:
+    key: eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0OWJjZmNhOWZkNWY0NGQyMjZhYzgzMTU5NzZhY2ZkYyIsInN1YiI6IjY1MWUzMmE0M2QzNTU3MDExY2ZmZThhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-uufjYqYRvt2OC66c1euvWmZdEOGy-gGvmRoQ1fP2AA
+
+server:
+  port: 8080
+  ssl:
+    key-store: /home/ubuntu/app/BE/keystore.p12
+    key-store-type: PKCS12
+    key-store-password: uwhoo1234!
+    key-alias: spring
+
+logging:
+  config: classpath:logback-product.xml

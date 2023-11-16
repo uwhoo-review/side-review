@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: local
   jpa:
     hibernate:
       ddl-auto: update
@@ -7,27 +10,21 @@ spring:
     url: jdbc:mariadb://mdb1.cmgya1upayhs.ap-northeast-2.rds.amazonaws.com:3306/test
     username: root
     password: rootroot
-  data:
-    elasticsearch:
-      cluster-nodes: 15.164.189.220:9200
-      username: uwho
-      password: Uwho1234!
-      rest:
-        client:
-          sniffer.enabled: true
-          sniff-after-connect-failure: true
-          sniff-interval: 30000
+    hikari:
+      maximum-pool-size: 2
   jackson:
     time-zone: Asia/Seoul
-    
+
 api:
   tmdb:
     key: eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0OWJjZmNhOWZkNWY0NGQyMjZhYzgzMTU5NzZhY2ZkYyIsInN1YiI6IjY1MWUzMmE0M2QzNTU3MDExY2ZmZThhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-uufjYqYRvt2OC66c1euvWmZdEOGy-gGvmRoQ1fP2AA
 
 server:
   port: 8080
-  ssl:
-    key-store: /home/ubuntu/app/BE/keystore.p12
-    key-store-type: PKCS12
-    key-store-password: uwhoo1234!
-    key-alias: spring
+#  ssl:
+#    key-store: /home/ubuntu/app/BE/keystore.p12
+#    key-store-type: PKCS12
+#    key-store-password: uwhoo1234!
+#    key-alias: spring
+logging:
+  config: classpath:logback-local.xml
