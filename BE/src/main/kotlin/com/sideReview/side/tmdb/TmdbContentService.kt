@@ -4,7 +4,7 @@ import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.common.util.MapperUtil.mapGenreCodeToString
 import com.sideReview.side.common.util.MapperUtil.mapProviderCodeToString
 import com.sideReview.side.common.util.MapperUtil.mapProviderStringToCode
-import com.sideReview.side.tmdb.document.ContentDocument
+import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.tmdb.dto.*
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.LoggerFactory
@@ -39,6 +39,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             val genreList : List<String> = mapGenreCodeToString(content.genre_ids)
             val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", content.id)
             val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", content.id)
+            val imageResponse : ImageResponse = tmdbClient.findOneImages("Bearer $accessKey", content.id)
 
             val contentDto : ContentDto = ContentDto(
                 id = content.id,
@@ -48,7 +49,8 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 platform = mapProviderCodeToString(filterPlatformList(providersResponse)),
                 genre = genreList,
                 year = content.first_air_date?.substring(0, 4),
-                trailer = filterTrailerKey(videoResponse).firstOrNull()
+                trailer = filterTrailerKey(videoResponse).firstOrNull(),
+                photo = filterImages(imageResponse)
             )
 
             if(i < 10) latest.add(contentDto)
@@ -83,6 +85,9 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", id)
             doc.trailer = filterTrailerKey(videoResponse)
 
+            val imageInfo : ImageResponse = tmdbClient.findOneImages("Bearer $accessKey", id)
+            doc.photo = filterImages(imageInfo)
+
             if(i%100 == 0) logger.info("Get more info processing ... $i / ${docList.size}")
             i++
         }
@@ -115,5 +120,16 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 
         }
         return providerCodeList
+    }
+
+    private fun filterImages(imageResponse: ImageResponse) : List<String>{
+        val imageInfoList : List<ImageInfo> = imageResponse.backdrops
+        val photoList : MutableList<String> = mutableListOf()
+
+        imageInfoList.forEach {
+            photoList.add(it.file_path.substring(1))
+        }
+
+        return photoList
     }
 }

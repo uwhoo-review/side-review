@@ -1,7 +1,7 @@
 package com.sideReview.side.tmdb.dto
 
 data class ContentDto(
-    //TODO : actor, trailer, rating, age
+    //TODO : actor, rating, age
     val id: Int,
     val name: String,
     val platform: List<String>,
@@ -13,5 +13,6 @@ data class ContentDto(
     val actors: List<String> ?= null,
     val rating: Double ?= null,
     val age: Int ?= null,
-    var season: List<String> ?= null
+    var season: List<String> ?= null,
+    val photo: List<String> ?= null
 )

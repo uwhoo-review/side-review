@@ -1,4 +1,4 @@
-package com.sideReview.side.tmdb.document
+package com.sideReview.side.common.document
 
 import com.sideReview.side.tmdb.dto.CastInfo
 

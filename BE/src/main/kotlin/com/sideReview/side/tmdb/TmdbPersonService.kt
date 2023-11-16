@@ -1,7 +1,7 @@
 package com.sideReview.side.tmdb
 
-import com.sideReview.side.tmdb.document.JobInfo
-import com.sideReview.side.tmdb.document.RoleInfo
+import com.sideReview.side.common.document.JobInfo
+import com.sideReview.side.common.document.RoleInfo
 import com.sideReview.side.tmdb.dto.CreditDto
 import com.sideReview.side.tmdb.dto.CreditResponse
 import org.springframework.beans.factory.annotation.Autowired

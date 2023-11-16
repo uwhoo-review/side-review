@@ -2,7 +2,7 @@ package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.*
 import com.sideReview.side.tmdb.TmdbContentService
-import com.sideReview.side.tmdb.document.ContentDocument
+import com.sideReview.side.common.document.ContentDocument
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
