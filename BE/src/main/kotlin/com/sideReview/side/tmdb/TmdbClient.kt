@@ -40,4 +40,10 @@ interface TmdbClient {
     fun findOneImages(@RequestHeader("Authorization") apiKey: String,
                       @PathVariable(name = "id", required = true) tmdbId : Int
     ) : ImageResponse
+
+    @GetMapping("person/popular?language=ko-KR")
+    fun findAllPeople(@RequestHeader("Authorization") apiKey: String,
+                      @RequestParam("page") page: Int,
+    ) : PeopleResponse
+
 }

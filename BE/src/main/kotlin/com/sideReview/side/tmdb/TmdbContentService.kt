@@ -35,7 +35,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         }
 
         for(i in 0..<size){
-            val content : TbdbContent = tmdb.results[i]
+            val content : TmdbContent = tmdb.results[i]
             val genreList : List<String> = mapGenreCodeToString(content.genre_ids)
             val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", content.id)
             val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", content.id)
@@ -60,7 +60,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
     }
 
     fun getAllContents() : List<ContentDocument>{
-        val dtoList : MutableList<TbdbContent> = mutableListOf()
+        val dtoList : MutableList<TmdbContent> = mutableListOf()
         val tmdbData : TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey",1)
         dtoList.addAll(tmdbData.results)
         logger.info("[Discover] first: "+dtoList.size.toString())
