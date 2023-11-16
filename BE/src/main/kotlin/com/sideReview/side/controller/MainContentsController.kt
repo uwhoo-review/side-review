@@ -28,6 +28,6 @@ class MainContentsController @Autowired constructor(
 
     @GetMapping("/init/people")
     fun getPeople(): ResponseEntity<Any> {
-        return ResponseEntity.ok(tmdbPersonService.getAllPeople());
+        return ResponseEntity.ok(tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople()));
     }
 }

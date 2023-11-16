@@ -25,19 +25,50 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
         return MapperUtil.mapPeopleInfoToDocument(dtoList)
     }
 
+    fun getCreditInfo(personDocumentList: List<PersonDocument>) : List<PersonDocument>{
+        val contentResponse = tmdbClient.findAllTvShows("Bearer $accessKey",1)
+        val pages : Int = contentResponse.total_pages
+        val contentIdList : MutableList<Int> = mutableListOf()
+        val personInfoMap = personDocumentList.associateBy { it.id }
+
+        contentIdList.addAll(contentResponse.results.map { it.id })
+
+        for(page in 2..pages){
+            contentIdList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey",page).results.map { it.id })
+        }
+
+        for(id in contentIdList){
+            val creditDto = filterCredit(tmdbClient.findOneCredit("Bearer $accessKey", id))
+            val roleInfoList : MutableList<RoleInfo> = mutableListOf()
+            val jobInfoList : MutableList<JobInfo> = mutableListOf()
+
+            creditDto.roleDto?.forEach {
+                val foundPersonInfo = personInfoMap[it.personId]
+                roleInfoList.add(RoleInfo(it.role, id))
+                foundPersonInfo?.apply {
+                    if(cast?.isNotEmpty() == true) {
+                        roleInfoList.addAll(cast!!)
+                        cast = roleInfoList
+                    }
+                }
+            }
+        }
+        return personDocumentList
+    }
+
     private fun filterCredit(creditResponse: CreditResponse) : CreditDto {
-        val roleList : MutableList<RoleInfo> = mutableListOf()
-        val jobList : MutableList<JobInfo> = mutableListOf()
+        val roleList : MutableList<RoleDto> = mutableListOf()
+        val jobList : MutableList<JobDto> = mutableListOf()
 
         creditResponse.cast?.forEach {
             it.character?.let { role ->
-                roleList.add(RoleInfo(role, creditResponse.id))
+                roleList.add(RoleDto(role, it.id))
             }
         }
 
         creditResponse.crew?.forEach {
             it.department?.let { job ->
-                jobList.add(JobInfo(job, creditResponse.id))
+                jobList.add(JobDto(job, it.id))
             }
         }
         return CreditDto(roleList, jobList)

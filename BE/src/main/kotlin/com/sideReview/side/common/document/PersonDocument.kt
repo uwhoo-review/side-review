@@ -7,8 +7,8 @@ data class PersonDocument(
     val name : String,
     val profilePath : String?,
     val popularity : Float?,
-    val cast : List<RoleInfo>?,
-    val crew : List<JobInfo>?
+    var cast : List<RoleInfo>?,
+    var crew : List<JobInfo>?
 )
 
 data class RoleInfo(
