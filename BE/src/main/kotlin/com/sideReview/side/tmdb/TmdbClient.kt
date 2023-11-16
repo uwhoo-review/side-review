@@ -1,9 +1,9 @@
 package com.sideReview.side.tmdb
 
+import com.sideReview.side.tmdb.dto.CreditResponse
 import com.sideReview.side.tmdb.dto.TmdbResponse
 import com.sideReview.side.tmdb.dto.VideoResponse
 import com.sideReview.side.tmdb.dto.WatchProvidersResponse
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -33,4 +33,9 @@ interface TmdbClient {
     fun findOneVideo(@RequestHeader("Authorization") apiKey: String,
                         @PathVariable(name = "id", required = true) tmdbId : Int
     ) : VideoResponse
+
+    @GetMapping("tv/{id}/credits?language=ko-KR")
+    fun findOneCredit(@RequestHeader("Authorization") apiKey: String,
+                     @PathVariable(name = "id", required = true) tmdbId : Int
+    ) : CreditResponse
 }

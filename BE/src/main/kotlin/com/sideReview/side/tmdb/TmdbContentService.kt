@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 
 @Service
 @Slf4j
-class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
+class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClient){
     @Value("\${api.tmdb.key}")
     lateinit var accessKey: String
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
@@ -43,7 +43,7 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
             val contentDto : ContentDto = ContentDto(
                 id = content.id,
                 name = content.name,
-                poster = content.poster_path,
+                poster = content.poster_path?.substring(1),
                 synopsis = content.overview,
                 platform = mapProviderCodeToString(filterPlatformList(providersResponse)),
                 genre = genreList,
@@ -89,7 +89,7 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
         return docList
     }
 
-    fun filterTrailerKey(videoResponse: VideoResponse) : List<String> {
+    private fun filterTrailerKey(videoResponse: VideoResponse) : List<String> {
         videoResponse.results.sortedWith(compareBy({ it.type == "Trailer" }, { it.published_at }))
         val videoList : MutableList<String> = mutableListOf()
         for (video in videoResponse.results){
@@ -100,14 +100,14 @@ class TmdbService @Autowired constructor(private val tmdbClient: TmdbClient){
         return videoList
     }
 
-    fun filterPlatformList(providersResponse : WatchProvidersResponse) : List<Int> {
+    private fun filterPlatformList(providersResponse : WatchProvidersResponse) : List<Int> {
         val providerInfo: ProviderInfo ?= providersResponse.results["KR"]
         val flatrateSize = providerInfo?.flatrate?.size
         val providerList : MutableList<String> = mutableListOf()
         var providerCodeList : List<Int> = emptyList()
 
         if(providersResponse.results.isNotEmpty() && flatrateSize != null) {
-            for (i in 0..<flatrateSize) {
+            for (i in 0..< flatrateSize) {
                 val provider = providerInfo.flatrate[i].provider_name.split(" ")[0]
                 if (!providerList.contains(provider)) providerList.add(provider)
             }
