@@ -22,19 +22,19 @@
 
   <!-- com.example.springbootrestapi -->
   <logger name="com.example.springbootrestapi"
-    level="DEBUG"
+    level="info"
     additivity="false">
     <appender-ref ref="CONSOLE-APPENDER"/>
   </logger>
   <!-- hikari -->
   <logger name="com.zaxxer.hikari"
-    level="DEBUG"
+    level="info"
     additivity="false">
     <appender-ref ref="CONSOLE-APPENDER"/>
   </logger>
 
   <!-- 로그 레벨 설정 -->
-  <root level="debug">
+  <root level="info">
     <appender-ref ref="CONSOLE-APPENDER"/>
   </root>
 
