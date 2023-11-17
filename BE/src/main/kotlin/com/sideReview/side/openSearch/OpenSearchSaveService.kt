@@ -30,6 +30,7 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
                     keyword(ContentDocument::poster)
                     date(ContentDocument::firstAirDate)
                     number<Float>(ContentDocument::avgStarRating)
+                    number<Double>(ContentDocument::popularity)
                 }
             }
         }.onFailure {

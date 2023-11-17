@@ -14,5 +14,6 @@ data class ContentDocument(
     var trailer: List<String>? = null,
     var photo: List<String>? = null,
     var poster: String? = null,
-    var avgStarRating: Float? = null
+    var avgStarRating: Float? = null,
+    var popularity: Double
 )

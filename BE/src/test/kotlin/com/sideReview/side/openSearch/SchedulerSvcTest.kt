@@ -4,8 +4,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
+@ActiveProfiles("local")
 class SchedulerSvcTest @Autowired constructor(val openSearchSaveService: OpenSearchSaveService) {
 
     @Test
