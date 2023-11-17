@@ -4,14 +4,14 @@ import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.ktsearch.search
-import com.jillesvangurp.searchdsls.querydsl.SortBuilder
 import com.jillesvangurp.searchdsls.querydsl.SortOrder
 import com.jillesvangurp.searchdsls.querydsl.sort
 import com.sideReview.side.tmdb.dto.ContentDto
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchGetService(val client: SearchClient, val svc: OpenSearchSaveService) {
+class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
     suspend fun get(tab: String, sort: String): SearchResponse {
         val search = client.search("content") {
@@ -25,7 +25,7 @@ class OpenSearchGetService(val client: SearchClient, val svc: OpenSearchSaveServ
             sort {
                 when (sort) {
                     "popularity" -> add("popularity", SortOrder.DESC)
-                    "new" -> add("first_air_date", SortOrder.DESC)
+                    "new" -> add("firstAirDate", SortOrder.DESC)
                     "name" -> add("name", SortOrder.ASC)
                     "rating" -> add("rating", SortOrder.DESC)
                 }
