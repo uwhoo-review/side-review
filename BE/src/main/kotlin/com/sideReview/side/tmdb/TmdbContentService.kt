@@ -24,38 +24,38 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
     }
 
     //sample api를 위한 메서드
-    fun getMainContents(tab : String): MainContentDto {
-        var tmdb = tmdbClient.findAllTvShows("Bearer $accessKey",1)
-        val popular: MutableList<ContentDto> = mutableListOf()
-        val latest: MutableList<ContentDto> = mutableListOf()
-        val size : Int = when {
-            tab == "main" -> 20
-            else -> tmdb.results.indices.count()
-            //TODO: latest, popular 경우의 case 확장
-        }
-
-        for(i in 0..<size){
-            val content : TbdbContent = tmdb.results[i]
-            val genreList : List<String> = mapGenreCodeToString(content.genre_ids)
-            val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", content.id)
-            val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", content.id)
-
-            val contentDto : ContentDto = ContentDto(
-                id = content.id,
-                name = content.name,
-                poster = content.poster_path,
-                synopsis = content.overview,
-                platform = mapProviderCodeToString(filterPlatformList(providersResponse)),
-                genre = genreList,
-                year = content.first_air_date?.substring(0, 4),
-                trailer = filterTrailerKey(videoResponse).firstOrNull()
-            )
-
-            if(i < 10) latest.add(contentDto)
-            else popular.add(contentDto)
-        }
-        return MainContentDto(latest = latest, popular = popular)
-    }
+//    fun getMainContents(tab : String): MainContentDto {
+//        var tmdb = tmdbClient.findAllTvShows("Bearer $accessKey",1)
+//        val popular: MutableList<ContentDto> = mutableListOf()
+//        val latest: MutableList<ContentDto> = mutableListOf()
+//        val size : Int = when {
+//            tab == "main" -> 20
+//            else -> tmdb.results.indices.count()
+//            //TODO: latest, popular 경우의 case 확장
+//        }
+//
+//        for(i in 0..<size){
+//            val content : TbdbContent = tmdb.results[i]
+//            val genreList : List<String> = mapGenreCodeToString(content.genre_ids)
+//            val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", content.id)
+//            val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", content.id)
+//
+//            val contentDto : ContentDto = ContentDto(
+//                id = content.id,
+//                name = content.name,
+//                poster = content.poster_path,
+//                synopsis = content.overview,
+//                platform = mapProviderCodeToString(filterPlatformList(providersResponse)),
+//                genre = genreList,
+//                year = content.first_air_date?.substring(0, 4),
+//                trailer = filterTrailerKey(videoResponse).firstOrNull()
+//            )
+//
+//            if(i < 10) latest.add(contentDto)
+//            else popular.add(contentDto)
+//        }
+//        return MainContentDto(latest = latest, popular = popular)
+//    }
 
     fun getAllContents() : List<ContentDocument>{
         val dtoList : MutableList<TbdbContent> = mutableListOf()
