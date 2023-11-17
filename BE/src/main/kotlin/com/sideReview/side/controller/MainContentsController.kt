@@ -21,6 +21,7 @@ class MainContentsController @Autowired constructor(
         @RequestParam(required = false) sort: String?
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
+        if (tab.isNullOrBlank() && sort.isNullOrBlank()) return response
         runBlocking {
 
             when (tab) {
