@@ -20,7 +20,6 @@ class OpenSearchClientConfig {
                     nodes = arrayOf(Node("15.164.189.220", 9200))
                 )
             )
-
         runBlocking {
             val engineInfo = client.engineInfo()
             println("**** Open Search Client connection ****")
