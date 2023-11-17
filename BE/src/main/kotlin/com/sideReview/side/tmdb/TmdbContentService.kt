@@ -5,6 +5,7 @@ import com.sideReview.side.common.util.MapperUtil.mapGenreCodeToString
 import com.sideReview.side.common.util.MapperUtil.mapProviderCodeToString
 import com.sideReview.side.common.util.MapperUtil.mapProviderStringToCode
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.util.MapperUtil.mapSeasonTODefault
 import com.sideReview.side.tmdb.dto.*
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.LoggerFactory
@@ -58,7 +59,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 //    }
 
     fun getAllContents() : List<ContentDocument>{
-        val dtoList : MutableList<TbdbContent> = mutableListOf()
+        val dtoList : MutableList<TmdbContent> = mutableListOf()
         val tmdbData : TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey",1)
         dtoList.addAll(tmdbData.results)
         logger.info("[Discover] first: "+dtoList.size.toString())
@@ -66,7 +67,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         val pages : Int = tmdbData.total_pages
         for(page in 2..pages){
             dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey",page).results)
-            if(dtoList.size%1000 == 0) logger.info("[Discover] processing...: "+ dtoList.size.toString())
+            if(dtoList.size%100 == 0) break;
         }
         logger.info("[Discover] final: "+ dtoList.size.toString())
         return MapperUtil.mapTmdbToDocument(dtoList)
@@ -74,9 +75,10 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 
     fun getMoreInfo(docList : List<ContentDocument>) : List<ContentDocument>{
         var i : Int = 1;
-        for(doc in docList){
-            val id = doc.id
+        val seasonDocList : MutableList<ContentDocument> = mutableListOf()
 
+        for(doc in docList){
+            val id = doc.id.toInt()
             val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", id)
             doc.platform = filterPlatformList(providersResponse)
 
@@ -86,9 +88,46 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             val imageInfo : ImageResponse = tmdbClient.findOneImages("Bearer $accessKey", id)
             doc.photo = filterImages(imageInfo)
 
+            val detailResponse : DetailResponse = tmdbClient.findOneContent("Bearer $accessKey", id)
+            doc.season = filterDetail(detailResponse)
+            seasonDocList.addAll(getSeasonContents(id, detailResponse))
+
             if(i%100 == 0) logger.info("Get more info processing ... $i / ${docList.size}")
             i++
         }
+        seasonDocList.addAll(docList)
+        return seasonDocList
+    }
+    fun getSeasonContents(id : Int, detailResponse: DetailResponse) : List<ContentDocument>{
+        val docList : MutableList<ContentDocument> = mutableListOf()
+
+        for(season in 2 ..detailResponse.number_of_seasons!!)
+        {
+            val seasonInfo = detailResponse.seasons?.find { it.season_number == season }
+
+
+            val videoResponse : VideoResponse = tmdbClient.findOneSeasonVideo("Bearer $accessKey", id, season)
+            val providersResponse : WatchProvidersResponse = tmdbClient.findOneSeasonProvider("Bearer $accessKey", id, season)
+            val seasonImageResponse : SeasonImageResponse = tmdbClient.findOneSeasonImages("Bearer $accessKey", id, season)
+
+            docList.add(
+                ContentDocument(
+                    id = id.toString() + "_" + season.toString(),
+                    name = detailResponse.name,
+                    platform = filterPlatformList(providersResponse),
+                    genre = null,
+                    rating = null,
+                    firstAirDate = seasonInfo?.air_date,
+                    synopsis = null,
+                    trailer = filterTrailerKey(videoResponse),
+                    photo =  mapSeasonTODefault(seasonImageResponse)?.let { filterImages(it) },
+                    poster = seasonInfo?.poster_path,
+                    avgStarRating = null,
+                    season = null
+                )
+            )
+        }
+
         return docList
     }
 
@@ -127,7 +166,14 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         imageInfoList.forEach {
             photoList.add(it.file_path.substring(1))
         }
-
         return photoList
+    }
+
+    private fun filterDetail(detailResponse: DetailResponse) : List<String>{
+        val seasonList : MutableList<String> = mutableListOf()
+        for(i in 2 ..detailResponse.number_of_seasons!!)
+            seasonList.add(detailResponse.id.toString() + "_" + i)
+
+        return seasonList
     }
 }

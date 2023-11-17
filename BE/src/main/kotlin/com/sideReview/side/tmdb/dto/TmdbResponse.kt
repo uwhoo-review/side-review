@@ -2,11 +2,11 @@ package com.sideReview.side.tmdb.dto
 
 data class TmdbResponse(
         val page: Int,
-        val results: List<TbdbContent>,
+        val results: List<TmdbContent>,
         val total_results: Int,
         val total_pages: Int
 )
-data class TbdbContent(
+data class TmdbContent(
         val first_air_date: String ?= null,
         val genre_ids: List<Int>,
         val id: Int,

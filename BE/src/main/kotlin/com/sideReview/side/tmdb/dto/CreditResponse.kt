@@ -9,7 +9,7 @@ data class CreditResponse(
 data class CastInfo(
     val adult : Boolean?,
     val gender : Int?,
-    val id :String?,
+    val id :Int,
     val known_for_department : String?,
     val name : String?,
     val original_name : String?,
@@ -23,7 +23,7 @@ data class CastInfo(
 data class CrewInfo(
     val adult : Boolean?,
     val gender : Int?,
-    val id :String?,
+    val id :Int,
     val known_for_department : String?,
     val name : String?,
     val original_name : String?,

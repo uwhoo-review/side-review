@@ -3,25 +3,43 @@ package com.sideReview.side.common.util
 import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
-import com.sideReview.side.tmdb.dto.TbdbContent
+import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.tmdb.dto.ImageResponse
+import com.sideReview.side.tmdb.dto.PersonInfo
+import com.sideReview.side.tmdb.dto.SeasonImageResponse
+import com.sideReview.side.tmdb.dto.TmdbContent
 
 object MapperUtil {
-    fun mapTmdbToDocument(tbdbContentList: List<TbdbContent>): List<ContentDocument> {
-        return tbdbContentList.map { tbdbContent ->
+    fun mapTmdbToDocument(tmdbContentList: List<TmdbContent>): List<ContentDocument> {
+        return tmdbContentList.map {
             ContentDocument(
-                id = tbdbContent.id,
-                name = tbdbContent.name,
+                id = it.id.toString(),
+                name = it.name,
                 platform = null,
-                genre = tbdbContent.genre_ids,
-                rating = tbdbContent.vote_average,
-                firstAirDate = tbdbContent.first_air_date,
-                synopsis = tbdbContent.overview,
+                genre = it.genre_ids,
+                rating = it.vote_average,
+                firstAirDate = it.first_air_date,
+                synopsis = it.overview,
                 trailer = null,
                 photo = null,
-                poster = tbdbContent.poster_path?.substring(1),
+                poster = it.poster_path?.substring(1),
                 avgStarRating = null,
-                popularity = tbdbContent.popularity
+                popularity = it.popularity
             )
+        }
+    }
+
+    fun mapPeopleInfoToDocument(personInfoList: List<PersonInfo>) : List<PersonDocument> {
+        return personInfoList.map {
+            PersonDocument(
+                id = it.id,
+                name = it.name,
+                profilePath = it.profile_path?.substring(1),
+                popularity = it.popularity,
+                cast = null,
+                crew = null
+            )
+
         }
     }
 
@@ -40,6 +58,14 @@ object MapperUtil {
     fun mapProviderCodeToString(numbers: List<Int>): List<String> {
         return numbers.mapNotNull { number ->
             ProviderEnum.values().find { it.value == number }?.name.toString()
+        }
+    }
+
+    fun mapSeasonTODefault(seasonResponse: SeasonImageResponse) : ImageResponse? {
+        return seasonResponse.posters?.let {
+            ImageResponse(
+                backdrops = it
+            )
         }
     }
 }
