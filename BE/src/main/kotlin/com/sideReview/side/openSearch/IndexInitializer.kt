@@ -6,7 +6,7 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
 
 @Component
-class IndexInitializer(val service: OpenSearchService) : ApplicationRunner {
+class IndexInitializer(val service: OpenSearchSaveService) : ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
         println("::: Init. Create OpenSearch Index :::")
         runBlocking {

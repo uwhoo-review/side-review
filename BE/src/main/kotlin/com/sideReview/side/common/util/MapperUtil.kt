@@ -19,7 +19,8 @@ object MapperUtil {
                 trailer = null,
                 photo = null,
                 poster = tbdbContent.poster_path?.substring(1),
-                avgStarRating = null
+                avgStarRating = null,
+                popularity = tbdbContent.popularity
             )
         }
     }

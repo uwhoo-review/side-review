@@ -4,32 +4,10 @@ import com.jillesvangurp.ktsearch.*
 import com.sideReview.side.tmdb.TmdbContentService
 import com.sideReview.side.common.document.ContentDocument
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchService(val tmdbContentService: TmdbContentService) {
-    private val client: SearchClient
-
-    init {
-        client = SearchClient(
-            KtorRestClient(
-                https = false,
-                user = "uwho",
-                password = "Uwho1234!",
-                nodes = arrayOf(Node("15.164.189.220", 9200))
-            )
-        )
-
-        runBlocking {
-            val engineInfo = client.engineInfo()
-            println("**** Open Search Client connection ****")
-            println(engineInfo.name)
-            println(engineInfo.clusterName)
-            println(engineInfo.version.number)
-            println("****************************************")
-        }
-    }
+class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val client: SearchClient) {
 
     /*
     * 첫 시작 시 Index 생성.
@@ -38,10 +16,10 @@ class OpenSearchService(val tmdbContentService: TmdbContentService) {
     public suspend fun initIndex() {
 
         kotlin.runCatching {
-            client.createIndex("Content") {
+            client.createIndex("content") {
                 mappings(dynamicEnabled = false) {
                     keyword(ContentDocument::id)
-                    text(ContentDocument::name)
+                    keyword(ContentDocument::name)
                     keyword(ContentDocument::photo)
                     number<Int>(ContentDocument::genre)
                     number<Int>(ContentDocument::platform)
@@ -52,9 +30,11 @@ class OpenSearchService(val tmdbContentService: TmdbContentService) {
                     keyword(ContentDocument::poster)
                     date(ContentDocument::firstAirDate)
                     number<Float>(ContentDocument::avgStarRating)
+                    number<Double>(ContentDocument::popularity)
                 }
             }
         }.onFailure {
+            println(it.message)
             println("Schema already exist.")
         }.onSuccess { s ->
             println(s)
@@ -65,7 +45,7 @@ class OpenSearchService(val tmdbContentService: TmdbContentService) {
     /*
     * 스케줄러에서 실행, 주기적으로 OpenSearch에 데이터를 넣어줌.
     * */
-    suspend fun insert() {
+    suspend fun insert(idxName: String) {
         val docs = tmdbContentService.getMoreInfo(tmdbContentService.getAllContents())
         val itemCallBack = object : BulkItemCallBack {
             override fun itemFailed(
@@ -113,7 +93,7 @@ class OpenSearchService(val tmdbContentService: TmdbContentService) {
             }
         }
         coroutineScope {
-            client.bulk(bulkSize = docs.size, target = "content", callBack = itemCallBack) {
+            client.bulk(bulkSize = docs.size, target = idxName, callBack = itemCallBack) {
                 docs.forEach { doc ->
                     index(
                         source = DEFAULT_JSON.encodeToString(
@@ -129,7 +109,12 @@ class OpenSearchService(val tmdbContentService: TmdbContentService) {
     }
 
     // test용 임시 함수
-    suspend fun get() {
-        println(client.getIndex("content"))
+    suspend fun get(idxName: String) {
+        println(client.getIndex(idxName))
+    }
+
+    // test용 임시 함수
+    suspend fun delete(idxName: String) {
+        client.deleteIndex(idxName)
     }
 }

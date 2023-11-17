@@ -4,18 +4,20 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 
 @SpringBootTest
-class SchedulerSvcTest @Autowired constructor(val openSearchService: OpenSearchService) {
+@ActiveProfiles("local")
+class SchedulerSvcTest @Autowired constructor(val openSearchSaveService: OpenSearchSaveService) {
 
     @Test
     fun insertTest() {
         runBlocking {
             println("############# insert #############")
-            openSearchService.insert()
+            openSearchSaveService.insert("content")
             println("##################################")
             println("############# get ################")
-            openSearchService.get()
+            openSearchSaveService.get("content")
             println("##################################")
 
         }
