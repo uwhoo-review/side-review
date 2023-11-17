@@ -4,14 +4,16 @@ import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.tmdb.dto.ImageResponse
 import com.sideReview.side.tmdb.dto.PersonInfo
+import com.sideReview.side.tmdb.dto.SeasonImageResponse
 import com.sideReview.side.tmdb.dto.TmdbContent
 
 object MapperUtil {
     fun mapTmdbToDocument(tmdbContentList: List<TmdbContent>): List<ContentDocument> {
         return tmdbContentList.map {
             ContentDocument(
-                id = it.id,
+                id = it.id.toString(),
                 name = it.name,
                 platform = null,
                 genre = it.genre_ids,
@@ -55,6 +57,14 @@ object MapperUtil {
     fun mapProviderCodeToString(numbers: List<Int>): List<String> {
         return numbers.mapNotNull { number ->
             ProviderEnum.values().find { it.value == number }?.name.toString()
+        }
+    }
+
+    fun mapSeasonTODefault(seasonResponse: SeasonImageResponse) : ImageResponse? {
+        return seasonResponse.posters?.let {
+            ImageResponse(
+                backdrops = it
+            )
         }
     }
 }
