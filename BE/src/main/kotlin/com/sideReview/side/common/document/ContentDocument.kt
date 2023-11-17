@@ -16,5 +16,5 @@ data class ContentDocument(
     var poster: String? = null,
     var avgStarRating: Float? = null,
     var season : List<String>? = null,
-    var popularity: Double
+    var popularity: Double? = null
 )
