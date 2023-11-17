@@ -43,17 +43,29 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
             val jobInfoList : MutableList<JobInfo> = mutableListOf()
 
             creditDto.roleDto?.forEach {
-                val foundPersonInfo = personInfoMap[it.personId]
                 roleInfoList.add(RoleInfo(it.role, id))
-                foundPersonInfo?.apply {
-                    if(cast?.isNotEmpty() == true) {
-                        roleInfoList.addAll(cast!!)
-                        cast = roleInfoList
+
+                if(personInfoMap[it.personId]?.cast?.isNotEmpty() == true){
+                    val preCastList = personInfoMap[it.personId]?.cast
+                    if (preCastList != null) {
+                        roleInfoList.addAll(preCastList)
                     }
+                    personInfoMap[it.personId]?.cast = roleInfoList
+                }
+            }
+            creditDto.jobIDto?.forEach {
+                jobInfoList.add(JobInfo(it.job, id))
+
+                if(personInfoMap[it.personId]?.crew?.isNotEmpty() == true){
+                    val preCrewList = personInfoMap[it.personId]?.crew
+                    if (preCrewList != null) {
+                        jobInfoList.addAll(preCrewList)
+                    }
+                    personInfoMap[it.personId]?.crew = jobInfoList
                 }
             }
         }
-        return personDocumentList
+        return personInfoMap.values.toList()
     }
 
     private fun filterCredit(creditResponse: CreditResponse) : CreditDto {
