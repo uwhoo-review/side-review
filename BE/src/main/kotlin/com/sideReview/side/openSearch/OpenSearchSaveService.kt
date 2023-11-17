@@ -16,10 +16,10 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
     public suspend fun initIndex() {
 
         kotlin.runCatching {
-            client.createIndex("Content") {
+            client.createIndex("content") {
                 mappings(dynamicEnabled = false) {
                     keyword(ContentDocument::id)
-                    text(ContentDocument::name)
+                    keyword(ContentDocument::name)
                     keyword(ContentDocument::photo)
                     number<Int>(ContentDocument::genre)
                     number<Int>(ContentDocument::platform)
@@ -33,6 +33,7 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
                 }
             }
         }.onFailure {
+            println(it.message)
             println("Schema already exist.")
         }.onSuccess { s ->
             println(s)
@@ -109,5 +110,10 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
     // test용 임시 함수
     suspend fun get(idxName: String) {
         println(client.getIndex(idxName))
+    }
+
+    // test용 임시 함수
+    suspend fun delete(idxName: String) {
+        client.deleteIndex(idxName)
     }
 }
