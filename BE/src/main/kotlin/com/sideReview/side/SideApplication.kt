@@ -11,6 +11,6 @@ class SideApplication
 
 fun main(args: Array<String>) {
     runApplication<SideApplication>(*args)
-    val classPath = System.getProperty("java.class.path")
-    println("Classpath: $classPath")
+//    val classPath = System.getProperty("java.class.path")
+//    println("Classpath: $classPath")
 }
