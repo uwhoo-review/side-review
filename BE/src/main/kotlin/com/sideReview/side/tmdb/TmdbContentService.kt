@@ -83,7 +83,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                     synopsis = null,
                     trailer = filterTrailerKey(videoResponse),
                     photo =  mapSeasonTODefault(seasonImageResponse)?.let { filterImages(it) },
-                    poster = seasonInfo?.poster_path,
+                    poster = seasonInfo?.poster_path?.substring(1),
                     avgStarRating = null,
                     season = null,
                     popularity = null
