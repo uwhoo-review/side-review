@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.ktsearch.search
+import com.jillesvangurp.searchdsls.querydsl.SortBuilder
 import com.jillesvangurp.searchdsls.querydsl.SortOrder
 import com.jillesvangurp.searchdsls.querydsl.sort
 import com.sideReview.side.tmdb.dto.ContentDto
@@ -14,9 +15,20 @@ class OpenSearchGetService(val client: SearchClient, val svc: OpenSearchSaveServ
 
     suspend fun get(tab: String, sort: String): SearchResponse {
         val search = client.search("content") {
-            resultSize = 20
+            // tab 따라 max 설정
+            resultSize = when (tab) {
+                "main" -> 20
+                else -> 100
+            }
+
+            // sort 따라 정렬 기준 설정
             sort {
-                add("name", SortOrder.ASC)
+                when (sort) {
+                    "popularity" -> add("popularity", SortOrder.DESC)
+                    "new" -> add("first_air_date", SortOrder.DESC)
+                    "name" -> add("name", SortOrder.ASC)
+                    "rating" -> add("rating", SortOrder.DESC)
+                }
             }
         }
         return search
