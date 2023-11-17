@@ -49,8 +49,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 platform = mapProviderCodeToString(filterPlatformList(providersResponse)),
                 genre = genreList,
                 year = content.first_air_date?.substring(0, 4),
-                trailer = filterTrailerKey(videoResponse).firstOrNull(),
-                photo = filterImages(imageResponse)
+                trailer = filterTrailerKey(videoResponse).firstOrNull()
             )
 
             if(i < 10) latest.add(contentDto)
