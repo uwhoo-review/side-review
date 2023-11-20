@@ -9,7 +9,7 @@ data class TmdbResponse(
 data class TmdbContent(
         val first_air_date: String ?= null,
         val genre_ids: List<Int>,
-        val id: Int,
+        val id: String,
         val name: String,
         val origin_country: List<String>,
         val original_language: String,

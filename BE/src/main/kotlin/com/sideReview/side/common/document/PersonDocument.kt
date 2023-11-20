@@ -1,7 +1,5 @@
 package com.sideReview.side.common.document
 
-import com.sideReview.side.tmdb.dto.CastInfo
-
 data class PersonDocument(
     val id : Int,
     val name : String,
@@ -12,11 +10,11 @@ data class PersonDocument(
 )
 
 data class RoleInfo(
-    val role : String,
-    val contentId : Int
+    val role: String,
+    val contentId: String
 )
 
 data class JobInfo(
-    val job : String,
-    val contentId : Int
+    val job: String,
+    val contentId: String
 )
