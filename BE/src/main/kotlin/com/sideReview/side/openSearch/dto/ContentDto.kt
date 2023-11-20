@@ -16,9 +16,9 @@ data class ContentDto(
     val id: String,
     val name: String,
     val platform: List<String>,
-    val genre: List<String>,
+    val genre: List<String>?,
     val year: String? = null,
-    val synopsis: String,
+    val synopsis: String?,
     val trailer: String? = null,
     val poster: String? = null,
     val actors: List<String>? = null,
@@ -44,7 +44,7 @@ class ContentDeserializer : JsonDeserializer<ContentDto> {
         val genre = gson.fromJson<List<String>>(jsonObject["genre"], typeToken)
         val rating = jsonObject["rating"]?.asDouble
         val firstAirDate = jsonObject["firstAirDate"]?.asString?.substring(0, 4)
-        val synopsis = jsonObject["synopsis"].asString
+        val synopsis = jsonObject["synopsis"]?.asString
         val trailer_ = gson.fromJson<List<String>>(jsonObject["trailer"], typeToken)
         var trailer = ""
         if (trailer_.isNotEmpty()) {

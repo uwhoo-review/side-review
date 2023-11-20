@@ -1,7 +1,10 @@
 package com.sideReview.side.openSearch.dto
 
 data class ContentRequestDTO(
-    val filter: List<ContentRequestFilterDetail>
+    val tab: String?,
+    val sort: String?,
+    val query: String?,
+    val filter: List<ContentRequestFilterDetail>?
 )
 
 data class ContentRequestFilterDetail(

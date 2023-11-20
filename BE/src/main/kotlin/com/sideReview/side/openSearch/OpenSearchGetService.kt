@@ -15,37 +15,39 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
     suspend fun get(tab: String, sort: String, request: ContentRequestDTO?): SearchResponse {
         val filterList = mutableListOf<ESQuery>()
-        if (request != null) {
-            for (filterDetail in request.filter) {
-                // 값 중 하나가 비면 스킵
-                if (filterDetail.type.isBlank() || filterDetail.value.isEmpty()) continue
+        if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
+            // filter 파싱
+            if (request.filter != null) {
+                for (filterDetail in request.filter) {
+                    // 값 중 하나가 비면 스킵
+                    if (filterDetail.type.isBlank() || filterDetail.value.isEmpty()) continue
 
-                // 타입 별 filter 생성
-                when (filterDetail.type) {
-                    "genre", "platform", "age" -> filterList.add(
-                        TermsQuery(
-                            filterDetail.type,
-                            *filterDetail.value.filterNotNull().toTypedArray()
+                    // 타입 별 filter 생성
+                    when (filterDetail.type) {
+                        "genre", "platform", "age" -> filterList.add(
+                            TermsQuery(
+                                filterDetail.type,
+                                *filterDetail.value.filterNotNull().toTypedArray()
+                            )
                         )
-                    )
 
-                    "date", "rating" -> {
-                        var t = filterDetail.type
-                        if (filterDetail.type == "date")
-                            t = "firstAirDate"
-                        filterList.add(
-                            RangeQuery(t) {
-                                if (!filterDetail.value[0].isNullOrBlank())
-                                    gte = filterDetail.value[0]!!
-                                if (filterDetail.value.size > 2 && !filterDetail.value[1].isNullOrBlank())
-                                    lte = filterDetail.value[1]!!
-                            }
-                        )
+                        "date", "rating" -> {
+                            var t = filterDetail.type
+                            if (filterDetail.type == "date")
+                                t = "firstAirDate"
+                            filterList.add(
+                                RangeQuery(t) {
+                                    if (!filterDetail.value[0].isNullOrBlank())
+                                        gte = filterDetail.value[0]!!
+                                    if (filterDetail.value.size > 2 && !filterDetail.value[1].isNullOrBlank())
+                                        lte = filterDetail.value[1]!!
+                                }
+                            )
+                        }
                     }
                 }
             }
         }
-
         // client 요청 전송
         val search = client.search("content") {
             // tab 따라 max 설정
@@ -64,13 +66,14 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
                 }
             }
 
-            if (request != null) {
-                // filter 따라 쿼리에 필터 추가
+            if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
                 query = bool {
-                    filter(filterList)
+                    if (request.filter != null)
+                        filter(filterList)
+                    if (request.query != null)
+                        should(matchPhrase("name", request.query))
                 }
             }
-
         }
         return search
     }

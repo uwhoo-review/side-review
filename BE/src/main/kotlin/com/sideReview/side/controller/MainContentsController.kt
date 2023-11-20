@@ -7,10 +7,8 @@ import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -20,46 +18,53 @@ class MainContentsController @Autowired constructor(
 
     @PostMapping("/contents")
     fun getContents(
-        @RequestParam(required = false) tab: String?,
-        @RequestParam(required = false) sort: String?,
-        @RequestBody request: ContentRequestDTO?
+        @RequestBody request: ContentRequestDTO
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
-        if (tab.isNullOrBlank() && sort.isNullOrBlank()) return response
+        if (request.tab.isNullOrBlank() && request.sort.isNullOrBlank()) return response
         runBlocking {
 
-            when (tab) {
+            when (request.tab) {
                 "main" -> {
+                    println("main")
                     response = ResponseEntity.ok(
                         MainContentDto(
                             openSearchGetService.parseToContent(
-                                openSearchGetService.get(tab, "popularity", request)
+                                openSearchGetService.get(request.tab, "popularity", request)
                             ),
                             openSearchGetService.parseToContent(
-                                openSearchGetService.get(tab, "new", request)
+                                openSearchGetService.get(request.tab, "new", request)
                             )
                         )
                     )
                 }
 
-                "popularity" ->
-                    response = ResponseEntity.ok(
-                        openSearchGetService.parseToContent(
-                            openSearchGetService.get(tab, "popularity", request)
-                        )
-                    )
+                "popularity" -> {
+                    println("popularity")
 
-                "new" ->
                     response = ResponseEntity.ok(
                         openSearchGetService.parseToContent(
-                            openSearchGetService.get(tab, "new", request)
+                            openSearchGetService.get(request.tab, "popularity", request)
                         )
                     )
+                }
+
+                "new" -> {
+                    println("new")
+
+                    response = ResponseEntity.ok(
+                        openSearchGetService.parseToContent(
+                            openSearchGetService.get(request.tab, "new", request)
+                        )
+                    )
+                }
             }
-            if (tab.isNullOrBlank() && !sort.isNullOrBlank()) {
+            if (request.tab.isNullOrBlank() && !request.sort.isNullOrBlank()) {
+                println("tab null")
+
                 response = ResponseEntity.ok(
                     openSearchGetService.parseToContent(
-                        openSearchGetService.get("sort", sort, request)
+                        openSearchGetService.get("request.sort", request.sort, request)
                     )
                 )
             }

@@ -1,8 +1,8 @@
 package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.*
-import com.sideReview.side.tmdb.TmdbContentService
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.tmdb.TmdbContentService
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
@@ -17,15 +17,25 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
 
         kotlin.runCatching {
             client.createIndex("content") {
+                settings {
+                    analysis {
+                        analyzer("nori") {
+                            tokenizer = "seunjeon_tokenizer"
+                        }
+                    }
+                }
                 mappings(dynamicEnabled = false) {
                     keyword(ContentDocument::id)
-                    keyword(ContentDocument::name)
+                    text(ContentDocument::name) {
+                        analyzer = "nori"
+                    }
                     keyword(ContentDocument::photo)
                     number<Int>(ContentDocument::genre)
                     number<Int>(ContentDocument::platform)
                     keyword(ContentDocument::rating)
-                    number<Int>(ContentDocument::genre)
-                    text(ContentDocument::synopsis)
+                    text(ContentDocument::synopsis) {
+                        analyzer = "nori"
+                    }
                     keyword(ContentDocument::trailer)
                     keyword(ContentDocument::poster)
                     date(ContentDocument::firstAirDate)
