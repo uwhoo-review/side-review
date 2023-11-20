@@ -1,14 +1,15 @@
 import { css } from "@emotion/react";
+import Color from "@src/common/styles/Color";
 
 export const root = css`
-  height: 2px;
+  height: 7px;
   width: 100%;
   padding: 20px 0;
   margin: unset;
   color: #2e7af2;
   &.MuiSlider-vertical {
     height: 100%;
-    width: 2px;
+    width: 7px;
     padding: 0 20px;
     margin: unset;
   }
@@ -18,16 +19,17 @@ export const root = css`
     border: unset;
   } */
   .MuiSlider-track:not(.Mui-disabled) {
-    background-color: #2e7af2;
+    background-color: ${Color.dark.primary700};
     border: unset;
   }
   .MuiSlider-rail:not(.Mui-disabled) {
-    background-color: #2e7af2;
+    background-color: ${Color.dark.grey200};
   }
   .MuiSlider-thumb {
-    width: 12px;
-    height: 12px;
-    background-color: #2e7af2;
+    width: 18px;
+    height: 18px;
+    background-color: ${Color.dark.grey300};
+    border: 2px solid ${Color.dark.grey400};
     :hover {
       box-shadow: 0px 0px 0px 8px #2e7af220;
     }
@@ -71,6 +73,21 @@ export const root = css`
   }
 
   .MuiSlider-mark {
+  }
+  .MuiSlider-valueLabelOpen {
+    border-radius: 8px;
+    background-color: ${Color.dark.grey200};
+    border: 1px solid ${Color.dark.grey300};
+    color: #fff;
+    font-family: Pretendard;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    &::before {
+      border-bottom: 1px solid ${Color.dark.grey300};
+      border-right: 1px solid ${Color.dark.grey300};
+
+    }
   }
 `;
 

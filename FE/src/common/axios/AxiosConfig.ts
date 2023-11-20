@@ -5,8 +5,8 @@ export const CODE_AXIOS = {};
 
 export const UWAxios = {
   sample: {
-    async getSample(tab: string) {
-      const res = await axiosBaseInstance.get<any>(`contents?tab=${tab}`);
+    async getSample(data: any) {
+      const res = await axiosBaseInstance.post<any>(`contents`, data);
       return res.data;
     },
   },

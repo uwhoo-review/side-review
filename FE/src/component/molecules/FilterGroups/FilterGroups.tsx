@@ -128,7 +128,6 @@ const FilterGroups = () => {
                 maxLength={4}
                 type={"text"}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   return setYearRange([Number(e.target.value) || undefined, yearRange[1]]);
                 }}
               />
@@ -139,7 +138,6 @@ const FilterGroups = () => {
                 maxLength={4}
                 type={"text"}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   return setYearRange([yearRange[0], Number(e.target.value) || undefined]);
                 }}
               />

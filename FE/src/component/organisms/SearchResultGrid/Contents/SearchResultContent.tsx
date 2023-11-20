@@ -112,61 +112,70 @@ const SearchResultContent = () => {
               <>
                 <div css={styled.sub2}>
                   <PersonCard
-                    width="97px"
-                    height={"97px"}
+                    width={"82px"}
+                    height={"82px"}
                     src={person1}
                     className={"image-card"}
                     onClick={() => {}}
                   />
                   <PersonCard
-                    width="97px"
-                    height={"97px"}
+                    width={"82px"}
+                    height={"82px"}
                     src={person1}
                     className={"image-card"}
                     onClick={() => {}}
                   />
                   <PersonCard
-                    width="97px"
-                    height={"97px"}
+                    width={"82px"}
+                    height={"82px"}
                     src={person1}
                     className={"image-card"}
                     onClick={() => {}}
                   />
                   <PersonCard
-                    width="97px"
-                    height={"97px"}
+                    width={"82px"}
+                    height={"82px"}
                     src={person1}
                     className={"image-card"}
                     onClick={() => {}}
                   />
                   <PersonCard
-                    width="97px"
-                    height={"97px"}
+                    width={"82px"}
+                    height={"82px"}
                     src={person1}
                     className={"image-card"}
                     onClick={() => {}}
                   />
                   <PersonCard
-                    width="97px"
-                    height={"97px"}
+                    width={"82px"}
+                    height={"82px"}
                     src={person1}
                     className={"image-card"}
                     onClick={() => {}}
                   />
                   <PersonCard
-                    width="97px"
-                    height={"97px"}
+                    width={"82px"}
+                    height={"82px"}
                     src={person1}
                     className={"image-card"}
                     onClick={() => {}}
                   />
                   <PersonCard
-                    width="97px"
-                    height={"97px"}
+                    width={"82px"}
+                    height={"82px"}
                     src={person1}
                     className={"image-card"}
                     onClick={() => {}}
                   />
+                  <PersonCard
+                    width={"82px"}
+                    height={"82px"}
+                    src={person1}
+                    className={"image-card"}
+                    onClick={() => {}}
+                  />
+
+
                 </div>
                 <div css={styled.plusBtn}>
                   <HWTypography

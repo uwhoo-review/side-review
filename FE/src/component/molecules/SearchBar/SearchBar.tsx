@@ -23,7 +23,8 @@ const SearchBar = () => {
           onChange={(e) => setTextVal(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              navigate({ pathname: "/search", search: `?query=${textVal}` });
+              if(!isNullOrEmpty(textVal)) navigate({ pathname: "/search", search: `?query=${textVal}` });
+              // else
             }
           }}
         />

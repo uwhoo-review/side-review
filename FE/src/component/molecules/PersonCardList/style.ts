@@ -31,13 +31,13 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 50px 118px;
+    //gap: 20px;
   `,
 
   slider: css`
     position: relative;
     overflow: hidden;
-
-    width: 1200px;
     height: 100%;
   `,
   grid: (currentPage: number) => css`
@@ -45,12 +45,13 @@ export default {
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(2, 1fr);
     grid-auto-flow: column;
-    align-items: center;
-    gap: 25px;
+    column-gap: 20px;
+    row-gap: 50px;
     height: 100%;
+    align-items: center;
 
     transition: 0.5s ease;
-    transform: translate(${(currentPage - 1) * -(1200 + 25)}px, 0px);
+    transform: translate(calc(${(currentPage - 1) * -100}% - ${(currentPage - 1) * +20}px), 0px);
   `,
 
   card: css`

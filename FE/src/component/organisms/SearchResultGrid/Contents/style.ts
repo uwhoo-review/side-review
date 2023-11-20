@@ -5,9 +5,7 @@ export default {
   wrapper: css`
     margin-top: 50px;
   `,
-  subWrapper: css`
-    
-  `,
+  subWrapper: css``,
   subTitle: css`
     margin-bottom: 20px;
   `,
@@ -20,22 +18,22 @@ export default {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
-    
+
     margin-bottom: 40px;
   `,
   sub2: css`
     background-color: ${Color.dark.elevation01};
     border-radius: 10px;
-    padding: 60px 50px;
+    padding: 50px 118px;
     box-sizing: border-box;
-    
+
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
-    gap: 20px;
-    min-height: 380px;
-
+    column-gap: 20px;
+    row-gap: 50px;
+    min-height: 314px;
     margin-bottom: 40px;
   `,
   plusBtn: css`
@@ -44,5 +42,5 @@ export default {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-  `
-}
+  `,
+};

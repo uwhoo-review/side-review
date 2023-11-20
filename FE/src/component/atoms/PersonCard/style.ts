@@ -5,10 +5,10 @@ export default {
     display: inline-flex;
     align-items: center;
     gap: 16px;
-    //width: 220px;
+    width: 216px;
   `,
   textGroup: css`
-    width: 120px;
+    //width: 120px;
     display: flex;
     flex-direction: column;
     

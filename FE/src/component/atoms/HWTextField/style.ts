@@ -5,7 +5,6 @@ export default {
   container: (width: string, fullWidth: boolean) => css`
     position: relative;
     color: #fff;
-    border-radius: 8px;
     width: ${fullWidth ? "100%" : width};
     :hover {
       .HW-Outlined-TextFiled-Wrapper {
@@ -91,7 +90,7 @@ export default {
     padding: 0 16px;
     background-color: #121212;
     border: 1px solid #2c2c34;
-    border-radius: 3px;
+    border-radius: 8px;
   `,
   fieldset: css`
     position: absolute;
