@@ -6,8 +6,8 @@ const SearchResultTemplate = () => {
   return (
     <>
       <div className="detail-template-wrapper" css={styled.wrapper}>
-          <SearchResultHeader />
-          <SearchResultContent />
+        <SearchResultHeader />
+        <SearchResultContent />
       </div>
     </>
   );
