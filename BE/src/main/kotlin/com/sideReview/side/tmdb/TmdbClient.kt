@@ -23,21 +23,21 @@ interface TmdbClient {
 
     @GetMapping("tv/{id}/watch/providers")
     fun findOneProvider(@RequestHeader("Authorization") apiKey: String,
-                    @PathVariable(name = "id", required = true) tmdbId : Int
+                    @PathVariable(name = "id", required = true) tmdbId : String
     ) : WatchProvidersResponse
 
     @GetMapping("tv/{id}/videos?language=ko-KR")
     fun findOneVideo(@RequestHeader("Authorization") apiKey: String,
-                        @PathVariable(name = "id", required = true) tmdbId : Int
+                        @PathVariable(name = "id", required = true) tmdbId : String
     ) : VideoResponse
 
     @GetMapping("tv/{id}/credits?language=ko-KR")
     fun findOneCredit(@RequestHeader("Authorization") apiKey: String,
-                     @PathVariable(name = "id", required = true) tmdbId : Int
+                     @PathVariable(name = "id", required = true) tmdbId : String
     ) : CreditResponse
 
     @GetMapping("tv/{id}/images?include_image_language=null")
     fun findOneImages(@RequestHeader("Authorization") apiKey: String,
-                      @PathVariable(name = "id", required = true) tmdbId : Int
+                      @PathVariable(name = "id", required = true) tmdbId : String
     ) : ImageResponse
 }

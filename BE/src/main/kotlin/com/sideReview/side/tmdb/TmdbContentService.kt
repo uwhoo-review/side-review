@@ -1,10 +1,8 @@
 package com.sideReview.side.tmdb
 
-import com.sideReview.side.common.util.MapperUtil
-import com.sideReview.side.common.util.MapperUtil.mapGenreCodeToString
-import com.sideReview.side.common.util.MapperUtil.mapProviderCodeToString
-import com.sideReview.side.common.util.MapperUtil.mapProviderStringToCode
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.util.MapperUtil
+import com.sideReview.side.common.util.MapperUtil.mapProviderStringToCode
 import com.sideReview.side.tmdb.dto.*
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.LoggerFactory
@@ -14,13 +12,13 @@ import org.springframework.stereotype.Service
 
 @Service
 @Slf4j
-class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClient){
+class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClient) {
     @Value("\${api.tmdb.key}")
     lateinit var accessKey: String
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
 
     fun putSearchServer(): TmdbResponse {
-        return tmdbClient.findAllTvShows("Bearer $accessKey",1)
+        return tmdbClient.findAllTvShows("Bearer $accessKey", 1)
     }
 
     //sample api를 위한 메서드
@@ -57,60 +55,61 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 //        return MainContentDto(latest = latest, popular = popular)
 //    }
 
-    fun getAllContents() : List<ContentDocument>{
-        val dtoList : MutableList<TbdbContent> = mutableListOf()
-        val tmdbData : TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey",1)
+    fun getAllContents(): List<ContentDocument> {
+        val dtoList: MutableList<TmdbContent> = mutableListOf()
+        val tmdbData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1)
         dtoList.addAll(tmdbData.results)
-        logger.info("[Discover] first: "+dtoList.size.toString())
+        logger.info("[Discover] first: " + dtoList.size.toString())
 
-        val pages : Int = tmdbData.total_pages
-        for(page in 2..pages){
-            dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey",page).results)
-            if(dtoList.size%1000 == 0) logger.info("[Discover] processing...: "+ dtoList.size.toString())
+        val pages: Int = tmdbData.total_pages
+        for (page in 2..pages) {
+            dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page).results)
+            if (dtoList.size % 1000 == 0) logger.info("[Discover] processing...: " + dtoList.size.toString())
         }
-        logger.info("[Discover] final: "+ dtoList.size.toString())
+        logger.info("[Discover] final: " + dtoList.size.toString())
         return MapperUtil.mapTmdbToDocument(dtoList)
     }
 
-    fun getMoreInfo(docList : List<ContentDocument>) : List<ContentDocument>{
-        var i : Int = 1;
-        for(doc in docList){
+    fun getMoreInfo(docList: List<ContentDocument>): List<ContentDocument> {
+        var i: Int = 1;
+        for (doc in docList) {
             val id = doc.id
 
-            val providersResponse : WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", id)
+            val providersResponse: WatchProvidersResponse =
+                tmdbClient.findOneProvider("Bearer $accessKey", id)
             doc.platform = filterPlatformList(providersResponse)
 
-            val videoResponse : VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", id)
+            val videoResponse: VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", id)
             doc.trailer = filterTrailerKey(videoResponse)
 
-            val imageInfo : ImageResponse = tmdbClient.findOneImages("Bearer $accessKey", id)
+            val imageInfo: ImageResponse = tmdbClient.findOneImages("Bearer $accessKey", id)
             doc.photo = filterImages(imageInfo)
 
-            if(i%100 == 0) logger.info("Get more info processing ... $i / ${docList.size}")
+            if (i % 100 == 0) logger.info("Get more info processing ... $i / ${docList.size}")
             i++
         }
         return docList
     }
 
-    private fun filterTrailerKey(videoResponse: VideoResponse) : List<String> {
+    private fun filterTrailerKey(videoResponse: VideoResponse): List<String> {
         videoResponse.results.sortedWith(compareBy({ it.type == "Trailer" }, { it.published_at }))
-        val videoList : MutableList<String> = mutableListOf()
-        for (video in videoResponse.results){
-            if(video.official){
+        val videoList: MutableList<String> = mutableListOf()
+        for (video in videoResponse.results) {
+            if (video.official) {
                 videoList.add(video.key)
             }
         }
         return videoList
     }
 
-    private fun filterPlatformList(providersResponse : WatchProvidersResponse) : List<Int> {
-        val providerInfo: ProviderInfo ?= providersResponse.results["KR"]
+    private fun filterPlatformList(providersResponse: WatchProvidersResponse): List<Int> {
+        val providerInfo: ProviderInfo? = providersResponse.results["KR"]
         val flatrateSize = providerInfo?.flatrate?.size
-        val providerList : MutableList<String> = mutableListOf()
-        var providerCodeList : List<Int> = emptyList()
+        val providerList: MutableList<String> = mutableListOf()
+        var providerCodeList: List<Int> = emptyList()
 
-        if(providersResponse.results.isNotEmpty() && flatrateSize != null) {
-            for (i in 0..< flatrateSize) {
+        if (providersResponse.results.isNotEmpty() && flatrateSize != null) {
+            for (i in 0..<flatrateSize) {
                 val provider = providerInfo.flatrate[i].provider_name.split(" ")[0]
                 if (!providerList.contains(provider)) providerList.add(provider)
             }
@@ -120,9 +119,9 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         return providerCodeList
     }
 
-    private fun filterImages(imageResponse: ImageResponse) : List<String>{
-        val imageInfoList : List<ImageInfo> = imageResponse.backdrops
-        val photoList : MutableList<String> = mutableListOf()
+    private fun filterImages(imageResponse: ImageResponse): List<String> {
+        val imageInfoList: List<ImageInfo> = imageResponse.backdrops
+        val photoList: MutableList<String> = mutableListOf()
 
         imageInfoList.forEach {
             photoList.add(it.file_path.substring(1))

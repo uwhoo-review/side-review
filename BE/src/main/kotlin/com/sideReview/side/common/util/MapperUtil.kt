@@ -3,13 +3,13 @@ package com.sideReview.side.common.util
 import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
-import com.sideReview.side.tmdb.dto.TbdbContent
+import com.sideReview.side.tmdb.dto.TmdbContent
 
 object MapperUtil {
-    fun mapTmdbToDocument(tbdbContentList: List<TbdbContent>): List<ContentDocument> {
-        return tbdbContentList.map { tbdbContent ->
+    fun mapTmdbToDocument(tmdbContentList: List<TmdbContent>): List<ContentDocument> {
+        return tmdbContentList.map { tbdbContent ->
             ContentDocument(
-                id = tbdbContent.id,
+                id = tbdbContent.id.toString(),
                 name = tbdbContent.name,
                 platform = null,
                 genre = tbdbContent.genre_ids,
