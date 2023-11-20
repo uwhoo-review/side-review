@@ -3,11 +3,12 @@ import PopularContent from "@src/component/organisms/PopularGrid/Contents/Popula
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useQuery } from "@tanstack/react-query";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
+import {CONTENTS_TABS} from "@src/variables/APIConstants";
 
 const PopularTemplate = () => {
   const { status, data, error } = useQuery({
-    queryKey: ["main", "list"],
-    queryFn: async () => await UWAxios.sample.getSample(),
+    queryKey: ["popularity", "list"],
+    queryFn: async () => await UWAxios.sample.getSample(CONTENTS_TABS.POPULARITY),
     refetchOnWindowFocus: false,
   });
 

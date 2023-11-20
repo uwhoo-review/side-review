@@ -83,7 +83,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                 >
                   <ContentCard
                     className={`image-card`}
-                    srcId={v.poster}
+                    srcId={v.poster || ""}
                     rank={i + 1}
                     contentName={v.name}
                     platform={v.platform}

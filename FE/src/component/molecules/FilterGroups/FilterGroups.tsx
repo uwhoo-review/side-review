@@ -9,6 +9,12 @@ import HWSlider from "@src/component/atoms/HWSlider/HWSlider";
 import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
 import HWCheckBox from "@src/component/atoms/HWCheckBox/HWCheckBox";
 import { IconCheckboxOff, IconCheckboxOn } from "@res/index";
+import {
+  FILTER_SORT,
+  GENRE,
+  PLATFORM,
+  WATCH_RATING,
+} from "@src/variables/CommonConstants";
 
 const FilterGroups = () => {
   const [value, setValue] = useState<string[]>([]);
@@ -16,10 +22,12 @@ const FilterGroups = () => {
     const { value } = e.target;
     setValue(typeof value === "string" ? value.split(",") : [...value]);
   };
+  const [genre, setGenre] = useState<string[]>([]);
+  const [platform, setPlatform] = useState<string[]>([]);
+  const [watchRating, setWatchRating] = useState<string[]>([]);
   const [sliderValue, setSliderValue] = useState<number[]>([0, 5]);
   const [yearRange, setYearRange] = useState<(number | undefined)[]>([undefined, undefined]);
-  const min = 0;
-  const max = 5;
+  const [sort, setSort] = useState<string>("");
 
   return (
     <div css={styled.wrapper}>
@@ -28,19 +36,22 @@ const FilterGroups = () => {
           label={"필터"}
           multiple
           placeholder={"장르"}
-          value={value}
-          onChange={handleChange}
+          value={genre}
+          onChange={(e) => {
+            const value = e.target.value;
+            setGenre([...value]);
+          }}
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
-              {values.map((v: any) => (
-                <HWChip key={v} label={v} css={styled.chip} />
-              ))}
+              {values.map((v: any) => {
+                return <HWChip key={v} label={v} css={styled.chip} />;
+              })}
             </div>
           )}
         >
-          {[...Array(7)].map((_, idx) => (
-            <HWOutlinedSelectBox.Item key={idx} value={`value${idx}`}>
-              {`value${idx}`}
+          {Object.entries(GENRE).map(([key, value]) => (
+            <HWOutlinedSelectBox.Item key={key} value={value}>
+              {value}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>
@@ -48,8 +59,11 @@ const FilterGroups = () => {
           label={""}
           multiple
           placeholder={"플랫폼"}
-          value={value}
-          onChange={handleChange}
+          value={platform}
+          onChange={(e) => {
+            const value = e.target.value;
+            setPlatform([...value]);
+          }}
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
               {values.map((v: any) => (
@@ -58,34 +72,37 @@ const FilterGroups = () => {
             </div>
           )}
         >
-          {[...Array(7)].map((_, idx) => (
-            <HWOutlinedSelectBox.Item key={idx} value={`value${idx}`}>
-              {`value${idx}`}
+          {Object.entries(PLATFORM).map(([key, value]) => (
+            <HWOutlinedSelectBox.Item key={key} value={value}>
+              {value}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>
         <HWOutlinedSelectBox
           label={""}
           placeholder={"시청등급"}
-          value={value}
-          onChange={handleChange}
+          value={watchRating}
+          onChange={(e) => {
+            const value = e.target.value;
+            setWatchRating([...value]);
+          }}
         >
-          {[...Array(7)].map((_, idx) => (
-            <HWOutlinedSelectBox.Item key={idx} value={`value${idx}`}>
-              {`value${idx}`}
+          {Object.entries(WATCH_RATING).map(([key, value]) => (
+            <HWOutlinedSelectBox.Item key={key} value={value}>
+              {value}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>
         <CustomInputField
           label={""}
-          placeholder={"평"}
+          placeholder={"평점"}
           value={sliderValue}
-          onChange={handleChange}
+          renderValue={(v: any) => `${v[0]}점 - ${v[1]}점`}
         >
           <div css={styled.sliderWrapper}>
             <HWSlider
-              min={min}
-              max={max}
+              min={0}
+              max={5}
               step={0.5}
               value={sliderValue}
               track="normal"
@@ -96,18 +113,48 @@ const FilterGroups = () => {
             />
           </div>
         </CustomInputField>
-        <CustomInputField label={""} placeholder={"개봉연도"} value={yearRange} >
+        <CustomInputField
+          label={""}
+          placeholder={"개봉연도"}
+          value={
+            (yearRange[0] !== undefined || yearRange[1] !== undefined) && yearRange.join(" - ")
+          }
+        >
           <div css={styled.yearRangeWrapper}>
             <div css={styled.yearRangeGroups}>
-              <HWTextField value={yearRange[0]} width={"122px"} />
+              <HWTextField
+                value={yearRange[0] || undefined}
+                width={"122px"}
+                maxLength={4}
+                type={"text"}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  return setYearRange([Number(e.target.value) || undefined, yearRange[1]]);
+                }}
+              />
               <div>-</div>
-              <HWTextField value={yearRange[1]} width={"122px"} />
+              <HWTextField
+                value={yearRange[1] || undefined}
+                width={"122px"}
+                maxLength={4}
+                type={"text"}
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  return setYearRange([yearRange[0], Number(e.target.value) || undefined]);
+                }}
+              />
             </div>
             <div css={styled.currentYear}>
               <HWCheckBox
-                checked={false}
+                checked={
+                  yearRange[0] === new Date().getFullYear() &&
+                  yearRange[1] === new Date().getFullYear()
+                }
                 icon={<IconCheckboxOff />}
                 checkedIcon={<IconCheckboxOn />}
+                onChange={(checked) => {
+                  if (checked) setYearRange([new Date().getFullYear(), new Date().getFullYear()]);
+                }}
                 label={<HWTypography variant={"bodyXS"}>올해로 설정</HWTypography>}
               />
             </div>
@@ -117,12 +164,15 @@ const FilterGroups = () => {
         <HWOutlinedSelectBox
           label={"인기순"}
           placeholder={"정렬"}
-          value={value}
-          onChange={handleChange}
+          value={sort}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSort(value);
+          }}
         >
-          {[...Array(7)].map((_, idx) => (
-            <HWOutlinedSelectBox.Item key={idx} value={`value${idx}`}>
-              {`value${idx}`}
+          {Object.entries(FILTER_SORT).map(([key, value]) => (
+            <HWOutlinedSelectBox.Item key={key} value={value}>
+              {value}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>

@@ -11,9 +11,11 @@ export default {
   header: css``,
   headline: css`
     font-family: Pretendard-SemiBold;
+    margin-bottom: 20px;
   `,
   subHeadline: css`
     font-family: Pretendard;
+    margin-bottom: 40px;
   `,
   contentWrapper: css`
     display: flex;

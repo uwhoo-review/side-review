@@ -1,7 +1,7 @@
 import styled from "./style";
 import { Link, NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
-import { IconSearch } from "@res/index";
+import { IconSearch, IconUwhoo } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
@@ -33,15 +33,14 @@ const GNB = (props: { children?: React.ReactNode }) => {
   }, [isOpen]);*/
 
   useEffect(() => {
-    const scrollDiv = document.querySelector("#root");
-
+    // const scrollDiv = document.querySelector("#root");
     const handleShowButton = () => {
-      (scrollDiv?.scrollTop || 0) === 0 ? setScrollTop(true) : setScrollTop(false);
+      (window.scrollY || 0) === 0 ? setScrollTop(true) : setScrollTop(false);
     };
 
-    scrollDiv?.addEventListener("scroll", handleShowButton);
+    window.addEventListener("scroll", handleShowButton);
     return () => {
-      scrollDiv?.removeEventListener("scroll", handleShowButton);
+      window.removeEventListener("scroll", handleShowButton);
     };
   }, []);
 
@@ -50,12 +49,14 @@ const GNB = (props: { children?: React.ReactNode }) => {
       <header
         css={styled.wrapper(
           scrollTop && !isOpen && pathname === "/detail" ? "transparent" : "#232323",
-            scrollTop
+          scrollTop
         )}
       >
         <div css={styled.subWrapper}>
           <div css={styled.leftGroups}>
-            <div css={styled.logo}>SIDE REVIEW</div>
+            <div>
+              <IconUwhoo css={styled.logo} />
+            </div>
           </div>
           <div css={styled.centerGroups}>
             <NavLink to={"/"} className={({ isActive }) => (isActive ? "active" : "")}>

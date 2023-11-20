@@ -34,6 +34,7 @@ import { ReactComponent as IconApple } from "./logo/ic_apple.svg";
 import { ReactComponent as IconDesney } from "./logo/ic_desney.svg";
 import { ReactComponent as IconNetflix } from "./logo/ic_netflix.svg";
 import { ReactComponent as IconTving } from "./logo/ic_tving.svg";
+import { ReactComponent as IconUwhoo } from "./logo/ic_uwhoo.svg";
 import { ReactComponent as IconWatcha } from "./logo/ic_watcha.svg";
 
 export {
@@ -70,4 +71,5 @@ export {
   IconTving,
   IconNetflix,
   IconWatcha,
+  IconUwhoo,
 };

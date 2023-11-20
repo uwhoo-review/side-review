@@ -6,10 +6,36 @@ export const PLATFORM = {
 
 export const WATCH_RATING = {
   ALL: "전체관람가",
-  12: "12세",
-  15: "15세",
-  19: "청소년 관람 불가",
+  TWELVE: "12세",
+  FIFTEEN: "15세",
+  NINETEEN: "19+",
 } as const;
+
+export const GENRE = {
+  ACTION_ADVENTURE: "액션 & 어드벤쳐",
+  COMEDY: "코미디",
+  ANIMATION: "애니메이션",
+  CRIME: "",
+  DOCUMENTARY: "",
+  DRAMA: "",
+  FAMILY: "",
+  KIDS: "",
+  MYSTERY: "",
+  NEWS: "",
+  REALITY: "",
+  SCRFI_FANTASY: "",
+  SOAP: "",
+  TALK: "",
+  WAR_POLITICS: "",
+  WESTERN: "",
+} as const;
+
+export const FILTER_SORT = {
+  FAVORITE_SORT: "인기 순",
+  RECENTLY: "최신 공개 순",
+  RATING_SORT: "제목 순",
+  NAME_SORT: "별점 순"
+}
 
 export const DUMMY_CONTENT = {
   actors: "김지훈, 나나나, 가가가",

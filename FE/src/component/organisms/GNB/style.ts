@@ -27,12 +27,14 @@ export default {
     align-items: center;
   `,
   logo: css`
-    font-family: Poppins, sans-serif;
+/*    font-family: Poppins, sans-serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 600;
-    line-height: 17.041px; /* 77.461% */
-    letter-spacing: 0.88px;
+    line-height: 17.041px; !* 77.461% *!
+    letter-spacing: 0.88px;*/
+    width: 120px;
+    height: 19px;
   `,
   leftGroups: css``,
   centerGroups: css`

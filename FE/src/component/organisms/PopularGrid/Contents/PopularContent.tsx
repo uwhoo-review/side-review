@@ -25,25 +25,24 @@ const PopularContent = ({ data }: any) => {
   }, [setPopularList])*/
 
   useEffect(() => {
-    if (data.popular && data.latest)
-      setPopularList((prev: any) => [...prev, ...data.popular, ...data.latest]);
+    if (data) setPopularList(data);
   }, []);
 
   return (
     <div className="popular-content-wrapper" css={styled.wrapper}>
       <CenterWrapper customCss={styled.centerWrapper}>
-        {/*<div css={styled.header}>
-          <div>
-            <HWTypography variant={"headlineM"} css={styled.headline}>
+        <div css={styled.header}>
+          <div css={styled.headline}>
+            <HWTypography variant={"headlineM"} family={"Pretendard-SemiBold"}>
               UWHOO 인기 작품
             </HWTypography>
           </div>
-          <div>
-            <HWTypography variant={"headlineXS"} css={styled.subHeadline}>
+          <div css={styled.subHeadline}>
+            <HWTypography variant={"headlineXS"} family={"Pretendard"}>
               💡 유후 유저들이 좋아하는 인기 작품을 확인해 보세요!
             </HWTypography>
           </div>
-        </div>*/}
+        </div>
         <div css={styled.contentWrapper}>
           {selectedCard && (
             <div className={`side-preview-wrapper ${selectedCard && "open"}`} css={styled.leftBox}>
@@ -55,7 +54,7 @@ const PopularContent = ({ data }: any) => {
           <div className={`popular-cards-wrapper`} css={styled.rightBox}>
             <VirtuosoGrid
               ref={virtuosoRef}
-              data={popularList}
+              data={data}
               useWindowScroll={true}
               // overscan={6}
               components={{
