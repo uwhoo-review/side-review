@@ -39,8 +39,9 @@ const PhotoCard = ({
           <HWDialog open={Boolean(isOpen)} onClose={() => setIsOpen(false)}>
             <img
               src={`${getCardURL({ type: "photo", srcId: srcId, size: size })}`}
+              // src={"https://image.tmdb.org/t/p/w200/1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"}
               alt={srcId}
-              // css={styled.iframe}
+              css={styled.modalImg}
             />
           </HWDialog>
         </>

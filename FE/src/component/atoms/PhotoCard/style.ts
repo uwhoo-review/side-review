@@ -15,8 +15,17 @@ export default {
     user-drag: none;
   `,
   modal: css`
-    width: 800px;
-    height: 450px;
     border: none;
+  `,
+  modalWrapper: css`
+    //max-width: 1600px;
+    //max-height: 900px;
+  `,
+  modalImg: css`
+    width: 1600px;
+    height: 900px;
+    object-fit: scale-down;
+    //width: 90%;
+    //height: 450px;
   `
 };
