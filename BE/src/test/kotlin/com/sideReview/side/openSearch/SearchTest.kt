@@ -14,7 +14,7 @@ class SearchTest @Autowired constructor(val service: OpenSearchGetService) {
         runBlocking {
             println("***************** result **************")
 
-            println(service.get("", "").toString())
+            println(service.get("", "", null).toString())
         }
     }
 
@@ -23,7 +23,7 @@ class SearchTest @Autowired constructor(val service: OpenSearchGetService) {
         runBlocking {
             println("***************** result **************")
 
-            println(service.parseToContent(service.get("", "")))
+            println(service.parseToContent(service.get("", "", null)))
 
         }
     }

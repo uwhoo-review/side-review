@@ -1,4 +1,4 @@
-package com.sideReview.side.tmdb.dto
+package com.sideReview.side.openSearch.dto
 
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
