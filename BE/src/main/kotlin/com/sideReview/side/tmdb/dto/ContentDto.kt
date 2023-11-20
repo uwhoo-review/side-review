@@ -13,7 +13,7 @@ import java.lang.reflect.Type
 @Serializable
 data class ContentDto(
     //TODO : actor, rating, age
-    val id: Int,
+    val id: String,
     val name: String,
     val platform: List<String>,
     val genre: List<String>,
@@ -38,7 +38,7 @@ class ContentDeserializer : JsonDeserializer<ContentDto> {
         val gson = Gson()
         val typeToken: Type = object : TypeToken<List<String>>() {}.type
 
-        val id = jsonObject["id"].asInt
+        val id = jsonObject["id"].asString
         val name = jsonObject["name"].asString
         val platform = gson.fromJson<List<String>>(jsonObject["platform"], typeToken)
         val genre = gson.fromJson<List<String>>(jsonObject["genre"], typeToken)
@@ -46,7 +46,7 @@ class ContentDeserializer : JsonDeserializer<ContentDto> {
         val firstAirDate = jsonObject["firstAirDate"]?.asString?.substring(0, 4)
         val synopsis = jsonObject["synopsis"].asString
         val trailer_ = gson.fromJson<List<String>>(jsonObject["trailer"], typeToken)
-        var trailer: String = ""
+        var trailer = ""
         if (trailer_.isNotEmpty()) {
             trailer = trailer_[0]
         }
