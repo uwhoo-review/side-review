@@ -21,12 +21,9 @@ class MainContentsController @Autowired constructor(
         @RequestBody request: ContentRequestDTO
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
-        if (request.tab.isNullOrBlank() && request.sort.isNullOrBlank()) return response
         runBlocking {
-
             when (request.tab) {
                 "main" -> {
-                    println("main")
                     response = ResponseEntity.ok(
                         MainContentDto(
                             openSearchGetService.parseToContent(
@@ -40,8 +37,6 @@ class MainContentsController @Autowired constructor(
                 }
 
                 "popularity" -> {
-                    println("popularity")
-
                     response = ResponseEntity.ok(
                         openSearchGetService.parseToContent(
                             openSearchGetService.get(request.tab, "popularity", request)
@@ -50,23 +45,20 @@ class MainContentsController @Autowired constructor(
                 }
 
                 "new" -> {
-                    println("new")
-
                     response = ResponseEntity.ok(
                         openSearchGetService.parseToContent(
                             openSearchGetService.get(request.tab, "new", request)
                         )
                     )
                 }
-            }
-            if (request.tab.isNullOrBlank() && !request.sort.isNullOrBlank()) {
-                println("tab null")
 
-                response = ResponseEntity.ok(
-                    openSearchGetService.parseToContent(
-                        openSearchGetService.get("request.sort", request.sort, request)
+                // 탭이 없거나 위 3개가 아닐 경우 검색으로 인식함.
+                else ->
+                    response = ResponseEntity.ok(
+                        openSearchGetService.parseToContent(
+                            openSearchGetService.get("search", request.sort, request)
+                        )
                     )
-                )
             }
         }
         return response
