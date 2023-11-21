@@ -8,7 +8,7 @@ export default {
     justify-content: center;
     height: 26px;
     min-width: 28px;
-    max-width: 145px;
+    max-width: 200px;
     box-sizing: border-box;
     border-radius: 6px;
     -webkit-touch-callout: none;
@@ -124,6 +124,6 @@ export default {
     }
   },
   chipLabel: css`
-    max-width: 109px;
+    max-width: 200px;
   `,
 };

@@ -9,4 +9,5 @@ export interface HWChipProps {
   color?: string;
   max?: number;
   onDelete?: () => void;
+  onClick?: () => void;
 }

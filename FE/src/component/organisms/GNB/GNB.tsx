@@ -8,9 +8,12 @@ import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import FilterGroups from "@src/component/molecules/FilterGroups/FilterGroups";
 import ScrollTopButton from "@src/component/atoms/ScrollTopButton/ScrollTopButton";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
+import { useCommon } from "@src/providers/CommonProvider";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const commonContext = useCommon();
+
   const searchEl = useRef<any>(null);
   const iconEl = useRef<any>(null);
 
@@ -48,7 +51,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
     <>
       <header
         css={styled.wrapper(
-          scrollTop && !isOpen && pathname === "/detail" ? "transparent" : "#232323",
+          scrollTop && !commonContext.isFilterOpen && pathname === "/detail" ? "transparent" : "#232323",
           scrollTop
         )}
       >
@@ -74,8 +77,10 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </div>
           <div css={styled.rightGroups}>
             <HWIconButton
-              onClick={() => setIsOpen(!isOpen)}
-              css={styled.iconSearch(isOpen)}
+              onClick={() => {
+                commonContext.onHandleFilterOpen(!commonContext.isFilterOpen);
+              }}
+              css={styled.iconSearch(commonContext.isFilterOpen)}
               ref={iconEl}
             >
               <IconSearch />
@@ -89,11 +94,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </div>
         </div>
       </header>
-      <div
-        className={`search-wrapper ${isOpen && "open"}`}
-        css={styled.searchWrapper}
-        ref={searchEl}
-      >
+      <div className={`search-wrapper ${commonContext.isFilterOpen && "open"}`} css={styled.searchWrapper}>
         <CenterWrapper customCss={styled.searchGrid}>
           <div>
             <SearchBar />

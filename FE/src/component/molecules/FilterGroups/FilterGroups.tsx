@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "./style";
 import HWOutlinedSelectBox from "@src/component/atoms/HWOutlinedSelectBox";
 import { SelectChangeEvent } from "@mui/material";
@@ -11,23 +11,41 @@ import HWCheckBox from "@src/component/atoms/HWCheckBox/HWCheckBox";
 import { IconCheckboxOff, IconCheckboxOn } from "@res/index";
 import {
   FILTER_SORT,
-  GENRE,
-  PLATFORM,
+  GENRE_ID,
+  GENRE_NAME,
+  PLATFORM_ID,
+  PLATFORM_NAME,
   WATCH_RATING,
 } from "@src/variables/CommonConstants";
+import { useCommon } from "@src/providers/CommonProvider";
 
 const FilterGroups = () => {
+  const commonContext = useCommon();
+
   const [value, setValue] = useState<string[]>([]);
+
   const handleChange = (e: SelectChangeEvent<string[]>) => {
     const { value } = e.target;
     setValue(typeof value === "string" ? value.split(",") : [...value]);
   };
-  const [genre, setGenre] = useState<string[]>([]);
-  const [platform, setPlatform] = useState<string[]>([]);
-  const [watchRating, setWatchRating] = useState<string[]>([]);
-  const [sliderValue, setSliderValue] = useState<number[]>([0, 5]);
-  const [yearRange, setYearRange] = useState<(number | undefined)[]>([undefined, undefined]);
+
+  const [genre, setGenre] = useState<any[]>(commonContext.filterState.genre);
+  const [platform, setPlatform] = useState<any[]>(commonContext.filterState.platform);
+  const [watch, setWatch] = useState<string[]>([]);
+  const [rating, setRating] = useState<number[]>([0, 5]);
+  const [date, setDate] = useState<(number | null)[]>([null, null]);
   const [sort, setSort] = useState<string>("");
+
+  useEffect(() => {
+    commonContext.onHandleFilter({
+      genre,
+      platform,
+      watch,
+      rating,
+      date,
+      sort,
+    });
+  }, [genre, platform, watch, rating, date, sort]);
 
   return (
     <div css={styled.wrapper}>
@@ -44,14 +62,16 @@ const FilterGroups = () => {
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
               {values.map((v: any) => {
-                return <HWChip key={v} label={v} css={styled.chip} />;
+                return <HWChip key={v} label={GENRE_NAME[v]} css={styled.chip} />;
               })}
             </div>
           )}
+          disablePortal={true}
+          inputRef={commonContext.filterRef.genreRef}
         >
-          {Object.entries(GENRE).map(([key, value]) => (
+          {Object.entries(GENRE_ID).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
-              {value}
+              {GENRE_NAME[value]}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>
@@ -67,25 +87,35 @@ const FilterGroups = () => {
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
               {values.map((v: any) => (
-                <HWChip key={v} label={v} css={styled.chip} />
+                <HWChip key={v} label={PLATFORM_NAME[v]} css={styled.chip} />
               ))}
             </div>
           )}
+          inputRef={commonContext.filterRef.platformRef}
         >
-          {Object.entries(PLATFORM).map(([key, value]) => (
+          {Object.entries(PLATFORM_ID).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
-              {value}
+              {PLATFORM_NAME[value]}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>
         <HWOutlinedSelectBox
           label={""}
+          multiple
           placeholder={"시청등급"}
-          value={watchRating}
+          value={watch}
           onChange={(e) => {
             const value = e.target.value;
-            setWatchRating([...value]);
+            setWatch([...value]);
           }}
+          renderValue={(values: any) => (
+            <div css={styled.multiBox}>
+              {values.map((v: any) => (
+                <HWChip key={v} label={v} css={styled.chip} />
+              ))}
+            </div>
+          )}
+          inputRef={commonContext.watchRef}
         >
           {Object.entries(WATCH_RATING).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
@@ -96,19 +126,20 @@ const FilterGroups = () => {
         <CustomInputField
           label={""}
           placeholder={"평점"}
-          value={sliderValue}
+          value={rating}
           renderValue={(v: any) => `${v[0]}점 - ${v[1]}점`}
+          inputRef={commonContext.filterRef.ratingRef}
         >
           <div css={styled.sliderWrapper}>
             <HWSlider
               min={0}
               max={5}
               step={0.5}
-              value={sliderValue}
+              value={rating}
               track="normal"
               valueLabelDisplay={"on"}
               onChange={(e, newValue: number | number[]) => {
-                setSliderValue(newValue as number[]);
+                setRating(newValue as number[]);
               }}
             />
           </div>
@@ -116,42 +147,40 @@ const FilterGroups = () => {
         <CustomInputField
           label={""}
           placeholder={"개봉연도"}
-          value={
-            (yearRange[0] !== undefined || yearRange[1] !== undefined) && yearRange.join(" - ")
-          }
+          value={(date[0] !== null || date[1] !== null) && date.join(" - ")}
+          inputRef={commonContext.filterRef.yearRef}
         >
           <div css={styled.yearRangeWrapper}>
             <div css={styled.yearRangeGroups}>
               <HWTextField
-                value={yearRange[0] || undefined}
+                value={date[0] || undefined}
                 width={"122px"}
                 maxLength={4}
                 type={"text"}
                 onChange={(e) => {
-                  return setYearRange([Number(e.target.value) || undefined, yearRange[1]]);
+                  return setDate([Number(e.target.value) || null, date[1]]);
                 }}
               />
               <div>-</div>
               <HWTextField
-                value={yearRange[1] || undefined}
+                value={date[1] || undefined}
                 width={"122px"}
                 maxLength={4}
                 type={"text"}
                 onChange={(e) => {
-                  return setYearRange([yearRange[0], Number(e.target.value) || undefined]);
+                  return setDate([date[0], Number(e.target.value) || null]);
                 }}
               />
             </div>
             <div css={styled.currentYear}>
               <HWCheckBox
                 checked={
-                  yearRange[0] === new Date().getFullYear() &&
-                  yearRange[1] === new Date().getFullYear()
+                  date[0] === new Date().getFullYear() && date[1] === new Date().getFullYear()
                 }
                 icon={<IconCheckboxOff />}
                 checkedIcon={<IconCheckboxOn />}
                 onChange={(checked) => {
-                  if (checked) setYearRange([new Date().getFullYear(), new Date().getFullYear()]);
+                  if (checked) setDate([new Date().getFullYear(), new Date().getFullYear()]);
                 }}
                 label={<HWTypography variant={"bodyXS"}>올해로 설정</HWTypography>}
               />
@@ -167,6 +196,7 @@ const FilterGroups = () => {
             const value = e.target.value;
             setSort(value);
           }}
+          inputRef={commonContext.filterRef.sortRef}
         >
           {Object.entries(FILTER_SORT).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>

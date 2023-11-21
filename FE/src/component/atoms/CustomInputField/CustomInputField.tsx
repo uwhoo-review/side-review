@@ -32,6 +32,7 @@ const CustomInputField = forwardRef(
       onChange,
       onClick,
       PaperProps = { sx: {} },
+      inputRef,
       ...props
     }: any,
     ref: React.Ref<HTMLDivElement>
@@ -92,6 +93,7 @@ const CustomInputField = forwardRef(
               onClick={(e) => {
                 setAnchorEl(e.currentTarget);
               }}
+              ref={inputRef}
             >
               <div className="Custom-Field-Input" css={style.input} placeholder={placeholder}>
                 {display}

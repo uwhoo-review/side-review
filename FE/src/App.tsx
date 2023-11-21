@@ -15,20 +15,20 @@ const App = () => (
   <CommonProvider>
     <AxiosInterceptor>
       {/*<div className={"scroll-area none-draggable"}>*/}
-        <GNB />
-        <Routes>
-          <Route path={"/*"} element={<MainPage />} />
-          <Route path={"popular"} element={<PopularPage />} />
-          <Route path={"recently"} element={<RecentlyPage />} />
-          <Route path={"upcoming"} element={<UpcomingPage />} />
-          <Route path={"detail"}>
-            <Route path={"*"} index element={<DetailPage />} />
-            <Route path={"reviewTotal"} element={<ReviewPage />} />
-          </Route>
-          <Route path={"search"}>
-            <Route path={"*"} index element={<SearchResultPage />} />
-          </Route>
-        </Routes>
+      <GNB />
+      <Routes>
+        <Route path={"/*"} element={<MainPage />} />
+        <Route path={"popular"} element={<PopularPage />} />
+        <Route path={"recently"} element={<RecentlyPage />} />
+        <Route path={"upcoming"} element={<UpcomingPage />} />
+        <Route path={"detail"}>
+          <Route path={"*"} index element={<DetailPage />} />
+          <Route path={"reviewTotal"} element={<ReviewPage />} />
+        </Route>
+        <Route path={"search"}>
+          <Route path={"*"} index element={<SearchResultPage />} />
+        </Route>
+      </Routes>
       {/*</div>*/}
     </AxiosInterceptor>
   </CommonProvider>

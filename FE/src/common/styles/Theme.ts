@@ -42,10 +42,7 @@ export const darkTheme = {
     black: "#000000",
   },
   elevation: {
-    "00dp": {
-      background: "#121212",
-      "box-shadow": "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-    },
+    "00dp": "#121212",
     "01dp": "#1e1e1e",
     "02dp": "#232323",
     "03dp": "#252525",

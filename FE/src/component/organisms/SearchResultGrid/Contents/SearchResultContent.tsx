@@ -13,7 +13,7 @@ import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import person1 from "@res/temp/person1.png";
 import { card1, card3, IconChevronDoubleDown } from "@res/index";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
-const SearchResultContent = () => {
+const SearchResultContent = ({data}:any) => {
   const [contentsList, setContentsList] = useState([
     <ContentCard
       key={DUMMY_CONTENT.id}
