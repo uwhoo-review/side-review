@@ -7,6 +7,8 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
     kotlin("plugin.serialization") version "1.9.0"
+    // spring jpa 지연 로딩을 위한 auto open 설정. 필요없다면 주석.
+//    kotlin("plugin.allopen") version "1.9.0"
 }
 group = "com.sideReview"
 version = "0.0.1-SNAPSHOT"
@@ -79,3 +81,10 @@ tasks.withType<Test> {
 tasks.getByName<Jar>("jar") {
     enabled = false
 }
+
+// spring jpa 지연 로딩을 위한 auto open 설정. 필요없다면 주석.
+//allOpen {
+//    annotation("javax.persistence.Entity")
+//    annotation("javax.persistence.Embeddable")
+//    annotation("javax.persistence.MappedSuperclass")
+//}
