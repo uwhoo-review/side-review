@@ -14,6 +14,7 @@ object MapperUtil {
         return tmdbContentList.map {
             ContentDocument(
                 id = it.id.toString(),
+                sortingName=it.name,
                 name = it.name,
                 platform = null,
                 genre = it.genre_ids,

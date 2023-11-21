@@ -26,6 +26,7 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
                 }
                 mappings(dynamicEnabled = false) {
                     keyword(ContentDocument::id)
+                    keyword(ContentDocument::sortingName)
                     text(ContentDocument::name) {
                         analyzer = "nori"
                     }

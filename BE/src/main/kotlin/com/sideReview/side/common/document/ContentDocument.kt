@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class ContentDocument(
     val id: String,
     val name: String,
+    val sortingName: String,
     var platform: List<Int>? = null,
     var genre: List<Int>? = null,
     val rating: Double? = null,

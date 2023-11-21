@@ -77,6 +77,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             docList.add(
                 ContentDocument(
                     id = id.toString() + "_" + season.toString(),
+                    sortingName = detailResponse.name,
                     name = detailResponse.name,
                     platform = filterPlatformList(providersResponse),
                     genre = null,
