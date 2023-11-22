@@ -6,10 +6,9 @@ import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
-@Table(name = "USER_REVIEW")
+@Table(name = "USER_REVIEW", catalog = "meta")
 class UserReview(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "REVIEW_ID", length = 36, nullable = false)
     var reviewId: String,
 

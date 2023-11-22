@@ -1,9 +1,13 @@
 package com.sideReview.side.review
 
+import com.sideReview.side.review.dto.ReviewCreateDTO
 import com.sideReview.side.review.dto.ReviewDTO
 import com.sideReview.side.review.dto.ReviewDetailDTO
 import com.sideReview.side.review.entity.UserReview
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
+import java.util.*
 
 @Service
 class ReviewService(val userReviewRepository: UserReviewRepository) {
@@ -11,29 +15,54 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         var reviews: List<UserReview> = listOf()
         if (spoiler != null) {
             if (spoiler) {
-                if (!sort.isNullOrBlank()) {
-                    reviews =
-                        if (sort == "best")
-                            userReviewRepository.findByTargetIdOrderByLikeDescAndOrderByDislikeAsc(
-                                id
-                            )
-                        else userReviewRepository.findByTargetIdOrderByCreate(id)
-                } else reviews = userReviewRepository.findByTargetId(id)
+                reviews = if (!sort.isNullOrBlank()) {
+                    if (sort == "best")
+                        userReviewRepository.findByTargetIdOrderByLikeDescDislikeAsc(
+                            id
+                        )
+                    else userReviewRepository.findByTargetIdOrderByCreate(id)
+                } else userReviewRepository.findByTargetId(id)
             } else {
-                if (!sort.isNullOrBlank()) {
-                    reviews =
-                        if (sort == "best")
-                            userReviewRepository.findByTargetIdAndSpoilerIsOrderByLikeDescAndOrderByDislikeAsc(
-                                id,"0"
-                            )
-                        else userReviewRepository.findByTargetIdAndSpoilerIsOrderByCreate(id,"0")
+                reviews = if (!sort.isNullOrBlank()) {
+                    if (sort == "best")
+                        userReviewRepository.findByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(
+                            id, "0"
+                        )
+                    else userReviewRepository.findByTargetIdAndSpoilerIsOrderByCreate(id, "0")
                 } else
-                    reviews = userReviewRepository.findByTargetIdAndSpoilerIs(id, "0")
+                    userReviewRepository.findByTargetIdAndSpoilerIs(id, "0")
             }
         }
 
         return ReviewDTO(reviews.size, mapUserReviewToReviewDetailDTO(reviews))
     }
+
+
+    @Transactional
+    fun create(review: ReviewCreateDTO, ip: String) {
+        val uuid = UUID.randomUUID().toString().substring(0, 36)
+        kotlin.runCatching {
+            userReviewRepository.save(
+                UserReview(
+                    reviewId = uuid,
+                    targetId = review.dramaId,
+                    writerId = ip,
+                    like = 0,
+                    dislike = 0,
+                    spoiler = if (review.spoiler) "1" else "0",
+                    create = LocalDate.now(),
+                    content = review.content
+                )
+            )
+        }.onFailure {
+            println("############################################")
+            println("########### Error on Review Save ###########")
+            println("############################################")
+            System.err.println(it.message)
+            System.err.println(it.stackTrace)
+        }
+    }
+
 
     fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
         val details = mutableListOf<ReviewDetailDTO>()
