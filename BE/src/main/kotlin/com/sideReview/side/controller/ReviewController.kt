@@ -26,11 +26,16 @@ class ReviewController(val reviewService: ReviewService) {
     @PostMapping("")
     fun create(
         @RequestBody body: ReviewCreateDTO,
-        @RequestHeader request: HttpServletRequest
+        request: HttpServletRequest
     ): ResponseEntity<Any> {
         reviewService.create(
             body, ClientUtils.getIp(request)
         )
         return ResponseEntity(HttpStatus.OK)
+    }
+
+    @PutMapping("")
+    fun evaluate() {
+
     }
 }
