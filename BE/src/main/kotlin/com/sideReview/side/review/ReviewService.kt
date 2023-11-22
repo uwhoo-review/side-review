@@ -8,7 +8,30 @@ import org.springframework.stereotype.Service
 @Service
 class ReviewService(val userReviewRepository: UserReviewRepository) {
     fun get(id: String, sort: String?, spoiler: Boolean?): ReviewDTO {
-        val reviews = userReviewRepository.findByTargetId(id)
+        var reviews: List<UserReview> = listOf()
+        if (spoiler != null) {
+            if (spoiler) {
+                if (!sort.isNullOrBlank()) {
+                    reviews =
+                        if (sort == "best")
+                            userReviewRepository.findByTargetIdOrderByLikeDescAndOrderByDislikeAsc(
+                                id
+                            )
+                        else userReviewRepository.findByTargetIdOrderByCreate(id)
+                } else reviews = userReviewRepository.findByTargetId(id)
+            } else {
+                if (!sort.isNullOrBlank()) {
+                    reviews =
+                        if (sort == "best")
+                            userReviewRepository.findByTargetIdAndSpoilerIsOrderByLikeDescAndOrderByDislikeAsc(
+                                id,"0"
+                            )
+                        else userReviewRepository.findByTargetIdAndSpoilerIsOrderByCreate(id,"0")
+                } else
+                    reviews = userReviewRepository.findByTargetIdAndSpoilerIs(id, "0")
+            }
+        }
+
         return ReviewDTO(reviews.size, mapUserReviewToReviewDetailDTO(reviews))
     }
 
