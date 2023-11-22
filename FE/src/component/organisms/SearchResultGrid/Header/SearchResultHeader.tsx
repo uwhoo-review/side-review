@@ -15,7 +15,6 @@ const SearchResultHeader = ({ data }: any) => {
   const search = searchParams.get("search");
   const paramList = [...searchParams];
 
-  console.log(paramList);
   return (
     <div className={"search-header-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
