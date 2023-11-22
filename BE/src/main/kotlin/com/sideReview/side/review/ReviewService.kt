@@ -3,6 +3,7 @@ package com.sideReview.side.review
 import com.sideReview.side.review.dto.ReviewCreateDTO
 import com.sideReview.side.review.dto.ReviewDTO
 import com.sideReview.side.review.dto.ReviewDetailDTO
+import com.sideReview.side.review.dto.ReviewEvaDTO
 import com.sideReview.side.review.entity.UserReview
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -38,7 +39,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
 
     @Transactional
     fun create(review: ReviewCreateDTO, ip: String) {
-        val uuid = UUID.randomUUID().toString().substring(0, 36)
+        val uuid = UUID.randomUUID().toString()
         kotlin.runCatching {
             userReviewRepository.save(
                 UserReview(
@@ -64,7 +65,6 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
 
     fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
         val details = mutableListOf<ReviewDetailDTO>()
-
         for (r in review) {
             details.add(
                 ReviewDetailDTO(
@@ -77,7 +77,14 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
                 )
             )
         }
-
         return details
+    }
+
+    @Transactional
+    fun evaluate(body: ReviewEvaDTO) {
+        userReviewRepository.findById(body.reviewId).ifPresent {
+            if (body.eval == 0) it.dislike += 1
+            else it.like += 1
+        }
     }
 }

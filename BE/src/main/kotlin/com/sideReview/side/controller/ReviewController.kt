@@ -4,6 +4,7 @@ import com.sideReview.side.review.ClientUtils
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDTO
 import com.sideReview.side.review.dto.ReviewDTO
+import com.sideReview.side.review.dto.ReviewEvaDTO
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -35,7 +36,9 @@ class ReviewController(val reviewService: ReviewService) {
     }
 
     @PutMapping("")
-    fun evaluate() {
-
+    fun evaluate(@RequestBody body: ReviewEvaDTO): ResponseEntity<Any> {
+        if (body.eval != 0 && body.eval != 1) return ResponseEntity(HttpStatus.BAD_REQUEST)
+        reviewService.evaluate(body)
+        return ResponseEntity(HttpStatus.OK)
     }
 }
