@@ -60,8 +60,8 @@ const SearchResultContent = ({data}:any) => {
       active
     />,
   ]);
-  const [toggle1, setToggle1] = useState<string>("a");
-  const [toggle2, setToggle2] = useState<string>("a");
+  const [toggle1, setToggle1] = useState<string>("drama");
+  const [toggle2, setToggle2] = useState<string>("drama");
 
   const props1 = (value: string) => {
     return {

@@ -1,17 +1,16 @@
 import styled from "./style";
 import { useEffect, useState } from "react";
 
-const ScrollTopButton = () => {
+const ScrollTopButton = ({ target }: any) => {
   const [showButton, setShowButton] = useState(false);
   const scrollToTop = () => {
     const scrollDiv = document.querySelector("#root");
-    scrollDiv?.scrollTo({ top: 0, behavior: "smooth" });
+    target?.scrollTo({ top: 0, behavior: "smooth" });
   };
-
 
   return (
     <>
-      {(
+      {
         <div css={styled.wrapper} onClick={scrollToTop}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +26,7 @@ const ScrollTopButton = () => {
             />
           </svg>
         </div>
-      )}
+      }
     </>
   );
 };

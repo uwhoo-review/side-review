@@ -43,4 +43,29 @@ export default {
     align-items: center;
     cursor: pointer;
   `,
+  listContainer: css`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    transition: 1s ease transform;
+  `,
+  itemContainer: css`
+    display: flex;
+    flex: none;
+    align-content: stretch;
+    align-items: flex-end;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    width: calc(100% / 6);
+    height: 380px;
+  `,
+  item: css`
+    flex: 1;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+  `,
+  card: css`
+    cursor: pointer;
+  `,
 };

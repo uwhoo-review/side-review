@@ -102,7 +102,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </div>
         </CenterWrapper>
       </div>
-      <ScrollTopButton />
+      <ScrollTopButton target={window} />
       {/*<Outlet />*/}
     </>
   );

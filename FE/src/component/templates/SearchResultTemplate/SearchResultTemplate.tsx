@@ -9,6 +9,7 @@ import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useCommon } from "@src/providers/CommonProvider";
 import { getFilterParams } from "@src/tools/commonTools";
+import FilterResultContents from "@src/component/organisms/SearchResultGrid/Contents/FilterResultContent";
 
 const SearchResultTemplate = () => {
   const [searchParams] = useSearchParams();
@@ -37,7 +38,8 @@ const SearchResultTemplate = () => {
         {status === "success" && (
           <>
             <SearchResultHeader data={data} />
-            <SearchResultContent data={data} />
+            {/*<SearchResultContent data={data} />*/}
+            <FilterResultContents data={data} />
           </>
         )}
       </div>

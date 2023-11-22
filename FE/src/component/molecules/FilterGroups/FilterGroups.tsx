@@ -13,7 +13,7 @@ import {
   FILTER_SORT,
   GENRE_ID,
   GENRE_NAME,
-  PLATFORM_ID,
+  PLATFORM_ID, PLATFORM_ID_NAME,
   PLATFORM_NAME,
   WATCH_RATING,
 } from "@src/variables/CommonConstants";
@@ -80,7 +80,7 @@ const FilterGroups = () => {
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
               {values.map((v: any) => (
-                <HWChip key={v} label={PLATFORM_NAME[v]} css={styled.chip} />
+                <HWChip key={v} label={PLATFORM_ID_NAME[v]} css={styled.chip} />
               ))}
             </div>
           )}
@@ -88,7 +88,7 @@ const FilterGroups = () => {
         >
           {Object.entries(PLATFORM_ID).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
-              {PLATFORM_NAME[value]}
+              {PLATFORM_ID_NAME[value]}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>

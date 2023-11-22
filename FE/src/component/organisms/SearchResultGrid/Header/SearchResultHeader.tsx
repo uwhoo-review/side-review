@@ -7,7 +7,7 @@ import { IconInit } from "@res/index";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
 import { useSearchParams } from "react-router-dom";
-import { GENRE_NAME, PLATFORM_NAME } from "@src/variables/CommonConstants";
+import {GENRE_NAME, PLATFORM_ID_NAME} from "@src/variables/CommonConstants";
 
 const SearchResultHeader = ({ data }: any) => {
   const commonContext = useCommon();
@@ -73,7 +73,7 @@ const SearchResultHeader = ({ data }: any) => {
                 return value.split(",").map((v: any) => (
                   <HWChip
                     key={v}
-                    label={PLATFORM_NAME[v]}
+                    label={PLATFORM_ID_NAME[v]}
                     customCss={styled.chip}
                     onClick={() => {
                       if (commonContext.filterRef.platformRef?.current) {

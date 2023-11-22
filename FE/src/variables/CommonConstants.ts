@@ -21,20 +21,28 @@
   },
 } as const;*/
 
+export const PLATFORM_NAME = {
+  NETFLIX: "Netflix",
+  DISNEY_PLUS: "Disney+",
+  APPLE_TV: "Apple TV",
+  WAVVE: "Wavve",
+  WATCHA: "Watcha",
+};
+
 export const PLATFORM_ID = {
   NETFLIX: 8,
   DISNEY_PLUS: 337,
   APPLE_TV: 350,
   WAVVE: 356,
-  WHATCHA: 97,
+  WATCHA: 97,
 };
 
-export const PLATFORM_NAME = {
-  [PLATFORM_ID.NETFLIX]: "Netflix",
-  [PLATFORM_ID.DISNEY_PLUS]: "Disney",
-  [PLATFORM_ID.APPLE_TV]: "Apple TV",
-  [PLATFORM_ID.WAVVE]: "Wavve",
-  [PLATFORM_ID.WHATCHA]: "Whatcha",
+export const PLATFORM_ID_NAME = {
+  [PLATFORM_ID.NETFLIX]: PLATFORM_NAME.NETFLIX,
+  [PLATFORM_ID.DISNEY_PLUS]: PLATFORM_NAME.DISNEY_PLUS,
+  [PLATFORM_ID.APPLE_TV]: PLATFORM_NAME.APPLE_TV,
+  [PLATFORM_ID.WAVVE]: PLATFORM_NAME.WAVVE,
+  [PLATFORM_ID.WATCHA]: PLATFORM_NAME.WATCHA,
 } as const;
 
 export const WATCH_RATING = {
