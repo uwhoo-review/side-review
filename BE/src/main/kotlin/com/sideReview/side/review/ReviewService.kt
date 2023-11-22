@@ -11,27 +11,25 @@ import java.util.*
 
 @Service
 class ReviewService(val userReviewRepository: UserReviewRepository) {
-    fun get(id: String, sort: String?, spoiler: Boolean?): ReviewDTO {
-        var reviews: List<UserReview> = listOf()
-        if (spoiler != null) {
-            if (spoiler) {
-                reviews = if (!sort.isNullOrBlank()) {
-                    if (sort == "best")
-                        userReviewRepository.findByTargetIdOrderByLikeDescDislikeAsc(
-                            id
-                        )
-                    else userReviewRepository.findByTargetIdOrderByCreate(id)
-                } else userReviewRepository.findByTargetId(id)
-            } else {
-                reviews = if (!sort.isNullOrBlank()) {
-                    if (sort == "best")
-                        userReviewRepository.findByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(
-                            id, "0"
-                        )
-                    else userReviewRepository.findByTargetIdAndSpoilerIsOrderByCreate(id, "0")
-                } else
-                    userReviewRepository.findByTargetIdAndSpoilerIs(id, "0")
-            }
+    fun get(id: String, sort: String?, spoiler: Boolean): ReviewDTO {
+        val reviews: List<UserReview>
+        if (spoiler) {
+            reviews = if (!sort.isNullOrBlank()) {
+                if (sort == "best")
+                    userReviewRepository.findByTargetIdOrderByLikeDescDislikeAsc(
+                        id
+                    )
+                else userReviewRepository.findByTargetIdOrderByCreate(id)
+            } else userReviewRepository.findByTargetId(id)
+        } else {
+            reviews = if (!sort.isNullOrBlank()) {
+                if (sort == "best")
+                    userReviewRepository.findByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(
+                        id, "0"
+                    )
+                else userReviewRepository.findByTargetIdAndSpoilerIsOrderByCreate(id, "0")
+            } else
+                userReviewRepository.findByTargetIdAndSpoilerIs(id, "0")
         }
 
         return ReviewDTO(reviews.size, mapUserReviewToReviewDetailDTO(reviews))

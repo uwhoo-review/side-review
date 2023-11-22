@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.request.RequestPostProcessor
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 
@@ -25,6 +24,10 @@ class ReviewServiceTest {
 
     @Test
     fun get() {
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/review?id=109958")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk).andDo(MockMvcResultHandlers.print())
     }
 
     @Test
