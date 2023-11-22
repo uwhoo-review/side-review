@@ -4,10 +4,10 @@ import java.time.LocalDate
 
 data class ReviewDTO(
     val total: Int,
-    val review: List<ReviewDetail>
+    val review: List<ReviewDetailDTO>
 )
 
-data class ReviewDetail(
+data class ReviewDetailDTO(
     val id: String,
     val content: String,
     val date: LocalDate,

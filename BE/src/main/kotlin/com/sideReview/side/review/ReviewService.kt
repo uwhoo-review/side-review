@@ -1,7 +1,7 @@
 package com.sideReview.side.review
 
 import com.sideReview.side.review.dto.ReviewDTO
-import com.sideReview.side.review.dto.ReviewDetail
+import com.sideReview.side.review.dto.ReviewDetailDTO
 import com.sideReview.side.review.entity.UserReview
 import org.springframework.stereotype.Service
 
@@ -35,12 +35,12 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         return ReviewDTO(reviews.size, mapUserReviewToReviewDetailDTO(reviews))
     }
 
-    fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetail> {
-        val details = mutableListOf<ReviewDetail>()
+    fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
+        val details = mutableListOf<ReviewDetailDTO>()
 
         for (r in review) {
             details.add(
-                ReviewDetail(
+                ReviewDetailDTO(
                     id = r.reviewId,
                     content = r.content,
                     date = r.create,
