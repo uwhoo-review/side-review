@@ -19,7 +19,7 @@ class ReviewController(val reviewService: ReviewService) {
         @RequestParam(required = false) sort: String?,
         @RequestParam(required = false) spoiler: Boolean?
     ): ReviewDTO {
-        val s = spoiler != null
+        val s = spoiler ?: false
         return reviewService.get(id, sort, s)
     }
 
