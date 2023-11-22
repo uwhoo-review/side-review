@@ -10,6 +10,7 @@ import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import { useNavigate } from "react-router-dom";
 import { getCardURL } from "@src/tools/commonTools";
+import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 
 interface ContentCardProps {
   srcId: string;
@@ -18,9 +19,10 @@ interface ContentCardProps {
   platform: string[];
   age: number;
   year: string;
+  active: boolean;
+  launch?: boolean;
   rank?: number;
   onClick?: (e: React.MouseEvent) => void;
-  active: boolean;
   className?: string;
   customCss?: SerializedStyles;
 }
@@ -31,6 +33,7 @@ const ContentCard = ({
   platform,
   age,
   year,
+  launch = true,
   className,
   rank,
   onClick,
@@ -52,9 +55,7 @@ const ContentCard = ({
     <div
       className={classNames.join(" ")}
       css={[styled.wrapper(active), customCss]}
-      onClick={(e) => {
-        onClick && onClick(e);
-      }}
+      onClick={onClick}
       {...props}
     >
       {rank && <div css={styled.rank}>{rank}</div>}
@@ -69,14 +70,16 @@ const ContentCard = ({
       <div css={styled.description}>
         <div className={"title"} css={styled.title}>
           {contentName}
-          <IconLaunch
-            className={"icon-launch"}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate("/detail");
-            }}
-            css={styled.Launch}
-          />
+          {launch && (
+            <IconLaunch
+              className={"icon-launch"}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate("/detail");
+              }}
+              css={styled.Launch}
+            />
+          )}
         </div>
         <div css={styled.flexBetween}>
           <div className={"title-star"} css={styled.flexBetween}>
@@ -88,14 +91,7 @@ const ContentCard = ({
               {year}
             </HWTypography>
           </div>
-          <HWAvatarGroup max={3} direction={"right"}>
-            <HWAvatar>
-              <IconWatcha />
-            </HWAvatar>
-            <HWAvatar>
-              <IconNetflix />
-            </HWAvatar>
-          </HWAvatarGroup>
+          <PlatformAvatar list={platform} max={3} direction={"right"} />
         </div>
       </div>
     </div>

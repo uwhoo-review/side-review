@@ -23,6 +23,7 @@ import HWChip from "@src/component/atoms/HWChip/HWChip";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import { getCardURL } from "@src/tools/commonTools";
+import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 
 interface PreviewBoxProps {
   item: ContentProps;
@@ -177,14 +178,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <HWAvatarGroup max={3}>
-                        <HWAvatar>
-                          <IconWatcha />
-                        </HWAvatar>
-                        <HWAvatar>
-                          <IconNetflix />
-                        </HWAvatar>
-                      </HWAvatarGroup>
+                      <PlatformAvatar list={item.platform} max={3} />
                     </div>
                   </div>
                 </div>

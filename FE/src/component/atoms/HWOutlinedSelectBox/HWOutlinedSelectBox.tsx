@@ -7,7 +7,7 @@ import style from "./style";
 import { EmotionJSX } from "@emotion/react/types/jsx-namespace";
 import HWTypography from "../HWTypography/HWTypography";
 import { ArrowDropDown } from "@mui/icons-material";
-import {IconChevronDown} from "@res/index";
+import { IconChevronDown } from "@res/index";
 
 function areEqualValues(a: any, b: any) {
   if (typeof b === "object" && b !== null) {
@@ -51,11 +51,13 @@ const HWOutlinedSelectBox = React.forwardRef(
       PaperProps = { sx: {} },
       onKeyUp,
       required = false,
+      inputRef,
       ...props
     }: HWOutlinedSelectBoxProps<T>,
     ref: React.Ref<HTMLDivElement>
   ) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
     const [innerValue, setInnerValue] = useState<T | undefined>(valueProps);
 
     const value = valueProps !== undefined ? valueProps : innerValue;
@@ -209,6 +211,7 @@ const HWOutlinedSelectBox = React.forwardRef(
               onClick={(e) => {
                 setAnchorEl(e.currentTarget);
               }}
+              ref={inputRef}
             >
               <div
                 className="HW-Outlined-SelectBox-Input"

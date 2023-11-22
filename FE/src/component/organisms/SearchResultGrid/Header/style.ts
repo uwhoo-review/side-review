@@ -36,4 +36,10 @@ export default {
     align-items: center;
     gap: 8px;
   `,
+  chip: css`
+    cursor: pointer;
+  `,
+  typo1: css`
+    margin-left: 10px;
+  `
 };

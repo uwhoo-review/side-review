@@ -35,45 +35,55 @@ export const darkTheme: Theme = createTheme({
     black: "#000000",
   },
   elevation: {
-    "00dp": {
-      backgroundColor: "#121212",
-    },
-    "01dp": {
-      backgroundColor: "#1e1e1e",
-      boxShadow: "0px 1px 3px 0px rgba(0, 0, 0, 0.20), 0px 2px 1px 0px rgba(0, 0, 0, 0.12), 0px 1px 1px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "02dp": {
-      backgroundColor: "#232323",
-      boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.20), 0px 3px 1px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "03dp": {
-      backgroundColor: "#252525",
-      boxShadow: "0px 1px 8px 0px rgba(0, 0, 0, 0.20), 0px 3px 3px 0px rgba(0, 0, 0, 0.12), 0px 3px 4px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "04dp": {
-      backgroundColor: "#272727",
-      boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.20), 0px 1px 10px 0px rgba(0, 0, 0, 0.12), 0px 4px 5px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "06dp": {
-      backgroundColor: "#2C2C2C",
-      boxShadow: "0px 3px 5px 0px rgba(0, 0, 0, 0.20), 0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 6px 10px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "08dp": {
-      backgroundColor: "#2E2E2E",
-      boxShadow: "0px 5px 5px 0px rgba(0, 0, 0, 0.20), 0px 3px 14px 0px rgba(0, 0, 0, 0.12), 0px 8px 10px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "12dp": {
-      backgroundColor: "#333333",
-      boxShadow: "0px 7px 8px 0px rgba(0, 0, 0, 0.20), 0px 5px 22px 0px rgba(0, 0, 0, 0.12), 0px 12px 17px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "16dp": {
-      backgroundColor: "#363636",
-      boxShadow: "0px 8px 10px 0px rgba(0, 0, 0, 0.20), 0px 6px 30px 0px rgba(0, 0, 0, 0.12), 0px 16px 24px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "24dp": {
-      backgroundColor: "#383838",
-      boxShadow: "0px 11px 15px 0px rgba(0, 0, 0, 0.20), 0px 9px 46px 0px rgba(0, 0, 0, 0.12), 0px 24px 38px 0px rgba(0, 0, 0, 0.14)",
-    },
+    // "00dp": {
+    //   backgroundColor: "#121212",
+    // },
+    // "01dp": {
+    //   backgroundColor: "#1e1e1e",
+    //   boxShadow: "0px 1px 3px 0px rgba(0, 0, 0, 0.20), 0px 2px 1px 0px rgba(0, 0, 0, 0.12), 0px 1px 1px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "02dp": {
+    //   backgroundColor: "#232323",
+    //   boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.20), 0px 3px 1px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "03dp": {
+    //   backgroundColor: "#252525",
+    //   boxShadow: "0px 1px 8px 0px rgba(0, 0, 0, 0.20), 0px 3px 3px 0px rgba(0, 0, 0, 0.12), 0px 3px 4px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "04dp": {
+    //   backgroundColor: "#272727",
+    //   boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.20), 0px 1px 10px 0px rgba(0, 0, 0, 0.12), 0px 4px 5px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "06dp": {
+    //   backgroundColor: "#2C2C2C",
+    //   boxShadow: "0px 3px 5px 0px rgba(0, 0, 0, 0.20), 0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 6px 10px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "08dp": {
+    //   backgroundColor: "#2E2E2E",
+    //   boxShadow: "0px 5px 5px 0px rgba(0, 0, 0, 0.20), 0px 3px 14px 0px rgba(0, 0, 0, 0.12), 0px 8px 10px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "12dp": {
+    //   backgroundColor: "#333333",
+    //   boxShadow: "0px 7px 8px 0px rgba(0, 0, 0, 0.20), 0px 5px 22px 0px rgba(0, 0, 0, 0.12), 0px 12px 17px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "16dp": {
+    //   backgroundColor: "#363636",
+    //   boxShadow: "0px 8px 10px 0px rgba(0, 0, 0, 0.20), 0px 6px 30px 0px rgba(0, 0, 0, 0.12), 0px 16px 24px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "24dp": {
+    //   backgroundColor: "#383838",
+    //   boxShadow: "0px 11px 15px 0px rgba(0, 0, 0, 0.20), 0px 9px 46px 0px rgba(0, 0, 0, 0.12), 0px 24px 38px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    "00dp": "#121212",
+    "01dp": "#1e1e1e",
+    "02dp": "#232323",
+    "03dp": "#252525",
+    "04dp": "#272727",
+    "06dp": "#2C2C2C",
+    "08dp": "#2E2E2E",
+    "12dp": "#333333",
+    "16dp": "#363636",
+    "24dp": "#383838",
   },
 });
 
@@ -112,44 +122,54 @@ export const whiteTheme: Theme = createTheme({
     black: "#000000",
   },
   elevation: {
-    "00dp": {
-      backgroundColor: "#121212",
-    },
-    "01dp": {
-      backgroundColor: "#1e1e1e",
-      boxShadow: "0px 1px 3px 0px rgba(0, 0, 0, 0.20), 0px 2px 1px 0px rgba(0, 0, 0, 0.12), 0px 1px 1px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "02dp": {
-      backgroundColor: "#232323",
-      boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.20), 0px 3px 1px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "03dp": {
-      backgroundColor: "#252525",
-      boxShadow: "0px 1px 8px 0px rgba(0, 0, 0, 0.20), 0px 3px 3px 0px rgba(0, 0, 0, 0.12), 0px 3px 4px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "04dp": {
-      backgroundColor: "#272727",
-      boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.20), 0px 1px 10px 0px rgba(0, 0, 0, 0.12), 0px 4px 5px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "06dp": {
-      backgroundColor: "#2C2C2C",
-      boxShadow: "0px 3px 5px 0px rgba(0, 0, 0, 0.20), 0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 6px 10px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "08dp": {
-      backgroundColor: "#2E2E2E",
-      boxShadow: "0px 5px 5px 0px rgba(0, 0, 0, 0.20), 0px 3px 14px 0px rgba(0, 0, 0, 0.12), 0px 8px 10px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "12dp": {
-      backgroundColor: "#333333",
-      boxShadow: "0px 7px 8px 0px rgba(0, 0, 0, 0.20), 0px 5px 22px 0px rgba(0, 0, 0, 0.12), 0px 12px 17px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "16dp": {
-      backgroundColor: "#363636",
-      boxShadow: "0px 8px 10px 0px rgba(0, 0, 0, 0.20), 0px 6px 30px 0px rgba(0, 0, 0, 0.12), 0px 16px 24px 0px rgba(0, 0, 0, 0.14)",
-    },
-    "24dp": {
-      backgroundColor: "#383838",
-      boxShadow: "0px 11px 15px 0px rgba(0, 0, 0, 0.20), 0px 9px 46px 0px rgba(0, 0, 0, 0.12), 0px 24px 38px 0px rgba(0, 0, 0, 0.14)",
-    },
+    // "00dp": {
+    //   backgroundColor: "#121212",
+    // },
+    // "01dp": {
+    //   backgroundColor: "#1e1e1e",
+    //   boxShadow: "0px 1px 3px 0px rgba(0, 0, 0, 0.20), 0px 2px 1px 0px rgba(0, 0, 0, 0.12), 0px 1px 1px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "02dp": {
+    //   backgroundColor: "#232323",
+    //   boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.20), 0px 3px 1px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "03dp": {
+    //   backgroundColor: "#252525",
+    //   boxShadow: "0px 1px 8px 0px rgba(0, 0, 0, 0.20), 0px 3px 3px 0px rgba(0, 0, 0, 0.12), 0px 3px 4px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "04dp": {
+    //   backgroundColor: "#272727",
+    //   boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.20), 0px 1px 10px 0px rgba(0, 0, 0, 0.12), 0px 4px 5px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "06dp": {
+    //   backgroundColor: "#2C2C2C",
+    //   boxShadow: "0px 3px 5px 0px rgba(0, 0, 0, 0.20), 0px 1px 18px 0px rgba(0, 0, 0, 0.12), 0px 6px 10px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "08dp": {
+    //   backgroundColor: "#2E2E2E",
+    //   boxShadow: "0px 5px 5px 0px rgba(0, 0, 0, 0.20), 0px 3px 14px 0px rgba(0, 0, 0, 0.12), 0px 8px 10px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "12dp": {
+    //   backgroundColor: "#333333",
+    //   boxShadow: "0px 7px 8px 0px rgba(0, 0, 0, 0.20), 0px 5px 22px 0px rgba(0, 0, 0, 0.12), 0px 12px 17px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "16dp": {
+    //   backgroundColor: "#363636",
+    //   boxShadow: "0px 8px 10px 0px rgba(0, 0, 0, 0.20), 0px 6px 30px 0px rgba(0, 0, 0, 0.12), 0px 16px 24px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    // "24dp": {
+    //   backgroundColor: "#383838",
+    //   boxShadow: "0px 11px 15px 0px rgba(0, 0, 0, 0.20), 0px 9px 46px 0px rgba(0, 0, 0, 0.12), 0px 24px 38px 0px rgba(0, 0, 0, 0.14)",
+    // },
+    "00dp": "#121212",
+    "01dp": "#1e1e1e",
+    "02dp": "#232323",
+    "03dp": "#252525",
+    "04dp": "#272727",
+    "06dp": "#2C2C2C",
+    "08dp": "#2E2E2E",
+    "12dp": "#333333",
+    "16dp": "#363636",
+    "24dp": "#383838",
   },
 });

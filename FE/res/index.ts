@@ -31,11 +31,12 @@ import { ReactComponent as IconWrite } from "./icon/ic_write.svg";
 
 /* ./logo */
 import { ReactComponent as IconApple } from "./logo/ic_apple.svg";
-import { ReactComponent as IconDesney } from "./logo/ic_desney.svg";
+import { ReactComponent as IconDisney } from "./logo/ic_disney.svg";
 import { ReactComponent as IconNetflix } from "./logo/ic_netflix.svg";
 import { ReactComponent as IconTving } from "./logo/ic_tving.svg";
 import { ReactComponent as IconUwhoo } from "./logo/ic_uwhoo.svg";
 import { ReactComponent as IconWatcha } from "./logo/ic_watcha.svg";
+import { ReactComponent as IconWavve } from "./logo/ic_wavve.svg";
 
 export {
   card1,
@@ -67,9 +68,10 @@ export {
   IconWrite,
 
   IconApple,
-  IconDesney,
+  IconDisney,
   IconTving,
   IconNetflix,
   IconWatcha,
   IconUwhoo,
+  IconWavve,
 };

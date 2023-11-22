@@ -26,4 +26,5 @@ export interface HWOutlinedSelectBoxProps<T extends string | number | readonly s
   displayEmpty?: boolean;
   PaperProps?: Partial<PaperProps>;
   required?: boolean;
+  inputRef?: React.LegacyRef<HTMLDivElement>;
 }

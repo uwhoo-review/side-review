@@ -1,41 +1,101 @@
-export const PLATFORM = {
+/*export const PLATFORM = {
+  NETFLIX: {
+    id: 8,
+    name: "Netflix",
+  },
+  DISNEY_PLUS: {
+    id: 337,
+    name: "Disney+",
+  },
+  APPLE_TV: {
+    id: 350,
+    name: "Apple TV",
+  },
+  WAVVE: {
+    id: 356,
+    name: "Wavve",
+  },
+  WHATCHA: {
+    id: 97,
+    name: "Whatcha",
+  },
+} as const;*/
+
+export const PLATFORM_NAME = {
   NETFLIX: "Netflix",
   DISNEY_PLUS: "Disney+",
   APPLE_TV: "Apple TV",
+  WAVVE: "Wavve",
+  WATCHA: "Watcha",
+};
+
+export const PLATFORM_ID = {
+  NETFLIX: 8,
+  DISNEY_PLUS: 337,
+  APPLE_TV: 350,
+  WAVVE: 356,
+  WATCHA: 97,
+};
+
+export const PLATFORM_ID_NAME = {
+  [PLATFORM_ID.NETFLIX]: PLATFORM_NAME.NETFLIX,
+  [PLATFORM_ID.DISNEY_PLUS]: PLATFORM_NAME.DISNEY_PLUS,
+  [PLATFORM_ID.APPLE_TV]: PLATFORM_NAME.APPLE_TV,
+  [PLATFORM_ID.WAVVE]: PLATFORM_NAME.WAVVE,
+  [PLATFORM_ID.WATCHA]: PLATFORM_NAME.WATCHA,
 } as const;
 
 export const WATCH_RATING = {
   ALL: "전체관람가",
-  TWELVE: "12세",
-  FIFTEEN: "15세",
+  TWELVE: "12",
+  FIFTEEN: "15",
   NINETEEN: "19+",
 } as const;
 
-export const GENRE = {
-  ACTION_ADVENTURE: "액션 & 어드벤쳐",
-  COMEDY: "코미디",
-  ANIMATION: "애니메이션",
-  CRIME: "",
-  DOCUMENTARY: "",
-  DRAMA: "",
-  FAMILY: "",
-  KIDS: "",
-  MYSTERY: "",
-  NEWS: "",
-  REALITY: "",
-  SCRFI_FANTASY: "",
-  SOAP: "",
-  TALK: "",
-  WAR_POLITICS: "",
-  WESTERN: "",
+export const GENRE_ID = {
+  ACTION_ADVENTURE: 10759,
+  COMEDY: 35,
+  ANIMATION: 16,
+  CRIME: 80,
+  DOCUMENTARY: 99,
+  DRAMA: 18,
+  FAMILY: 10751,
+  KIDS: 10762,
+  MYSTERY: 9648,
+  NEWS: 10763,
+  REALITY: 10764,
+  SF: 10765,
+  SOAP: 10766,
+  TALK: 10767,
+  WAR_POLITICS: 10768,
+  WESTERN: 37,
+};
+
+export const GENRE_NAME = {
+  [GENRE_ID.ACTION_ADVENTURE]: "액션 & 어드벤쳐",
+  [GENRE_ID.COMEDY]: "코미디",
+  [GENRE_ID.ANIMATION]: "애니메이션",
+  [GENRE_ID.CRIME]: "범죄",
+  [GENRE_ID.DOCUMENTARY]: "다큐멘터리",
+  [GENRE_ID.DRAMA]: "드라마",
+  [GENRE_ID.FAMILY]: "가족",
+  [GENRE_ID.KIDS]: "키즈",
+  [GENRE_ID.MYSTERY]: "미스테리",
+  [GENRE_ID.NEWS]: "뉴스",
+  [GENRE_ID.REALITY]: "리얼리티",
+  [GENRE_ID.SF]: "SF, 판타지",
+  [GENRE_ID.SOAP]: "드라마",
+  [GENRE_ID.TALK]: "토크",
+  [GENRE_ID.WAR_POLITICS]: "전쟁, 정치",
+  [GENRE_ID.WESTERN]: "서부",
 } as const;
 
 export const FILTER_SORT = {
   FAVORITE_SORT: "인기 순",
   RECENTLY: "최신 공개 순",
   RATING_SORT: "제목 순",
-  NAME_SORT: "별점 순"
-}
+  NAME_SORT: "별점 순",
+};
 
 export const DUMMY_CONTENT = {
   actors: "김지훈, 나나나, 가가가",

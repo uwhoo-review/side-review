@@ -41,16 +41,26 @@ interface Elevation {
   boxShadow?: string;
 }
 export interface UWHooElevation {
-  "00dp": Elevation;
-  "01dp": Elevation;
-  "02dp": Elevation;
-  "03dp": Elevation;
-  "04dp": Elevation;
-  "06dp": Elevation;
-  "08dp": Elevation;
-  "12dp": Elevation;
-  "16dp": Elevation;
-  "24dp": Elevation;
+  // "00dp": Elevation;
+  // "01dp": Elevation;
+  // "02dp": Elevation;
+  // "03dp": Elevation;
+  // "04dp": Elevation;
+  // "06dp": Elevation;
+  // "08dp": Elevation;
+  // "12dp": Elevation;
+  // "16dp": Elevation;
+  // "24dp": Elevation;
+  "00dp": string;
+  "01dp": string;
+  "02dp": string;
+  "03dp": string;
+  "04dp": string;
+  "06dp": string;
+  "08dp": string;
+  "12dp": string;
+  "16dp": string;
+  "24dp": string;
 }
 
 declare module "@emotion/react" {

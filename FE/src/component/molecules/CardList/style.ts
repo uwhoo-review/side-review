@@ -39,7 +39,11 @@ export default {
     width: 100%;
     min-height: 379px;
     transition: 0.5s ease transform;
-    transform: translate(${(currentPage - 1) * -(432 + 40)}px, 0px);
+    // transform: translate(${(currentPage - 1) * -100}%, 0px);
+    transform: translate(
+      calc(${(currentPage - 1) * (-216 -20)}px * 3),
+      0px
+    );
     gap: ${active ? "40px" : "20px"};
     .content-slide {
     }

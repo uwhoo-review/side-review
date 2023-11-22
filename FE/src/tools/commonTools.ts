@@ -106,3 +106,29 @@ export function getCardURL({
 
   return res;
 }
+
+export function getFilterParams(searchParams: any) {
+  const filterList = [];
+  if (searchParams.get("genre"))
+    filterList.push({
+      type: "genre",
+      value: [...searchParams.get("genre").split(",")],
+    });
+  if (searchParams.get("platform"))
+    filterList.push({
+      type: "platform",
+      value: [...searchParams.get("platform").split(",")],
+    });
+  if (searchParams.get("date"))
+    filterList.push({
+      type: "date",
+      value: [...searchParams.get("date").split(",")],
+    });
+  if (searchParams.get("rating"))
+    filterList.push({
+      type: "rating",
+      value: [...searchParams.get("rating").split(",")],
+    });
+
+  return filterList;
+}
