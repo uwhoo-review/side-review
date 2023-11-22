@@ -57,38 +57,95 @@ const SearchResultHeader = ({ data }: any) => {
           <div css={styled.right}>
             {paramList.map(([key, value]: any) => {
               if (key === "genre")
-                return value
-                  .split(",")
-                  .map((v: any) => <HWChip label={GENRE_NAME[v]} customCss={styled.chip} />);
+                return value.split(",").map((v: any) => (
+                  <HWChip
+                    key={v}
+                    label={GENRE_NAME[v]}
+                    customCss={styled.chip}
+                    onClick={() => {
+                      if (commonContext.filterRef.genreRef?.current) {
+                        commonContext.onHandleFilterOpen(true);
+                        commonContext.filterRef.genreRef.current.click();
+                      }
+                    }}
+                  />
+                ));
               if (key === "platform")
-                return value
-                  .split(",")
-                  .map((v: any) => <HWChip label={PLATFORM_NAME[v]} customCss={styled.chip} />);
+                return value.split(",").map((v: any) => (
+                  <HWChip
+                    key={v}
+                    label={PLATFORM_NAME[v]}
+                    customCss={styled.chip}
+                    onClick={() => {
+                      if (commonContext.filterRef.platformRef?.current) {
+                        commonContext.onHandleFilterOpen(true);
+                        commonContext.filterRef.platformRef.current.click();
+                      }
+                    }}
+                  />
+                ));
               if (key === "watch")
-                return value
-                  .split(",")
-                  .map((v: any) => <HWChip label={v} customCss={styled.chip} />);
+                return value.split(",").map((v: any) => (
+                  <HWChip
+                    key={v}
+                    label={v}
+                    customCss={styled.chip}
+                    onClick={() => {
+                      if (commonContext.filterRef.watchRef?.current) {
+                        commonContext.onHandleFilterOpen(true);
+                        commonContext.filterRef.watchRef.current.click();
+                      }
+                    }}
+                  />
+                ));
               if (key === "rating")
                 return (
                   <HWChip
+                    key={value}
                     label={value
                       .split(",")
                       .map((v: any) => v + (v ? "점" : ""))
                       .join(" - ")}
                     customCss={styled.chip}
+                    onClick={() => {
+                      if (commonContext.filterRef.ratingRef?.current) {
+                        commonContext.onHandleFilterOpen(true);
+                        commonContext.filterRef.ratingRef.current.click();
+                      }
+                    }}
                   />
                 );
               if (key === "date")
                 return (
                   <HWChip
+                    key={value}
                     label={value
                       .split(",")
                       .map((v: any) => v + (v ? "년" : ""))
                       .join(" - ")}
                     customCss={styled.chip}
+                    onClick={() => {
+                      if (commonContext.filterRef.yearRef?.current) {
+                        commonContext.onHandleFilterOpen(true);
+                        commonContext.filterRef.yearRef.current.click();
+                      }
+                    }}
                   />
                 );
-              if (key === "sort") return <HWChip label={value} customCss={styled.chip} />;
+              if (key === "sort")
+                return (
+                  <HWChip
+                    key={value}
+                    label={value}
+                    customCss={styled.chip}
+                    onClick={() => {
+                      if (commonContext.filterRef.sortRef?.current) {
+                        commonContext.onHandleFilterOpen(true);
+                        commonContext.filterRef.sortRef.current.click();
+                      }
+                    }}
+                  />
+                );
             })}
             {/*<HWChip
               label={"액션"}

@@ -34,6 +34,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: center;
     height: 100px;
     width: 296px;
   `,

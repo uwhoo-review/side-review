@@ -20,24 +20,17 @@ import {
 import { useCommon } from "@src/providers/CommonProvider";
 
 const FilterGroups = () => {
-  const commonContext = useCommon();
+  const { filterState, filterRef, onHandleFilter, onHandleFilterOpen } = useCommon();
 
-  const [value, setValue] = useState<string[]>([]);
-
-  const handleChange = (e: SelectChangeEvent<string[]>) => {
-    const { value } = e.target;
-    setValue(typeof value === "string" ? value.split(",") : [...value]);
-  };
-
-  const [genre, setGenre] = useState<any[]>(commonContext.filterState.genre);
-  const [platform, setPlatform] = useState<any[]>(commonContext.filterState.platform);
+  /*  const [genre, setGenre] = useState<any[]>([]);
+  const [platform, setPlatform] = useState<any[]>([]);
   const [watch, setWatch] = useState<string[]>([]);
   const [rating, setRating] = useState<number[]>([0, 5]);
   const [date, setDate] = useState<(number | null)[]>([null, null]);
-  const [sort, setSort] = useState<string>("");
+  const [sort, setSort] = useState<string>("");*/
 
-  useEffect(() => {
-    commonContext.onHandleFilter({
+  /*  useEffect(() => {
+    onHandleFilter({
       genre,
       platform,
       watch,
@@ -45,7 +38,7 @@ const FilterGroups = () => {
       date,
       sort,
     });
-  }, [genre, platform, watch, rating, date, sort]);
+  }, [genre, platform, watch, rating, date, sort]);*/
 
   return (
     <div css={styled.wrapper}>
@@ -54,10 +47,10 @@ const FilterGroups = () => {
           label={"필터"}
           multiple
           placeholder={"장르"}
-          value={genre}
+          value={filterState.genre}
           onChange={(e) => {
             const value = e.target.value;
-            setGenre([...value]);
+            onHandleFilter({ genre: [...value] });
           }}
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
@@ -67,7 +60,7 @@ const FilterGroups = () => {
             </div>
           )}
           disablePortal={true}
-          inputRef={commonContext.filterRef.genreRef}
+          inputRef={filterRef.genreRef}
         >
           {Object.entries(GENRE_ID).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
@@ -79,10 +72,10 @@ const FilterGroups = () => {
           label={""}
           multiple
           placeholder={"플랫폼"}
-          value={platform}
+          value={filterState.platform}
           onChange={(e) => {
             const value = e.target.value;
-            setPlatform([...value]);
+            onHandleFilter({ platform: [...value] });
           }}
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
@@ -91,7 +84,7 @@ const FilterGroups = () => {
               ))}
             </div>
           )}
-          inputRef={commonContext.filterRef.platformRef}
+          inputRef={filterRef.platformRef}
         >
           {Object.entries(PLATFORM_ID).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
@@ -103,10 +96,10 @@ const FilterGroups = () => {
           label={""}
           multiple
           placeholder={"시청등급"}
-          value={watch}
+          value={filterState.watch}
           onChange={(e) => {
             const value = e.target.value;
-            setWatch([...value]);
+            onHandleFilter({ watch: [...value] });
           }}
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
@@ -115,7 +108,7 @@ const FilterGroups = () => {
               ))}
             </div>
           )}
-          inputRef={commonContext.watchRef}
+          inputRef={filterRef.watchRef}
         >
           {Object.entries(WATCH_RATING).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
@@ -126,20 +119,20 @@ const FilterGroups = () => {
         <CustomInputField
           label={""}
           placeholder={"평점"}
-          value={rating}
+          value={filterState.rating}
           renderValue={(v: any) => `${v[0]}점 - ${v[1]}점`}
-          inputRef={commonContext.filterRef.ratingRef}
+          inputRef={filterRef.ratingRef}
         >
           <div css={styled.sliderWrapper}>
             <HWSlider
               min={0}
               max={5}
               step={0.5}
-              value={rating}
+              value={filterState.rating}
               track="normal"
               valueLabelDisplay={"on"}
               onChange={(e, newValue: number | number[]) => {
-                setRating(newValue as number[]);
+                onHandleFilter({ rating: newValue as number[] });
               }}
             />
           </div>
@@ -147,40 +140,51 @@ const FilterGroups = () => {
         <CustomInputField
           label={""}
           placeholder={"개봉연도"}
-          value={(date[0] !== null || date[1] !== null) && date.join(" - ")}
-          inputRef={commonContext.filterRef.yearRef}
+          value={
+            (filterState.date[0] !== null || filterState.date[1] !== null) &&
+            filterState.date.join(" - ")
+          }
+          inputRef={filterRef.yearRef}
         >
           <div css={styled.yearRangeWrapper}>
             <div css={styled.yearRangeGroups}>
               <HWTextField
-                value={date[0] || undefined}
+                value={filterState.date[0] || undefined}
                 width={"122px"}
                 maxLength={4}
                 type={"text"}
                 onChange={(e) => {
-                  return setDate([Number(e.target.value) || null, date[1]]);
+                  return onHandleFilter({
+                    data: [Number(e.target.value) || null, filterState.date[1]],
+                  });
                 }}
               />
               <div>-</div>
               <HWTextField
-                value={date[1] || undefined}
+                value={filterState.date[1] || undefined}
                 width={"122px"}
                 maxLength={4}
                 type={"text"}
                 onChange={(e) => {
-                  return setDate([date[0], Number(e.target.value) || null]);
+                  return onHandleFilter({
+                    data: [filterState.date[0], Number(e.target.value) || null],
+                  });
                 }}
-              />
+              />경
             </div>
             <div css={styled.currentYear}>
               <HWCheckBox
                 checked={
-                  date[0] === new Date().getFullYear() && date[1] === new Date().getFullYear()
+                  filterState.date[0] === new Date().getFullYear() &&
+                  filterState.date[1] === new Date().getFullYear()
                 }
                 icon={<IconCheckboxOff />}
                 checkedIcon={<IconCheckboxOn />}
                 onChange={(checked) => {
-                  if (checked) setDate([new Date().getFullYear(), new Date().getFullYear()]);
+                  if (checked)
+                    onHandleFilter({
+                      date: [new Date().getFullYear(), new Date().getFullYear()],
+                    });
                 }}
                 label={<HWTypography variant={"bodyXS"}>올해로 설정</HWTypography>}
               />
@@ -191,12 +195,14 @@ const FilterGroups = () => {
         <HWOutlinedSelectBox
           label={"인기순"}
           placeholder={"정렬"}
-          value={sort}
+          value={filterState.sort}
           onChange={(e) => {
             const value = e.target.value;
-            setSort(value);
+            onHandleFilter({
+              sort: value,
+            });
           }}
-          inputRef={commonContext.filterRef.sortRef}
+          inputRef={filterRef.sortRef}
         >
           {Object.entries(FILTER_SORT).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>

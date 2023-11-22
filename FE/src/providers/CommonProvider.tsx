@@ -7,7 +7,7 @@ const CommonContext = createContext<any | null>(null);
 export const useCommon = () => {
   const context = useContext(CommonContext);
   if (context === null) {
-    throw Error("Visualization Context Provider 범위를 벗어났습니다.");
+    throw Error("Context Provider 범위를 벗어났습니다.");
   }
   return context;
 };

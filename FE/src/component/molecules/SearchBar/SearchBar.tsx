@@ -7,65 +7,69 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "@src/tools/commonTools";
 import { useCommon } from "@src/providers/CommonProvider";
+import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 const SearchBar = () => {
   const navigate = useNavigate();
-  const commonContext = useCommon();
+  const { filterState, filterRef, onHandleFilter, onHandleFilterOpen } = useCommon();
 
-  const [search, setSearch] = useState<string>("");
+  // const [search, setSearch] = useState<string>("");
   const onResult = () => {
     let queryStr = "?";
+    queryStr += filterState.search.length !== 0 ? `search=${filterState.search}` : "";
+    queryStr += filterState.genre.length !== 0 ? `&genre=${filterState.genre}` : "";
+    queryStr += filterState.platform.length !== 0 ? `&platform=${filterState.platform}` : "";
+    queryStr += filterState.watch.length !== 0 ? `&watch=${filterState.watch}` : "";
     queryStr +=
-      commonContext.filterState.search.length !== 0
-        ? `search=${commonContext.filterState.search}`
+      filterState.rating[0] !== 0 || filterState.rating[1] !== 5
+        ? `&rating=${filterState.rating}`
         : "";
     queryStr +=
-      commonContext.filterState.genre.length !== 0
-        ? `&genre=${commonContext.filterState.genre}`
+      filterState.date[0] !== null || filterState.date[1] !== null
+        ? `&date=${filterState.date}`
         : "";
-    queryStr +=
-      commonContext.filterState.platform.length !== 0
-        ? `&platform=${commonContext.filterState.platform}`
-        : "";
-    queryStr +=
-      commonContext.filterState.watch.length !== 0
-        ? `&watch=${commonContext.filterState.watch}`
-        : "";
-    queryStr +=
-      commonContext.filterState.rating[0] !== 0 || commonContext.filterState.rating[1] !== 5
-        ? `&rating=${commonContext.filterState.rating}`
-        : "";
-    queryStr +=
-      commonContext.filterState.date[0] !== null || commonContext.filterState.date[1] !== null
-        ? `&date=${commonContext.filterState.date}`
-        : "";
-    queryStr += commonContext.filterState.sort ? `&sort=${commonContext.filterState.sort}` : "";
+    queryStr += filterState.sort ? `&sort=${filterState.sort}` : "";
 
-    console.log(queryStr);
-    commonContext.onHandleFilterOpen(false);
+    onHandleFilterOpen(false);
     navigate({ pathname: "/search", search: `${queryStr}` });
   };
 
-  useEffect(() => {
-    commonContext.onHandleFilter({
+  /*  useEffect(() => {
+    onHandleFilter({
       search,
     });
   }, [search]);
+
+  useEffect(() => {
+    setSearch(filterState.search);
+  }, [filterState.search]);*/
 
   return (
     <div css={styled.wrapper}>
       <div css={styled.searchGroups}>
         <HWTextField
-          inputRef={commonContext.filterRef.searchRef}
+          inputRef={filterRef.searchRef}
           label={"어떤 작품을 찾으세요?"}
           startAdorment={<IconSearch />}
-          endAdorment={!isNullOrEmpty(search) && <IconCancel />}
+          endAdorment={
+            !isNullOrEmpty(filterState.search) && (
+              <HWIconButton
+                onClick={() => {
+                  onHandleFilter({
+                    search: "",
+                  });
+                }}
+              >
+                <IconCancel />
+              </HWIconButton>
+            )
+          }
           placeholder={"제목, 이물 검색"}
           fullWidth={true}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          value={filterState.search}
+          onChange={(e) => onHandleFilter({ search: e.target.value })}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              if (!isNullOrEmpty(search)) onResult();
+              onResult();
             }
           }}
         />
@@ -74,10 +78,15 @@ const SearchBar = () => {
             variant={"lowest"}
             size={"large"}
             onClick={() => {
-              if (commonContext.filterRef.searchRef?.current) {
-                commonContext.filterRef.searchRef.current.focus();
-                // inputRef.current.click()
-              }
+              onHandleFilter({
+                search: "",
+                genre: [],
+                platform: [],
+                watch: [],
+                rating: [0, 5],
+                date: [null, null],
+                sort: "",
+              });
             }}
           >
             <IconInit />

@@ -3,7 +3,7 @@ import Color from "@src/common/styles/Color";
 
 export const root = css`
   height: 7px;
-  width: 100%;
+  width: 80%;
   padding: 20px 0;
   margin: unset;
   color: #2e7af2;
@@ -18,11 +18,13 @@ export const root = css`
     background-color: #2e7af2;
     border: unset;
   } */
+  
   .MuiSlider-track:not(.Mui-disabled) {
     background-color: ${Color.dark.primary700};
     border: unset;
   }
   .MuiSlider-rail:not(.Mui-disabled) {
+    opacity: 1;
     background-color: ${Color.dark.grey200};
   }
   .MuiSlider-thumb {
