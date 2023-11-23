@@ -18,7 +18,7 @@ object MapperUtil {
                 name = it.name,
                 platform = null,
                 genre = it.genre_ids,
-                rating = it.vote_average,
+                rating = it.vote_average/2,
                 firstAirDate = it.first_air_date,
                 synopsis = it.overview,
                 trailer = null,

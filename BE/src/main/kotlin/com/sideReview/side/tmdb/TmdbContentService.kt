@@ -27,7 +27,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         val pages: Int = tmdbData.total_pages
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page).results)
-            if (dtoList.size % 100 == 0) break;
+            //if (dtoList.size % 100 == 0) break;
         }
         logger.info("[Discover] final: " + dtoList.size.toString())
         return MapperUtil.mapTmdbToDocument(dtoList)
@@ -76,7 +76,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 
             docList.add(
                 ContentDocument(
-                    id = id.toString() + "_" + season.toString(),
+                    id = id + "_" + season.toString(),
                     sortingName = detailResponse.name,
                     name = detailResponse.name,
                     platform = filterPlatformList(providersResponse),

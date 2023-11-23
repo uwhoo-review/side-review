@@ -20,7 +20,7 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
 
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllPeople("Bearer $accessKey", page).results)
-            if (page == 100) break;
+            //if (page == 100) break;
         }
         return MapperUtil.mapPeopleInfoToDocument(dtoList)
     }
