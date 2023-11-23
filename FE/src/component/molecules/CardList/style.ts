@@ -27,7 +27,6 @@ export default {
     overflow: hidden;
 
     &:hover {
-      color: yellow;
       .hover-arrow {
         z-index: 1;
         &.left {

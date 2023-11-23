@@ -6,10 +6,10 @@ export default {
     position: relative;
     border-radius: 10px;
     opacity: ${active ? 1 : 0.5};
-    width: fit-content;
+    //width: 216px;
     &:hover {
       opacity: 1;
-      .icon-launch{
+      .icon-launch {
         display: block;
       }
     }
@@ -40,7 +40,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
   `,
   rating: css`
     display: flex;
@@ -86,8 +85,20 @@ export default {
     }
   `,
   title: css`
+    width: 190px;
     margin-bottom: 2px;
-    position: relative;
+    overflow-x: hidden;
+  `,
+  marquee: css`
+    :hover {
+      animation: marquee 10s linear infinite;
+      white-space: nowrap;
+    }
+    :not(:hover) {
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
   `,
   Launch: css`
     position: absolute;
@@ -99,5 +110,6 @@ export default {
   `,
   description: css`
     margin-top: 10px;
+    position: relative;
   `,
 };

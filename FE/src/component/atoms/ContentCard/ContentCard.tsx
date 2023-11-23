@@ -58,8 +58,8 @@ const ContentCard = ({
       onClick={onClick}
       {...props}
     >
-      {rank && <div css={styled.rank}>{rank}</div>}
       <div className={`card-box`} css={styled.imgWrapper(active)}>
+        {rank && <div css={styled.rank}>{rank}</div>}
         <DefaultImage
           width="100%"
           height="100%"
@@ -69,17 +69,9 @@ const ContentCard = ({
       </div>
       <div css={styled.description}>
         <div className={"title"} css={styled.title}>
-          {contentName}
-          {launch && (
-            <IconLaunch
-              className={"icon-launch"}
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/detail");
-              }}
-              css={styled.Launch}
-            />
-          )}
+          <div css={styled.marquee}>
+            {contentName}
+          </div>
         </div>
         <div css={styled.flexBetween}>
           <div className={"title-star"} css={styled.flexBetween}>
@@ -93,6 +85,16 @@ const ContentCard = ({
           </div>
           <PlatformAvatar list={platform} max={3} direction={"right"} />
         </div>
+        {launch && (
+          <IconLaunch
+            className={"icon-launch"}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/detail");
+            }}
+            css={styled.Launch}
+          />
+        )}
       </div>
     </div>
   );
