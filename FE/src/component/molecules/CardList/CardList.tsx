@@ -1,6 +1,6 @@
 import styled from "./style";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HWCarouselFixedPagination from "@src/component/molecules/HWCarouselFixedPagination/HWCarouselFixedPagination";
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
@@ -18,21 +18,48 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
   const [preview, setPreview] = useState<boolean>(false);
   const [selectedCard, setSelectedCard] = useState<ContentProps | null>(null);
   const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
+
+  const TOTAL_LIST = cardList.length;
+  const MOVE = 4;
+  const TOTAL_PAGE = Math.ceil((TOTAL_LIST - 6) / MOVE) + 1;
+
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [firstIdx, setFirstIdx] = useState(1);
+  const [lastIdx, setLastIdx] = useState(6);
+  const [translateX, setTranslateX] = useState(0);
+
+  useEffect(() => {
+    const x = (firstIdx - 1) * (-216 - 20);
+    setTranslateX(x);
+  }, [firstIdx]);
 
   const onPrevHandler = () => {
     if (currentPage == 1) {
       setCurrentPage(1);
     } else {
       setCurrentPage(currentPage - 1);
+      if (firstIdx - MOVE > 1) {
+        setFirstIdx((prev) => prev - MOVE);
+        setLastIdx((prev) => prev - MOVE);
+      } else {
+        setFirstIdx((prev) => 1);
+        setLastIdx((prev) => prev - (firstIdx - 1));
+      }
     }
   };
 
   const onNextHandler = () => {
-    if (currentPage == 5) {
-      setCurrentPage(5);
+    if (currentPage == TOTAL_PAGE) {
+      setCurrentPage(TOTAL_PAGE);
     } else {
       setCurrentPage(currentPage + 1);
+      if (lastIdx + MOVE < TOTAL_LIST) {
+        setFirstIdx((prev) => prev + MOVE);
+        setLastIdx((prev) => prev + MOVE);
+      } else {
+        setFirstIdx((prev) => prev + TOTAL_LIST - lastIdx);
+        setLastIdx((prev) => TOTAL_LIST);
+      }
     }
   };
 
@@ -43,7 +70,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
         <div css={styled.flexBetween}>
           <div css={styled.subTitle}>{subTitle}</div>
           <HWCarouselFixedPagination
-            maxPage={5}
+            maxPage={TOTAL_PAGE}
             curPage={currentPage - 1}
             customCss={styled.dotPagination}
             onClickCircle={(e) => {
@@ -51,14 +78,17 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             }}
           />
         </div>
-        <div css={styled.cardSlider}>
+        <div css={styled.cardSlider(currentPage, TOTAL_PAGE)}>
           <CarouselArrow
             className={"hover-arrow left"}
             direction={"left"}
             customCss={styled.leftPageBtn}
             onClick={onPrevHandler}
           />
-          <div className={"image-card-list"} css={styled.cardWrapper(currentPage, !!selectedCard)}>
+          <div
+            className={"image-card-list"}
+            css={styled.cardWrapper(translateX, !!selectedCard)}
+          >
             {cardList.map((v, i: number) => {
               return (
                 <div
@@ -98,7 +128,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             })}
           </div>
           <CarouselArrow
-            className={"hover-arrow left"}
+            className={"hover-arrow right"}
             direction={"right"}
             customCss={styled.rightPageBtn}
             onClick={onNextHandler}

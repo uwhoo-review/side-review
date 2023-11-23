@@ -21,29 +21,40 @@ export default {
     width: 100%;
     margin-top: 20px;
   `,
-  cardSlider: css`
+  cardSlider: (currentPage: number, lastPage: number) => css`
     width: 1396px;
     position: relative;
     overflow: hidden;
 
-    :hover {
+    &:hover {
+      color: yellow;
       .hover-arrow {
         z-index: 1;
-        display: flex;
+        &.left {
+          display: ${currentPage === 1 ? "none" : "flex"};
+        }
+        &.right {
+          display: ${currentPage === lastPage ? "none" : "flex"};
+        }
+      }
+    }
+    &:not(:hover) {
+      .hover-arrow {
+        z-index: 0;
+        display: none;
       }
     }
   `,
-  cardWrapper: (currentPage: number, active: boolean) => css`
+  cardWrapper: (
+    translateX: any,
+    active: boolean
+  ) => css`
     display: flex;
     align-items: flex-end;
     width: 100%;
     min-height: 379px;
     transition: 0.5s ease transform;
-    // transform: translate(${(currentPage - 1) * -100}%, 0px);
-    transform: translate(
-      calc(${(currentPage - 1) * (-216 -20)}px * 3),
-      0px
-    );
+    transform: translateX(${translateX}px);
     gap: ${active ? "40px" : "20px"};
     .content-slide {
     }
@@ -56,18 +67,18 @@ export default {
     top: calc(50% - 30px);
     left: 30px;
 
-    z-index: 0;
-    display: none;
+    //z-index: 0;
+    //display: none;
   `,
   rightPageBtn: css`
     position: absolute;
     top: calc(50% - 30px);
     right: 30px;
 
-    background-color: #3e3e3e80;
-    color: #ffffff;
-    z-index: 0;
-    display: none;
+    //background-color: #3e3e3e80;
+    //color: #ffffff;
+    //z-index: 0;
+    //display: none;
   `,
   previewBox: css`
     /* @keyframes heightSlide {

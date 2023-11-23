@@ -11,6 +11,8 @@ interface CarouselArrowProps {
   backgroundColor?: string;
   customCss?: SerializedStyles;
   onClick?: () => void;
+  disabled?: boolean;
+  display?: string;
 }
 
 const CarouselArrow = ({
