@@ -1,4 +1,4 @@
-package com.sideReview.side.openSearch
+package com.sideReview.side.common.config
 
 import com.jillesvangurp.ktsearch.KtorRestClient
 import com.jillesvangurp.ktsearch.Node

@@ -1,5 +1,8 @@
 package com.sideReview.side.common.util
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.jillesvangurp.ktsearch.SearchResponse
 import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
@@ -8,6 +11,7 @@ import com.sideReview.side.tmdb.dto.ImageResponse
 import com.sideReview.side.tmdb.dto.PersonInfo
 import com.sideReview.side.tmdb.dto.SeasonImageResponse
 import com.sideReview.side.tmdb.dto.TmdbContent
+import java.lang.reflect.Type
 
 object MapperUtil {
     fun mapTmdbToDocument(tmdbContentList: List<TmdbContent>): List<ContentDocument> {
@@ -68,5 +72,24 @@ object MapperUtil {
                 backdrops = it
             )
         }
+    }
+
+    fun <T> parseSearchResponseToT(response: SearchResponse): List<T> {
+        val mutableList: MutableList<T> = mutableListOf();
+        val hits = response.hits
+        val collectionType: Type = object : TypeToken<T>() {}.type
+        if (hits != null) {
+            for (data in hits.hits) {
+                if (data.source != null) {
+                    mutableList.add(
+                        Gson().fromJson(
+                            data.source.toString(),
+                            collectionType
+                        )
+                    )
+                }
+            }
+        }
+        return mutableList
     }
 }

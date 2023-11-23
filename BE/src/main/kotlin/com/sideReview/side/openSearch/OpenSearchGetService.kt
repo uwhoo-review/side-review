@@ -1,11 +1,9 @@
 package com.sideReview.side.openSearch
 
-import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.ktsearch.search
 import com.jillesvangurp.searchdsls.querydsl.*
-import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.ContentRequestDTO
 import com.sideReview.side.openSearch.dto.ContentRequestFilterDetail
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,7 +30,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
             // sort 따라 정렬 기준 설정
             // sort가 있으면 항상 score가 나오지 않음.
-            if(!sort.isNullOrBlank()){
+            if (!sort.isNullOrBlank()) {
                 sort {
                     when (sort) {
                         "popularity" -> add("popularity", SortOrder.DESC)
@@ -90,21 +88,5 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         return filterList
     }
 
-    fun parseToContent(response: SearchResponse): List<ContentDto> {
-        val contentList: MutableList<ContentDto> = mutableListOf();
-        val hits = response.hits
-        if (hits != null) {
-            for (data in hits.hits) {
-                if (data.source != null) {
-                    contentList.add(
-                        Gson().fromJson(
-                            data.source.toString(),
-                            ContentDto::class.java
-                        )
-                    )
-                }
-            }
-        }
-        return contentList
-    }
+
 }

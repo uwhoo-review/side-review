@@ -1,5 +1,7 @@
 package com.sideReview.side.openSearch
 
+import com.sideReview.side.common.util.MapperUtil
+import com.sideReview.side.openSearch.dto.ContentDto
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,7 +25,7 @@ class SearchTest @Autowired constructor(val service: OpenSearchGetService) {
         runBlocking {
             println("***************** result **************")
 
-            println(service.parseToContent(service.get("", "", null)))
+            println(MapperUtil.parseSearchResponseToT<ContentDto>(service.get("", "", null)))
 
         }
     }

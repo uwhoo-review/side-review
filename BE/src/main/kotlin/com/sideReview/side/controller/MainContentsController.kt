@@ -1,6 +1,8 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.openSearch.OpenSearchGetService
+import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.ContentRequestDTO
 import com.sideReview.side.openSearch.dto.MainContentDto
 import kotlinx.coroutines.runBlocking
@@ -26,10 +28,10 @@ class MainContentsController @Autowired constructor(
                 "main" -> {
                     response = ResponseEntity.ok(
                         MainContentDto(
-                            openSearchGetService.parseToContent(
+                            MapperUtil.parseSearchResponseToT<ContentDto>(
                                 openSearchGetService.get(request.tab, "popularity", request)
                             ),
-                            openSearchGetService.parseToContent(
+                            MapperUtil.parseSearchResponseToT<ContentDto>(
                                 openSearchGetService.get(request.tab, "new", request)
                             )
                         )
@@ -38,7 +40,7 @@ class MainContentsController @Autowired constructor(
 
                 "popularity" -> {
                     response = ResponseEntity.ok(
-                        openSearchGetService.parseToContent(
+                        MapperUtil.parseSearchResponseToT<ContentDto>(
                             openSearchGetService.get(request.tab, "popularity", request)
                         )
                     )
@@ -46,7 +48,7 @@ class MainContentsController @Autowired constructor(
 
                 "new" -> {
                     response = ResponseEntity.ok(
-                        openSearchGetService.parseToContent(
+                        MapperUtil.parseSearchResponseToT<ContentDto>(
                             openSearchGetService.get(request.tab, "new", request)
                         )
                     )
@@ -55,7 +57,7 @@ class MainContentsController @Autowired constructor(
                 // 탭이 없거나 위 3개가 아닐 경우 검색으로 인식함.
                 else ->
                     response = ResponseEntity.ok(
-                        openSearchGetService.parseToContent(
+                        MapperUtil.parseSearchResponseToT<ContentDto>(
                             openSearchGetService.get("search", request.sort, request)
                         )
                     )
@@ -63,9 +65,4 @@ class MainContentsController @Autowired constructor(
         }
         return response
     }
-//
-//    @GetMapping("/init")
-//    fun getTmdb(): ResponseEntity<Any> {
-//        return ResponseEntity.ok(tmdbContentService.getMoreInfo(tmdbContentService.getAllContents()));
-//    }
 }
