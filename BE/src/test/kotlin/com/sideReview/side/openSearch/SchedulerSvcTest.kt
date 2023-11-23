@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles
 class SchedulerSvcTest @Autowired constructor(val openSearchSaveService: OpenSearchSaveService) {
 
     @Test
-    fun insertTest() {
+    fun contentInsertTest() {
         runBlocking {
             println("############# insert #############")
             openSearchSaveService.insert("content")
@@ -19,7 +19,18 @@ class SchedulerSvcTest @Autowired constructor(val openSearchSaveService: OpenSea
             println("############# get ################")
             openSearchSaveService.get("content")
             println("##################################")
+        }
+    }
 
+    @Test
+    fun personInsertTest() {
+        runBlocking {
+            println("############# insert #############")
+            openSearchSaveService.insert("person")
+            println("##################################")
+            println("############# get ################")
+            openSearchSaveService.get("person")
+            println("##################################")
         }
     }
 }

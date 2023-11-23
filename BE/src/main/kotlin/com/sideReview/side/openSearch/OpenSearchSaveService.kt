@@ -2,12 +2,20 @@ package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.*
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.document.JobInfo
+import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.common.document.RoleInfo
 import com.sideReview.side.tmdb.TmdbContentService
+import com.sideReview.side.tmdb.TmdbPersonService
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val client: SearchClient) {
+class OpenSearchSaveService(
+    val tmdbContentService: TmdbContentService,
+    val tmdbPersonService: TmdbPersonService,
+    val client: SearchClient
+) {
 
     /*
     * 첫 시작 시 Index 생성.
@@ -15,6 +23,7 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
     * */
     public suspend fun initIndex() {
 
+        // create content
         kotlin.runCatching {
             client.createIndex("content") {
                 settings {
@@ -46,10 +55,47 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
             }
         }.onFailure {
             println(it.message)
-            println("Schema already exist.")
+            println("Content Schema already exist.")
         }.onSuccess { s ->
             println(s)
-            println("Schema creation complete.")
+            println("Content Schema creation complete.")
+        }
+
+
+        // create Person
+        kotlin.runCatching {
+            client.createIndex("person") {
+                settings {
+                    analysis {
+                        analyzer("nori") {
+                            tokenizer = "seunjeon_tokenizer"
+                        }
+                    }
+                }
+                mappings(dynamicEnabled = false) {
+                    keyword(PersonDocument::id)
+                    keyword(PersonDocument::sortingName)
+                    text(PersonDocument::name) {
+                        analyzer = "nori"
+                    }
+                    keyword(PersonDocument::profilePath)
+                    number<Float>(PersonDocument::popularity)
+                    objField(PersonDocument::cast) {
+                        keyword(RoleInfo::role)
+                        keyword(RoleInfo::contentId)
+                    }
+                    objField(PersonDocument::crew) {
+                        keyword(JobInfo::job)
+                        keyword(JobInfo::contentId)
+                    }
+                }
+            }
+        }.onFailure {
+            println(it.message)
+            println("Person Schema already exist.")
+        }.onSuccess { s ->
+            println(s)
+            println("Person Schema creation complete.")
         }
     }
 
@@ -57,7 +103,7 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
     * 스케줄러에서 실행, 주기적으로 OpenSearch에 데이터를 넣어줌.
     * */
     suspend fun insert(idxName: String) {
-        val docs = tmdbContentService.getMoreInfo(tmdbContentService.getAllContents())
+        // callback 선언
         val itemCallBack = object : BulkItemCallBack {
             override fun itemFailed(
                 operationType: OperationType,
@@ -103,17 +149,38 @@ class OpenSearchSaveService(val tmdbContentService: TmdbContentService, val clie
                 )
             }
         }
-        coroutineScope {
-            client.bulk(bulkSize = docs.size, target = idxName, callBack = itemCallBack) {
-                docs.forEach { doc ->
-                    index(
-                        source = DEFAULT_JSON.encodeToString(
-                            ContentDocument.serializer(),
-                            doc
-                        ),
-                        id = doc.id.toString()
 
-                    )
+        if (idxName == "content") {
+            val docs: List<ContentDocument> =
+                tmdbContentService.getMoreInfo(tmdbContentService.getAllContents())
+            coroutineScope {
+                client.bulk(bulkSize = docs.size, target = idxName, callBack = itemCallBack) {
+                    docs.forEach { doc ->
+                        index(
+                            source = DEFAULT_JSON.encodeToString(
+                                ContentDocument.serializer(),
+                                doc
+                            ),
+                            id = doc.id.toString()
+
+                        )
+                    }
+                }
+            }
+        } else if(idxName == "person") {
+            val docs: List<PersonDocument> =
+                tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople())
+            coroutineScope {
+                client.bulk(bulkSize = docs.size, target = idxName, callBack = itemCallBack) {
+                    docs.forEach { doc ->
+                        index(
+                            source = DEFAULT_JSON.encodeToString(
+                                PersonDocument.serializer(),
+                                doc
+                            ),
+                            id = doc.id.toString()
+                        )
+                    }
                 }
             }
         }

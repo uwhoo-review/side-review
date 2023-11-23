@@ -1,5 +1,6 @@
-package com.sideReview.side.openSearch
+package com.sideReview.side.openSearch.scheduler
 
+import com.sideReview.side.openSearch.OpenSearchSaveService
 import kotlinx.coroutines.runBlocking
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -9,15 +10,15 @@ import org.springframework.scheduling.annotation.Scheduled
 @EnableScheduling
 class DataInsertScheduler(val openSearchSaveService: OpenSearchSaveService) {
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     fun insertData() {
         runBlocking {
             kotlin.runCatching {
                 openSearchSaveService.insert("content")
             }.onSuccess {
-                println("::: Open Search bulk insert success :::")
+                println("::: Open Search Content Data bulk insert success :::")
             }.onFailure { action ->
-                println("::: Open Search bulk insert Failed! :::")
+                println("::: Open Search Content Data bulk insert Failed! :::")
                 println(action.message)
                 println(action.stackTrace)
                 println(":::::::::::::::::::::::::::::::::::::")

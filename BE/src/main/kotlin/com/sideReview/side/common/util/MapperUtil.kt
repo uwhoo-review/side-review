@@ -14,7 +14,7 @@ object MapperUtil {
         return tmdbContentList.map {
             ContentDocument(
                 id = it.id.toString(),
-                sortingName=it.name,
+                sortingName = it.name,
                 name = it.name,
                 platform = null,
                 genre = it.genre_ids,
@@ -30,17 +30,17 @@ object MapperUtil {
         }
     }
 
-    fun mapPeopleInfoToDocument(personInfoList: List<PersonInfo>) : List<PersonDocument> {
+    fun mapPeopleInfoToDocument(personInfoList: List<PersonInfo>): List<PersonDocument> {
         return personInfoList.map {
             PersonDocument(
                 id = it.id,
+                sortingName = it.name,
                 name = it.name,
                 profilePath = it.profile_path?.substring(1),
                 popularity = it.popularity,
                 cast = null,
                 crew = null
             )
-
         }
     }
 
@@ -62,7 +62,7 @@ object MapperUtil {
         }
     }
 
-    fun mapSeasonTODefault(seasonResponse: SeasonImageResponse) : ImageResponse? {
+    fun mapSeasonTODefault(seasonResponse: SeasonImageResponse): ImageResponse? {
         return seasonResponse.posters?.let {
             ImageResponse(
                 backdrops = it
