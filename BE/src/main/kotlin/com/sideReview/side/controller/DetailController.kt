@@ -16,7 +16,7 @@ class DetailController @Autowired constructor(private val openSearchDetailServic
     fun getContentDetail(@PathVariable id : String) : ResponseEntity<Any> {
         var response: ResponseEntity<Any>
         runBlocking{
-            response = ResponseEntity.ok(openSearchDetailService.getContentDocument(openSearchDetailService.findDocumentById("content", id)))
+            response = ResponseEntity.ok(openSearchDetailService.getContentDocument(id))
         }
         return response
     }

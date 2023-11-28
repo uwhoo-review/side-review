@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  {
-    suspend fun findDocumentById(index : String, id: String) : SearchResponse {
+    private suspend fun findDocumentById(index : String, id: String) : SearchResponse {
         val search = client.search(index) {
             resultSize = 1
             query = bool { must(match("id", id)) }
@@ -23,7 +23,8 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
         return search
     }
 
-    suspend fun getContentDocument(response: SearchResponse) : DetailContentDto{
+    suspend fun getContentDocument(id: String) : DetailContentDto{
+        val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson(source.toString(), ContentDocument::class.java)
         return DetailContentDto(
