@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.lang.Exception
 
 @Service
 @Slf4j
@@ -24,10 +25,11 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         dtoList.addAll(tmdbData.results)
         logger.info("[Discover] first: " + dtoList.size.toString())
 
-        val pages: Int = tmdbData.total_pages
+        //val pages: Int = tmdbData.total_pages
+        val pages: Int = 500
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page).results)
-            //if (dtoList.size % 100 == 0) break;
+            //if (dtoList.size == 40) break;
         }
         logger.info("[Discover] final: " + dtoList.size.toString())
         return MapperUtil.mapTmdbToDocument(dtoList)
@@ -39,19 +41,36 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 
         for (doc in docList) {
             val id = doc.id
-            val providersResponse: WatchProvidersResponse =
-                tmdbClient.findOneProvider("Bearer $accessKey", id)
-            doc.platform = filterPlatformList(providersResponse)
 
-            val videoResponse: VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", id)
-            doc.trailer = filterTrailerKey(videoResponse)
+            try {
+                val providersResponse: WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", id)
+                doc.platform = filterPlatformList(providersResponse)
+            }catch (e : Exception){
+                logger.info("An error occurred during platform processing - $id")
+            }
 
-            val imageInfo: ImageResponse = tmdbClient.findOneImages("Bearer $accessKey", id)
-            doc.photo = filterImages(imageInfo)
+            try {
+                val videoResponse: VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", id)
+                doc.trailer = filterTrailerKey(videoResponse)
+            } catch (e : Exception){
+                logger.info("An error occurred during video processing - $id")
+            }
 
-            val detailResponse: DetailResponse = tmdbClient.findOneContent("Bearer $accessKey", id)
-            doc.season = filterDetail(detailResponse)
-            seasonDocList.addAll(getSeasonContents(id, detailResponse))
+            try{
+                val imageInfo: ImageResponse = tmdbClient.findOneImages("Bearer $accessKey", id)
+                doc.photo = filterImages(imageInfo)
+            }catch (e : Exception){
+                logger.info("An error occurred during image processing - $id")
+            }
+
+            try{
+                val detailResponse: DetailResponse = tmdbClient.findOneContent("Bearer $accessKey", id)
+                doc.season = filterDetail(detailResponse)
+                seasonDocList.addAll(getSeasonContents(id, detailResponse))
+                doc.episodeCount = detailResponse.seasons?.get(0)?.episode_count
+            }catch (e : Exception){
+                logger.info("An error occurred during detail processing - $id")
+            }
 
             if (i % 100 == 0) logger.info("Get more info processing ... $i / ${docList.size}")
             i++
@@ -62,34 +81,52 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 
     fun getSeasonContents(id: String, detailResponse: DetailResponse): List<ContentDocument> {
         val docList: MutableList<ContentDocument> = mutableListOf()
+        val genreList = detailResponse.genres?.map { it.id }
 
         for (season in 2..detailResponse.number_of_seasons!!) {
             val seasonInfo = detailResponse.seasons?.find { it.season_number == season }
+            val trailer: MutableList<String> = mutableListOf()
+            val provider: MutableList<Int> = mutableListOf()
+            val image: MutableList<String> = mutableListOf()
 
+            try{
+                val videoResponse: VideoResponse = tmdbClient.findOneSeasonVideo("Bearer $accessKey", id, season)
+                trailer.addAll(filterTrailerKey(videoResponse))
+            }catch (e : Exception){
+                logger.info("An error occurred during season video processing - $id - $season")
+            }
 
-            val videoResponse: VideoResponse =
-                tmdbClient.findOneSeasonVideo("Bearer $accessKey", id, season)
-            val providersResponse: WatchProvidersResponse =
-                tmdbClient.findOneSeasonProvider("Bearer $accessKey", id, season)
-            val seasonImageResponse: SeasonImageResponse =
-                tmdbClient.findOneSeasonImages("Bearer $accessKey", id, season)
+            try {
+                val providersResponse: WatchProvidersResponse = tmdbClient.findOneSeasonProvider("Bearer $accessKey", id, season)
+                provider.addAll(filterPlatformList(providersResponse))
+            }catch (e : Exception){
+                logger.info("An error occurred during season platform processing - $id - $season")
+            }
+
+            try {
+                val seasonImageResponse: SeasonImageResponse = tmdbClient.findOneSeasonImages("Bearer $accessKey", id, season)
+                mapSeasonTODefault(seasonImageResponse)?.let { filterImages(it) }?.let { image.addAll(it) }
+            }catch (e : Exception){
+                logger.info("An error occurred during season image processing - $id - $season")
+            }
 
             docList.add(
                 ContentDocument(
                     id = id + "_" + season.toString(),
                     sortingName = detailResponse.name,
                     name = detailResponse.name,
-                    platform = filterPlatformList(providersResponse),
-                    genre = null,
-                    rating = null,
+                    platform = provider,
+                    genre = genreList,
+                    rating = seasonInfo?.vote_average?.div(2),
                     firstAirDate = seasonInfo?.air_date,
-                    synopsis = null,
-                    trailer = filterTrailerKey(videoResponse),
-                    photo = mapSeasonTODefault(seasonImageResponse)?.let { filterImages(it) },
+                    synopsis = seasonInfo?.overview,
+                    trailer = trailer,
+                    photo = image,
                     poster = seasonInfo?.poster_path?.substring(1),
                     avgStarRating = null,
                     season = null,
-                    popularity = null
+                    popularity = null,
+                    episodeCount = seasonInfo?.episode_count
                 )
             )
         }

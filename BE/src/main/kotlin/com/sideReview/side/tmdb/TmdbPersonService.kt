@@ -18,7 +18,8 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
     lateinit var accessKey: String
     fun getAllPeople(): List<PersonDocument> {
         val peopleResponse: PeopleResponse = tmdbClient.findAllPeople("Bearer $accessKey", 1)
-        val pages: Int = peopleResponse.total_pages
+        //val pages: Int = peopleResponse.total_pages
+        val pages: Int = 500
         val dtoList: MutableList<PersonInfo> = mutableListOf()
 
         for (page in 2..pages) {

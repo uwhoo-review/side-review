@@ -7,8 +7,6 @@ import com.jillesvangurp.ktsearch.search
 import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
 import com.sideReview.side.common.document.ContentDocument
-import com.sideReview.side.openSearch.dto.Actor
-import com.sideReview.side.openSearch.dto.Crew
 import com.sideReview.side.openSearch.dto.DetailContentDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -19,6 +17,13 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
         val search = client.search(index) {
             resultSize = 1
             query = bool { must(match("id", id)) }
+        }
+        return search
+    }
+    private suspend fun findPersonByContentId(id: String) : SearchResponse {
+        val search = client.search("person") {
+            resultSize = 1
+            query = bool { must(match("cast.contentId", id)) }
         }
         return search
     }

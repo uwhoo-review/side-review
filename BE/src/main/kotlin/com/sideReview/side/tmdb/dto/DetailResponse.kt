@@ -6,7 +6,7 @@ data class DetailResponse(
     val created_by : List<Map<String, Any>>?,
     val episode_run_time : List<Any>?,
     val first_air_date : String?,
-    val genres : List<Map<String, Any>>?,
+    val genres : List<Genre>?,
     val homepage : String?,
     val id :Int,
     val in_production : Boolean?,
@@ -38,7 +38,7 @@ data class Episode(
     val id: Int?,
     val name: String?,
     val overview: String?,
-    val vote_average: Float?,
+    val vote_average: Double?,
     val vote_count: Int?,
     val air_date: String?,
     val episode_number: Int?,
@@ -57,5 +57,10 @@ data class Season(
     val overview: String?,
     val poster_path: String?,
     val season_number: Int,
-    val vote_average: Float?
+    val vote_average: Double?
+)
+
+data class Genre(
+    val id: Int,
+    val name : String
 )

@@ -16,6 +16,13 @@ data class ContentDocument(
     var photo: List<String>? = null,
     var poster: String? = null,
     var avgStarRating: Float? = null,
-    var season : List<String>? = null,
-    var popularity: Double? = null
+    var season: List<String>? = null,
+    var popularity: Double? = null,
+    var episodeCount: Int? = null,
+    var production: Product? = null
+)
+@Serializable
+data class Product(
+    var company : List<String>,
+    var country : List<String>
 )
