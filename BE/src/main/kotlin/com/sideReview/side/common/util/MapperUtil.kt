@@ -90,6 +90,6 @@ object MapperUtil {
                 }
             }
         }
-        return mutableList
+        return mutableList.toList()
     }
 }

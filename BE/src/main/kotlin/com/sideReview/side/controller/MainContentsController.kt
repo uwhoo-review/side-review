@@ -2,9 +2,9 @@ package com.sideReview.side.controller
 
 import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.openSearch.OpenSearchGetService
-import com.sideReview.side.openSearch.dto.ContentDto
-import com.sideReview.side.openSearch.dto.ContentRequestDTO
-import com.sideReview.side.openSearch.dto.MainContentDto
+import com.sideReview.side.openSearch.dto.*
+import com.sideReview.side.person.PersonService
+import com.sideReview.side.person.dto.PersonDto
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class MainContentsController @Autowired constructor(
-    private val openSearchGetService: OpenSearchGetService
+    private val openSearchGetService: OpenSearchGetService,
+    private val personService: PersonService
 ) {
 
     @PostMapping("/contents")
@@ -57,9 +58,21 @@ class MainContentsController @Autowired constructor(
                 // 탭이 없거나 위 3개가 아닐 경우 검색으로 인식함.
                 else ->
                     response = ResponseEntity.ok(
-                        MapperUtil.parseSearchResponseToT<ContentDto>(
-                            openSearchGetService.get("search", request.sort, request)
+                        SearchContentDto(
+                            MatchDto(
+                                content =
+                                MapperUtil.parseSearchResponseToT<ContentDto>(
+                                    openSearchGetService.get("search", request.sort, request)
+                                ),
+                                person = MapperUtil.parseSearchResponseToT<PersonDto>(
+                                    personService.searchMatch(request.query)
+                                )
+                            ),
+                            MapperUtil.parseSearchResponseToT<ContentDto>(
+                                openSearchGetService.search(request.sort, request)
+                            )
                         )
+
                     )
             }
         }

@@ -13,13 +13,8 @@ import org.springframework.stereotype.Service
 class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
     suspend fun get(tab: String, sort: String?, request: ContentRequestDTO?): SearchResponse {
-        var filterList = mutableListOf<ESQuery>()
-        if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
-            // filter 파싱
-            if (request.filter != null) {
-                filterList = parseRequestFilter(request.filter)
-            }
-        }
+        val filterList = getFilterFromRequest(request)
+
         // client 요청 전송
         val search = client.search("content") {
             // tab 따라 max 설정
@@ -30,22 +25,15 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
             // sort 따라 정렬 기준 설정
             // sort가 있으면 항상 score가 나오지 않음.
-            if (!sort.isNullOrBlank()) {
-                sort {
-                    when (sort) {
-                        "popularity" -> add("popularity", SortOrder.DESC)
-                        "new" -> add("firstAirDate", SortOrder.DESC)
-                        "name" -> add("sortingName", SortOrder.ASC)
-                        "rating" -> add("rating", SortOrder.DESC)
-                    }
-                }
+            sort {
+                getSortFromRequest(sort)
             }
 
             if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
                 query = bool {
                     if (request.filter != null)
                         filter(filterList)
-                    if (request.query != null) {
+                    if (!request.query.isNullOrBlank()) {
                         must(match("name", request.query))
                     }
                 }
@@ -53,6 +41,59 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         }
         return search
     }
+
+    suspend fun search(sort: String?, request: ContentRequestDTO?): SearchResponse {
+        val filterList = getFilterFromRequest(request)
+
+        // client 요청 전송
+        val search = client.search("content") {
+            // tab 따라 max 설정
+            resultSize = 100
+
+            // sort 따라 정렬 기준 설정
+            // sort가 있으면 항상 score가 나오지 않음.
+            sort {
+                getSortFromRequest(sort)
+            }
+
+            if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
+                query = bool {
+                    if (filterList.isNotEmpty())
+                        filter(filterList)
+                    if (!request.query.isNullOrBlank()) {
+                        println("AAA")
+                        mustNot(TermQuery("name", request.query))
+                        should(matchPhrase("synopsis", request.query))
+                    }
+
+                }
+            }
+        }
+        return search
+    }
+
+    private fun SearchDSL.getSortFromRequest(sort: String?) {
+        return sort {
+            when (sort) {
+                "popularity" -> add("popularity", SortOrder.DESC)
+                "new" -> add("firstAirDate", SortOrder.DESC)
+                "name" -> add("sortingName", SortOrder.ASC)
+                "rating" -> add("rating", SortOrder.DESC)
+            }
+        }
+    }
+
+    private fun getFilterFromRequest(request: ContentRequestDTO?): MutableList<ESQuery> {
+        var filterList = mutableListOf<ESQuery>()
+        if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
+            // filter 파싱
+            if (request.filter != null) {
+                filterList = parseRequestFilter(request.filter)
+            }
+        }
+        return filterList
+    }
+
 
     private fun parseRequestFilter(filter: List<ContentRequestFilterDetail>): MutableList<ESQuery> {
         val filterList = mutableListOf<ESQuery>()

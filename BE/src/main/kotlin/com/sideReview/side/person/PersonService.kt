@@ -3,8 +3,10 @@ package com.sideReview.side.person
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.ktsearch.search
+import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
 import com.jillesvangurp.searchdsls.querydsl.matchPhrase
+import com.jillesvangurp.searchdsls.querydsl.term
 import com.sideReview.side.common.document.PersonDocument
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -17,9 +19,13 @@ class PersonService @Autowired constructor(val client: SearchClient) {
         }
     }
 
-    suspend fun searchMatch(name: String): SearchResponse {
-        return client.search("person") {
-            query = match(PersonDocument::name, name)
+    suspend fun searchMatch(name: String?): SearchResponse {
+        return if (!name.isNullOrBlank()) {
+            client.search("person") {
+                query = match(PersonDocument::name, name)
+            }
+        } else {
+            client.search("person")
         }
     }
 
@@ -29,4 +35,15 @@ class PersonService @Autowired constructor(val client: SearchClient) {
         }
     }
 
+    suspend fun filterMatch(name: String?): SearchResponse {
+        return if (!name.isNullOrBlank()) {
+            client.search("person") {
+                query = bool {
+                    filter(term(PersonDocument::name, name))
+                }
+            }
+        } else {
+            client.search("person")
+        }
+    }
 }

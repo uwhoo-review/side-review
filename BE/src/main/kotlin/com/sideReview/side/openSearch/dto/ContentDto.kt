@@ -21,10 +21,10 @@ data class ContentDto(
     val synopsis: String?,
     val trailer: String? = null,
     val poster: String? = null,
-    val actors: List<String>? = null,
     val rating: Double? = null,
+    val actors: List<String>? = null,
     val age: Int? = null,
-    var season: List<String>? = null
+    val season: List<String>? = null
 )
 
 class ContentDeserializer : JsonDeserializer<ContentDto> {
@@ -42,7 +42,6 @@ class ContentDeserializer : JsonDeserializer<ContentDto> {
         val name = jsonObject["name"].asString
         val platform = gson.fromJson<List<String>>(jsonObject["platform"], typeToken)
         val genre = gson.fromJson<List<String>>(jsonObject["genre"], typeToken)
-        val rating = jsonObject["rating"]?.asDouble
         val firstAirDate = jsonObject["firstAirDate"]?.asString?.substring(0, 4)
         val synopsis = jsonObject["synopsis"]?.asString
         val trailer_ = gson.fromJson<List<String>>(jsonObject["trailer"], typeToken)
@@ -51,6 +50,10 @@ class ContentDeserializer : JsonDeserializer<ContentDto> {
             trailer = trailer_[0]
         }
         val poster = jsonObject["poster"]?.asString
+        val rating = jsonObject["rating"]?.asDouble
+        val actors = jsonObject[""]
+        val age = jsonObject[""]
+        val season = gson.fromJson<List<String>>(jsonObject["season"], typeToken)
 
         return ContentDto(
             id = id,
@@ -61,7 +64,10 @@ class ContentDeserializer : JsonDeserializer<ContentDto> {
             year = firstAirDate,
             synopsis = synopsis,
             trailer = trailer,
-            poster = poster
+            poster = poster,
+            actors = null,
+            age = null,
+            season = season
         )
     }
 

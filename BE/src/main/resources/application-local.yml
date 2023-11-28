@@ -18,7 +18,9 @@ spring:
       maximum-pool-size: 2
   jackson:
     time-zone: Asia/Seoul
-
+  mvc:
+    converters:
+      preferred-json-mapper: gson
 api:
   tmdb:
     key: eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0OWJjZmNhOWZkNWY0NGQyMjZhYzgzMTU5NzZhY2ZkYyIsInN1YiI6IjY1MWUzMmE0M2QzNTU3MDExY2ZmZThhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-uufjYqYRvt2OC66c1euvWmZdEOGy-gGvmRoQ1fP2AA
