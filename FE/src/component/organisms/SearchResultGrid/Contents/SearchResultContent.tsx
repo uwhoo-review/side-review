@@ -80,6 +80,8 @@ const SearchResultContent = ({data}:any) => {
     };
   };
 
+  console.log(data)
+
   return (
     <div className={"search-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>

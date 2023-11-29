@@ -20,6 +20,8 @@ export default {
     margin-bottom: 40px;
     width: 100%;
     margin-top: 20px;
+    display: flex;
+    align-items: center;
   `,
   cardSlider: (currentPage: number, lastPage: number) => css`
     width: 1396px;

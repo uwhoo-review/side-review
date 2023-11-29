@@ -88,10 +88,15 @@ export default {
     width: 190px;
     margin-bottom: 2px;
     overflow-x: hidden;
+    display: flex;
+    flex: 0 0 auto;
   `,
   marquee: css`
-    :hover {
-      animation: marquee 10s linear infinite;
+    //white-space: nowrap;
+    //overflow-x: hidden;
+    //text-overflow: ellipsis;
+    :hover[data-overflow="true"] {
+      animation: marquee 5s linear infinite;
       white-space: nowrap;
     }
     :not(:hover) {

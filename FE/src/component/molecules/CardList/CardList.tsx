@@ -1,6 +1,6 @@
 import styled from "./style";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
-import { useEffect, useRef, useState } from "react";
+import React, {ReactNode, useEffect, useRef, useState} from "react";
 import HWCarouselFixedPagination from "@src/component/molecules/HWCarouselFixedPagination/HWCarouselFixedPagination";
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
@@ -10,7 +10,7 @@ import { ContentProps } from "@src/interfaces/api.interface";
 import { getCardURL } from "@src/tools/commonTools";
 interface CardListProps {
   title: string;
-  subTitle: string;
+  subTitle: string | ReactNode;
   cardList: ContentProps[];
 }
 const CardList = ({ title, subTitle, cardList }: CardListProps) => {

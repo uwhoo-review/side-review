@@ -8,7 +8,7 @@ export interface ContentProps {
   poster: string;
   rating: number;
   synopsis: string;
-  trailer: string;
+  trailer: string[];
   year: string;
 }
 

@@ -5,7 +5,7 @@ import { SerializedStyles } from "@emotion/react";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +42,8 @@ const ContentCard = ({
   ...props
 }: ContentCardProps) => {
   const navigate = useNavigate();
-
+  const divRef = useRef<any>(null);
+  const [isOverflow, setIsOverflow] = useState<boolean>(false);
   let classNames = [];
   classNames.push(
     "content-card-wrapper",
@@ -50,6 +51,12 @@ const ContentCard = ({
     className ? `${className}` : null
   );
   classNames = classNames.filter(Boolean);
+
+  useEffect(() => {
+    if (divRef.current) {
+      if (divRef.current?.clientWidth < divRef.current?.scrollWidth) setIsOverflow(true);
+    }
+  }, []);
 
   return (
     <div
@@ -68,8 +75,20 @@ const ContentCard = ({
         />
       </div>
       <div css={styled.description}>
-        <div className={"title"} css={styled.title}>
-          <div css={styled.marquee}>
+        <div
+          className={"title"}
+          css={styled.title}
+          /*          onMouseEnter={(e: any) => {
+            console.log(e.target?.clientWidth, e.target?.scrollWidth);
+            console.log(divRef.current);
+            if (divRef.current) {
+              divRef.current.style = "animation: marquee 5s linear infinite;";
+              divRef.current.style += "white-space: nowrap;";
+              divRef.current.style += "text-overflow: unset;";
+            }
+          }}*/
+        >
+          <div className={"title-text"} css={styled.marquee} ref={divRef} data-overflow={isOverflow}>
             {contentName}
           </div>
         </div>

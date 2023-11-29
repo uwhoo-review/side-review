@@ -38,8 +38,8 @@ const SearchResultTemplate = () => {
         {status === "success" && (
           <>
             <SearchResultHeader data={data} />
-            {/*<SearchResultContent data={data} />*/}
-            <FilterResultContents data={data} />
+            <SearchResultContent data={data} />
+            {/*<FilterResultContents data={data} />*/}
           </>
         )}
       </div>

@@ -193,7 +193,7 @@ const FilterGroups = () => {
         </CustomInputField>
 
         <HWOutlinedSelectBox
-          label={"인기순"}
+          label={"정렬"}
           placeholder={"정렬"}
           value={filterState.sort}
           onChange={(e) => {

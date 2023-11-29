@@ -11,10 +11,13 @@ const FilterResultContents = ({ data }: any) => {
   const virtuosoRef = useRef<any>();
   const [isScrolling, setIsScrolling] = useState(false);
 
+  console.log(data);
+
+
   return (
     <div className={"search-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
-        <VirtuosoGrid
+        {/*<VirtuosoGrid
           ref={virtuosoRef}
           data={data}
           useWindowScroll={true}
@@ -50,7 +53,7 @@ const FilterResultContents = ({ data }: any) => {
               </div>
             );
           }}
-        />
+        />*/}
       </CenterWrapper>
     </div>
   );

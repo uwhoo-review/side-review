@@ -44,7 +44,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
             <iframe
               width="100%"
               height="100%"
-              src={getCardURL({ type: "trailer", srcId: item.trailer })}
+              src={getCardURL({ type: "trailer", srcId: item.trailer[0] })}
               title="Video"
               allowFullScreen
             />
