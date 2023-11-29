@@ -52,8 +52,12 @@ class OpenSearchSaveService(
                     number<Int>(ContentDocument::episodeCount)
                     text(ContentDocument::season)
                     objField(ContentDocument::production) {
-                        text(Product::company)
-                        text(Product::country)
+                        text(Product::company) {
+                            analyzer = "nori"
+                        }
+                        text(Product::country) {
+                            analyzer = "nori"
+                        }
                     }
                 }
             }
