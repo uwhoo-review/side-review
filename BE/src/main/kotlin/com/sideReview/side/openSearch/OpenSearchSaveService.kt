@@ -6,6 +6,7 @@ import com.sideReview.side.tmdb.TmdbContentService
 import com.sideReview.side.tmdb.TmdbPersonService
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
+import kotlin.math.min
 
 @Service
 class OpenSearchSaveService(
@@ -157,16 +158,24 @@ class OpenSearchSaveService(
             val docs: List<ContentDocument> =
                 tmdbContentService.getMoreInfo(tmdbContentService.getAllContents())
             coroutineScope {
-                client.bulk(bulkSize = docs.size, target = idxName, callBack = itemCallBack) {
-                    docs.forEach { doc ->
-                        index(
-                            source = DEFAULT_JSON.encodeToString(
-                                ContentDocument.serializer(),
-                                doc
-                            ),
-                            id = doc.id.toString()
+                val roop = docs.size / 300
+                for (i: Int in 0..roop) {
+                    val roopDocs = docs.subList(i * 300, min((i + 1) * 300, docs.size))
+                    client.bulk(
+                        bulkSize = roopDocs.size,
+                        target = idxName,
+                        callBack = itemCallBack
+                    ) {
+                        roopDocs.forEach { doc ->
+                            index(
+                                source = DEFAULT_JSON.encodeToString(
+                                    ContentDocument.serializer(),
+                                    doc
+                                ),
+                                id = doc.id.toString()
 
-                        )
+                            )
+                        }
                     }
                 }
             }
@@ -174,15 +183,23 @@ class OpenSearchSaveService(
             val docs: List<PersonDocument> =
                 tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople())
             coroutineScope {
-                client.bulk(bulkSize = docs.size, target = idxName, callBack = itemCallBack) {
-                    docs.forEach { doc ->
-                        index(
-                            source = DEFAULT_JSON.encodeToString(
-                                PersonDocument.serializer(),
-                                doc
-                            ),
-                            id = doc.id.toString()
-                        )
+                val roop = docs.size / 300
+                for (i: Int in 0..roop) {
+                    val roopDocs = docs.subList(i * 300, min((i + 1) * 300, docs.size))
+                    client.bulk(
+                        bulkSize = roopDocs.size,
+                        target = idxName,
+                        callBack = itemCallBack
+                    ) {
+                        roopDocs.forEach { doc ->
+                            index(
+                                source = DEFAULT_JSON.encodeToString(
+                                    PersonDocument.serializer(),
+                                    doc
+                                ),
+                                id = doc.id.toString()
+                            )
+                        }
                     }
                 }
             }
