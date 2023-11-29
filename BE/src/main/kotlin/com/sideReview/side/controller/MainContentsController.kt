@@ -55,25 +55,32 @@ class MainContentsController @Autowired constructor(
                     )
                 }
 
-                // 탭이 없거나 위 3개가 아닐 경우 검색으로 인식함.
-                else ->
-                    response = ResponseEntity.ok(
-                        SearchContentDto(
-                            MatchDto(
-                                content =
-                                MapperUtil.parseSearchResponseToT<ContentDto>(
-                                    openSearchGetService.get("search", request.sort, request)
-                                ),
-                                person = MapperUtil.parseSearchResponseToT<PersonDto>(
-                                    personService.searchMatch(request.query)
-                                )
-                            ),
+                "search" -> {
+                    if (request.query.isNullOrBlank()) {
+                        response = ResponseEntity.ok(
                             MapperUtil.parseSearchResponseToT<ContentDto>(
-                                openSearchGetService.search(request.sort, request)
+                                openSearchGetService.get(request.tab, "popularity", request)
                             )
                         )
-
-                    )
+                    } else {
+                        response = ResponseEntity.ok(
+                            SearchContentDto(
+                                MatchDto(
+                                    content =
+                                    MapperUtil.parseSearchResponseToT<ContentDto>(
+                                        openSearchGetService.get("search", request.sort, request)
+                                    ),
+                                    person = MapperUtil.parseSearchResponseToT<PersonDto>(
+                                        personService.searchMatch(request.query)
+                                    )
+                                ),
+                                MapperUtil.parseSearchResponseToT<ContentDto>(
+                                    openSearchGetService.search(request.sort, request)
+                                )
+                            )
+                        )
+                    }
+                }
             }
         }
         return response
