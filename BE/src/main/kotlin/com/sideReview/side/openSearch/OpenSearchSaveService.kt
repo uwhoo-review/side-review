@@ -1,10 +1,7 @@
 package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.*
-import com.sideReview.side.common.document.ContentDocument
-import com.sideReview.side.common.document.JobInfo
-import com.sideReview.side.common.document.PersonDocument
-import com.sideReview.side.common.document.RoleInfo
+import com.sideReview.side.common.document.*
 import com.sideReview.side.tmdb.TmdbContentService
 import com.sideReview.side.tmdb.TmdbPersonService
 import kotlinx.coroutines.coroutineScope
@@ -51,6 +48,12 @@ class OpenSearchSaveService(
                     date(ContentDocument::firstAirDate)
                     number<Float>(ContentDocument::avgStarRating)
                     number<Double>(ContentDocument::popularity)
+                    number<Int>(ContentDocument::episodeCount)
+                    text(ContentDocument::season)
+                    objField(ContentDocument::production) {
+                        text(Product::company)
+                        text(Product::country)
+                    }
                 }
             }
         }.onFailure {
@@ -167,7 +170,7 @@ class OpenSearchSaveService(
                     }
                 }
             }
-        } else if(idxName == "person") {
+        } else if (idxName == "person") {
             val docs: List<PersonDocument> =
                 tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople())
             coroutineScope {
