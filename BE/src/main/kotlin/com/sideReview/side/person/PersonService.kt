@@ -19,13 +19,9 @@ class PersonService @Autowired constructor(val client: SearchClient) {
         }
     }
 
-    suspend fun searchMatch(name: String?): SearchResponse {
-        return if (!name.isNullOrBlank()) {
-            client.search("person") {
-                query = match(PersonDocument::name, name)
-            }
-        } else {
-            client.search("person")
+    suspend fun searchMatch(name: String): SearchResponse {
+        return client.search("person") {
+            query = match(PersonDocument::name, name)
         }
     }
 

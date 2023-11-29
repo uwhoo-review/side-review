@@ -31,8 +31,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
             if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
                 query = bool {
-                    if (request.filter != null)
-                        filter(filterList)
+                    if (request.filter != null) filter(filterList)
                     if (!request.query.isNullOrBlank()) {
                         must(match("name", request.query))
                     }
@@ -58,14 +57,19 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
             if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
                 query = bool {
-                    if (filterList.isNotEmpty())
-                        filter(filterList)
+                    if (filterList.isNotEmpty()) filter(filterList)
                     if (!request.query.isNullOrBlank()) {
-                        println("AAA")
-                        mustNot(TermQuery("name", request.query))
-                        should(matchPhrase("synopsis", request.query))
-                    }
+                        mustNot(match("name", request.query))
+                        should(multiMatch(
+                            request.query,
+                            "synopsis",
+                            "production.company",
+                            "production.country"
+                        ) {
+                            minimumShouldMatch = "1"
+                        })
 
+                    }
                 }
             }
         }
@@ -106,23 +110,18 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             when (filterDetail.type) {
                 "genre", "platform", "age" -> filterList.add(
                     TermsQuery(
-                        filterDetail.type,
-                        *filterDetail.value.filterNotNull().toTypedArray()
+                        filterDetail.type, *filterDetail.value.filterNotNull().toTypedArray()
                     )
                 )
 
                 "date", "rating" -> {
                     var t = filterDetail.type
-                    if (filterDetail.type == "date")
-                        t = "firstAirDate"
-                    filterList.add(
-                        RangeQuery(t) {
-                            if (!filterDetail.value[0].isNullOrBlank())
-                                gte = filterDetail.value[0]!!
-                            if (filterDetail.value.size > 2 && !filterDetail.value[1].isNullOrBlank())
-                                lte = filterDetail.value[1]!!
-                        }
-                    )
+                    if (filterDetail.type == "date") t = "firstAirDate"
+                    filterList.add(RangeQuery(t) {
+                        if (!filterDetail.value[0].isNullOrBlank()) gte = filterDetail.value[0]!!
+                        if (filterDetail.value.size > 2 && !filterDetail.value[1].isNullOrBlank()) lte =
+                            filterDetail.value[1]!!
+                    })
                 }
             }
         }
