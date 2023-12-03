@@ -7,9 +7,15 @@ import { IconInit } from "@res/index";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
 import { useSearchParams } from "react-router-dom";
-import {GENRE_NAME, PLATFORM_ID_NAME} from "@src/variables/CommonConstants";
+import {
+  FILTER_SORT_ID,
+  FILTER_SORT_ID_NAME,
+  GENRE_ID_NAME,
+  GENRE_NAME,
+  PLATFORM_ID_NAME
+} from "@src/variables/CommonConstants";
 
-const SearchResultHeader = ({ data }: any) => {
+const ResultHeader = ({ data }: any) => {
   const commonContext = useCommon();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
@@ -59,7 +65,7 @@ const SearchResultHeader = ({ data }: any) => {
                 return value.split(",").map((v: any) => (
                   <HWChip
                     key={v}
-                    label={GENRE_NAME[v]}
+                    label={GENRE_ID_NAME[v]}
                     customCss={styled.chip}
                     onClick={() => {
                       if (commonContext.filterRef.genreRef?.current) {
@@ -135,7 +141,7 @@ const SearchResultHeader = ({ data }: any) => {
                 return (
                   <HWChip
                     key={value}
-                    label={value}
+                    label={FILTER_SORT_ID_NAME[value]}
                     customCss={styled.chip}
                     onClick={() => {
                       if (commonContext.filterRef.sortRef?.current) {
@@ -146,24 +152,6 @@ const SearchResultHeader = ({ data }: any) => {
                   />
                 );
             })}
-            {/*<HWChip
-              label={"액션"}
-              onClick={() => {
-                console.log("click");
-                if (commonContext.filterRef.genreRef?.current) {
-                  commonContext.onHandleFilterOpen(true);
-                  commonContext.filterRef.genreRef.current.click();
-                }
-              }}
-              customCss={styled.chip}
-            />
-            <HWChip label={"액션"} customCss={styled.chip} />
-            <HWChip label={"액션"} customCss={styled.chip} />
-            <HWChip label={"액션"} />*/}
-            {/*<HWButton variant={"lowest"}>
-              <IconInit />
-              <div>초기화</div>
-            </HWButton>*/}
           </div>
         </div>
       </CenterWrapper>
@@ -171,4 +159,4 @@ const SearchResultHeader = ({ data }: any) => {
   );
 };
 
-export default SearchResultHeader;
+export default ResultHeader;

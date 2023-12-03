@@ -72,36 +72,62 @@ export const GENRE_ID = {
 };
 
 export const GENRE_NAME = {
-  [GENRE_ID.ACTION_ADVENTURE]: "액션 & 어드벤쳐",
-  [GENRE_ID.COMEDY]: "코미디",
-  [GENRE_ID.ANIMATION]: "애니메이션",
-  [GENRE_ID.CRIME]: "범죄",
-  [GENRE_ID.DOCUMENTARY]: "다큐멘터리",
-  [GENRE_ID.DRAMA]: "드라마",
-  [GENRE_ID.FAMILY]: "가족",
-  [GENRE_ID.KIDS]: "키즈",
-  [GENRE_ID.MYSTERY]: "미스테리",
-  [GENRE_ID.NEWS]: "뉴스",
-  [GENRE_ID.REALITY]: "리얼리티",
-  [GENRE_ID.SF]: "SF, 판타지",
-  [GENRE_ID.SOAP]: "드라마",
-  [GENRE_ID.TALK]: "토크",
-  [GENRE_ID.WAR_POLITICS]: "전쟁, 정치",
-  [GENRE_ID.WESTERN]: "서부",
+  ACTION_ADVENTURE: "액션 & 어드벤쳐",
+  COMEDY: "코미디",
+  ANIMATION: "애니메이션",
+  CRIME: "범죄",
+  DOCUMENTARY: "다큐멘터리",
+  DRAMA: "드라마",
+  FAMILY: "가족",
+  KIDS: "키즈",
+  MYSTERY: "미스테리",
+  NEWS: "뉴스",
+  REALITY: "리얼리티",
+  SF: "SF, 판타지",
+  SOAP: "드라마",
+  TALK: "토크",
+  WAR_POLITICS: "전쟁, 정치",
+  WESTERN: "서부",
 } as const;
 
-export const FILTER_SORT = {
-  FAVORITE_SORT: "인기 순",
-  RECENTLY: "최신 공개 순",
-  RATING_SORT: "제목 순",
-  NAME_SORT: "별점 순",
+export const GENRE_ID_NAME = {
+  [GENRE_ID.ACTION_ADVENTURE]: [GENRE_NAME.ACTION_ADVENTURE],
+  [GENRE_ID.COMEDY]: [GENRE_NAME.COMEDY],
+  [GENRE_ID.ANIMATION]: [GENRE_NAME.ANIMATION],
+  [GENRE_ID.CRIME]: [GENRE_NAME.CRIME],
+  [GENRE_ID.DOCUMENTARY]: [GENRE_NAME.DOCUMENTARY],
+  [GENRE_ID.DRAMA]: [GENRE_NAME.DRAMA],
+  [GENRE_ID.FAMILY]: [GENRE_NAME.FAMILY],
+  [GENRE_ID.KIDS]: [GENRE_NAME.KIDS],
+  [GENRE_ID.MYSTERY]: [GENRE_NAME.MYSTERY],
+  [GENRE_ID.NEWS]: [GENRE_NAME.NEWS],
+  [GENRE_ID.REALITY]: [GENRE_NAME.REALITY],
+  [GENRE_ID.SF]: [GENRE_NAME.SF],
+  [GENRE_ID.SOAP]: [GENRE_NAME.SOAP],
+  [GENRE_ID.TALK]: [GENRE_NAME.TALK],
+  [GENRE_ID.WAR_POLITICS]: [GENRE_NAME.WAR_POLITICS],
+  [GENRE_ID.WESTERN]: [GENRE_NAME.WESTERN],
+} as const;
+
+export const FILTER_SORT_ID = {
+  FAVORITE_SORT: "popularity",
+  RECENTLY: "new",
+  RATING_SORT: "rating",
+  NAME_SORT: "name",
+};
+
+export const FILTER_SORT_ID_NAME = {
+  [FILTER_SORT_ID.FAVORITE_SORT]: "인기 순",
+  [FILTER_SORT_ID.RECENTLY]: "최신 공개 순",
+  [FILTER_SORT_ID.RATING_SORT]: "제목 순",
+  [FILTER_SORT_ID.NAME_SORT]: "별점 순",
 };
 
 export const DUMMY_CONTENT = {
   actors: "김지훈, 나나나, 가가가",
   age: 19,
   genre: ["드라마", "액션, 어드벤쳐", "SF, 판타지", "미스터리"],
-  id: 135238,
+  id: "135238",
   name: "경성크리처",
   platform: ["netflix"],
   poster: "/kkDpdo3zZJtKYKpF25VQM17ZOWM.jpg",

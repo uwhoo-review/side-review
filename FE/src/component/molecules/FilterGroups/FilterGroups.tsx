@@ -10,8 +10,8 @@ import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
 import HWCheckBox from "@src/component/atoms/HWCheckBox/HWCheckBox";
 import { IconCheckboxOff, IconCheckboxOn } from "@res/index";
 import {
-  FILTER_SORT,
-  GENRE_ID,
+  FILTER_SORT_ID, FILTER_SORT_ID_NAME,
+  GENRE_ID, GENRE_ID_NAME,
   GENRE_NAME,
   PLATFORM_ID, PLATFORM_ID_NAME,
   PLATFORM_NAME,
@@ -55,7 +55,7 @@ const FilterGroups = () => {
           renderValue={(values: any) => (
             <div css={styled.multiBox}>
               {values.map((v: any) => {
-                return <HWChip key={v} label={GENRE_NAME[v]} css={styled.chip} />;
+                return <HWChip key={v} label={GENRE_ID_NAME[v]} css={styled.chip} />;
               })}
             </div>
           )}
@@ -64,7 +64,7 @@ const FilterGroups = () => {
         >
           {Object.entries(GENRE_ID).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
-              {GENRE_NAME[value]}
+              {GENRE_ID_NAME[value]}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>
@@ -204,9 +204,9 @@ const FilterGroups = () => {
           }}
           inputRef={filterRef.sortRef}
         >
-          {Object.entries(FILTER_SORT).map(([key, value]) => (
+          {Object.entries(FILTER_SORT_ID).map(([key, value]) => (
             <HWOutlinedSelectBox.Item key={key} value={value}>
-              {value}
+              {FILTER_SORT_ID_NAME[value]}
             </HWOutlinedSelectBox.Item>
           ))}
         </HWOutlinedSelectBox>

@@ -3,7 +3,7 @@ import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { VirtuosoGrid } from "react-virtuoso";
 import styled from "./style";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const FilterResultContents = ({ data }: any) => {
   const navigate = useNavigate();
@@ -13,11 +13,10 @@ const FilterResultContents = ({ data }: any) => {
 
   console.log(data);
 
-
   return (
     <div className={"search-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
-        {/*<VirtuosoGrid
+        <VirtuosoGrid
           ref={virtuosoRef}
           data={data}
           useWindowScroll={true}
@@ -34,6 +33,7 @@ const FilterResultContents = ({ data }: any) => {
             return (
               <div className={"content-slide"} key={v.id} css={styled.item}>
                 <ContentCard
+                  id={v.id}
                   key={v.id}
                   className={`image-card`}
                   srcId={v.poster}
@@ -47,13 +47,13 @@ const FilterResultContents = ({ data }: any) => {
                   customCss={styled.card}
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate("/detail");
+                    navigate(`/detail?id=${v.id}`);
                   }}
                 />
               </div>
             );
           }}
-        />*/}
+        />
       </CenterWrapper>
     </div>
   );

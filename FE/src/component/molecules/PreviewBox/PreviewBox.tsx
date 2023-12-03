@@ -24,6 +24,7 @@ import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
+import {GENRE_ID_NAME} from "@src/variables/CommonConstants";
 
 interface PreviewBoxProps {
   item: ContentProps;
@@ -60,7 +61,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                   css={styled.launch}
                   onClick={() => {
                     setDetailOpen(!detailOpen);
-                    navigate("/detail");
+                    navigate(`/detail?id=${item.id}`);
                   }}
                 />
                 <div className={"flex flex-align-center"}>
@@ -80,7 +81,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                   >
                     {new Date(item.firstAirDate).getFullYear()}
                   </HWTypography>
-                  <HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />
+                  {/*<HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />*/}
                 </div>
                 <div className={"grid margin-top-16"}>
                   <div className={"col-4"}>
@@ -148,7 +149,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                         family={"Pretendard"}
                         color={Color.dark.grey500}
                       >
-                        {item.genre?.join(", ")}
+                        {item.genre.map((v => GENRE_ID_NAME[v])).join(", ")}
                       </HWTypography>
                     </div>
                   </div>

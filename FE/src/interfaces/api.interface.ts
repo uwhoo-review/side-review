@@ -19,3 +19,4 @@ export interface ContentsDO {
   latest: ContentProps[];
   popular: ContentProps[];
 }
+

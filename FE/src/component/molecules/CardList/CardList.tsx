@@ -1,6 +1,6 @@
 import styled from "./style";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
-import React, {ReactNode, useEffect, useRef, useState} from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import HWCarouselFixedPagination from "@src/component/molecules/HWCarouselFixedPagination/HWCarouselFixedPagination";
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
@@ -85,10 +85,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             customCss={styled.leftPageBtn}
             onClick={onPrevHandler}
           />
-          <div
-            className={"image-card-list"}
-            css={styled.cardWrapper(translateX, !!selectedCard)}
-          >
+          <div className={"image-card-list"} css={styled.cardWrapper(translateX, !!selectedCard)}>
             {cardList.map((v, i: number) => {
               return (
                 <div
@@ -112,6 +109,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                   }}
                 >
                   <ContentCard
+                    id={v.id}
                     className={`image-card`}
                     srcId={v.poster || ""}
                     rank={i + 1}

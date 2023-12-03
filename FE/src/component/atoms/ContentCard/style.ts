@@ -112,6 +112,7 @@ export default {
     font-size: 16px;
     color: ${Color.dark.grey500};
     display: none;
+    cursor: pointer;
   `,
   description: css`
     margin-top: 10px;

@@ -10,19 +10,30 @@ import RatingDetailBox from "@src/component/molecules/RatingDetailBox/RatingDeta
 import ReviewCardList from "@src/component/molecules/ReviewCardList/ReviewCardList";
 import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "./style";
 import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
 import PhotoCard from "@src/component/atoms/PhotoCard/PhotoCard";
 
-const DetailGrid = () => {
+interface DetailGridProps {}
+
+const DetailGrid = ({ data }: any) => {
   const [dialog, setDialog] = useState<any>(null);
+  const [trailerList, setTrailerList] = useState<any>([]);
+  const [photoList, setphotoList] = useState<any>([]);
+
+  useEffect(() => {
+    console.log(data);
+
+    setTrailerList(data.trailer.map((v: any) => <TrailerCard srcId={v} size={"maxresdefault"} />));
+    setphotoList(data.photo.map((v: any) => <PhotoCard srcId={v} />));
+  }, [data]);
 
   return (
     <>
-      <InformationBox />
+      <InformationBox item={data} />
       <CenterWrapper>
-        <RatingDetailBox />
+        <RatingDetailBox item={data} />
         <ReviewCardList
           total={false}
           list={[
@@ -50,29 +61,8 @@ const DetailGrid = () => {
         />
 
         <PersonCardList title={"출연 ∙ 제작"} cardList={[...new Array(15)]} />
-        <BoxList
-          title={"트레일러"}
-          boxList={[
-            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
-            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
-            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
-            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
-            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
-            <TrailerCard srcId={"KEFNlx4ZIOU"} size={"maxresdefault"} />,
-          ]}
-        />
-        <BoxList
-          title={"포토"}
-          useModal={true}
-          boxList={[
-            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
-            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
-            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
-            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
-            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
-            <PhotoCard srcId={"1AZcHRuWvmuUNhLj3XWcd54V80B.jpg"} />,
-          ]}
-        />
+        <BoxList title={"트레일러"} boxList={trailerList} />
+        <BoxList title={"포토"} useModal={true} boxList={photoList} />
       </CenterWrapper>
     </>
   );

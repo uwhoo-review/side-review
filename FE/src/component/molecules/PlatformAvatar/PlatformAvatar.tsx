@@ -7,6 +7,7 @@ import { PLATFORM_ID_NAME, PLATFORM_NAME } from "@src/variables/CommonConstants"
 interface PlatformAvatarProps {
   list: string[];
   max?: number;
+  size?: string;
   direction?: string;
 }
 
@@ -22,12 +23,12 @@ const getAvatar = (v: string) => {
   );
 };
 
-const PlatformAvatar = ({ list, max, direction }: PlatformAvatarProps) => {
+const PlatformAvatar = ({ list, size, max, direction }: PlatformAvatarProps) => {
   return (
     <div css={styled.wrapper}>
-      <HWAvatarGroup max={max} direction={direction}>
+      <HWAvatarGroup size={size} max={max} direction={direction}>
         {list.map((v) => {
-          return <HWAvatar key={v}>{getAvatar(v)}</HWAvatar>;
+          return <HWAvatar key={v} size={size}>{getAvatar(v)}</HWAvatar>;
         })}
       </HWAvatarGroup>
     </div>

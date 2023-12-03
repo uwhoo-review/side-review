@@ -32,7 +32,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
     watch: [],
     rating: [0, 5],
     date: [null, null],
-    sort: "",
+    sort: "popularity",
   });
 
   const searchRef = useRef(null);

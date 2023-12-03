@@ -8,25 +8,29 @@ import { Avatar, AvatarGroup, Rating } from "@mui/material";
 import Color from "@src/common/styles/Color";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import Divider from "@src/component/atoms/Divider/Divider";
-import {useState} from "react";
-const InformationBox = ({ url = bg1 }: any) => {
+import { useState } from "react";
+import { getCardURL } from "@src/tools/commonTools";
+import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
+import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
+const InformationBox = ({ item }: any) => {
+  const posterURL = getCardURL({ type: "content", srcId: item.poster });
 
   return (
-    <div className={"information-box-wrapper"} css={[styled.wrapper(url)]}>
+    <div className={"information-box-wrapper"} css={[styled.wrapper(posterURL)]}>
       <CenterWrapper customCss={styled.centerWrapper}>
         <div css={styled.subWrapper}>
           <div>
-            <DefaultImage src={card1} width={"276px"} height={"414px"} />
+            <DefaultImage src={posterURL} width={"276px"} height={"414px"} />
           </div>
           <div className={"grid"} css={styled.rightBox}>
             <div className="col-full">
               <HWTypography variant={"headlineXL"} family={"Pretendard-Bold"}>
-                무빙
+                {item.name}
               </HWTypography>
               <div className="grid margin-top-16">
                 <div className="col-full">
                   <HWTypography variant={"bodyM"} family={"Poppins"} color={Color.dark.grey800}>
-                    무빙
+                    {item.name}
                   </HWTypography>
                 </div>
                 <div className="col-full">
@@ -43,8 +47,7 @@ const InformationBox = ({ url = bg1 }: any) => {
                 </div>
                 <div className="col-full">
                   <HWTypography variant={"bodyM"} family={"Pretendard"} color={Color.dark.grey700}>
-                    슈퍼히어로, 액션, SF스릴러, 느와르, 판타지, 첩보, 로맨스, 어드벤쳐, 휴먼,
-                    드라마, 학원, 초능력
+                    {item.genre.map((v: number) => GENRE_ID_NAME[v]).join(", ")}
                   </HWTypography>
                 </div>
               </div>
@@ -63,7 +66,7 @@ const InformationBox = ({ url = bg1 }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    청소년 관람 불가
+                    ----
                   </HWTypography>
                 </div>
                 <div className="col-3">
@@ -97,7 +100,7 @@ const InformationBox = ({ url = bg1 }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    2023.02.29
+                    {item.firstAirDate}
                   </HWTypography>
                 </div>
                 <div className="col-3">
@@ -135,15 +138,17 @@ const InformationBox = ({ url = bg1 }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    사랑이 싹트는 계절, 새로 문을 여는 쇼핑몰. 생기 넘치는 1985년 호킨스. 하지만
-                    광란의 쥐 떼가 질주하면서 어둠이 입을 벌린다. 이번 여름, 모든 것이 기묘해진다.
+                    {item.synopsis}
+
                   </HWTypography>
                 </div>
               </div>
             </div>
           </div>
           <div css={styled.avatarWrapper}>
-            <AvatarGroup css={styled.avatarGroup}>
+            <PlatformAvatar list={item.platform} max={3} direction={"right"} size={"60px"} />
+
+            {/*<AvatarGroup css={styled.avatarGroup}>
               <Avatar css={styled.avatar}>
                 <IconNetflix />
               </Avatar>
@@ -153,7 +158,7 @@ const InformationBox = ({ url = bg1 }: any) => {
               <Avatar css={styled.avatar}>
                 <IconNetflix />
               </Avatar>
-            </AvatarGroup>
+            </AvatarGroup>*/}
           </div>
         </div>
       </CenterWrapper>

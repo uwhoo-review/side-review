@@ -13,6 +13,7 @@ import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 
 interface ContentCardProps {
+  id: string;
   srcId: string;
   contentName: string;
   rating: number;
@@ -27,6 +28,7 @@ interface ContentCardProps {
   customCss?: SerializedStyles;
 }
 const ContentCard = ({
+  id,
   srcId,
   contentName,
   rating,
@@ -109,7 +111,7 @@ const ContentCard = ({
             className={"icon-launch"}
             onClick={(e) => {
               e.stopPropagation();
-              navigate("/detail");
+              navigate(`/detail?id=${id}`);
             }}
             css={styled.Launch}
           />

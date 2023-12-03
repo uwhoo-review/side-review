@@ -42,6 +42,7 @@ export default {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-bottom: 40px;
   `,
   listContainer: css`
     display: flex;

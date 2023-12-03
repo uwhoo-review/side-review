@@ -1,5 +1,4 @@
 import styled from "./style";
-import SearchResultHeader from "@src/component/organisms/SearchResultGrid/Header/SearchResultHeader";
 import SearchResultContent from "@src/component/organisms/SearchResultGrid/Contents/SearchResultContent";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
@@ -8,8 +7,9 @@ import { useEffect } from "react";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useCommon } from "@src/providers/CommonProvider";
-import { getFilterParams } from "@src/tools/commonTools";
+import { getFilterParams, isNullOrEmpty } from "@src/tools/commonTools";
 import FilterResultContents from "@src/component/organisms/SearchResultGrid/Contents/FilterResultContent";
+import ResultHeader from "@src/component/organisms/SearchResultGrid/Header/ResultHeader";
 
 const SearchResultTemplate = () => {
   const [searchParams] = useSearchParams();
@@ -37,9 +37,16 @@ const SearchResultTemplate = () => {
         {status === "pending" && <LoadingDot />}
         {status === "success" && (
           <>
-            <SearchResultHeader data={data} />
-            <SearchResultContent data={data} />
-            {/*<FilterResultContents data={data} />*/}
+            <ResultHeader data={data} />
+            {isNullOrEmpty(search) ? (
+              <>
+                <FilterResultContents data={data} />
+              </>
+            ) : (
+              <>
+                <SearchResultContent data={data} />
+              </>
+            )}
           </>
         )}
       </div>

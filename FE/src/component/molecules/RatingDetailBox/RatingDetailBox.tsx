@@ -10,8 +10,8 @@ import { useState } from "react";
 import ReviewModal from "@src/component/molecules/ReviewModal/ReviewModal";
 import { useLocation } from "react-router-dom";
 
-const RatingDetailBox = () => {
-  const [rating, setRating] = useState<number | null>(1.5);
+const RatingDetailBox = ({item}: any) => {
+  const [rating, setRating] = useState<number | null>(0);
   const [dialog, setDialog] = useState(false);
   const location = useLocation();
 
@@ -34,9 +34,9 @@ const RatingDetailBox = () => {
             <div className={"margin-top-12 flex flex-align-center gap-10"}>
               <Rating
                 name="rating-value"
-                value={3.5}
+                value={item.rating}
                 max={5}
-                precision={0.5}
+                precision={0.1}
                 css={styled.rating}
                 emptyIcon={<IconRatingEmpty />}
                 icon={<IconStar />}
@@ -48,7 +48,7 @@ const RatingDetailBox = () => {
                 family={"Pretendard-SemiBold"}
                 color={Color.dark.grey900}
               >
-                3.5
+                {rating}
               </HWTypography>
               <Divider direction={"v"} length={"14px"} />
               <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>

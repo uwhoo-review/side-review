@@ -94,7 +94,8 @@ const PopularContent = ({ data }: any) => {
                     css={styled.item}
                   >
                     <ContentCard
-                      key={v.id}
+                        id={v.id}
+                        key={v.id}
                       className={`image-card`}
                       srcId={v.poster}
                       rank={i + 1}

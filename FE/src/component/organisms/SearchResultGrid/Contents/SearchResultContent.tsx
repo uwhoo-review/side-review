@@ -1,7 +1,7 @@
 import styled from "./style";
 import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HWToggleButton from "@src/component/atoms/HWToggleButton/HWToggleButton";
 import HWToggleButtonGroup from "@src/component/atoms/HWToggleButtonGroup/HWToggleButtonGroup";
 import CardList from "@src/component/molecules/CardList/CardList";
@@ -13,55 +13,24 @@ import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import person1 from "@res/temp/person1.png";
 import { card1, card3, IconChevronDoubleDown } from "@res/index";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
-const SearchResultContent = ({data}:any) => {
-  const [contentsList, setContentsList] = useState([
-    <ContentCard
-      key={DUMMY_CONTENT.id}
-      className={`image-card`}
-      srcId={DUMMY_CONTENT.poster}
-      contentName={DUMMY_CONTENT.name}
-      platform={DUMMY_CONTENT.platform}
-      age={DUMMY_CONTENT.age}
-      year={DUMMY_CONTENT.year}
-      rating={DUMMY_CONTENT.rating}
-      active
-    />,
-    <ContentCard
-      key={DUMMY_CONTENT.id}
-      className={`image-card`}
-      srcId={DUMMY_CONTENT.poster}
-      contentName={DUMMY_CONTENT.name}
-      platform={DUMMY_CONTENT.platform}
-      age={DUMMY_CONTENT.age}
-      year={DUMMY_CONTENT.year}
-      rating={DUMMY_CONTENT.rating}
-      active
-    />,
-    <ContentCard
-      key={DUMMY_CONTENT.id}
-      className={`image-card`}
-      srcId={DUMMY_CONTENT.poster}
-      contentName={DUMMY_CONTENT.name}
-      platform={DUMMY_CONTENT.platform}
-      age={DUMMY_CONTENT.age}
-      year={DUMMY_CONTENT.year}
-      rating={DUMMY_CONTENT.rating}
-      active
-    />,
-    <ContentCard
-      key={DUMMY_CONTENT.id}
-      className={`image-card`}
-      srcId={DUMMY_CONTENT.poster}
-      contentName={DUMMY_CONTENT.name}
-      platform={DUMMY_CONTENT.platform}
-      age={DUMMY_CONTENT.age}
-      year={DUMMY_CONTENT.year}
-      rating={DUMMY_CONTENT.rating}
-      active
-    />,
-  ]);
+import {useNavigate} from "react-router-dom";
+const SearchResultContent = ({ data }: any) => {
+  const navigate = useNavigate();
+
+  const [resultMatch, setResultMatch] = useState<any>({ content: [], person: [] });
+  const [similarList, setSimilarList] = useState<any>([]);
+
+  const [contentCnt, setContentCnt] = useState(6);
+  const [personCnt, setPersonCnt] = useState(6);
+  const [similarCnt, setSimilarCnt] = useState(6);
+
   const [toggle1, setToggle1] = useState<string>("drama");
   const [toggle2, setToggle2] = useState<string>("drama");
+
+  useEffect(() => {
+    setResultMatch(data.match);
+    setSimilarList(data.similar);
+  }, [data]);
 
   const props1 = (value: string) => {
     return {
@@ -80,29 +49,48 @@ const SearchResultContent = ({data}:any) => {
     };
   };
 
-  console.log(data)
-
   return (
     <div className={"search-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
         <WrapperTitle title={"일치하는 검색어"} subTitle={"14"} customCss={styled.subTitle} />
         <HWToggleButtonGroup customCss={styled.toggle}>
-          <HWToggleButton {...props1("a")}>드라마</HWToggleButton>
-          <HWToggleButton {...props1("b")}>인물</HWToggleButton>
+          <HWToggleButton {...props1("drama")}>드라마</HWToggleButton>
+          <HWToggleButton {...props1("person")}>인물</HWToggleButton>
         </HWToggleButtonGroup>
         <div css={styled.subWrapper}>
           <>
-            {toggle1 === "a" && (
+            {toggle1 === "drama" && (
               <>
-                <div css={styled.sub1}>{contentsList.map((v) => v)}</div>
-                <div css={styled.plusBtn}>
+                <div css={styled.sub1}>
+                  {resultMatch.content.slice(0, contentCnt).map((v: any) => (
+                    <ContentCard
+                      id={v.id}
+                      key={v.id}
+                      className={`image-card`}
+                      srcId={v.poster}
+                      contentName={v.name}
+                      platform={v.platform}
+                      age={v.age}
+                      year={v.year}
+                      rating={v.rating}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/detail?id=${v.id}`);
+                      }}
+                      active
+                    />
+                  ))}
+                </div>
+                <div
+                  css={styled.plusBtn}
+                  onClick={() => {
+                    setContentCnt((prev) => prev + 6);
+                  }}
+                >
                   <HWTypography
                     variant={"headlineXXS"}
                     family={"Pretendard-SemiBold"}
                     color={Color.dark.primary800}
-                    onClick={() => {
-                      setContentsList((prev) => [...prev]);
-                    }}
                   >
                     더보기
                   </HWTypography>
@@ -110,74 +98,18 @@ const SearchResultContent = ({data}:any) => {
                 </div>
               </>
             )}
-            {toggle1 === "b" && (
+            {toggle1 === "person" && (
               <>
                 <div css={styled.sub2}>
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-                  <PersonCard
-                    width={"82px"}
-                    height={"82px"}
-                    src={person1}
-                    className={"image-card"}
-                    onClick={() => {}}
-                  />
-
-
+                  {resultMatch.person.slice(0, personCnt).map((v: any) => (
+                    <PersonCard
+                      width={"82px"}
+                      height={"82px"}
+                      src={person1}
+                      className={"image-card"}
+                      onClick={() => {}}
+                    />
+                  ))}
                 </div>
                 <div css={styled.plusBtn}>
                   <HWTypography
@@ -185,7 +117,7 @@ const SearchResultContent = ({data}:any) => {
                     family={"Pretendard-SemiBold"}
                     color={Color.dark.primary800}
                     onClick={() => {
-                      setContentsList((prev) => [...prev]);
+                      setPersonCnt((prev) => prev + 6);
                     }}
                   >
                     더보기
@@ -199,20 +131,47 @@ const SearchResultContent = ({data}:any) => {
       </CenterWrapper>
       <CenterWrapper>
         <WrapperTitle title={"연관 검색어"} subTitle={"24"} customCss={styled.subTitle} />
-        <HWToggleButtonGroup customCss={styled.toggle}>
+        {/*<HWToggleButtonGroup customCss={styled.toggle}>
           <HWToggleButton {...props2("a")}>드라마</HWToggleButton>
           <HWToggleButton {...props2("b")}>인물</HWToggleButton>
-        </HWToggleButtonGroup>
+        </HWToggleButtonGroup>*/}
         <div css={styled.subWrapper}>
           <>
-            {toggle2 === "a" && <div css={styled.sub1}>{contentsList.map((v) => v)}</div>}
-            {toggle2 === "b" && (
-              <div css={styled.sub2}>
-                <PersonCard src={person1} className={"image-card"} onClick={() => {}} />
-                <PersonCard src={person1} className={"image-card"} onClick={() => {}} />
-                <PersonCard src={person1} className={"image-card"} onClick={() => {}} />
-              </div>
-            )}
+            <div css={styled.sub1}>
+              {similarList.slice(0, similarCnt).map((v: any) => (
+                <ContentCard
+                  id={v.id}
+                  key={v.id}
+                  className={`image-card`}
+                  srcId={v.poster}
+                  contentName={v.name}
+                  platform={v.platform}
+                  age={v.age}
+                  year={v.year}
+                  rating={v.rating}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/detail?id=${v.id}`);
+                  }}
+                  active
+                />
+              ))}
+            </div>
+            <div
+              css={styled.plusBtn}
+              onClick={() => {
+                setSimilarCnt((prev) => prev + 6);
+              }}
+            >
+              <HWTypography
+                variant={"headlineXXS"}
+                family={"Pretendard-SemiBold"}
+                color={Color.dark.primary800}
+              >
+                더보기
+              </HWTypography>
+              <IconChevronDoubleDown />
+            </div>
           </>
         </div>
       </CenterWrapper>

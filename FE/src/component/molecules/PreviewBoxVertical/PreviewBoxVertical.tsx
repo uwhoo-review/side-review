@@ -25,6 +25,7 @@ import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
+import {GENRE_ID_NAME} from "@src/variables/CommonConstants";
 
 interface PreviewBoxVerticalProps {
   item: ContentProps;
@@ -147,7 +148,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                         family={"Pretendard"}
                         color={Color.dark.grey500}
                       >
-                        {item.genre}
+                        {item.genre.map((v => GENRE_ID_NAME[v])).join(", ")}
                       </HWTypography>
                     </div>
                   </div>
