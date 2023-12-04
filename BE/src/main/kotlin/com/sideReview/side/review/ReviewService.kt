@@ -70,7 +70,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
                 ReviewDetailDTO(
                     id = r.reviewId,
                     content = r.content,
-                    date = r.create,
+                    date = r.create.toString(),
                     like = r.like,
                     dislike = r.dislike,
                     spoiler = r.spoiler == "0"

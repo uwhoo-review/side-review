@@ -19,9 +19,9 @@ class ReviewController(val reviewService: ReviewService) {
         @RequestParam id: String,
         @RequestParam(required = false) sort: String?,
         @RequestParam(required = false) spoiler: Boolean?
-    ): ReviewDTO {
+    ): ResponseEntity<ReviewDTO> {
         val s = spoiler ?: false
-        return reviewService.get(id, sort, s)
+        return ResponseEntity.ok(reviewService.get(id, sort, s))
     }
 
     @PostMapping("")
