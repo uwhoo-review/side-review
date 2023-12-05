@@ -44,7 +44,7 @@ class ReviewController(val reviewService: ReviewService) {
     @GetMapping("/{id}")
     fun getAll(@PathVariable id : String,
                @RequestParam(required = false, defaultValue = "latest")  sort : String,
-               @RequestParam(required = false, defaultValue = "best") mode : String,
+               @RequestParam(required = false, defaultValue = "some") mode : String,
                @RequestParam(required = false, defaultValue = "0") spoiler : String): ResponseEntity<ReviewDTO>{
         return ResponseEntity.ok(reviewService.getReviews(id, mode, sort, spoiler))
     }
