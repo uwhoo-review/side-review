@@ -73,7 +73,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
                     date = r.create.toString(),
                     like = r.like,
                     dislike = r.dislike,
-                    spoiler = r.spoiler == "0"
+                    spoiler = r.spoiler != "0"
                 )
             )
         }
@@ -86,5 +86,23 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
             if (body.eval == 0) it.dislike += 1
             else it.like += 1
         }
+    }
+
+    fun getReviews(id: String, mode: String, sort: String, spoiler: String) : ReviewDTO {
+        val userReviewList = mutableListOf<UserReview>()
+        val sortedList = mutableListOf<UserReview>()
+
+        if (spoiler == "0") userReviewList.addAll(userReviewRepository.findByTargetIdAndSpoilerIs(id, spoiler))
+        else userReviewList.addAll(userReviewRepository.findByTargetId(id))
+
+        val total = if(mode == "all" || userReviewList.size < 6){userReviewList.size}else{6}
+
+        if(sort == "best"){
+            sortedList.addAll(userReviewList.sortedWith(compareByDescending<UserReview> { it.like }.thenBy { it.dislike }).subList(0, total))
+        }else { //latest
+            sortedList.addAll(userReviewList.sortedWith(compareByDescending { it.create }).subList(0, total))
+        }
+
+        return ReviewDTO(userReviewList.size, mapUserReviewToReviewDetailDTO(sortedList))
     }
 }
