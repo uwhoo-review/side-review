@@ -9,16 +9,21 @@ import { Rating } from "@mui/material";
 import { useState } from "react";
 import ReviewModal from "@src/component/molecules/ReviewModal/ReviewModal";
 import { useLocation } from "react-router-dom";
+import { useCommon } from "@src/providers/CommonProvider";
 
-const RatingDetailBox = ({item}: any) => {
+const RatingDetailBox = ({ item }: any) => {
   const [rating, setRating] = useState<number | null>(0);
   const [dialog, setDialog] = useState(false);
   const location = useLocation();
+  const commonContext = useCommon();
 
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert("클립보드에 링크가 복사되었어요.");
+      commonContext.onAlert({
+        is: true,
+        children: <>링크가 클립보드에 복사되었습니다.</>,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -83,7 +88,7 @@ const RatingDetailBox = ({item}: any) => {
         <div css={styled.btnGroups}>
           <HWButton
             variant={"lower"}
-            onClick={() => handleCopyClipBoard(`${location.pathname}`)}
+            onClick={() => handleCopyClipBoard(`${window.location.href}`)}
             // customCss={styled.btn1}
           >
             <IconLink /> 링크 공유

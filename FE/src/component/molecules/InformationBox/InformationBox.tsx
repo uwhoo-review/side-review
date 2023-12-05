@@ -14,9 +14,10 @@ import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 const InformationBox = ({ item }: any) => {
   const posterURL = getCardURL({ type: "content", srcId: item.poster });
+  const photoURL = getCardURL({ type: "photo", srcId: item.photo[0] });
 
   return (
-    <div className={"information-box-wrapper"} css={[styled.wrapper(posterURL)]}>
+    <div className={"information-box-wrapper"} css={[styled.wrapper(photoURL)]}>
       <CenterWrapper customCss={styled.centerWrapper}>
         <div css={styled.subWrapper}>
           <div>

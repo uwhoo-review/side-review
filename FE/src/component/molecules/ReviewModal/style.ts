@@ -28,5 +28,17 @@ export default {
   contentWrapper: css`
     //display: flex;
     //flex-direction: column;
+  `,
+  byteChk: css`
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    color: ${Color.dark.grey500}
+  `,
+  flex: css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   `
 };

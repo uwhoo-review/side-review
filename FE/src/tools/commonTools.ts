@@ -132,3 +132,46 @@ export function getFilterParams(searchParams: any) {
 
   return filterList;
 }
+
+export function getByteLengthUTF(s: string) {
+  let b, i, c;
+  for (b = i = 0; (c = s.charCodeAt(i++)); b += c >> 11 ? 3 : c >> 7 ? 2 : 1);
+  return b;
+}
+
+export function getByteLength(s: string) {
+  let b, i, c;
+  for (b = i = 0; (c = s.charCodeAt(i++)); b += c >> 10 ? 2 : c >> 7 ? 2 : 1);
+  return b;
+}
+
+export function getMaxByteText(s: string, limit?: number) {
+  let totalByte = 0;
+  let str = "";
+  for (let i = 0; i < s.length; i++) {
+    const currentStr = s.charCodeAt(i);
+    let currentByte = 0;
+    if (currentStr > 128) {
+      currentByte = 2;
+    } else {
+      currentByte = 1;
+    }
+    if (limit) {
+      if (totalByte + currentByte === limit) {
+        str = s.slice(0, i + 1);
+        totalByte += currentByte;
+        break;
+      } else if (totalByte + currentByte > limit) {
+        str = s.slice(0, i);
+        break;
+      }
+    }
+    totalByte += currentByte;
+    str = s.slice(0, i + 1);
+  }
+
+  return {
+    byte: totalByte,
+    s: str,
+  };
+}
