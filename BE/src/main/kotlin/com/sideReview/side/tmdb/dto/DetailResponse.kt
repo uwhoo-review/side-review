@@ -20,12 +20,12 @@ data class DetailResponse(
     val number_of_seasons : Int?,
     val origin_country: List<String>,
     val original_language : String,
-    val original_name : String?,
+    val original_name : String,
     val overview : String?,
     val popularity : Float?,
     val poster_path : String?,
-    val production_companies : List<Map<String, Any>>?,
-    val production_countries : List<Map<String, String>>?,
+    val production_companies : List<ProductionCompany>?,
+    val production_countries : List<ProductionCounty>?,
     val seasons : List<Season>?,
     val spoken_languages : List<Map<String, String>>?,
     val status : String?,
@@ -63,4 +63,16 @@ data class Season(
 data class Genre(
     val id: Int,
     val name : String
+)
+
+data class ProductionCompany(
+    val id: Int,
+    val logo_path: String?,
+    val name: String,
+    val origin_country: String?
+)
+
+data class ProductionCounty(
+    val iso_3166_1: String,
+    val name: String
 )

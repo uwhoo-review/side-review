@@ -1,10 +1,10 @@
 package com.sideReview.side.openSearch.dto
 
-import com.sideReview.side.common.document.RoleInfo
-
 data class DetailContentDto(
     val id: String,
     val name: String,
+    val originalName: String? = null,
+    val originCountry: List<String>? = null,
     val platform: List<Int>?,
     val genre: List<Int>?,
     val firstAirDate: String? = null,
