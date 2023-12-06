@@ -29,7 +29,6 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         val pages: Int = 500
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page).results)
-            //if (dtoList.size == 40) break;
         }
         logger.info("[Discover] final: " + dtoList.size.toString())
         return MapperUtil.mapTmdbToDocument(dtoList)

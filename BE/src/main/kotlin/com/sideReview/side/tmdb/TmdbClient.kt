@@ -19,6 +19,7 @@ interface TmdbClient {
         @RequestParam("language") language: String = "ko-KR",
         @RequestParam("sort_by") sortBy: String = "popularity.desc", //popularity.desc or primary_release_date.desc
         @RequestParam("watch_region") watchRegion: String = "KR",
+        //@RequestParam("first_air_date_year") year : Int = 2022,
         //@RequestParam("with_original_language") withOriginalLanguage: String = "en"
     ): TmdbResponse
 

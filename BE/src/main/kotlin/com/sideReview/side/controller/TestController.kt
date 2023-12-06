@@ -16,7 +16,7 @@ class TestController (
 
     @GetMapping("/init/people")
     fun getPeople(): ResponseEntity<Any> {
-        //return ResponseEntity.ok(tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople()));
-        return ResponseEntity.ok(tmdbPersonService.creditToPerson())
+        return ResponseEntity.ok(tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople()));
+        //return ResponseEntity.ok(tmdbPersonService.creditToPerson())
     }
 }

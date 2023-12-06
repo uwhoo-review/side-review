@@ -22,6 +22,8 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
         val pages: Int = 500
         val dtoList: MutableList<PersonInfo> = mutableListOf()
 
+        dtoList.addAll(peopleResponse.results)
+
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllPeople("Bearer $accessKey", page).results)
             //if (page == 100) break;
