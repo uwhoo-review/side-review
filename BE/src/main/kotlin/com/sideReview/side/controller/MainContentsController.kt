@@ -29,11 +29,15 @@ class MainContentsController @Autowired constructor(
                 "main" -> {
                     response = ResponseEntity.ok(
                         MainContentDto(
-                            MapperUtil.parseToContentDto(
-                                openSearchGetService.get(request.tab, "popularity", request)
+                            ContentUtils.fill(
+                                MapperUtil.parseToContentDto(
+                                    openSearchGetService.get(request.tab, "popularity", request)
+                                )
                             ),
-                            MapperUtil.parseToContentDto(
-                                openSearchGetService.get(request.tab, "new", request)
+                            ContentUtils.fill(
+                                MapperUtil.parseToContentDto(
+                                    openSearchGetService.get(request.tab, "new", request)
+                                )
                             )
                         )
                     )
@@ -41,16 +45,20 @@ class MainContentsController @Autowired constructor(
 
                 "popularity" -> {
                     response = ResponseEntity.ok(
-                        MapperUtil.parseToContentDto(
-                            openSearchGetService.get(request.tab, "popularity", request)
+                        ContentUtils.fill(
+                            MapperUtil.parseToContentDto(
+                                openSearchGetService.get(request.tab, "popularity", request)
+                            )
                         )
                     )
                 }
 
                 "new" -> {
                     response = ResponseEntity.ok(
-                        MapperUtil.parseToContentDto(
-                            openSearchGetService.get(request.tab, "new", request)
+                        ContentUtils.fill(
+                            MapperUtil.parseToContentDto(
+                                openSearchGetService.get(request.tab, "new", request)
+                            )
                         )
                     )
                 }
@@ -58,24 +66,34 @@ class MainContentsController @Autowired constructor(
                 "search" -> {
                     if (request.query.isNullOrBlank()) {
                         response = ResponseEntity.ok(
-                            MapperUtil.parseToContentDto(
-                                openSearchGetService.get(request.tab, "popularity", request)
+                            ContentUtils.fill(
+                                MapperUtil.parseToContentDto(
+                                    openSearchGetService.get(request.tab, "popularity", request)
+                                )
                             )
                         )
                     } else {
                         response = ResponseEntity.ok(
                             SearchContentDto(
-                                MatchDto(
+                                match = MatchDto(
                                     content =
-                                    MapperUtil.parseToContentDto(
-                                        openSearchGetService.get("search", request.sort, request)
+                                    ContentUtils.fill(
+                                        MapperUtil.parseToContentDto(
+                                            openSearchGetService.get(
+                                                "search",
+                                                request.sort,
+                                                request
+                                            )
+                                        )
                                     ),
                                     person = MapperUtil.parseToPersonDto(
                                         personService.searchMatch(request.query)
                                     )
                                 ),
-                                MapperUtil.parseToContentDto(
-                                    openSearchGetService.search(request.sort, request)
+                                similar = ContentUtils.fill(
+                                    MapperUtil.parseToContentDto(
+                                        openSearchGetService.search(request.sort, request)
+                                    )
                                 )
                             )
                         )

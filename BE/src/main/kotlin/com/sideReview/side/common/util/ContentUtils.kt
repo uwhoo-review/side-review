@@ -19,7 +19,6 @@ object ContentUtils {
                 }
             }
         }
-        println(contents.toString())
         return contents
     }
 }
