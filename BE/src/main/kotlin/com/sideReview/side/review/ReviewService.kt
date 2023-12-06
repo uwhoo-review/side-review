@@ -1,5 +1,6 @@
 package com.sideReview.side.review
 
+import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.ReviewCreateDTO
 import com.sideReview.side.review.dto.ReviewDTO
 import com.sideReview.side.review.dto.ReviewDetailDTO
@@ -88,21 +89,59 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
     }
 
-    fun getReviews(id: String, mode: String, sort: String, spoiler: String) : ReviewDTO {
+    fun getReviews(id: String, mode: String, sort: String, spoiler: String): ReviewDTO {
         val userReviewList = mutableListOf<UserReview>()
         val sortedList = mutableListOf<UserReview>()
 
-        if (spoiler == "0") userReviewList.addAll(userReviewRepository.findByTargetIdAndSpoilerIs(id, spoiler))
+        if (spoiler == "0") userReviewList.addAll(
+            userReviewRepository.findByTargetIdAndSpoilerIs(
+                id,
+                spoiler
+            )
+        )
         else userReviewList.addAll(userReviewRepository.findByTargetId(id))
 
-        val total = if(mode == "all" || userReviewList.size < 6){userReviewList.size}else{6}
+        val total = if (mode == "all" || userReviewList.size < 6) {
+            userReviewList.size
+        } else {
+            6
+        }
 
-        if(sort == "best"){
-            sortedList.addAll(userReviewList.sortedWith(compareByDescending<UserReview> { it.like }.thenBy { it.dislike }).subList(0, total))
-        }else { //latest
-            sortedList.addAll(userReviewList.sortedWith(compareByDescending { it.create }).subList(0, total))
+        if (sort == "best") {
+            sortedList.addAll(
+                userReviewList.sortedWith(compareByDescending<UserReview> { it.like }.thenBy { it.dislike })
+                    .subList(0, total)
+            )
+        } else { //latest
+            sortedList.addAll(
+                userReviewList.sortedWith(compareByDescending { it.create }).subList(0, total)
+            )
         }
 
         return ReviewDTO(userReviewList.size, mapUserReviewToReviewDetailDTO(sortedList))
+    }
+
+    fun fillReview(targets: List<ContentDto>): List<ContentDto> {
+        val ids = targets.map { it.id }
+        val reviews =
+            userReviewRepository.findAllByTargetIdInAndSpoilerIsOrderByLikeDescDislikeAsc(ids, "1")
+
+        val reviewMap = mutableMapOf<String, MutableList<UserReview>>()
+        for (id in ids) reviewMap[id] = mutableListOf()
+        reviews.map { reviewMap[it.targetId]?.add(it) }
+        targets.map {
+            it.review = reviewMap[it.id]?.let { it1 ->
+                if (it1.size > 3)
+                    ReviewDTO(
+                        3,
+                        mapUserReviewToReviewDetailDTO(it1).subList(0, 3)
+                    )
+                else ReviewDTO(
+                    it1.size,
+                    mapUserReviewToReviewDetailDTO(it1)
+                )
+            }
+        }
+        return targets
     }
 }

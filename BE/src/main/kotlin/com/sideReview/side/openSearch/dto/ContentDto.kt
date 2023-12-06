@@ -6,6 +6,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.reflect.TypeToken
+import com.sideReview.side.review.dto.ReviewDTO
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -24,7 +25,8 @@ data class ContentDto(
     val rating: Double? = null,
     val actors: List<String>? = null,
     val age: Int? = null,
-    val season: List<String>? = null
+    val season: List<String>? = null,
+    var review: ReviewDTO? = null
 )
 
 class ContentDeserializer : JsonDeserializer<ContentDto> {
@@ -51,8 +53,6 @@ class ContentDeserializer : JsonDeserializer<ContentDto> {
         }
         val poster = jsonObject["poster"]?.asString
         val rating = jsonObject["rating"]?.asDouble
-        val actors = jsonObject[""]
-        val age = jsonObject[""]
         val season = gson.fromJson<List<String>>(jsonObject["season"], typeToken)
 
         return ContentDto(
@@ -67,7 +67,8 @@ class ContentDeserializer : JsonDeserializer<ContentDto> {
             poster = poster,
             actors = null,
             age = null,
-            season = season
+            season = season,
+            review = null
         )
     }
 

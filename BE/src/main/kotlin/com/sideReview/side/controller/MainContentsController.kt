@@ -5,6 +5,7 @@ import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.person.PersonService
+import com.sideReview.side.review.ReviewService
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class MainContentsController @Autowired constructor(
     private val openSearchGetService: OpenSearchGetService,
-    private val personService: PersonService
+    private val personService: PersonService,
+    private val reviewService: ReviewService
 ) {
 
     @PostMapping("/contents")
@@ -27,27 +29,36 @@ class MainContentsController @Autowired constructor(
         runBlocking {
             when (request.tab) {
                 "main" -> {
+                    val popular = reviewService.fillReview(
+                        ContentUtils.fill(
+                            MapperUtil.parseToContentDto(
+                                openSearchGetService.get(request.tab, "popularity", request)
+                            )
+                        )
+                    )
+
+                    val latest = reviewService.fillReview(
+                        ContentUtils.fill(
+                            MapperUtil.parseToContentDto(
+                                openSearchGetService.get(request.tab, "new", request)
+                            )
+                        )
+                    )
                     response = ResponseEntity.ok(
                         MainContentDto(
-                            ContentUtils.fill(
-                                MapperUtil.parseToContentDto(
-                                    openSearchGetService.get(request.tab, "popularity", request)
-                                )
-                            ),
-                            ContentUtils.fill(
-                                MapperUtil.parseToContentDto(
-                                    openSearchGetService.get(request.tab, "new", request)
-                                )
-                            )
+                            popular,
+                            latest
                         )
                     )
                 }
 
                 "popularity" -> {
                     response = ResponseEntity.ok(
-                        ContentUtils.fill(
-                            MapperUtil.parseToContentDto(
-                                openSearchGetService.get(request.tab, "popularity", request)
+                        reviewService.fillReview(
+                            ContentUtils.fill(
+                                MapperUtil.parseToContentDto(
+                                    openSearchGetService.get(request.tab, "popularity", request)
+                                )
                             )
                         )
                     )
@@ -55,9 +66,11 @@ class MainContentsController @Autowired constructor(
 
                 "new" -> {
                     response = ResponseEntity.ok(
-                        ContentUtils.fill(
-                            MapperUtil.parseToContentDto(
-                                openSearchGetService.get(request.tab, "new", request)
+                        reviewService.fillReview(
+                            ContentUtils.fill(
+                                MapperUtil.parseToContentDto(
+                                    openSearchGetService.get(request.tab, "new", request)
+                                )
                             )
                         )
                     )

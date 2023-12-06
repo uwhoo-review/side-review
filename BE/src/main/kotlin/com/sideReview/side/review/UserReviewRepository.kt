@@ -14,5 +14,5 @@ interface UserReviewRepository : CrudRepository<UserReview, String> {
     ): List<UserReview>
 
     fun findByTargetIdAndSpoilerIsOrderByCreate(id: String, spoiler: String): List<UserReview>
-
+    fun findAllByTargetIdInAndSpoilerIsOrderByLikeDescDislikeAsc(ids: List<String>, spoiler: String): List<UserReview>
 }

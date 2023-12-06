@@ -1,12 +1,14 @@
 package com.sideReview.side.review.dto
 
-import java.time.LocalDate
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ReviewDTO(
     val total: Int,
     val review: List<ReviewDetailDTO>
 )
 
+@Serializable
 data class ReviewDetailDTO(
     val id: String,
     val content: String,
