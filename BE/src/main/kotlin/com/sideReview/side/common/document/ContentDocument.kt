@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class ContentDocument(
     val id: String,
     val name: String,
+    val originalName: String,
     val sortingName: String,
     var platform: List<Int>? = null,
     var genre: List<Int>? = null,
@@ -23,6 +24,6 @@ data class ContentDocument(
 )
 @Serializable
 data class Product(
-    var company : List<String>,
-    var country : List<String>
+    var company : List<String>? = null,
+    var country : List<String>? = null
 )

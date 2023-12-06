@@ -22,6 +22,8 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
         val pages: Int = 500
         val dtoList: MutableList<PersonInfo> = mutableListOf()
 
+        dtoList.addAll(peopleResponse.results)
+
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllPeople("Bearer $accessKey", page).results)
             //if (page == 100) break;
@@ -31,7 +33,8 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
 
     fun getCreditInfo(personDocumentList: List<PersonDocument>): List<PersonDocument> {
         val contentResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1)
-        val pages: Int = contentResponse.total_pages
+        //tmdb 페이지 제한에 따라 최대 500으로 설정
+        val pages: Int = 500
         val contentIdList: MutableList<String> = mutableListOf()
         val personInfoMap = personDocumentList.associateBy { it.id }
 

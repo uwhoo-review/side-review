@@ -10,7 +10,7 @@ data class ReviewDTO(
 data class ReviewDetailDTO(
     val id: String,
     val content: String,
-    val date: LocalDate,
+    val date: String,
     val like: Int,
     val dislike: Int,
     val spoiler: Boolean

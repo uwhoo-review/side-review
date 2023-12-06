@@ -1,6 +1,7 @@
 package com.sideReview.side.tmdb
 
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.document.Product
 import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.common.util.MapperUtil.mapProviderStringToCode
 import com.sideReview.side.common.util.MapperUtil.mapSeasonTODefault
@@ -29,7 +30,6 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         val pages: Int = 500
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page).results)
-            //if (dtoList.size == 40) break;
         }
         logger.info("[Discover] final: " + dtoList.size.toString())
         return MapperUtil.mapTmdbToDocument(dtoList)
@@ -68,6 +68,8 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 doc.season = filterDetail(detailResponse)
                 seasonDocList.addAll(getSeasonContents(id, detailResponse))
                 doc.episodeCount = detailResponse.seasons?.get(0)?.episode_count
+                doc.production = Product(detailResponse.production_companies?.map { it.name },
+                    detailResponse.production_countries?.map { it.name })
             }catch (e : Exception){
                 logger.info("An error occurred during detail processing - $id")
             }
@@ -115,6 +117,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                     id = id + "_" + season.toString(),
                     sortingName = detailResponse.name,
                     name = detailResponse.name,
+                    originalName = detailResponse.original_name,
                     platform = provider,
                     genre = genreList,
                     rating = seasonInfo?.vote_average?.div(2),
@@ -126,7 +129,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                     avgStarRating = null,
                     season = null,
                     popularity = null,
-                    episodeCount = seasonInfo?.episode_count
+                    episodeCount = seasonInfo?.episode_count,
                 )
             )
         }

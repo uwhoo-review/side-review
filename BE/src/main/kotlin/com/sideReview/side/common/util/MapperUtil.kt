@@ -22,6 +22,7 @@ object MapperUtil {
                 id = it.id.toString(),
                 sortingName = it.name,
                 name = it.name,
+                originalName = it.original_name,
                 platform = null,
                 genre = it.genre_ids,
                 rating = it.vote_average/2,
@@ -31,7 +32,8 @@ object MapperUtil {
                 photo = null,
                 poster = it.poster_path?.substring(1),
                 avgStarRating = null,
-                popularity = it.popularity
+                popularity = it.popularity,
+                production = null
             )
         }
     }

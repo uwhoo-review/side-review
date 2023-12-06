@@ -35,6 +35,8 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
         return DetailContentDto(
             id = document.id,
             name = document.name,
+            originalName = document.originalName ?: "",
+            originCountry = document.production?.country ?: emptyList(),
             platform = document.platform,
             genre = document.genre,
             firstAirDate = document.firstAirDate,
@@ -42,10 +44,10 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
             trailer = document.trailer,
             photo = document.photo,
             poster = document.poster,
-            acting = null,
-            crew = null,
+            acting = emptyList(),
+            crew = emptyList(),
             rating = document.rating,
-            age = null,
+            age = 0,
             season = document.season
         )
     }
