@@ -21,7 +21,7 @@ class PersonController(val personService: PersonService) {
 
         runBlocking {
             response = ResponseEntity.ok(
-                MapperUtil.parseSearchResponseToT<PersonDto>(
+                MapperUtil.parseToPersonDto(
                     personService.get(
                         id
                     )

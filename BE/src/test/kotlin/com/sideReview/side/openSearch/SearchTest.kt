@@ -25,7 +25,7 @@ class SearchTest @Autowired constructor(val service: OpenSearchGetService) {
         runBlocking {
             println("***************** result **************")
 
-            println(MapperUtil.parseSearchResponseToT<ContentDto>(service.get("", "", null)))
+            println(MapperUtil.parseToContentDto(service.get("", "", null)))
 
         }
     }

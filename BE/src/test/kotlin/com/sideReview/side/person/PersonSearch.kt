@@ -15,7 +15,7 @@ class PersonSearch @Autowired constructor(val personService: PersonService) {
     @Test
     fun get() {
         runBlocking {
-            println(MapperUtil.parseSearchResponseToT<PersonDto>(personService.get("78798")))
+            println(MapperUtil.parseToContentDto(personService.get("78798")))
         }
     }
 }

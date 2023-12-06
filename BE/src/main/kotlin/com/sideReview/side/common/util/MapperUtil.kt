@@ -7,6 +7,8 @@ import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.openSearch.dto.ContentDto
+import com.sideReview.side.person.dto.PersonDto
 import com.sideReview.side.tmdb.dto.ImageResponse
 import com.sideReview.side.tmdb.dto.PersonInfo
 import com.sideReview.side.tmdb.dto.SeasonImageResponse
@@ -74,10 +76,29 @@ object MapperUtil {
         }
     }
 
-    fun <T> parseSearchResponseToT(response: SearchResponse): List<T> {
-        val mutableList: MutableList<T> = mutableListOf();
+    fun parseToContentDto(response: SearchResponse): List<ContentDto> {
+        val mutableList: MutableList<ContentDto> = mutableListOf();
         val hits = response.hits
-        val collectionType: Type = object : TypeToken<T>() {}.type
+        val collectionType: Type = object : TypeToken<ContentDto>() {}.type
+        if (hits != null) {
+            for (data in hits.hits) {
+                if (data.source != null) {
+                    mutableList.add(
+                        Gson().fromJson(
+                            data.source.toString(),
+                            collectionType
+                        )
+                    )
+                }
+            }
+        }
+        return mutableList.toList()
+    }
+
+    fun parseToPersonDto(response: SearchResponse): List<PersonDto> {
+        val mutableList: MutableList<PersonDto> = mutableListOf();
+        val hits = response.hits
+        val collectionType: Type = object : TypeToken<PersonDto>() {}.type
         if (hits != null) {
             for (data in hits.hits) {
                 if (data.source != null) {

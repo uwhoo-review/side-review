@@ -1,10 +1,10 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.util.ContentUtils
 import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.person.PersonService
-import com.sideReview.side.person.dto.PersonDto
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -29,10 +29,10 @@ class MainContentsController @Autowired constructor(
                 "main" -> {
                     response = ResponseEntity.ok(
                         MainContentDto(
-                            MapperUtil.parseSearchResponseToT<ContentDto>(
+                            MapperUtil.parseToContentDto(
                                 openSearchGetService.get(request.tab, "popularity", request)
                             ),
-                            MapperUtil.parseSearchResponseToT<ContentDto>(
+                            MapperUtil.parseToContentDto(
                                 openSearchGetService.get(request.tab, "new", request)
                             )
                         )
@@ -41,7 +41,7 @@ class MainContentsController @Autowired constructor(
 
                 "popularity" -> {
                     response = ResponseEntity.ok(
-                        MapperUtil.parseSearchResponseToT<ContentDto>(
+                        MapperUtil.parseToContentDto(
                             openSearchGetService.get(request.tab, "popularity", request)
                         )
                     )
@@ -49,7 +49,7 @@ class MainContentsController @Autowired constructor(
 
                 "new" -> {
                     response = ResponseEntity.ok(
-                        MapperUtil.parseSearchResponseToT<ContentDto>(
+                        MapperUtil.parseToContentDto(
                             openSearchGetService.get(request.tab, "new", request)
                         )
                     )
@@ -58,7 +58,7 @@ class MainContentsController @Autowired constructor(
                 "search" -> {
                     if (request.query.isNullOrBlank()) {
                         response = ResponseEntity.ok(
-                            MapperUtil.parseSearchResponseToT<ContentDto>(
+                            MapperUtil.parseToContentDto(
                                 openSearchGetService.get(request.tab, "popularity", request)
                             )
                         )
@@ -67,14 +67,14 @@ class MainContentsController @Autowired constructor(
                             SearchContentDto(
                                 MatchDto(
                                     content =
-                                    MapperUtil.parseSearchResponseToT<ContentDto>(
+                                    MapperUtil.parseToContentDto(
                                         openSearchGetService.get("search", request.sort, request)
                                     ),
-                                    person = MapperUtil.parseSearchResponseToT<PersonDto>(
+                                    person = MapperUtil.parseToPersonDto(
                                         personService.searchMatch(request.query)
                                     )
                                 ),
-                                MapperUtil.parseSearchResponseToT<ContentDto>(
+                                MapperUtil.parseToContentDto(
                                     openSearchGetService.search(request.sort, request)
                                 )
                             )
