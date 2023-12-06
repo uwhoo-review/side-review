@@ -91,10 +91,8 @@ class MainContentsController @Autowired constructor(
         runBlocking {
             if (request.query.isNullOrBlank()) {
                 response = ResponseEntity.ok(
-                    ContentUtils.fill(
-                        MapperUtil.parseToContentDto(
-                            openSearchGetService.get("search", "popularity", request)
-                        )
+                    MapperUtil.parseToSimpleContentDto(
+                        openSearchGetService.get("search", request.sort, request)
                     )
                 )
             } else {
