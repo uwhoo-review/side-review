@@ -12,16 +12,18 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@RequestMapping("/contents")
 class MainContentsController @Autowired constructor(
     private val openSearchGetService: OpenSearchGetService,
     private val personService: PersonService,
     private val reviewService: ReviewService
 ) {
 
-    @PostMapping("/contents")
+    @PostMapping("")
     fun getContents(
         @RequestBody request: ContentRequestDTO
     ): ResponseEntity<Any> {
@@ -75,43 +77,48 @@ class MainContentsController @Autowired constructor(
                         )
                     )
                 }
+            }
+        }
+        return response
+    }
 
-                "search" -> {
-                    if (request.query.isNullOrBlank()) {
-                        response = ResponseEntity.ok(
-                            ContentUtils.fill(
-                                MapperUtil.parseToContentDto(
-                                    openSearchGetService.get(request.tab, "popularity", request)
-                                )
-                            )
+
+    @PostMapping("/search")
+    fun searchContents(
+        @RequestBody request: ContentRequestDTO
+    ): ResponseEntity<Any> {
+        var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
+        runBlocking {
+            if (request.query.isNullOrBlank()) {
+                response = ResponseEntity.ok(
+                    ContentUtils.fill(
+                        MapperUtil.parseToContentDto(
+                            openSearchGetService.get("search", "popularity", request)
                         )
-                    } else {
-                        response = ResponseEntity.ok(
-                            SearchContentDto(
-                                match = MatchDto(
-                                    content =
-                                    ContentUtils.fill(
-                                        MapperUtil.parseToContentDto(
-                                            openSearchGetService.get(
-                                                "search",
-                                                request.sort,
-                                                request
-                                            )
-                                        )
-                                    ),
-                                    person = MapperUtil.parseToPersonDto(
-                                        personService.searchMatch(request.query)
-                                    )
-                                ),
-                                similar = ContentUtils.fill(
-                                    MapperUtil.parseToContentDto(
-                                        openSearchGetService.search(request.sort, request)
-                                    )
+                    )
+                )
+            } else {
+                response = ResponseEntity.ok(
+                    SearchContentDto(
+                        match = MatchDto(
+                            content =
+                            MapperUtil.parseToSimpleContentDto(
+                                openSearchGetService.get(
+                                    "search",
+                                    request.sort,
+                                    request
                                 )
+                            ),
+                            person = MapperUtil.parseToPersonDto(
+                                personService.searchMatch(request.query)
                             )
+                        ),
+                        similar =
+                        MapperUtil.parseToSimpleContentDto(
+                            openSearchGetService.search(request.sort, request)
                         )
-                    }
-                }
+                    )
+                )
             }
         }
         return response

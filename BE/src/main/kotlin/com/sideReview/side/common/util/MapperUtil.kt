@@ -8,6 +8,7 @@ import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.openSearch.dto.ContentDto
+import com.sideReview.side.openSearch.dto.SimpleContentDto
 import com.sideReview.side.person.dto.PersonDto
 import com.sideReview.side.tmdb.dto.ImageResponse
 import com.sideReview.side.tmdb.dto.PersonInfo
@@ -101,6 +102,25 @@ object MapperUtil {
         val mutableList: MutableList<PersonDto> = mutableListOf();
         val hits = response.hits
         val collectionType: Type = object : TypeToken<PersonDto>() {}.type
+        if (hits != null) {
+            for (data in hits.hits) {
+                if (data.source != null) {
+                    mutableList.add(
+                        Gson().fromJson(
+                            data.source.toString(),
+                            collectionType
+                        )
+                    )
+                }
+            }
+        }
+        return mutableList.toList()
+    }
+
+    fun parseToSimpleContentDto(response: SearchResponse): List<SimpleContentDto> {
+        val mutableList: MutableList<SimpleContentDto> = mutableListOf();
+        val hits = response.hits
+        val collectionType: Type = object : TypeToken<SimpleContentDto>() {}.type
         if (hits != null) {
             for (data in hits.hits) {
                 if (data.source != null) {

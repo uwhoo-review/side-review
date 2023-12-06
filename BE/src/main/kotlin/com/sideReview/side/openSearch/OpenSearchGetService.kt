@@ -26,7 +26,12 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             // sort 따라 정렬 기준 설정
             // sort가 있으면 항상 score가 나오지 않음.
             sort {
-                getSortFromRequest(sort)
+                when (sort) {
+                    "popularity" -> add("popularity", SortOrder.DESC)
+                    "new" -> add("firstAirDate", SortOrder.DESC)
+                    "name" -> add("sortingName", SortOrder.ASC)
+                    "rating" -> add("rating", SortOrder.DESC)
+                }
             }
 
             if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
@@ -52,7 +57,12 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             // sort 따라 정렬 기준 설정
             // sort가 있으면 항상 score가 나오지 않음.
             sort {
-                getSortFromRequest(sort)
+                when (sort) {
+                    "popularity" -> add("popularity", SortOrder.DESC)
+                    "new" -> add("firstAirDate", SortOrder.DESC)
+                    "name" -> add("sortingName", SortOrder.ASC)
+                    "rating" -> add("rating", SortOrder.DESC)
+                }
             }
 
             if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
@@ -74,17 +84,6 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             }
         }
         return search
-    }
-
-    private fun SearchDSL.getSortFromRequest(sort: String?) {
-        return sort {
-            when (sort) {
-                "popularity" -> add("popularity", SortOrder.DESC)
-                "new" -> add("firstAirDate", SortOrder.DESC)
-                "name" -> add("sortingName", SortOrder.ASC)
-                "rating" -> add("rating", SortOrder.DESC)
-            }
-        }
     }
 
     private fun getFilterFromRequest(request: ContentRequestDTO?): MutableList<ESQuery> {
