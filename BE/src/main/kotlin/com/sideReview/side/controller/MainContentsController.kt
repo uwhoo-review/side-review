@@ -90,9 +90,10 @@ class MainContentsController @Autowired constructor(
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         runBlocking {
             if (request.query.isNullOrBlank()) {
+                val sort = if (request.sort.isNullOrBlank()) "popularity" else request.sort
                 response = ResponseEntity.ok(
                     MapperUtil.parseToSimpleContentDto(
-                        openSearchGetService.get("search", request.sort, request)
+                        openSearchGetService.get("search", sort, request)
                     )
                 )
             } else {
