@@ -9,5 +9,5 @@ export default {
   contents: css`
     padding-top: 52px;
     overflow: hidden;
-  `
+  `,
 };

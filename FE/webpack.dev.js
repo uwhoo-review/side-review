@@ -82,7 +82,7 @@ module.exports = merge(common, {
   plugins: [new ReactRefreshWebpackPlugin(), new ForkTsCheckerWebpackPlugin()],
   devServer: {
     historyApiFallback: true,
-    port: 3500,
+    port: 3000,
     hot: true,
   },
 });

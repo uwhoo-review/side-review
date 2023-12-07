@@ -37,7 +37,8 @@ const RatingDetailBox = ({ item }: any) => {
               평균 별점
             </HWTypography>
             <div className={"margin-top-12 flex flex-align-center gap-10"}>
-              <Rating
+              <IconStar css={styled.star} />
+              {/*<Rating
                 name="rating-value"
                 value={item.rating}
                 max={5}
@@ -47,13 +48,13 @@ const RatingDetailBox = ({ item }: any) => {
                 icon={<IconStar />}
                 readOnly={true}
                 // getLabelText={(value) => value.toString()}
-              />
+              />*/}
               <HWTypography
                 variant={"headlineXXS"}
                 family={"Pretendard-SemiBold"}
                 color={Color.dark.grey900}
               >
-                {rating}
+                {item.rating}
               </HWTypography>
               <Divider direction={"v"} length={"14px"} />
               <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>

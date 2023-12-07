@@ -7,6 +7,8 @@ export default {
     object-fit: cover;
     transition: all 0.15s linear;
 
+    border-radius: 10px;
+
     /*이미지 드래그 방지*/
     -webkit-user-drag: none;
     -khtml-user-drag: none;

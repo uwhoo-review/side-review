@@ -19,7 +19,7 @@ const SearchResultTemplate = () => {
   const { status, data, error } = useQuery({
     queryKey: ["list", "search", filter, search, sort],
     queryFn: async () => {
-      return await UWAxios.sample.getSample({
+      return await UWAxios.contents.getSearch({
         tab: CONTENTS_TABS.SEARCH,
         filter: [...filter],
         query: search,

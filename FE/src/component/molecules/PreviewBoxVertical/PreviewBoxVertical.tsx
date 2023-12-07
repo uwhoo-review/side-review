@@ -72,7 +72,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                 color={Color.dark.grey500}
                 css={styled.typoYear}
               >
-                {new Date(item.firstAirDate).getFullYear()}
+                {item.year}
               </HWTypography>
               <HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />
             </div>

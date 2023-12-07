@@ -13,6 +13,8 @@ export interface ContentProps {
   sortingName: string;
   synopsis: string;
   trailer: string[];
+  year: string;
+  review: any;
 }
 
 export interface ContentsDO {

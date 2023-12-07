@@ -24,7 +24,7 @@ import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
-import {GENRE_ID_NAME} from "@src/variables/CommonConstants";
+import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
 
 interface PreviewBoxProps {
   item: ContentProps;
@@ -79,7 +79,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     color={Color.dark.grey500}
                     css={styled.typoYear}
                   >
-                    {new Date(item.firstAirDate).getFullYear()}
+                    {item.year}
                   </HWTypography>
                   {/*<HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />*/}
                 </div>
@@ -149,7 +149,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                         family={"Pretendard"}
                         color={Color.dark.grey500}
                       >
-                        {item.genre.map((v => GENRE_ID_NAME[v])).join(", ")}
+                        {item.genre.map((v) => GENRE_ID_NAME[v]).join(", ")}
                       </HWTypography>
                     </div>
                   </div>
@@ -198,6 +198,13 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
               </div>
             </div>
             <div css={styled.bottomContents}>
+              {item?.review.review.map((v: any) => {
+                return (
+                  <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
+                    v
+                  </ReviewCard>
+                );
+              })}
               <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
                 초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온
                 부모들이 시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물.
@@ -205,12 +212,13 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                 부모들이 시대와 세대를 넘어 닥치는 거
                 블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
               </ReviewCard>
+              {/*
               <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
                 asd
               </ReviewCard>
               <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
                 asd
-              </ReviewCard>
+              </ReviewCard>*/}
             </div>
           </div>
           {/*<div css={styled.rightWrapper}>

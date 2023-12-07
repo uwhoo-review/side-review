@@ -20,6 +20,10 @@ export const UWAxios = {
       const res = await axiosBaseInstance.get<any>(`contents/${id}`);
       return res.data;
     },
+    async getSearch(data: any) {
+      const res = await axiosBaseInstance.post<any>(`contents/search`, data);
+      return res.data;
+    },
   },
   review: {
     async createReview(data: createReviewAPI) {

@@ -36,4 +36,7 @@ export default {
       flex-shrink: 0;
     }
   `,
+  star: css`
+    font-size: 30px;
+  `
 };

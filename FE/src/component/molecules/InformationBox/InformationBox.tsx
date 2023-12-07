@@ -31,12 +31,12 @@ const InformationBox = ({ item }: any) => {
               <div className="grid margin-top-16">
                 <div className="col-full">
                   <HWTypography variant={"bodyM"} family={"Poppins"} color={Color.dark.grey800}>
-                    {item.name}
+                    {item.originalName}
                   </HWTypography>
                 </div>
                 <div className="col-full">
                   <HWTypography variant={"bodyM"} family={"Poppins"} color={Color.dark.grey800}>
-                    2023 ∙ Disney+ ∙ 한국
+                    {`${new Date(item.firstAirDate).getFullYear()} ∙ ??? ∙ ${item?.originCountry[0]}`}
                   </HWTypography>
                 </div>
               </div>
