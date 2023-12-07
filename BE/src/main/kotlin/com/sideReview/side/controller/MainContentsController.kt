@@ -10,10 +10,7 @@ import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/contents")
@@ -89,6 +86,7 @@ class MainContentsController @Autowired constructor(
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         runBlocking {
+            // 정렬 & 필터만 있을 경우
             if (request.query.isNullOrBlank()) {
                 val sort = if (request.sort.isNullOrBlank()) "popularity" else request.sort
                 response = ResponseEntity.ok(
@@ -121,5 +119,37 @@ class MainContentsController @Autowired constructor(
             }
         }
         return response
+    }
+
+    @PostMapping("/search/count")
+    fun searchContentsCnt(
+        @RequestBody request: ContentRequestDTO
+    ): ResponseEntity<Any> {
+        var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
+        runBlocking {
+            // 정렬 & 필터만 있을 경우
+            if (request.query.isNullOrBlank()) {
+                response =
+                    ResponseEntity.ok(openSearchGetService.count("get", request))
+            } else {
+                response =
+                    ResponseEntity.ok(
+                        SearchContentCountDto(
+                            match = MatchCountDto(
+                                content = openSearchGetService.count(
+                                    "get",
+                                    request
+                                ),
+                                person = personService.searchMatchCount(request.query)
+                            ),
+                            similar = openSearchGetService.count(
+                                "search",
+                                request
+                            )
+                        )
+                    )
+            }
+        }
+        return response;
     }
 }

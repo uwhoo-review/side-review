@@ -2,6 +2,7 @@ package com.sideReview.side.person
 
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
+import com.jillesvangurp.ktsearch.count
 import com.jillesvangurp.ktsearch.search
 import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
@@ -23,6 +24,12 @@ class PersonService @Autowired constructor(val client: SearchClient) {
         return client.search("person") {
             query = match(PersonDocument::name, name)
         }
+    }
+
+    suspend fun searchMatchCount(name: String): Int {
+        return client.count("person") {
+            query = match(PersonDocument::name, name)
+        }.count.toInt()
     }
 
     suspend fun searchMatchPhrase(name: String): SearchResponse {

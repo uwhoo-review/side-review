@@ -2,6 +2,7 @@ package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
+import com.jillesvangurp.ktsearch.count
 import com.jillesvangurp.ktsearch.search
 import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.openSearch.dto.ContentRequestDTO
@@ -16,15 +17,59 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         val filterList = getFilterFromRequest(request)
 
         // client 요청 전송
-        val search = client.search("content") {
-            // tab 따라 max 설정
-            resultSize = when (tab) {
-                "main" -> 20
-                else -> 100
+        return client.search(
+            "content", block = createGetBlock(tab, sort, request, filterList)
+        )
+    }
+
+    suspend fun search(sort: String?, request: ContentRequestDTO?): SearchResponse {
+        val filterList = getFilterFromRequest(request)
+
+        // client 요청 전송
+        return client.search(
+            "content",
+            block = createSearchBlock("search", sort, request, filterList)
+        )
+    }
+
+    suspend fun count(type: String, request: ContentRequestDTO): Int {
+        val filterList = getFilterFromRequest(request)
+        return when (type) {
+            "get" -> {
+                val search = client.count(
+                    "content",
+                    block = createGetBlock("count", null, request, filterList)
+                )
+                search.count.toInt()
             }
 
-            // sort 따라 정렬 기준 설정
-            // sort가 있으면 항상 score가 나오지 않음.
+            "search" -> {
+                val search = client.count(
+                    "content",
+                    block = createSearchBlock("count", null, request, filterList)
+                )
+                search.count.toInt()
+            }
+
+            else -> 0
+        };
+    }
+
+    private fun createGetBlock(
+        tab: String,
+        sort: String?,
+        request: ContentRequestDTO?,
+        filterList: MutableList<ESQuery>
+    ): SearchDSL.() -> Unit = {
+        // tab 따라 max 설정
+        when (tab) {
+            "main" -> resultSize = 20
+            "popularity", "new", "search" -> resultSize = 100
+        }
+
+        // sort 따라 정렬 기준 설정
+        // sort가 있으면 항상 score가 나오지 않음.
+        if (!sort.isNullOrBlank()) {
             sort {
                 when (sort) {
                     "popularity" -> add("popularity", SortOrder.DESC)
@@ -33,8 +78,11 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
                     "rating" -> add("rating", SortOrder.DESC)
                 }
             }
+        }
 
-            if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
+        if (request != null) {
+            // filter와 query검색
+            if (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty()) {
                 query = bool {
                     if (request.filter != null) filter(filterList)
                     if (!request.query.isNullOrBlank()) {
@@ -42,20 +90,28 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
                     }
                 }
             }
+
+            // pagination search_after
+            if (request.pagination != null) {
+                from = request.pagination
+            }
         }
-        return search
     }
 
-    suspend fun search(sort: String?, request: ContentRequestDTO?): SearchResponse {
-        val filterList = getFilterFromRequest(request)
+    private fun createSearchBlock(
+        tab: String,
+        sort: String?,
+        request: ContentRequestDTO?,
+        filterList: MutableList<ESQuery>,
+    ): SearchDSL.() -> Unit = {
+        // tab 따라 max 설정
+        when (tab) {
+            "search" -> resultSize = 100
+        }
 
-        // client 요청 전송
-        val search = client.search("content") {
-            // tab 따라 max 설정
-            resultSize = 100
-
-            // sort 따라 정렬 기준 설정
-            // sort가 있으면 항상 score가 나오지 않음.
+        // sort 따라 정렬 기준 설정
+        // sort가 있으면 항상 score가 나오지 않음.
+        if (!sort.isNullOrBlank()) {
             sort {
                 when (sort) {
                     "popularity" -> add("popularity", SortOrder.DESC)
@@ -64,8 +120,11 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
                     "rating" -> add("rating", SortOrder.DESC)
                 }
             }
+        }
 
-            if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
+        if (request != null) {
+            // filter와 query검색
+            if (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty()) {
                 query = bool {
                     if (filterList.isNotEmpty()) filter(filterList)
                     if (!request.query.isNullOrBlank()) {
@@ -82,8 +141,12 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
                     }
                 }
             }
+
+            // pagination
+            if (request.pagination != null) {
+                from = request.pagination
+            }
         }
-        return search
     }
 
     private fun getFilterFromRequest(request: ContentRequestDTO?): MutableList<ESQuery> {

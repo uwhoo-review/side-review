@@ -10,6 +10,16 @@ import com.sideReview.side.person.dto.PersonDto
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
+data class SearchContentCountDto(
+    val match: MatchCountDto,
+    val similar: Int
+)
+
+data class MatchCountDto(
+    val content: Int,
+    val person: Int
+)
+
 @Serializable
 data class SearchContentDto(
     val match: MatchDto,
