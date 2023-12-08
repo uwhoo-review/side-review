@@ -5,6 +5,7 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
+import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 
 const MainTemplate = () => {
   const queryClient = useQueryClient();
@@ -20,14 +21,14 @@ const MainTemplate = () => {
 
   return (
     <>
-      <section css={styled.wrapper}>
-        {status === "pending" && <LoadingDot />}
-        {status === "success" && (
+      {status === "pending" && <LoadingGrid />}
+      {status === "success" && (
+        <section css={styled.wrapper}>
           <div css={styled.contents}>
             <MainContent data={data} />
           </div>
-        )}
-      </section>
+        </section>
+      )}
     </>
   );
 };

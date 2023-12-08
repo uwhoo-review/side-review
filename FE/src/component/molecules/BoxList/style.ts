@@ -4,6 +4,14 @@ export default {
   wrapper: css`
     margin-bottom: 70px;
   `,
+  emptyWrapper: css`
+    height: 314px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+  `,
   title: css`
     font-family: Pretendard, sans-serif;
     font-size: 32px;

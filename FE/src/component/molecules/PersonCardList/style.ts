@@ -34,7 +34,14 @@ export default {
     padding: 50px 118px;
     //gap: 20px;
   `,
-
+  emptyWrapper: css`
+    height: 314px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+  `,
   slider: css`
     position: relative;
     overflow: hidden;

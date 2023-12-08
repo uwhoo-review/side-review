@@ -5,6 +5,8 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
+import MainContent from "@src/component/organisms/MainGrid/Contents/MainContent";
 
 const DetailTemplate = () => {
   const [searchParams] = useSearchParams();
@@ -19,9 +21,12 @@ const DetailTemplate = () => {
 
   return (
     <>
-      <section className="detail-template-wrapper" css={styled.wrapper}>
-        {status === "success" && <DetailGrid data={data} />}
-      </section>
+      {status === "pending" && <LoadingGrid />}
+      {status === "success" && (
+        <section className="detail-template-wrapper" css={styled.wrapper}>
+          {status === "success" && <DetailGrid data={data} />}
+        </section>
+      )}
     </>
   );
 };

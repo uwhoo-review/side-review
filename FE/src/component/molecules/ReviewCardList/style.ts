@@ -28,6 +28,14 @@ export default {
     grid-template-columns: repeat(1, 1fr);
     gap: 30px;
   `,
+  emptyWrapper: css`
+    height: 314px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+  `,
   grid: css``,
   contentWrapper: css`
     display: grid;

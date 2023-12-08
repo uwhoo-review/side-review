@@ -89,6 +89,7 @@ export function getCardURL({
   size?: string;
   autoplay?: boolean;
 }) {
+  if(srcId === "") return "";
   const id = srcId?.replaceAll(/^\/|.jpg$/gi, "");
   let res = "";
   if (type === "content") {

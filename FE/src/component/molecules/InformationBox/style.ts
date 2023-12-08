@@ -36,10 +36,14 @@ export default {
     display: flex;
     align-items: center;
     gap: 78px;
-    //justify-content: space-between;
+    justify-content: space-between;
     //z-index: 1;
   `,
+  leftBox: css`
+    flex: 0 0 276px;
+  `,
   rightBox: css`
+    flex: 1;
     .grid {
       row-gap: 8px;
     }
@@ -63,5 +67,4 @@ export default {
     bottom: 30px;
     right: 0;
   `,
-
 };

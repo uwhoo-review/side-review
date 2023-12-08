@@ -10,6 +10,8 @@ import { useCommon } from "@src/providers/CommonProvider";
 import { getFilterParams, isNullOrEmpty } from "@src/tools/commonTools";
 import FilterResultContents from "@src/component/organisms/SearchResultGrid/Contents/FilterResultContent";
 import ResultHeader from "@src/component/organisms/SearchResultGrid/Header/ResultHeader";
+import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
+import MainContent from "@src/component/organisms/MainGrid/Contents/MainContent";
 
 const SearchResultTemplate = () => {
   const [searchParams] = useSearchParams();
@@ -33,23 +35,21 @@ const SearchResultTemplate = () => {
 
   return (
     <>
-      <div className="detail-template-wrapper" css={styled.wrapper}>
-        {status === "pending" && <LoadingDot />}
-        {status === "success" && (
-          <>
-            <ResultHeader data={data} />
-            {isNullOrEmpty(search) ? (
-              <>
-                <FilterResultContents data={data} />
-              </>
-            ) : (
-              <>
-                <SearchResultContent data={data} />
-              </>
-            )}
-          </>
-        )}
-      </div>
+      {status === "pending" && <LoadingGrid />}
+      {status === "success" && (
+        <section className="detail-template-wrapper" css={styled.wrapper}>
+          <ResultHeader data={data} />
+          {isNullOrEmpty(search) ? (
+            <>
+              <FilterResultContents data={data} />
+            </>
+          ) : (
+            <>
+              <SearchResultContent data={data} />
+            </>
+          )}
+        </section>
+      )}
     </>
   );
 };

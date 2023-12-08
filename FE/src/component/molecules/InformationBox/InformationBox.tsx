@@ -20,7 +20,7 @@ const InformationBox = ({ item }: any) => {
     <div className={"information-box-wrapper"} css={[styled.wrapper(photoURL)]}>
       <CenterWrapper customCss={styled.centerWrapper}>
         <div css={styled.subWrapper}>
-          <div>
+          <div css={styled.leftBox}>
             <DefaultImage src={posterURL} width={"276px"} height={"414px"} />
           </div>
           <div className={"grid"} css={styled.rightBox}>

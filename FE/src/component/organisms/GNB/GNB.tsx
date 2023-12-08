@@ -51,7 +51,9 @@ const GNB = (props: { children?: React.ReactNode }) => {
     <>
       <header
         css={styled.wrapper(
-          scrollTop && !commonContext.isFilterOpen && pathname === "/detail" ? "transparent" : "#232323",
+          scrollTop && !commonContext.isFilterOpen && pathname === "/detail"
+            ? "transparent"
+            : "#232323",
           scrollTop
         )}
       >
@@ -62,7 +64,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </div>
           </div>
           <div css={styled.centerGroups}>
-            <NavLink to={"/"} className={({ isActive }) => (isActive ? "active" : "")}>
+            <NavLink to={"/home"} className={({ isActive }) => (isActive ? "active" : "")}>
               <button>Home</button>
             </NavLink>
             <NavLink to={"/popular"}>
@@ -85,16 +87,19 @@ const GNB = (props: { children?: React.ReactNode }) => {
             >
               <IconSearch />
             </HWIconButton>
-            {/*            <HWButton variant={"lower"} size={"small"}>
+            <HWButton variant={"lower"} size={"small"}>
               로그인
             </HWButton>
             <HWButton variant={"primary"} size={"small"}>
               회원가입
-            </HWButton>*/}
+            </HWButton>
           </div>
         </div>
       </header>
-      <div className={`search-wrapper ${commonContext.isFilterOpen && "open"}`} css={styled.searchWrapper}>
+      <div
+        className={`search-wrapper ${commonContext.isFilterOpen && "open"}`}
+        css={styled.searchWrapper}
+      >
         <CenterWrapper customCss={styled.searchGrid}>
           <div>
             <SearchBar />

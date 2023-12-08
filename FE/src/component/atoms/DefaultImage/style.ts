@@ -16,4 +16,13 @@ export default {
     -o-user-drag: none;
     user-drag: none;
   `,
+  emptyWrapper: (width: string, height: string) => css`
+    width: ${width};
+    height: ${height};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+  `,
 };

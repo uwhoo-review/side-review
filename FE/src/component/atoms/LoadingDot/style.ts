@@ -5,7 +5,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100%;
+    height: 100%;
 
     @keyframes bouncing-loader {
       to {

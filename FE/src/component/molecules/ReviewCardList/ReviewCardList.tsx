@@ -52,7 +52,18 @@ const ReviewCardList = ({ total = false, list }: any) => {
             </HWTypography>
           </div>
         </div>
-        {total ? (
+        {list.length === 0 && (
+          <div css={styled.emptyWrapper}>
+            <HWTypography
+              variant={"bodyL"}
+              family={"Pretendard-SemiBold"}
+              color={Color.dark.grey500}
+            >
+              이 작품에 작성된 리뷰가 없습니다.
+            </HWTypography>
+          </div>
+        )}
+        {list.length !== 0 && total ? (
           <div css={styled.contentTotalWrapper}>
             <ReviewCard
               date={"2023.02.29"}
