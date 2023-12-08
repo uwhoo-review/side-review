@@ -3,8 +3,8 @@ package com.sideReview.side.controller
 import com.sideReview.side.review.ClientUtils
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDTO
-import com.sideReview.side.review.dto.ReviewDTO
 import com.sideReview.side.review.dto.ReviewEvaDTO
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -13,17 +13,6 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("/review")
 class ReviewController(val reviewService: ReviewService) {
-
-    @GetMapping("")
-    fun get(
-        @RequestParam id: String,
-        @RequestParam(required = false) sort: String?,
-        @RequestParam(required = false) spoiler: Boolean?
-    ): ResponseEntity<ReviewDTO> {
-        val s = spoiler ?: false
-        return ResponseEntity.ok(reviewService.get(id, sort, s))
-    }
-
     @PostMapping("")
     fun create(
         @RequestBody body: ReviewCreateDTO,
@@ -43,9 +32,12 @@ class ReviewController(val reviewService: ReviewService) {
     }
     @GetMapping("/{id}")
     fun getAll(@PathVariable id : String,
-               @RequestParam(required = false, defaultValue = "latest")  sort : String,
-               @RequestParam(required = false, defaultValue = "some") mode : String,
-               @RequestParam(required = false, defaultValue = "0") spoiler : String): ResponseEntity<ReviewDTO>{
-        return ResponseEntity.ok(reviewService.getReviews(id, mode, sort, spoiler))
+               @RequestParam(required = false, defaultValue = "best") sort : String,
+               @RequestParam(required = false, defaultValue = "0") spoiler : String,
+               @RequestParam(required = false, defaultValue = "0") page : String,
+               @RequestParam(required = false, defaultValue = "6") size : String
+    ): ResponseEntity<Any>{
+        val pageable = PageRequest.of(page.toInt(), size.toInt())
+        return ResponseEntity.ok(reviewService.getReviewsByTargetId(id, sort, spoiler, pageable))
     }
 }

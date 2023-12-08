@@ -10,6 +10,8 @@ import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.SimpleContentDto
 import com.sideReview.side.person.dto.PersonDto
+import com.sideReview.side.review.dto.ReviewDetailDTO
+import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.tmdb.dto.ImageResponse
 import com.sideReview.side.tmdb.dto.PersonInfo
 import com.sideReview.side.tmdb.dto.SeasonImageResponse
@@ -135,4 +137,21 @@ object MapperUtil {
         }
         return mutableList.toList()
     }
+    fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
+        val details = mutableListOf<ReviewDetailDTO>()
+        for (r in review) {
+            details.add(
+                ReviewDetailDTO(
+                    id = r.reviewId,
+                    content = r.content,
+                    date = r.create.toString(),
+                    like = r.like,
+                    dislike = r.dislike,
+                    spoiler = r.spoiler != "0"
+                )
+            )
+        }
+        return details
+    }
+
 }

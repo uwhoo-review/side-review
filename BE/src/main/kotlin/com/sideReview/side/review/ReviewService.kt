@@ -1,11 +1,11 @@
 package com.sideReview.side.review
 
+import com.sideReview.side.common.util.MapperUtil.mapUserReviewToReviewDetailDTO
 import com.sideReview.side.openSearch.dto.ContentDto
-import com.sideReview.side.review.dto.ReviewCreateDTO
-import com.sideReview.side.review.dto.ReviewDTO
-import com.sideReview.side.review.dto.ReviewDetailDTO
-import com.sideReview.side.review.dto.ReviewEvaDTO
+import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserReview
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -13,6 +13,7 @@ import java.util.*
 
 @Service
 class ReviewService(val userReviewRepository: UserReviewRepository) {
+    /*
     fun get(id: String, sort: String?, spoiler: Boolean): ReviewDTO {
         val reviews: List<UserReview>
         if (spoiler) {
@@ -36,7 +37,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
 
         return ReviewDTO(reviews.size, mapUserReviewToReviewDetailDTO(reviews))
     }
-
+     */
 
     @Transactional
     fun create(review: ReviewCreateDTO, ip: String) {
@@ -63,24 +64,6 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
     }
 
-
-    fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
-        val details = mutableListOf<ReviewDetailDTO>()
-        for (r in review) {
-            details.add(
-                ReviewDetailDTO(
-                    id = r.reviewId,
-                    content = r.content,
-                    date = r.create.toString(),
-                    like = r.like,
-                    dislike = r.dislike,
-                    spoiler = r.spoiler != "0"
-                )
-            )
-        }
-        return details
-    }
-
     @Transactional
     fun evaluate(body: ReviewEvaDTO) {
         userReviewRepository.findById(body.reviewId).ifPresent {
@@ -89,36 +72,37 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
     }
 
-    fun getReviews(id: String, mode: String, sort: String, spoiler: String): ReviewDTO {
+    fun getReviewsByTargetId(id: String, sort: String, spoiler: String, pageable: PageRequest): PageReviewDto {
         val userReviewList = mutableListOf<UserReview>()
-        val sortedList = mutableListOf<UserReview>()
+        val totalReviewPage = userReviewRepository.findAllByTargetIdOrderByLikeDescDislikeAsc(id, pageable)
+        val total = totalReviewPage.totalElements.toInt()
+        var totalPages = totalReviewPage.totalPages
+        var totalElements = totalReviewPage.totalElements.toInt()
 
-        if (spoiler == "0") userReviewList.addAll(
-            userReviewRepository.findByTargetIdAndSpoilerIs(
-                id,
-                spoiler
-            )
-        )
-        else userReviewList.addAll(userReviewRepository.findByTargetId(id))
-
-        val total = if (mode == "all" || userReviewList.size < 6) {
-            userReviewList.size
-        } else {
-            6
+        if(spoiler == "0"){
+            var unSpoUserReviewPage : Page<UserReview>
+            if(sort == "best"){
+                unSpoUserReviewPage = userReviewRepository.findAllByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(id,spoiler, pageable)
+            }else{//latest
+                unSpoUserReviewPage = userReviewRepository.findAllByTargetIdAndSpoilerIsOrderByCreateDesc(id,spoiler, pageable)
+            }
+            userReviewList.addAll(unSpoUserReviewPage.content)
+            totalPages = unSpoUserReviewPage.totalPages
+            totalElements = unSpoUserReviewPage.totalElements.toInt()
+        }else{
+            var userReviewPage : Page<UserReview>
+            if(sort == "best"){
+                userReviewPage = totalReviewPage
+            }else{//latest
+                userReviewPage = userReviewRepository.findAllByTargetIdOrderByCreateDesc(id, pageable)
+            }
+            userReviewList.addAll(userReviewPage.content)
         }
 
-        if (sort == "best") {
-            sortedList.addAll(
-                userReviewList.sortedWith(compareByDescending<UserReview> { it.like }.thenBy { it.dislike })
-                    .subList(0, total)
-            )
-        } else { //latest
-            sortedList.addAll(
-                userReviewList.sortedWith(compareByDescending { it.create }).subList(0, total)
-            )
-        }
-
-        return ReviewDTO(userReviewList.size, mapUserReviewToReviewDetailDTO(sortedList))
+        return PageReviewDto(
+            total,
+            mapUserReviewToReviewDetailDTO(userReviewList),
+            PageInfo(totalElements, totalPages, pageable.pageNumber))
     }
 
     fun fillReview(targets: List<ContentDto>): List<ContentDto> {
