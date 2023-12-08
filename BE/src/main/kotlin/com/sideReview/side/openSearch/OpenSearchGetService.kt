@@ -64,7 +64,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         // tab 따라 max 설정
         when (tab) {
             "main" -> resultSize = 20
-            "popularity", "new", "search" -> resultSize = 100
+            "popularity", "new", "search" -> resultSize = 30
         }
 
         // sort 따라 정렬 기준 설정
@@ -106,7 +106,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
     ): SearchDSL.() -> Unit = {
         // tab 따라 max 설정
         when (tab) {
-            "search" -> resultSize = 100
+            "search" -> resultSize = 30
         }
 
         // sort 따라 정렬 기준 설정
