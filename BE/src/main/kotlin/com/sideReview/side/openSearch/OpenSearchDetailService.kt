@@ -8,7 +8,7 @@ import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.openSearch.dto.DetailContentDto
-import com.sideReview.side.openSearch.dto.SeasonDto
+import com.sideReview.side.openSearch.dto.Season
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -29,12 +29,12 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
         return search
     }
 
-    fun makeSeasonInfo(id : String, list : List<String>) : SeasonDto {
+    fun makeSeasonInfo(id : String, list : List<String>) : Season {
         var now :Int = 1
         if(id.contains("_")){
             now = id.split("_")[1].toInt()
         }
-        return SeasonDto(now, list)
+        return Season(now, list)
     }
 
     suspend fun getContentDocument(id: String) : DetailContentDto{
