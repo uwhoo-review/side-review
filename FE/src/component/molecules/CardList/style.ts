@@ -53,7 +53,7 @@ export default {
     display: flex;
     align-items: flex-end;
     width: 100%;
-    min-height: 379px;
+    min-height: 382px;
     transition: 0.5s ease transform;
     transform: translateX(${translateX}px);
     gap: ${active ? "40px" : "20px"};

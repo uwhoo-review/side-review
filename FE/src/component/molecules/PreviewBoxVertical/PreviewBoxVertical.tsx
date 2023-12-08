@@ -74,7 +74,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
               >
                 {item.year}
               </HWTypography>
-              <HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />
+              {/*<HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />*/}
             </div>
           </div>
           <div css={styled.bottomContents}>

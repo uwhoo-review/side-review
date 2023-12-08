@@ -30,6 +30,7 @@ export default {
   rightBox: css`
     flex-grow: 1;
     width: 100%;
+    margin-bottom: 100px;
     & > div {
       //width: 100%;
       &::-webkit-scrollbar {
@@ -64,7 +65,7 @@ export default {
     box-sizing: border-box;
     margin-bottom: 40px;
     width: ${active ? `calc(100% / 4)` : `calc(100% / 6)`};
-    height: 380px;
+    //height: 380px;
   `,
   item: css`
     flex: 1;
