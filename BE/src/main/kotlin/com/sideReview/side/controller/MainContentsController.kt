@@ -89,7 +89,7 @@ class MainContentsController @Autowired constructor(
             // 정렬 & 필터만 있을 경우
             if (request.query.isNullOrBlank()) {
                 val sort = if (request.sort.isNullOrBlank()) "popularity" else request.sort
-                val source = openSearchGetService.get("search", sort, request)
+                val source = openSearchGetService.get("sortFilter", sort, request)
                 response = ResponseEntity.ok(
                     SFContendDto(
                         total = source.hits?.total?.value?.toInt() ?: 0,
