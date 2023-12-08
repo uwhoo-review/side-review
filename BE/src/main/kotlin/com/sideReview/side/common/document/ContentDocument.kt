@@ -17,7 +17,7 @@ data class ContentDocument(
     var photo: List<String>? = null,
     var poster: String? = null,
     var avgStarRating: Float? = null,
-    var season: List<String>? = null,
+    var season: List<String> = emptyList(),
     var popularity: Double? = null,
     var episodeCount: Int? = null,
     var production: Product? = null

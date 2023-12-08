@@ -127,7 +127,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                     photo = image,
                     poster = seasonInfo?.poster_path?.substring(1),
                     avgStarRating = null,
-                    season = null,
+                    season = emptyList(),
                     popularity = null,
                     episodeCount = seasonInfo?.episode_count,
                 )

@@ -8,6 +8,7 @@ import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.openSearch.dto.DetailContentDto
+import com.sideReview.side.openSearch.dto.SeasonDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -28,10 +29,20 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
         return search
     }
 
+    fun makeSeasonInfo(id : String, list : List<String>) : SeasonDto {
+        var now :Int = 1
+        if(id.contains("_")){
+            now = id.split("_")[1].toInt()
+        }
+        return SeasonDto(now, list)
+    }
+
     suspend fun getContentDocument(id: String) : DetailContentDto{
         val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson(source.toString(), ContentDocument::class.java)
+        val seasonList : List<String> = document.season ?: emptyList()
+
         return DetailContentDto(
             id = document.id,
             name = document.name,
@@ -48,7 +59,7 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
             crew = emptyList(),
             rating = document.rating,
             age = 0,
-            season = document.season
+            season = makeSeasonInfo(id, seasonList)
         )
     }
 }

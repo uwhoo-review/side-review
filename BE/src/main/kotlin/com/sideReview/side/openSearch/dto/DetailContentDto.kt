@@ -16,7 +16,7 @@ data class DetailContentDto(
     val crew: List<Crew>? = null,
     val rating: Double? = null,
     val age: Int? = null,
-    var season: List<String>? = null
+    var season: SeasonDto
 )
 
 data class Actor(
@@ -29,4 +29,9 @@ data class Crew(
     val name: String,
     val id : String,
     val job: String
+)
+
+data class SeasonDto(
+    val now : Int,
+    val list :List<String> = emptyList()
 )
