@@ -38,7 +38,7 @@ data class MatchDto(
 
 @Serializable
 data class SFContendDto(
-    val count: Int,
+    val total: Int,
     val content: List<SimpleContentDto>
 )
 

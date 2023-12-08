@@ -92,7 +92,7 @@ class MainContentsController @Autowired constructor(
                 val source = openSearchGetService.get("search", sort, request)
                 response = ResponseEntity.ok(
                     SFContendDto(
-                        count = source.hits?.total?.value?.toInt() ?: 0,
+                        total = source.hits?.total?.value?.toInt() ?: 0,
                         content = MapperUtil.parseToSimpleContentDto(source)
                     )
                 )
