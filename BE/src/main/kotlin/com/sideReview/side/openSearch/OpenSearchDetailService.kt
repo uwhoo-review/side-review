@@ -8,9 +8,7 @@ import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
-import com.sideReview.side.openSearch.dto.DetailContentDto
-import com.sideReview.side.openSearch.dto.DetailPersonDto
-import com.sideReview.side.openSearch.dto.Season
+import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.tmdb.dto.PersonInfo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -75,11 +73,39 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson(source.toString(), PersonDocument::class.java)
         val job: MutableList<String> = mutableListOf()
+        val roleList: MutableList<CastItem> = mutableListOf()
+        val jobList: MutableList<CrewItem> = mutableListOf()
 
-        if(document.cast != null && document.cast?.size!! > 0) job.add("Acting")
+        if(document.cast != null && document.cast?.size!! > 0) {
+            job.add("Acting")
+            for(castRole in document.cast!!){
+                val content = getContentDocument(castRole.contentId)
+                roleList.add(
+                    CastItem(
+                        contentName = content.name,
+                        year = content.firstAirDate?.substring(0, 4)!!.toInt(),
+                        contentId = castRole.contentId,
+                        platform = content.platform ?: emptyList(),
+                        poster = content.poster ?: "",
+                        role = castRole.role
+                    )
+                )
+            }
+        }
         if(document.crew != null) {
             for (crewJob in document.crew!!) {
+                val content = getContentDocument(crewJob.contentId)
                 if (!job.contains(crewJob.job)) job.add(crewJob.job)
+                jobList.add(
+                    CrewItem(
+                        contentName = content.name,
+                        year = content.firstAirDate?.substring(0, 4)!!.toInt(),
+                        contentId = crewJob.contentId,
+                        platform = content.platform ?: emptyList(),
+                        poster = content.poster ?: "",
+                        job = crewJob.job
+                    )
+                )
             }
         }
 
@@ -87,8 +113,8 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
             id = document.id,
             name = document.name,
             job = job,
-            cast = document.cast ?: emptyList(),
-            crew = document.crew ?: emptyList()
+            cast = roleList ?: emptyList(),
+            crew = jobList ?: emptyList()
         )
 
     }
