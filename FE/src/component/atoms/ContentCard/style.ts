@@ -115,6 +115,7 @@ export default {
     cursor: pointer;
   `,
   description: css`
+    height: 48px;
     margin-top: 10px;
     position: relative;
   `,
