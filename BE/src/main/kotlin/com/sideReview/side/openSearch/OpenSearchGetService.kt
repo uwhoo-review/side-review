@@ -2,7 +2,6 @@ package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
-import com.jillesvangurp.ktsearch.count
 import com.jillesvangurp.ktsearch.search
 import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.openSearch.dto.ContentRequestDTO
@@ -28,31 +27,8 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         // client 요청 전송
         return client.search(
             "content",
-            block = createSearchBlock("search", sort, request, filterList)
+            block = createSearchBlock(sort, request, filterList)
         )
-    }
-
-    suspend fun count(type: String, request: ContentRequestDTO): Int {
-        val filterList = getFilterFromRequest(request)
-        return when (type) {
-            "get" -> {
-                val search = client.count(
-                    "content",
-                    block = createGetBlock("count", null, request, filterList)
-                )
-                search.count.toInt()
-            }
-
-            "search" -> {
-                val search = client.count(
-                    "content",
-                    block = createSearchBlock("count", null, request, filterList)
-                )
-                search.count.toInt()
-            }
-
-            else -> 0
-        };
     }
 
     private fun createGetBlock(
@@ -93,22 +69,19 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             }
 
             // pagination search_after
-            if (tab != "count" && request.pagination != null) {
+            if (request.pagination != null) {
                 from = request.pagination
             }
         }
     }
 
     private fun createSearchBlock(
-        tab: String,
         sort: String?,
         request: ContentRequestDTO?,
         filterList: MutableList<ESQuery>,
     ): SearchDSL.() -> Unit = {
         // tab 따라 max 설정
-        when (tab) {
-            "search" -> resultSize = 12
-        }
+        resultSize = 12
 
         // sort 따라 정렬 기준 설정
         // sort가 있으면 항상 score가 나오지 않음.
@@ -144,7 +117,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             }
 
             // pagination
-            if (tab != "count" && request.pagination != null) {
+            if (request.pagination != null) {
                 from = request.pagination
             }
         }
