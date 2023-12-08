@@ -7,8 +7,11 @@ import com.jillesvangurp.ktsearch.search
 import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.openSearch.dto.DetailContentDto
+import com.sideReview.side.openSearch.dto.DetailPersonDto
 import com.sideReview.side.openSearch.dto.Season
+import com.sideReview.side.tmdb.dto.PersonInfo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -61,5 +64,32 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
             age = 0,
             season = makeSeasonInfo(id, seasonList)
         )
+    }
+
+    suspend fun getPersonDocument(id: String) : DetailPersonDto {
+        val response: SearchResponse = findDocumentById("person", id)
+
+        if(response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.");
+        //TODO: exception handling
+
+        val source = response.hits?.hits?.get(0)?.source
+        val document = Gson().fromJson(source.toString(), PersonDocument::class.java)
+        val job: MutableList<String> = mutableListOf()
+
+        if(document.cast != null && document.cast?.size!! > 0) job.add("Acting")
+        if(document.crew != null) {
+            for (crewJob in document.crew!!) {
+                if (!job.contains(crewJob.job)) job.add(crewJob.job)
+            }
+        }
+
+        return DetailPersonDto(
+            id = document.id,
+            name = document.name,
+            job = job,
+            cast = document.cast ?: emptyList(),
+            crew = document.crew ?: emptyList()
+        )
+
     }
 }

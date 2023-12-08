@@ -1,5 +1,6 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.util.MapperUtil
 import com.sideReview.side.openSearch.OpenSearchDetailService
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +18,16 @@ class DetailController @Autowired constructor(private val openSearchDetailServic
         var response: ResponseEntity<Any>
         runBlocking{
             response = ResponseEntity.ok(openSearchDetailService.getContentDocument(id))
+        }
+        return response
+    }
+
+    @GetMapping("/person/{id}")
+    fun get(@PathVariable id: String): ResponseEntity<Any> {
+        var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
+
+        runBlocking {
+            response = ResponseEntity.ok(openSearchDetailService.getPersonDocument(id))
         }
         return response
     }
