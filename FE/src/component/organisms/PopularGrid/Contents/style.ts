@@ -30,7 +30,7 @@ export default {
   rightBox: css`
     flex-grow: 1;
     width: 100%;
-    margin-bottom: 100px;
+    padding-bottom: 100px;
     & > div {
       //width: 100%;
       &::-webkit-scrollbar {

@@ -41,7 +41,7 @@ const SearchResultTemplate = () => {
           <ResultHeader data={data} />
           {isNullOrEmpty(search) ? (
             <>
-              <FilterResultContents data={data} />
+              <FilterResultContents data={data.content} />
             </>
           ) : (
             <>

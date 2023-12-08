@@ -4,6 +4,8 @@ import Color from "@src/common/styles/Color";
 export default {
   wrapper: css`
     margin-top: 50px;
+    padding-bottom: 100px;
+
   `,
   subWrapper: css``,
   subTitle: css`
