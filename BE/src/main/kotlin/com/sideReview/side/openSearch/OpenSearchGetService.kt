@@ -69,7 +69,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             }
 
             // pagination search_after
-            if (tab != "count" && request.pagination != null) {
+            if (request.pagination != null) {
                 from = request.pagination
             }
         }
