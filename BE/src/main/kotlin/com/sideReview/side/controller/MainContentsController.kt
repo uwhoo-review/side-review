@@ -89,67 +89,37 @@ class MainContentsController @Autowired constructor(
             // 정렬 & 필터만 있을 경우
             if (request.query.isNullOrBlank()) {
                 val sort = if (request.sort.isNullOrBlank()) "popularity" else request.sort
+                val source = openSearchGetService.get("search", sort, request)
                 response = ResponseEntity.ok(
-                    MapperUtil.parseToSimpleContentDto(
-                        openSearchGetService.get("search", sort, request)
+                    SFContendDto(
+                        count = source.hits?.total?.value?.toInt() ?: 0,
+                        content = MapperUtil.parseToSimpleContentDto(source)
                     )
                 )
             } else {
+                val matchContent = openSearchGetService.get("search", request.sort, request)
+                val matchPerson = personService.searchMatch(request.query)
+                val similar = openSearchGetService.search(request.sort, request)
+
                 response = ResponseEntity.ok(
                     SearchContentDto(
                         match = MatchDto(
-                            content =
-                            MapperUtil.parseToSimpleContentDto(
-                                openSearchGetService.get(
-                                    "search",
-                                    request.sort,
-                                    request
-                                )
-                            ),
-                            person = MapperUtil.parseToPersonDto(
-                                personService.searchMatch(request.query)
-                            )
+                            content = MapperUtil.parseToSimpleContentDto(matchContent),
+                            person = MapperUtil.parseToPersonDto(matchPerson)
                         ),
                         similar =
-                        MapperUtil.parseToSimpleContentDto(
-                            openSearchGetService.search(request.sort, request)
+                        MapperUtil.parseToSimpleContentDto(similar),
+                        total = SearchContentCountDto(
+                            match = MatchCountDto(
+                                content = matchContent.hits?.total?.value?.toInt() ?: 0,
+                                person = matchPerson.hits?.total?.value?.toInt() ?: 0
+                            ),
+                            similar = similar.hits?.total?.value?.toInt() ?: 0
                         )
                     )
                 )
             }
         }
         return response
-    }
-
-    @PostMapping("/search/count")
-    fun searchContentsCnt(
-        @RequestBody request: ContentRequestDTO
-    ): ResponseEntity<Any> {
-        var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
-        runBlocking {
-            // 정렬 & 필터만 있을 경우
-            if (request.query.isNullOrBlank()) {
-                response =
-                    ResponseEntity.ok(openSearchGetService.count("get", request))
-            } else {
-                response =
-                    ResponseEntity.ok(
-                        SearchContentCountDto(
-                            match = MatchCountDto(
-                                content = openSearchGetService.count(
-                                    "get",
-                                    request
-                                ),
-                                person = personService.searchMatchCount(request.query)
-                            ),
-                            similar = openSearchGetService.count(
-                                "search",
-                                request
-                            )
-                        )
-                    )
-            }
-        }
-        return response;
     }
 }
