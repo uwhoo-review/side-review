@@ -75,7 +75,7 @@ const SearchResultContent = ({ data }: any) => {
                       rating={v.rating}
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/detail?id=${v.id}`);
+                        navigate(`/detail/${v.id}`);
                       }}
                       active
                     />
@@ -151,7 +151,7 @@ const SearchResultContent = ({ data }: any) => {
                   rating={v.rating}
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/detail?id=${v.id}`);
+                    navigate(`/detail/${v.id}`);
                   }}
                   active
                 />

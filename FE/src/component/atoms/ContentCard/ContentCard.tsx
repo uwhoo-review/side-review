@@ -16,9 +16,9 @@ interface ContentCardProps {
   id: string;
   srcId: string;
   contentName: string;
-  rating: number;
+  rating?: number;
   platform: string[];
-  age: number;
+  age?: number;
   year: string;
   active: boolean;
   launch?: boolean;
@@ -111,7 +111,7 @@ const ContentCard = ({
             className={"icon-launch"}
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/detail?id=${id}`);
+              navigate(`/detail/${id}`);
             }}
             css={styled.Launch}
           />

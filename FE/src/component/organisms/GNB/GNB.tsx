@@ -5,10 +5,10 @@ import { IconSearch, IconUwhoo } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
-import FilterGroups from "@src/component/molecules/FilterGroups/FilterGroups";
 import ScrollTopButton from "@src/component/atoms/ScrollTopButton/ScrollTopButton";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
+import { Popover } from "@mui/material";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -24,8 +24,13 @@ const GNB = (props: { children?: React.ReactNode }) => {
     const handleClickOutside = (e: MouseEvent) => {
       if (e.target) {
         const target = e.target;
-        if (isOpen && !searchEl.current?.contains(target) && !iconEl.current?.contains(target))
-          setIsOpen(false);
+        console.log(target, searchEl.current);
+        if (
+          commonContext.isFilterOpen &&
+          !searchEl.current?.contains(target) &&
+          !iconEl.current?.contains(target)
+        )
+          commonContext.onHandleFilterOpen(false);
       }
     };
 
@@ -33,7 +38,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
     return () => {
       window.removeEventListener("click", handleClickOutside);
     };
-  }, [isOpen]);*/
+  }, [commonContext.isFilterOpen]);*/
 
   useEffect(() => {
     // const scrollDiv = document.querySelector("#root");
@@ -46,6 +51,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
       window.removeEventListener("scroll", handleShowButton);
     };
   }, []);
+
 
   return (
     <>
@@ -96,17 +102,23 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </div>
         </div>
       </header>
-      <div
-        className={`search-wrapper ${commonContext.isFilterOpen && "open"}`}
-        css={styled.searchWrapper}
+      <Popover
+        open={commonContext.isFilterOpen}
+        onClose={() => commonContext.onHandleFilterOpen(false)}
+        css={styled.popover}
       >
-        <CenterWrapper customCss={styled.searchGrid}>
-          <div>
-            <SearchBar />
-            <FilterGroups />
-          </div>
-        </CenterWrapper>
-      </div>
+        <div
+          className={`search-wrapper ${commonContext.isFilterOpen && "open"}`}
+          css={styled.searchWrapper}
+        >
+          <CenterWrapper>
+            <div css={styled.searchGrid}>
+              <SearchBar />
+            </div>
+          </CenterWrapper>
+        </div>
+      </Popover>
+
       <ScrollTopButton target={window} />
       {/*<Outlet />*/}
     </>

@@ -17,7 +17,7 @@ import { Avatar, AvatarGroup, Rating } from "@mui/material";
 import styled from "./style";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ContentProps } from "@src/interfaces/api.interface";
+import { ContentDO } from "@src/interfaces/api.interface";
 import { SerializedStyles } from "@emotion/react";
 import { VIDEO_URL } from "@src/variables/tmdbConstants";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
@@ -28,7 +28,7 @@ import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvat
 import {GENRE_ID_NAME} from "@src/variables/CommonConstants";
 
 interface PreviewBoxVerticalProps {
-  item: ContentProps;
+  item: ContentDO;
   customCss?: SerializedStyles;
 }
 
@@ -54,7 +54,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
             <IconLaunch
               css={styled.launch}
               onClick={() => {
-                navigate("/detail");
+                navigate(`/detail/${item.id}`);
               }}
             />
             <div className={"flex flex-align-center"}>
@@ -242,6 +242,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                   블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
                 </ReviewCard>
                 <ReviewCard
+                    id={""}
                   width={"100%"}
                   best={false}
                   date={"2023.02.29"}

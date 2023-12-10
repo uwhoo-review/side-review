@@ -3,7 +3,7 @@ import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
 import { useState } from "react";
 import { THUMBNAIL_URL, VIDEO_URL } from "@src/variables/tmdbConstants";
 import { IconPlay } from "@res/index";
-import { getCardURL } from "@src/tools/commonTools";
+import {getCardURL, isNullOrEmpty} from "@src/tools/commonTools";
 
 interface TrailerCardProps {
   srcId: string;
@@ -26,19 +26,23 @@ const TrailerCard = ({
 
   return (
     <>
-      <div
-        css={styled.wrapper(
-          `${getCardURL({ type: "thumbnail", srcId: srcId, size: size })}`,
-          width,
-          height
-        )}
-        onClick={() => {
-          if (useModal) setIsOpen(!isOpen);
-          onClick && onClick();
-        }}
-      >
-        <IconPlay css={styled.playIcon} />
-      </div>
+      {!isNullOrEmpty(srcId) ? (
+        <div
+          css={styled.wrapper(
+            `${getCardURL({ type: "thumbnail", srcId: srcId, size: size })}`,
+            width,
+            height
+          )}
+          onClick={() => {
+            if (useModal) setIsOpen(!isOpen);
+            onClick && onClick();
+          }}
+        >
+          <IconPlay css={styled.playIcon} />
+        </div>
+      ) : (
+        <div css={styled.emptyWrapper}>트레일러 영상을 준비중입니다.</div>
+      )}
       {useModal && (
         <>
           <HWDialog open={Boolean(isOpen)} onClose={() => setIsOpen(false)}>

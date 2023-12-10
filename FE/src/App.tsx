@@ -11,6 +11,7 @@ import SearchResultPage from "@src/pages/SearchResultPage/SearchResultPage";
 import { AxiosInterceptor } from "@src/common/axios/AxiosInstance";
 import { CommonProvider } from "@src/providers/CommonProvider";
 import CommonTemplate from "@src/component/templates/CommonTemplate/CommonTemplate";
+import PersonPage from "@src/pages/PersonPage/PersonPage";
 
 const App = () => (
   <CommonProvider>
@@ -23,8 +24,9 @@ const App = () => (
           <Route path={"popular"} element={<PopularPage />} />
           <Route path={"recently"} element={<RecentlyPage />} />
           <Route path={"upcoming"} element={<UpcomingPage />} />
-          <Route path={"detail"}>
-            <Route path={"*"} index element={<DetailPage />} />
+          <Route path={"person/:id"} element={<PersonPage />} />
+          <Route path={"detail/:id"} element={<DetailPage />}>
+            {/*<Route path={""} index element={<DetailPage />} />*/}
             <Route path={"reviewTotal"} element={<ReviewPage />} />
           </Route>
           <Route path={"search"}>

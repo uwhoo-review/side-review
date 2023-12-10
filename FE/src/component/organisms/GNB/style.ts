@@ -27,7 +27,7 @@ export default {
     align-items: center;
   `,
   logo: css`
-/*    font-family: Poppins, sans-serif;
+    /*    font-family: Poppins, sans-serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 600;
@@ -81,20 +81,35 @@ export default {
     background-color: ${open ? "#FFFFFF1A" : "transparent"};
     border-radius: 6px;
   `,
+  popover: css`
+    top: 52px;
+
+    .MuiBackdrop-root {
+      top: 52px;
+    }
+
+    .MuiPopover-paper {
+      width: 100%;
+      top: 0 !important;
+      left: 0 !important;
+      max-width: unset;
+      background-color: transparent;
+    }
+  `,
   searchWrapper: css`
-    position: fixed;
-    top: 0px;
-    margin-top: 52px;
+    //position: fixed;
+    top: 0;
+    //margin-top: 52px;
     width: 100%;
-    height: 238px;
+    //height: 238px;
     background-color: ${Color.dark.elevation02};
     opacity: 0;
     visibility: hidden;
     z-index: 0;
 
     border-top: 1px solid #42424a;
-    box-sizing: border-box;
-    transition: opacity 1s ease;
+    //box-sizing: border-box;
+    //transition: opacity 1s ease;
 
     //overflow-x: auto;
     display: flex;
@@ -110,6 +125,7 @@ export default {
     //min-width: 1440px;
     //align-items: center;
     //height: 100%;
+    padding: 30px 0;
   `,
   detailSlide: css`
     overflow: hidden;

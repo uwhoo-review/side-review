@@ -1,6 +1,6 @@
 import { axiosBaseInstance } from "@src/common/axios/AxiosInstance";
-import { ContentsDO } from "@src/interfaces/api.interface";
-import {createReviewAPI, updownReviewAPI} from "@src/interfaces/review.interface";
+import { createReviewAPI, updownReviewAPI } from "@src/interfaces/review.interface";
+import { ContentsResDO } from "@src/interfaces/api.interface";
 
 export const CODE_AXIOS = {};
 
@@ -13,7 +13,7 @@ export const UWAxios = {
   },
   contents: {
     async getContents(data: any) {
-      const res = await axiosBaseInstance.post<any>(`contents`, data);
+      const res = await axiosBaseInstance.post<ContentsResDO>(`contents`, data);
       return res.data;
     },
     async getContentsDetail(id: string) {
@@ -30,14 +30,20 @@ export const UWAxios = {
       const res = await axiosBaseInstance.post<any>(`review`, data);
       return res.data;
     },
-    async getReview(id: string, sort: string, spoiler: boolean) {
+    async getReview(id: string, sort: string, spoiler: boolean, page: number, size: number) {
       const res = await axiosBaseInstance.get<any>(
-        `review?id=${id}&sort=${sort}&spoiler=${spoiler}`
+        `review/${id}?sort=${sort}&spoiler=${spoiler}&page=${page}&size=${size}`
       );
       return res.data;
     },
     async updownReview(data: updownReviewAPI) {
       const res = await axiosBaseInstance.put<any>(`review`, data);
+      return res.data;
+    },
+  },
+  person: {
+    async getPersonDetail(id: string) {
+      const res = await axiosBaseInstance.get<any>(`person/${id}`);
       return res.data;
     },
   },

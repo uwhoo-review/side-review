@@ -6,17 +6,17 @@ import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { IMAGE_URL } from "@src/variables/tmdbConstants";
-import { ContentProps } from "@src/interfaces/api.interface";
+import { ContentDO } from "@src/interfaces/api.interface";
 import { getCardURL } from "@src/tools/commonTools";
 interface CardListProps {
   title: string;
   subTitle: string | ReactNode;
-  cardList: ContentProps[];
+  cardList: ContentDO[];
 }
 const CardList = ({ title, subTitle, cardList }: CardListProps) => {
   const boxRef = useRef<HTMLDivElement>(null);
   const [preview, setPreview] = useState<boolean>(false);
-  const [selectedCard, setSelectedCard] = useState<ContentProps | null>(null);
+  const [selectedCard, setSelectedCard] = useState<ContentDO | null>(null);
   const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
 
   const TOTAL_LIST = cardList.length;

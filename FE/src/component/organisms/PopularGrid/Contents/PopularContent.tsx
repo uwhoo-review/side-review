@@ -6,13 +6,13 @@ import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { card1, card2, card3, card4, card5 } from "@res/index";
 import PreviewBoxVertical from "@src/component/molecules/PreviewBoxVertical/PreviewBoxVertical";
 import { IMAGE_URL } from "@src/variables/tmdbConstants";
-import { ContentProps, ContentsDO } from "@src/interfaces/api.interface";
 import { VirtuosoGrid } from "react-virtuoso";
 import ContentEmptyCard from "@src/component/atoms/ContentEmptyCard/ContentEmptyCard";
+import {ContentDO} from "@src/interfaces/api.interface";
 
 const PopularContent = ({ data }: any) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedCard, setSelectedCard] = useState<ContentProps | null>(null);
+  const [selectedCard, setSelectedCard] = useState<ContentDO | null>(null);
   const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
   const [popularList, setPopularList] = useState<any>([]);
   const virtuosoRef = useRef<any>();

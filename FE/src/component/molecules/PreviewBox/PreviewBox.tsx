@@ -17,7 +17,7 @@ import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { VIDEO_URL } from "@src/variables/tmdbConstants";
-import { ContentProps } from "@src/interfaces/api.interface";
+import { ContentDO } from "@src/interfaces/api.interface";
 import { SerializedStyles } from "@emotion/react";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
@@ -25,9 +25,10 @@ import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
+import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
 
 interface PreviewBoxProps {
-  item: ContentProps;
+  item: ContentDO;
   onPrev: () => void;
   onNext: () => void;
   customCss?: SerializedStyles;
@@ -48,20 +49,26 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
           <div css={styled.contents}>
             <div css={styled.topContents}>
               <div css={styled.leftContents}>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={getCardURL({ type: "trailer", srcId: item.trailer[0] })}
-                  title="Video"
-                  allowFullScreen
-                />
+                {item.trailer[0] ? (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={getCardURL({ type: "trailer", srcId: item.trailer[0] })}
+                    title="Video"
+                    allowFullScreen
+                  />
+                ) : (
+                  <TrailerCard srcId={""} />
+                )}
+
+                {/*<TrailerCard srcId={getCardURL({ type: "trailer", srcId: item.trailer[0] })} />*/}
               </div>
               <div css={styled.rightContents}>
                 <IconLaunch
                   css={styled.launch}
                   onClick={() => {
                     setDetailOpen(!detailOpen);
-                    navigate(`/detail?id=${item.id}`);
+                    navigate(`/detail/${item.id}`);
                   }}
                 />
                 <div className={"flex flex-align-center"}>

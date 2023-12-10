@@ -47,7 +47,7 @@ const FilterResultContents = ({ data }: any) => {
                   customCss={styled.card}
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/detail?id=${v.id}`);
+                    navigate(`/detail/${v.id}`);
                   }}
                 />
               </div>

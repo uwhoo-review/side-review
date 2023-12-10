@@ -104,7 +104,7 @@ const RatingDetailBox = ({ item }: any) => {
           </HWButton>
         </div>
       </div>
-      <ReviewModal width={"800px"} open={dialog} onClose={() => setDialog(false)} />
+      <ReviewModal width={"800px"} open={dialog} onClose={() => setDialog(false)} item={item} />
     </div>
   );
 };

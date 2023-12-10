@@ -29,6 +29,9 @@ export default {
     //display: flex;
     //flex-direction: column;
   `,
+  chip: css`
+    margin-right: 8px;
+  `,
   byteChk: css`
     font-family: Poppins;
     font-size: 14px;

@@ -8,6 +8,9 @@ import { useState } from "react";
 import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
 
 interface ReviewCardProps {
+  id?: string;
+  dislike?: number;
+  like?: number;
   width?: string;
   height?: string;
   radius?: string;
@@ -24,6 +27,9 @@ interface ReviewCardProps {
 }
 
 const ReviewCard = ({
+  id="",
+  dislike = 0,
+  like = 0,
   width = "420px",
   height = "140px",
   radius = "10px",
@@ -44,7 +50,7 @@ const ReviewCard = ({
       <div
         css={[styled.wrapper(width, height, radius, backgroundColor), customCss]}
         onClick={() => {
-          if(useModal) setIsOpen(!isOpen)
+          if (useModal) setIsOpen(!isOpen);
           onClick && onClick();
         }}
       >
@@ -78,11 +84,11 @@ const ReviewCard = ({
               <div css={styled.flex1}>
                 <div css={styled.flex2}>
                   <IconThumbUp />
-                  100
+                  {like}
                 </div>
                 <div css={styled.flex2}>
                   <IconThumbDown />
-                  20
+                  {dislike}
                 </div>
               </div>
               <div css={styled.flex1}>
@@ -97,6 +103,9 @@ const ReviewCard = ({
         <>
           <HWDialog open={Boolean(isOpen)} onClose={() => setIsOpen(false)}>
             <ReviewCard
+              id={id}
+              dislike={dislike}
+              like={like}
               date={date}
               best={best}
               spoiler={spoiler}

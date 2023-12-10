@@ -1,24 +1,25 @@
-export interface ContentProps {
-  episodeCount: number;
-  firstAirDate: Date;
+export interface ContentDO {
   genre: number[];
   id: string;
   name: string;
-  photo: string[];
-  actors: string[];
   platform: string[];
   poster: string;
-  age: number;
   rating: number;
-  sortingName: string;
+  review: ReviewDO;
   synopsis: string;
-  trailer: string[];
+  trailer: string;
   year: string;
-  review: any;
+  age: number;
+  actors: string[];
 }
 
-export interface ContentsDO {
-  latest: ContentProps[];
-  popular: ContentProps[];
+export interface ReviewDO {
+  review: string[];
+  total: number;
+}
+
+export interface ContentsResDO {
+  latest: ContentDO[];
+  popular: ContentDO[];
 }
 

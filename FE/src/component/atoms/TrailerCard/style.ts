@@ -18,5 +18,15 @@ export default {
     width: 800px;
     height: 450px;
     border: none;
-  `
+  `,
+  emptyWrapper: css`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    color: #9897a1;
+  `,
 };

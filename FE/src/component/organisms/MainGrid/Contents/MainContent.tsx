@@ -2,11 +2,11 @@ import styled from "./style";
 import CardList from "@src/component/molecules/CardList/CardList";
 import {card1, card2, card3, card4, card5, IconBlub, IconPopcorn} from "@res/index";
 import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
-import {ContentsDO} from "@src/interfaces/api.interface";
+import {ContentsResDO} from "@src/interfaces/api.interface";
 const CARD_GROUP_1 = [card1, card2, card3, card4, card5, card1, card2, card3, card4, card5];
 
 interface MainContentProps {
-  data: ContentsDO;
+  data: ContentsResDO;
 }
 
 const MainContent = ({ data }: MainContentProps) => {

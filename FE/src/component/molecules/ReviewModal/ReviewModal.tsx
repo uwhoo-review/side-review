@@ -7,19 +7,38 @@ import { useEffect, useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
 import { getByteLength, getMaxByteText } from "@src/tools/commonTools";
+import {UWAxios} from "@src/common/axios/AxiosConfig";
 
-const ReviewModal = ({ onClose, ...props }: any) => {
+const ReviewModal = ({ item, onClose, ...props }: any) => {
+  const LIMIT_BYTE = 2000;
+
   const [text, setText] = useState<string>("");
   const [byteText, setByteText] = useState(0);
-  const LIMIT_BYTE = 2000;
+  const [isSpoiler, setIsSpoiler] = useState<boolean>(false);
+
+  const handleCreateReview = async () => {
+    const data = {
+      dramaId: item.id,
+      content: text,
+      spoiler: isSpoiler,
+    }
+    const res = await UWAxios.review.createReview(data);
+    onClose();
+
+  }
+
 
   return (
     <HWDialog {...props} customCss={styled.wrapper}>
       <HWDialog.Title onClose={onClose}>리뷰 쓰기</HWDialog.Title>
       <HWDialog.Content css={styled.contentWrapper}>
         <div>
-          <HWChip label={"무빙"} color={"best"} />
-          <HWChip label={"2023"} color={"best"} />
+          <HWChip label={item.name} color={"best"} customCss={styled.chip} />
+          <HWChip
+            label={new Date(item.firstAirDate).getFullYear()}
+            color={"best"}
+            customCss={styled.chip}
+          />
         </div>
         <textarea
           placeholder={
@@ -35,12 +54,13 @@ const ReviewModal = ({ onClose, ...props }: any) => {
         />
         <div css={styled.flex}>
           <HWCheckBox
-            checked={false}
+            checked={isSpoiler}
             label={
               <HWTypography variant={"bodyXS"} color={Color.dark.grey700}>
                 이 리뷰는 스포일러를 포함합니다.
               </HWTypography>
             }
+            onChange={(checked) => setIsSpoiler(checked)}
           />
           <div css={styled.byteChk}>
             {byteText}/{LIMIT_BYTE} byte
@@ -51,7 +71,7 @@ const ReviewModal = ({ onClose, ...props }: any) => {
         <HWButton variant="lower" onClick={onClose}>
           취소
         </HWButton>
-        <HWButton variant="primary">등록</HWButton>
+        <HWButton variant="primary" onClick={handleCreateReview}>등록</HWButton>
       </HWDialog.Actions>
     </HWDialog>
   );

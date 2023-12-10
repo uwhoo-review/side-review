@@ -10,8 +10,8 @@ import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 const MainTemplate = () => {
   const queryClient = useQueryClient();
   const { status, data, error } = useQuery({
-    queryKey: ["list", "main"],
-    queryFn: async () => await UWAxios.sample.getSample({ tab: CONTENTS_TABS.MAIN }),
+    queryKey: ["list", CONTENTS_TABS.MAIN],
+    queryFn: async () => await UWAxios.contents.getContents({ tab: CONTENTS_TABS.MAIN }),
     refetchOnWindowFocus: false,
   });
 

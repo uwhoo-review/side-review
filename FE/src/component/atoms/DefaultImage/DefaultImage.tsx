@@ -15,7 +15,7 @@ const DefaultImage = ({
   return (
     <>
       {src === "" ? (
-        <div css={styled.emptyWrapper(width, height)}>
+        <div css={[styled.emptyWrapper(width, height), customCss]}>
           <HWTypography variant={"bodyXS"} family={"Pretendard-SemiBold"} color={Color.dark.grey500}>
             이미지를 준비중입니다.
           </HWTypography>
