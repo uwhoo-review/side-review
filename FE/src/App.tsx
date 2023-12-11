@@ -1,7 +1,7 @@
 import React from "react";
 import MainPage from "@src/pages/MainPage/MainPage";
 import GNB from "@src/component/organisms/GNB/GNB";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import PopularPage from "@src/pages/PopularPage/PopularPage";
 import RecentlyPage from "@src/pages/RecentlyPage/RecentlyPage";
 import UpcomingPage from "@src/pages/UpcomingPage/UpcomingPage";
@@ -19,8 +19,9 @@ const App = () => (
       {/*<div className={"scroll-area none-draggable"}>*/}
       {/*<GNB />*/}
       <Routes>
+        {/*<Route path={"/*"} element={<Navigate to={"home"} />}>*/}
         <Route path={"/*"} element={<CommonTemplate />}>
-          <Route index path={"home"} element={<MainPage />} />
+          <Route index element={<MainPage />} />
           <Route path={"popular"} element={<PopularPage />} />
           <Route path={"recently"} element={<RecentlyPage />} />
           <Route path={"upcoming"} element={<UpcomingPage />} />
@@ -33,6 +34,7 @@ const App = () => (
             <Route path={"*"} index element={<SearchResultPage />} />
           </Route>
         </Route>
+        {/*</Route>*/}
       </Routes>
       {/*</div>*/}
     </AxiosInterceptor>

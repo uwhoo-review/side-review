@@ -70,7 +70,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </div>
           </div>
           <div css={styled.centerGroups}>
-            <NavLink to={"/home"} className={({ isActive }) => (isActive ? "active" : "")}>
+            <NavLink to={"/"} className={({ isActive }) => (isActive ? "active" : "")}>
               <button>Home</button>
             </NavLink>
             <NavLink to={"/popular"}>
