@@ -105,4 +105,10 @@ export default {
     font-style: normal;
     font-weight: 500;
   `,
+  thumb: css`
+    cursor: pointer;
+    &:hover {
+      color: #fff;
+    }
+  `
 };

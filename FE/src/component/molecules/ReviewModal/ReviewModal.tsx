@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
 import { getByteLength, getMaxByteText } from "@src/tools/commonTools";
-import {UWAxios} from "@src/common/axios/AxiosConfig";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ReviewModal = ({ item, onClose, ...props }: any) => {
   const LIMIT_BYTE = 2000;
@@ -15,18 +16,18 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
   const [text, setText] = useState<string>("");
   const [byteText, setByteText] = useState(0);
   const [isSpoiler, setIsSpoiler] = useState<boolean>(false);
-
-  const handleCreateReview = async () => {
-    const data = {
-      dramaId: item.id,
-      content: text,
-      spoiler: isSpoiler,
-    }
-    const res = await UWAxios.review.createReview(data);
-    onClose();
-
-  }
-
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async (data: any) => {
+      return await UWAxios.review.createReview(data);
+    },
+    onSuccess: () => {
+      onClose();
+      queryClient.invalidateQueries({
+        queryKey: ["list", "review", item.id, "best", false, 0, 6],
+      });
+    },
+  });
 
   return (
     <HWDialog {...props} customCss={styled.wrapper}>
@@ -71,7 +72,19 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
         <HWButton variant="lower" onClick={onClose}>
           취소
         </HWButton>
-        <HWButton variant="primary" onClick={handleCreateReview}>등록</HWButton>
+        <HWButton
+          variant="primary"
+          onClick={() => {
+            const data = {
+              dramaId: item.id,
+              content: text,
+              spoiler: isSpoiler,
+            };
+            mutation.mutate(data);
+          }}
+        >
+          등록
+        </HWButton>
       </HWDialog.Actions>
     </HWDialog>
   );

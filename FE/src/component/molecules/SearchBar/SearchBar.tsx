@@ -91,7 +91,6 @@ const SearchBar = () => {
                 });
               }}
               inputRef={filterRef.sortRef}
-              disablePortal={true}
             >
               {Object.entries(FILTER_SORT_ID).map(([key, value]) => (
                 <HWOutlinedSelectBox.Item key={key} value={value}>
@@ -120,7 +119,6 @@ const SearchBar = () => {
                 })}
               </div>
             )}
-            disablePortal={true}
             inputRef={filterRef.genreRef}
             fullWidth={true}
           >

@@ -6,9 +6,12 @@ import HWChip from "@src/component/atoms/HWChip/HWChip";
 import Divider from "@src/component/atoms/Divider/Divider";
 import { useState } from "react";
 import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ReviewCardProps {
   id?: string;
+  reviewId?: string;
   dislike?: number;
   like?: number;
   width?: string;
@@ -27,7 +30,8 @@ interface ReviewCardProps {
 }
 
 const ReviewCard = ({
-  id="",
+  id = "",
+  reviewId = "",
   dislike = 0,
   like = 0,
   width = "420px",
@@ -45,6 +49,19 @@ const ReviewCard = ({
   onClick,
 }: ReviewCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async (data: any) => {
+      return await UWAxios.review.updownReview(data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["list", "review", id, "best", false, 0, 6],
+      });
+    },
+  });
+
   return (
     <>
       <div
@@ -92,8 +109,18 @@ const ReviewCard = ({
                 </div>
               </div>
               <div css={styled.flex1}>
-                <IconThumbUp />
-                <IconThumbDown />
+                <IconThumbUp
+                  onClick={() => {
+                    mutation.mutate({ reviewId: reviewId, eval: 1 });
+                  }}
+                  css={styled.thumb}
+                />
+                <IconThumbDown
+                  css={styled.thumb}
+                  onClick={() => {
+                    mutation.mutate({ reviewId: reviewId, eval: 0 });
+                  }}
+                />
               </div>
             </div>
           </>
@@ -104,6 +131,7 @@ const ReviewCard = ({
           <HWDialog open={Boolean(isOpen)} onClose={() => setIsOpen(false)}>
             <ReviewCard
               id={id}
+              reviewId={reviewId}
               dislike={dislike}
               like={like}
               date={date}

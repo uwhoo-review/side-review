@@ -24,10 +24,15 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
   const [sort, setSort] = useState("best");
 
   const { status, data, error } = useQuery({
-    queryKey: ["list", "review", sort, isSpoiler, page, size],
-    queryFn: async () => {
-      const res = id && (await UWAxios.review.getReview(id, sort, isSpoiler, page, size));
-      return res;
+    queryKey: ["list", "review", id, sort, isSpoiler, page, size],
+    queryFn: async ({ queryKey }) => {
+      return await UWAxios.review.getReview(
+        queryKey[2],
+        queryKey[3],
+        queryKey[4],
+        queryKey[5],
+        queryKey[6]
+      );
     },
     refetchOnWindowFocus: false,
   });
@@ -103,7 +108,9 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
             {reviewList.map((v: any, i: number) => {
               return (
                 <ReviewCard
-                  id={v.id}
+                  key={v.id}
+                  id={id}
+                  reviewId={v.id}
                   dislike={v.dislike}
                   like={v.like}
                   date={v.date}
@@ -123,7 +130,9 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
             {reviewList.map((v: any, i: number) => {
               return (
                 <ReviewCard
-                  id={v.id}
+                  key={v.id}
+                  id={id}
+                  reviewId={v.id}
                   dislike={v.dislike}
                   like={v.like}
                   date={v.date}

@@ -54,5 +54,8 @@ export default {
     align-items: center;
     gap: 2px;
     cursor: pointer;
+    &:hover{
+      color: #fff;
+    }
   `
 }
