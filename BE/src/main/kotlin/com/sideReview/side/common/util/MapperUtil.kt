@@ -22,13 +22,13 @@ object MapperUtil {
     fun mapTmdbToDocument(tmdbContentList: List<TmdbContent>): List<ContentDocument> {
         return tmdbContentList.map {
             ContentDocument(
-                id = it.id.toString(),
+                id = it.id,
                 sortingName = it.name,
                 name = it.name,
                 originalName = it.original_name,
                 platform = null,
                 genre = it.genre_ids,
-                rating = it.vote_average/2,
+                rating = it.vote_average / 2,
                 firstAirDate = it.first_air_date,
                 synopsis = it.overview,
                 trailer = null,
@@ -68,8 +68,8 @@ object MapperUtil {
     }
 
     fun mapProviderCodeToString(numbers: List<Int>): List<String> {
-        return numbers.mapNotNull { number ->
-            ProviderEnum.values().find { it.value == number }?.name.toString()
+        return numbers.map { number ->
+            "${ProviderEnum.values().find { it.value == number }?.name}"
         }
     }
 
@@ -90,7 +90,7 @@ object MapperUtil {
                 if (data.source != null) {
                     mutableList.add(
                         Gson().fromJson(
-                            data.source.toString(),
+                            "${data.source}",
                             collectionType
                         )
                     )
@@ -109,7 +109,7 @@ object MapperUtil {
                 if (data.source != null) {
                     mutableList.add(
                         Gson().fromJson(
-                            data.source.toString(),
+                            "${data.source}",
                             collectionType
                         )
                     )
@@ -128,7 +128,7 @@ object MapperUtil {
                 if (data.source != null) {
                     mutableList.add(
                         Gson().fromJson(
-                            data.source.toString(),
+                            "${data.source}",
                             collectionType
                         )
                     )
@@ -137,6 +137,7 @@ object MapperUtil {
         }
         return mutableList.toList()
     }
+
     fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
         val details = mutableListOf<ReviewDetailDTO>()
         for (r in review) {
@@ -144,7 +145,7 @@ object MapperUtil {
                 ReviewDetailDTO(
                     id = r.reviewId,
                     content = r.content,
-                    date = r.create.toString(),
+                    date = "${r.create}",
                     like = r.like,
                     dislike = r.dislike,
                     spoiler = r.spoiler != "0"

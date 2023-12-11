@@ -41,7 +41,7 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
     suspend fun getContentDocument(id: String) : DetailContentDto{
         val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
-        val document = Gson().fromJson(source.toString(), ContentDocument::class.java)
+        val document = Gson().fromJson("$source", ContentDocument::class.java)
         val seasonList : List<String> = document.season ?: emptyList()
 
         return DetailContentDto(
@@ -71,7 +71,7 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
         //TODO: exception handling
 
         val source = response.hits?.hits?.get(0)?.source
-        val document = Gson().fromJson(source.toString(), PersonDocument::class.java)
+        val document = Gson().fromJson("$source", PersonDocument::class.java)
         val job: MutableList<String> = mutableListOf()
         val roleList: MutableList<CastItem> = mutableListOf()
         val jobList: MutableList<CrewItem> = mutableListOf()

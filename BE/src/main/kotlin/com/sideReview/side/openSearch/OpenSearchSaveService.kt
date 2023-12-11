@@ -124,7 +124,7 @@ class OpenSearchSaveService(
       """.trimMargin()
                 )
                 println(item.error)
-                println(item.toString())
+                println("$item")
                 println("---------------")
 
             }
@@ -176,7 +176,7 @@ class OpenSearchSaveService(
                                     ContentDocument.serializer(),
                                     doc
                                 ),
-                                id = doc.id.toString()
+                                id = doc.id
 
                             )
                         }
@@ -201,7 +201,7 @@ class OpenSearchSaveService(
                                     PersonDocument.serializer(),
                                     doc
                                 ),
-                                id = doc.id.toString()
+                                id = "${doc.id}"
                             )
                         }
                     }

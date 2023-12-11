@@ -4,18 +4,15 @@ import com.sideReview.side.openSearch.dto.ContentDto
 
 object ContentUtils {
     fun fill(contents: List<ContentDto>): List<ContentDto> {
-        for (content: ContentDto in contents) {
-            if (!content.season.isNullOrEmpty()) {
-                val target = contents.filter {
-                    content.season.contains(it.id)
+        contents.filterNot { it.season.isNullOrEmpty() }.forEach { parent ->
+            contents.filter { child ->
+                parent.season!!.contains(child.id)
+            }.map { child ->
+                if (child.poster == null) {
+                    child.poster = parent.poster
                 }
-                target.map {
-                    if (it.poster == null) {
-                        it.poster = content.poster
-                    }
-                    if (it.synopsis.isNullOrBlank()) {
-                        it.synopsis = content.synopsis
-                    }
+                if (child.synopsis.isNullOrBlank()) {
+                    child.synopsis = parent.synopsis
                 }
             }
         }

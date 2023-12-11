@@ -24,14 +24,14 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         val dtoList: MutableList<TmdbContent> = mutableListOf()
         val tmdbData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1)
         dtoList.addAll(tmdbData.results)
-        logger.info("[Discover] first: " + dtoList.size.toString())
+        logger.info("[Discover] first: ${dtoList.size}")
 
         //val pages: Int = tmdbData.total_pages
         val pages: Int = 500
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page).results)
         }
-        logger.info("[Discover] final: " + dtoList.size.toString())
+        logger.info("[Discover] final: ${dtoList.size}")
         return MapperUtil.mapTmdbToDocument(dtoList)
     }
 
@@ -114,7 +114,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 
             docList.add(
                 ContentDocument(
-                    id = id + "_" + season.toString(),
+                    id = id + "_" + "$season",
                     sortingName = detailResponse.name,
                     name = detailResponse.name,
                     originalName = detailResponse.original_name,
@@ -178,7 +178,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
     private fun filterDetail(detailResponse: DetailResponse): List<String> {
         val seasonList: MutableList<String> = mutableListOf()
         for (i in 2..detailResponse.number_of_seasons!!)
-            seasonList.add(detailResponse.id.toString() + "_" + i)
+            seasonList.add("${detailResponse.id}_$i")
 
         return seasonList
     }
