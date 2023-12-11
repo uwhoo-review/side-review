@@ -13,29 +13,25 @@ import org.springframework.stereotype.Service
 class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
     suspend fun get(tab: String, sort: String?, request: ContentRequestDTO?): SearchResponse {
-        val filterList = getFilterFromRequest(request)
-
         // client 요청 전송
         return client.search(
-            "content", block = createGetBlock(tab, sort, request, filterList)
+            "content", block = createBlock(sort, request, ::makeGetQuery, tab)
         )
     }
 
     suspend fun search(sort: String?, request: ContentRequestDTO?): SearchResponse {
-        val filterList = getFilterFromRequest(request)
-
         // client 요청 전송
         return client.search(
             "content",
-            block = createSearchBlock(sort, request, filterList)
+            block = createBlock(sort, request, ::makeSearchQuery)
         )
     }
 
-    private fun createGetBlock(
-        tab: String,
+    private fun createBlock(
         sort: String?,
         request: ContentRequestDTO?,
-        filterList: MutableList<ESQuery>
+        queryBlock: (request: ContentRequestDTO) -> ESQuery,
+        tab: String = "search"
     ): SearchDSL.() -> Unit = {
         // tab 따라 max 설정
         when (tab) {
@@ -46,26 +42,13 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
         // sort 따라 정렬 기준 설정
         // sort가 있으면 항상 score가 나오지 않음.
-        if (!sort.isNullOrBlank()) {
-            sort {
-                when (sort) {
-                    "popularity" -> add("popularity", SortOrder.DESC)
-                    "new" -> add("firstAirDate", SortOrder.DESC)
-                    "name" -> add("sortingName", SortOrder.ASC)
-                    "rating" -> add("rating", SortOrder.DESC)
-                }
-            }
-        }
+        parseSort(sort)
 
+        // request가 있을 경우 세부 쿼리와 pagination 추가
         if (request != null) {
             // filter와 query검색
             if (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty()) {
-                query = bool {
-                    if (request.filter != null) filter(filterList)
-                    if (!request.query.isNullOrBlank()) {
-                        must(match("name", request.query))
-                    }
-                }
+                query = queryBlock(request)
             }
 
             // pagination search_after
@@ -75,16 +58,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         }
     }
 
-    private fun createSearchBlock(
-        sort: String?,
-        request: ContentRequestDTO?,
-        filterList: MutableList<ESQuery>,
-    ): SearchDSL.() -> Unit = {
-        // tab 따라 max 설정
-        resultSize = 12
-
-        // sort 따라 정렬 기준 설정
-        // sort가 있으면 항상 score가 나오지 않음.
+    private fun SearchDSL.parseSort(sort: String?) {
         if (!sort.isNullOrBlank()) {
             sort {
                 when (sort) {
@@ -95,30 +69,34 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
                 }
             }
         }
+    }
 
-        if (request != null) {
-            // filter와 query검색
-            if (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty()) {
-                query = bool {
-                    if (filterList.isNotEmpty()) filter(filterList)
-                    if (!request.query.isNullOrBlank()) {
-                        mustNot(match("name", request.query))
-                        should(multiMatch(
-                            request.query,
-                            "synopsis",
-                            "production.company",
-                            "production.country"
-                        ) {
-                            minimumShouldMatch = "1"
-                        })
+    private fun makeGetQuery(request: ContentRequestDTO): ESQuery {
+        val filterList = getFilterFromRequest(request)
 
-                    }
-                }
+        return SearchDSL().bool {
+            if (request.filter != null) filter(filterList)
+            if (!request.query.isNullOrBlank()) {
+                must(SearchDSL().match("name", request.query))
             }
+        }
+    }
 
-            // pagination
-            if (request.pagination != null) {
-                from = request.pagination
+    private fun makeSearchQuery(request: ContentRequestDTO): ESQuery {
+        val filterList = getFilterFromRequest(request)
+
+        return SearchDSL().bool {
+            if (filterList.isNotEmpty()) filter(filterList)
+            if (!request.query.isNullOrBlank()) {
+                mustNot(SearchDSL().match("name", request.query))
+                should(SearchDSL().multiMatch(
+                    request.query,
+                    "synopsis",
+                    "production.company",
+                    "production.country"
+                ) {
+                    minimumShouldMatch = "1"
+                })
             }
         }
     }
@@ -128,14 +106,14 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
             // filter 파싱
             if (request.filter != null) {
-                filterList = parseRequestFilter(request.filter)
+                filterList = parseFilter(request.filter)
             }
         }
         return filterList
     }
 
 
-    private fun parseRequestFilter(filter: List<ContentRequestFilterDetail>): MutableList<ESQuery> {
+    private fun parseFilter(filter: List<ContentRequestFilterDetail>): MutableList<ESQuery> {
         val filterList = mutableListOf<ESQuery>()
 
         for (filterDetail in filter) {
