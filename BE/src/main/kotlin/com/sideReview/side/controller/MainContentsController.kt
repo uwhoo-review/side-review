@@ -1,6 +1,5 @@
 package com.sideReview.side.controller
 
-import com.sideReview.side.common.util.ContentUtils
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.openSearch.dto.*
@@ -29,18 +28,14 @@ class MainContentsController @Autowired constructor(
             when (request.tab) {
                 "main" -> {
                     val popular = reviewService.fillReview(
-                        ContentUtils.fill(
-                            MapperUtils.parseToContentDto(
-                                openSearchGetService.get(request.tab, "popularity", request)
-                            )
+                        MapperUtils.parseToContentDto(
+                            openSearchGetService.get(request.tab, "popularity", request)
                         )
                     )
 
                     val latest = reviewService.fillReview(
-                        ContentUtils.fill(
-                            MapperUtils.parseToContentDto(
-                                openSearchGetService.get(request.tab, "new", request)
-                            )
+                        MapperUtils.parseToContentDto(
+                            openSearchGetService.get(request.tab, "new", request)
                         )
                     )
                     response = ResponseEntity.ok(
@@ -54,10 +49,8 @@ class MainContentsController @Autowired constructor(
                 "popularity" -> {
                     response = ResponseEntity.ok(
                         reviewService.fillReview(
-                            ContentUtils.fill(
-                                MapperUtils.parseToContentDto(
-                                    openSearchGetService.get(request.tab, "popularity", request)
-                                )
+                            MapperUtils.parseToContentDto(
+                                openSearchGetService.get(request.tab, "popularity", request)
                             )
                         )
                     )
@@ -66,10 +59,8 @@ class MainContentsController @Autowired constructor(
                 "new" -> {
                     response = ResponseEntity.ok(
                         reviewService.fillReview(
-                            ContentUtils.fill(
-                                MapperUtils.parseToContentDto(
-                                    openSearchGetService.get(request.tab, "new", request)
-                                )
+                            MapperUtils.parseToContentDto(
+                                openSearchGetService.get(request.tab, "new", request)
                             )
                         )
                     )
