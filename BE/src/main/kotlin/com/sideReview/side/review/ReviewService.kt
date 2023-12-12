@@ -1,6 +1,6 @@
 package com.sideReview.side.review
 
-import com.sideReview.side.common.util.MapperUtil.mapUserReviewToReviewDetailDTO
+import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDTO
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserReview

@@ -20,7 +20,7 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
             )
         }else{
             // TODO : exception handling
-            throw Exception("Duplicated star rate request")
+            throw Exception("Duplicated star rating request")
         }
     }
 
@@ -39,12 +39,27 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
     @Transactional
     fun findStarRating(id : String, ip :String) : StarRatingDto {
         val rating : UserStarRating = userStarRatingRepository.findOneByTargetIdAndWriterId(id, ip)
-        val total : Int = userStarRatingRepository.findAllByTargetId(id).size
+        val total : Int = userStarRatingRepository.countByTargetId(id)
         return StarRatingDto(total, rating.rating, rating.id)
     }
 
     @Transactional
     fun deleteStartRating(id : String, ip :String) {
         userStarRatingRepository.deleteByTargetIdAndWriterId(id, ip)
+    }
+
+    fun calculateWeightAverage(tmdbRating : Double?, id : String) : Double {
+        val tmdbWeight = 8
+        val userWeight = 2
+
+        val userRating = userStarRatingRepository.findAllByTargetId(id)
+            .map { it.rating }
+            .average().takeIf { it.isFinite() } ?: null
+
+        var rating = tmdbRating ?: userRating ?: 0.0
+        if(tmdbRating != null && userRating != null){
+            rating = ((tmdbRating*tmdbWeight)+(userRating*userWeight))/(tmdbWeight+userWeight)
+        }
+        return rating
     }
 }

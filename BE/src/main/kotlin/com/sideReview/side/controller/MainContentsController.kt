@@ -1,7 +1,7 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.common.util.ContentUtils
-import com.sideReview.side.common.util.MapperUtil
+import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.person.PersonService
@@ -30,7 +30,7 @@ class MainContentsController @Autowired constructor(
                 "main" -> {
                     val popular = reviewService.fillReview(
                         ContentUtils.fill(
-                            MapperUtil.parseToContentDto(
+                            MapperUtils.parseToContentDto(
                                 openSearchGetService.get(request.tab, "popularity", request)
                             )
                         )
@@ -38,7 +38,7 @@ class MainContentsController @Autowired constructor(
 
                     val latest = reviewService.fillReview(
                         ContentUtils.fill(
-                            MapperUtil.parseToContentDto(
+                            MapperUtils.parseToContentDto(
                                 openSearchGetService.get(request.tab, "new", request)
                             )
                         )
@@ -55,7 +55,7 @@ class MainContentsController @Autowired constructor(
                     response = ResponseEntity.ok(
                         reviewService.fillReview(
                             ContentUtils.fill(
-                                MapperUtil.parseToContentDto(
+                                MapperUtils.parseToContentDto(
                                     openSearchGetService.get(request.tab, "popularity", request)
                                 )
                             )
@@ -67,7 +67,7 @@ class MainContentsController @Autowired constructor(
                     response = ResponseEntity.ok(
                         reviewService.fillReview(
                             ContentUtils.fill(
-                                MapperUtil.parseToContentDto(
+                                MapperUtils.parseToContentDto(
                                     openSearchGetService.get(request.tab, "new", request)
                                 )
                             )
@@ -93,7 +93,7 @@ class MainContentsController @Autowired constructor(
                 response = ResponseEntity.ok(
                     SFContendDto(
                         total = source.hits?.total?.value?.toInt() ?: 0,
-                        content = MapperUtil.parseToSimpleContentDto(source)
+                        content = MapperUtils.parseToSimpleContentDto(source)
                     )
                 )
             } else {
@@ -104,11 +104,11 @@ class MainContentsController @Autowired constructor(
                 response = ResponseEntity.ok(
                     SearchContentDto(
                         match = MatchDto(
-                            content = MapperUtil.parseToSimpleContentDto(matchContent),
-                            person = MapperUtil.parseToPersonDto(matchPerson)
+                            content = MapperUtils.parseToSimpleContentDto(matchContent),
+                            person = MapperUtils.parseToPersonDto(matchPerson)
                         ),
                         similar =
-                        MapperUtil.parseToSimpleContentDto(similar),
+                        MapperUtils.parseToSimpleContentDto(similar),
                         total = SearchContentCountDto(
                             match = MatchCountDto(
                                 content = matchContent.hits?.total?.value?.toInt() ?: 0,
