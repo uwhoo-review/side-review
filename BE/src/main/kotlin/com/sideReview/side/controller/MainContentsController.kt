@@ -47,12 +47,16 @@ class MainContentsController @Autowired constructor(
                 }
 
                 "popularity" -> {
-                    response = ResponseEntity.ok(
-                        reviewService.fillReview(
-                            MapperUtils.parseToContentDto(
-                                openSearchGetService.get(request.tab, "popularity", request)
-                            )
+                    val lastOneYear =
+                        MapperUtils.parseToContentDto(
+                            openSearchGetService.get("main", "popularity", request)
                         )
+                    val sortByPopular =
+                        MapperUtils.parseToContentDto(
+                            openSearchGetService.get(request.tab, "popularity", request)
+                        )
+                    response = ResponseEntity.ok(
+                        reviewService.fillReview(lastOneYear.union(sortByPopular).toList())
                     )
                 }
 
