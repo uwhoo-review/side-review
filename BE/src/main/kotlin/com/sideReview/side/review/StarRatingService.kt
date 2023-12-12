@@ -33,9 +33,9 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
 
     @Transactional
     fun findStarRating(id : String, ip :String) : StarRatingDto {
-        val rating : Float = userStarRatingRepository.findOneByTargetIdAndWriterId(id, ip).rating
+        val rating : UserStarRating = userStarRatingRepository.findOneByTargetIdAndWriterId(id, ip)
         val total : Int = userStarRatingRepository.findAllByTargetId(id).size
-        return StarRatingDto(total, rating)
+        return StarRatingDto(total, rating.rating, rating.id)
     }
 
     @Transactional
