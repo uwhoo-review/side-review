@@ -105,6 +105,7 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
             id = document.id,
             name = document.name,
             job = job,
+            profilePath = document.profilePath,
             cast = roleList ?: emptyList(),
             crew = jobList ?: emptyList()
         )

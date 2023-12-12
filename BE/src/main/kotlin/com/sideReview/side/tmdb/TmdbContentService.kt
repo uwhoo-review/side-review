@@ -2,9 +2,9 @@ package com.sideReview.side.tmdb
 
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.Product
-import com.sideReview.side.common.util.MapperUtil
-import com.sideReview.side.common.util.MapperUtil.mapProviderStringToCode
-import com.sideReview.side.common.util.MapperUtil.mapSeasonTODefault
+import com.sideReview.side.common.util.MapperUtils
+import com.sideReview.side.common.util.MapperUtils.mapProviderStringToCode
+import com.sideReview.side.common.util.MapperUtils.mapSeasonTODefault
 import com.sideReview.side.tmdb.dto.*
 import lombok.extern.slf4j.Slf4j
 import org.slf4j.LoggerFactory
@@ -32,7 +32,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page).results)
         }
         logger.info("[Discover] final: " + dtoList.size.toString())
-        return MapperUtil.mapTmdbToDocument(dtoList)
+        return MapperUtils.mapTmdbToDocument(dtoList)
     }
 
     fun getMoreInfo(docList: List<ContentDocument>): List<ContentDocument> {

@@ -1,11 +1,10 @@
 package com.sideReview.side.tmdb
 
 import com.google.gson.Gson
-import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.JobInfo
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.document.RoleInfo
-import com.sideReview.side.common.util.MapperUtil
+import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.tmdb.dto.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -28,7 +27,7 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
             dtoList.addAll(tmdbClient.findAllPeople("Bearer $accessKey", page).results)
             //if (page == 100) break;
         }
-        return MapperUtil.mapPeopleInfoToDocument(dtoList)
+        return MapperUtils.mapPeopleInfoToDocument(dtoList)
     }
 
     fun getCreditInfo(personDocumentList: List<PersonDocument>): List<PersonDocument> {
@@ -105,7 +104,7 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
         val creditResponse = Gson().fromJson(jsonCredit, CreditResponse::class.java)
         val peopleInfoList = Gson().fromJson(jsonPeople, PeopleResponse::class.java).results
 
-        val personDocumentList = MapperUtil.mapPeopleInfoToDocument(peopleInfoList)
+        val personDocumentList = MapperUtils.mapPeopleInfoToDocument(peopleInfoList)
         val creditDto = filterCredit(creditResponse)
 
 

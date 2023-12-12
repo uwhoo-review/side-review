@@ -20,7 +20,7 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
             )
         }else{
             // TODO : exception handling
-            throw Exception("Duplicated star rate request")
+            throw Exception("Duplicated star rating request")
         }
     }
 
@@ -39,7 +39,7 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
     @Transactional
     fun findStarRating(id : String, ip :String) : StarRatingDto {
         val rating : UserStarRating = userStarRatingRepository.findOneByTargetIdAndWriterId(id, ip)
-        val total : Int = userStarRatingRepository.findAllByTargetId(id).size
+        val total : Int = userStarRatingRepository.countByTargetId(id)
         return StarRatingDto(total, rating.rating, rating.id)
     }
 

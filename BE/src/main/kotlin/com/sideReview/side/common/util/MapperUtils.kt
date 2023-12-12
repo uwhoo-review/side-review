@@ -18,7 +18,7 @@ import com.sideReview.side.tmdb.dto.SeasonImageResponse
 import com.sideReview.side.tmdb.dto.TmdbContent
 import java.lang.reflect.Type
 
-object MapperUtil {
+object MapperUtils {
     fun mapTmdbToDocument(tmdbContentList: List<TmdbContent>): List<ContentDocument> {
         return tmdbContentList.map {
             ContentDocument(
