@@ -8,11 +8,27 @@ import com.sideReview.side.openSearch.dto.ContentRequestDTO
 import com.sideReview.side.openSearch.dto.ContentRequestFilterDetail
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Service
 class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
-    suspend fun get(tab: String, sort: String?, request: ContentRequestDTO?): SearchResponse {
+    suspend fun get(tab: String, sort: String?, request: ContentRequestDTO): SearchResponse {
+
+        if (tab == "main" && sort == "popularity") {
+            // 최근 1년간의 결과만 가져오기 위해 filter 추가
+            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
+            request.filter!!.add(
+                ContentRequestFilterDetail(
+                    "date",
+                    listOf(
+                        Calendar.getInstance().addDate(Calendar.YEAR, -1),
+                        Calendar.getInstance().addDate(null, null)
+                    )
+                )
+            )
+        }
         // client 요청 전송
         return client.search(
             "content", block = createBlock(sort, request, ::makeGetQuery, tab)
@@ -101,12 +117,12 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         }
     }
 
-    private fun getFilterFromRequest(request: ContentRequestDTO?): MutableList<ESQuery> {
+    private fun getFilterFromRequest(request: ContentRequestDTO): MutableList<ESQuery> {
         var filterList = mutableListOf<ESQuery>()
-        if (request != null && (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty())) {
+        if (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty()) {
             // filter 파싱
             if (request.filter != null) {
-                filterList = parseFilter(request.filter)
+                filterList = parseFilter(request.filter!!)
             }
         }
         return filterList
@@ -142,5 +158,11 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         return filterList
     }
 
-
+    fun Calendar.addDate(addFun: Int?, addParam: Int?): String {
+        this.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        if (addFun != null && addParam != null)
+            this.add(addFun, addParam)
+        return formatter.format(this.time).toString()
+    }
 }

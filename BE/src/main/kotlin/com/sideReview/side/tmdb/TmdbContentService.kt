@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-import java.lang.Exception
 
 @Service
 @Slf4j
@@ -43,34 +42,36 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             val id = doc.id
 
             try {
-                val providersResponse: WatchProvidersResponse = tmdbClient.findOneProvider("Bearer $accessKey", id)
+                val providersResponse: WatchProvidersResponse =
+                    tmdbClient.findOneProvider("Bearer $accessKey", id)
                 doc.platform = filterPlatformList(providersResponse)
-            }catch (e : Exception){
+            } catch (e: Exception) {
                 logger.info("An error occurred during platform processing - $id")
             }
 
             try {
                 val videoResponse: VideoResponse = tmdbClient.findOneVideo("Bearer $accessKey", id)
                 doc.trailer = filterTrailerKey(videoResponse)
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 logger.info("An error occurred during video processing - $id")
             }
 
-            try{
+            try {
                 val imageInfo: ImageResponse = tmdbClient.findOneImages("Bearer $accessKey", id)
                 doc.photo = filterImages(imageInfo)
-            }catch (e : Exception){
+            } catch (e: Exception) {
                 logger.info("An error occurred during image processing - $id")
             }
 
-            try{
-                val detailResponse: DetailResponse = tmdbClient.findOneContent("Bearer $accessKey", id)
+            try {
+                val detailResponse: DetailResponse =
+                    tmdbClient.findOneContent("Bearer $accessKey", id)
                 doc.season = filterDetail(detailResponse)
                 seasonDocList.addAll(getSeasonContents(id, detailResponse))
                 doc.episodeCount = detailResponse.seasons?.get(0)?.episode_count
                 doc.production = Product(detailResponse.production_companies?.map { it.name },
                     detailResponse.production_countries?.map { it.name })
-            }catch (e : Exception){
+            } catch (e: Exception) {
                 logger.info("An error occurred during detail processing - $id")
             }
 
@@ -91,24 +92,28 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             val provider: MutableList<Int> = mutableListOf()
             val image: MutableList<String> = mutableListOf()
 
-            try{
-                val videoResponse: VideoResponse = tmdbClient.findOneSeasonVideo("Bearer $accessKey", id, season)
+            try {
+                val videoResponse: VideoResponse =
+                    tmdbClient.findOneSeasonVideo("Bearer $accessKey", id, season)
                 trailer.addAll(filterTrailerKey(videoResponse))
-            }catch (e : Exception){
+            } catch (e: Exception) {
                 logger.info("An error occurred during season video processing - $id - $season")
             }
 
             try {
-                val providersResponse: WatchProvidersResponse = tmdbClient.findOneSeasonProvider("Bearer $accessKey", id, season)
+                val providersResponse: WatchProvidersResponse =
+                    tmdbClient.findOneSeasonProvider("Bearer $accessKey", id, season)
                 provider.addAll(filterPlatformList(providersResponse))
-            }catch (e : Exception){
+            } catch (e: Exception) {
                 logger.info("An error occurred during season platform processing - $id - $season")
             }
 
             try {
-                val seasonImageResponse: SeasonImageResponse = tmdbClient.findOneSeasonImages("Bearer $accessKey", id, season)
-                mapSeasonTODefault(seasonImageResponse)?.let { filterImages(it) }?.let { image.addAll(it) }
-            }catch (e : Exception){
+                val seasonImageResponse: SeasonImageResponse =
+                    tmdbClient.findOneSeasonImages("Bearer $accessKey", id, season)
+                mapSeasonTODefault(seasonImageResponse)?.let { filterImages(it) }
+                    ?.let { image.addAll(it) }
+            } catch (e: Exception) {
                 logger.info("An error occurred during season image processing - $id - $season")
             }
 
@@ -122,10 +127,11 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                     genre = genreList,
                     rating = seasonInfo?.vote_average?.div(2),
                     firstAirDate = seasonInfo?.air_date,
-                    synopsis = seasonInfo?.overview,
+                    synopsis = seasonInfo?.overview ?: detailResponse.overview,
                     trailer = trailer,
                     photo = image,
-                    poster = seasonInfo?.poster_path?.substring(1),
+                    poster = seasonInfo?.poster_path?.substring(1)
+                        ?: detailResponse.poster_path?.substring(1),
                     avgStarRating = null,
                     season = emptyList(),
                     popularity = null,
