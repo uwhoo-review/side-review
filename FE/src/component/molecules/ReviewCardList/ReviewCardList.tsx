@@ -20,7 +20,7 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
   const [reviewList, setReviewList] = useState([]);
   const [totalCnt, setTotalCnt] = useState(0);
   const [page, setPage] = useState(0);
-  const [isSpoiler, setIsSpoiler] = useState(false);
+  const [isSpoiler, setIsSpoiler] = useState(0);
   const [sort, setSort] = useState("best");
 
   const { status, data, error } = useQuery({
@@ -70,9 +70,9 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
           <div>
             <HWToggle
               label={"스포일러 포함"}
-              checked={isSpoiler}
+              checked={!!isSpoiler}
               onChange={() => {
-                setIsSpoiler(!isSpoiler);
+                setIsSpoiler(Number(!isSpoiler));
               }}
             />
           </div>
@@ -88,7 +88,8 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
               }}
             >
               <IconUpDown />
-              베스트 리뷰
+              {sort === "best" && "최신 리뷰순"}
+              {sort === "latest" && "베스트 리뷰순"}
             </HWTypography>
           </div>
         </div>
