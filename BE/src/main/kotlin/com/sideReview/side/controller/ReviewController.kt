@@ -2,8 +2,11 @@ package com.sideReview.side.controller
 
 import com.sideReview.side.review.ClientUtils
 import com.sideReview.side.review.ReviewService
+import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.review.dto.ReviewCreateDTO
 import com.sideReview.side.review.dto.ReviewEvaDTO
+import com.sideReview.side.review.dto.StarRatingCreateDto
+import com.sideReview.side.review.dto.StarRatingUpdateDto
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -31,11 +34,11 @@ class ReviewController(val reviewService: ReviewService) {
         return ResponseEntity(HttpStatus.OK)
     }
     @GetMapping("/{id}")
-    fun getAll(@PathVariable id : String,
-               @RequestParam(required = false, defaultValue = "best") sort : String,
-               @RequestParam(required = false, defaultValue = "0") spoiler : String,
-               @RequestParam(required = false, defaultValue = "0") page : String,
-               @RequestParam(required = false, defaultValue = "6") size : String
+    fun getAllReviewsById(@PathVariable id : String,
+                          @RequestParam(required = false, defaultValue = "best") sort : String,
+                          @RequestParam(required = false, defaultValue = "0") spoiler : String,
+                          @RequestParam(required = false, defaultValue = "0") page : String,
+                          @RequestParam(required = false, defaultValue = "6") size : String
     ): ResponseEntity<Any>{
         val pageable = PageRequest.of(page.toInt(), size.toInt())
         return ResponseEntity.ok(reviewService.getReviewsByTargetId(id, sort, spoiler, pageable))

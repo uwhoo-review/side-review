@@ -7,6 +7,7 @@ data class DetailPersonDto(
     val name: String,
     val id: Int,
     val job: List<String>,
+    //TODO : photo
     val cast: List<CastItem>? = emptyList(),
     val crew: List<CrewItem>? = emptyList()
 )
