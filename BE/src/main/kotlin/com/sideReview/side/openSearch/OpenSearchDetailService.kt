@@ -9,11 +9,12 @@ import com.jillesvangurp.searchdsls.querydsl.match
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.openSearch.dto.*
+import com.sideReview.side.review.StarRatingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  {
+class OpenSearchDetailService @Autowired constructor(val client: SearchClient, val starRatingService: StarRatingService)  {
     private suspend fun findDocumentById(index : String, id: String) : SearchResponse {
         val search = client.search(index) {
             resultSize = 1
@@ -50,7 +51,7 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient)  
             poster = document.poster,
             acting = emptyList(),
             crew = emptyList(),
-            rating = document.rating,
+            rating = starRatingService.calculateWeightAverage(document.rating, id),
             age = 0,
             season = makeSeasonInfo(id, seasonList)
         )
