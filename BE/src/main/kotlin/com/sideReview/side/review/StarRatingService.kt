@@ -10,13 +10,18 @@ import org.springframework.transaction.annotation.Transactional
 class StarRatingService (val userStarRatingRepository: UserStarRatingRepository){
     @Transactional
     fun saveStarRating(dto: StarRatingCreateDto, ip: String) {
-        userStarRatingRepository.save(
-            UserStarRating(
-                targetId = dto.contentId,
-                writerId = ip,
-                rating = dto.rating
+        if(!userStarRatingRepository.existsByTargetIdAndWriterId(dto.contentId, ip)){
+            userStarRatingRepository.save(
+                UserStarRating(
+                    targetId = dto.contentId,
+                    writerId = ip,
+                    rating = dto.rating
+                )
             )
-        )
+        }else{
+            // TODO : exception handling
+            throw Exception("Duplicated star rate request")
+        }
     }
 
     @Transactional
