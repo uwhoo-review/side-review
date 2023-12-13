@@ -24,7 +24,7 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
     onSuccess: () => {
       onClose();
       queryClient.invalidateQueries({
-        queryKey: ["list", "review", item.id, "best", false, 0, 6],
+        queryKey: ["list", "review", item.id, "best", 0, 0, 6],
       });
     },
   });
