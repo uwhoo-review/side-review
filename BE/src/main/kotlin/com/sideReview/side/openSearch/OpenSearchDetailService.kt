@@ -64,8 +64,8 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
             if(person.crew != null){
                 for(crew in person.crew!!)
                     if(crew.contentId == id){
-                        actorList.add(
-                            Actor(person.name, person.id.toString(), crew.job, person.profilePath.toString())
+                        crewList.add(
+                            Crew(person.name, person.id.toString(), crew.job, person.profilePath.toString())
                         )
                     }
             }
