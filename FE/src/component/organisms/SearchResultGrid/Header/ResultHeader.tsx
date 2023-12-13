@@ -68,8 +68,9 @@ const ResultHeader = ({ data }: any) => {
                     label={GENRE_ID_NAME[v]}
                     customCss={styled.chip}
                     onClick={() => {
+                      commonContext.onHandleFilterOpen(true);
+
                       if (commonContext.filterRef.genreRef?.current) {
-                        commonContext.onHandleFilterOpen(true);
                         commonContext.filterRef.genreRef.current.click();
                       }
                     }}
@@ -82,8 +83,9 @@ const ResultHeader = ({ data }: any) => {
                     label={PLATFORM_ID_NAME[v]}
                     customCss={styled.chip}
                     onClick={() => {
+                      commonContext.onHandleFilterOpen(true);
+
                       if (commonContext.filterRef.platformRef?.current) {
-                        commonContext.onHandleFilterOpen(true);
                         commonContext.filterRef.platformRef.current.click();
                       }
                     }}
@@ -96,8 +98,9 @@ const ResultHeader = ({ data }: any) => {
                     label={v}
                     customCss={styled.chip}
                     onClick={() => {
+                      commonContext.onHandleFilterOpen(true);
+
                       if (commonContext.filterRef.watchRef?.current) {
-                        commonContext.onHandleFilterOpen(true);
                         commonContext.filterRef.watchRef.current.click();
                       }
                     }}
@@ -113,8 +116,9 @@ const ResultHeader = ({ data }: any) => {
                       .join(" - ")}
                     customCss={styled.chip}
                     onClick={() => {
+                      commonContext.onHandleFilterOpen(true);
+
                       if (commonContext.filterRef.ratingRef?.current) {
-                        commonContext.onHandleFilterOpen(true);
                         commonContext.filterRef.ratingRef.current.click();
                       }
                     }}
@@ -130,8 +134,9 @@ const ResultHeader = ({ data }: any) => {
                       .join(" - ")}
                     customCss={styled.chip}
                     onClick={() => {
+                      commonContext.onHandleFilterOpen(true);
+
                       if (commonContext.filterRef.yearRef?.current) {
-                        commonContext.onHandleFilterOpen(true);
                         commonContext.filterRef.yearRef.current.click();
                       }
                     }}
@@ -144,12 +149,13 @@ const ResultHeader = ({ data }: any) => {
                     label={FILTER_SORT_ID_NAME[value]}
                     customCss={styled.chip}
                     onClick={() => {
+                      commonContext.onHandleFilterOpen(true);
                       if (commonContext.filterRef.sortRef?.current) {
-                        commonContext.onHandleFilterOpen(true);
                         commonContext.filterRef.sortRef.current.click();
                       }
                     }}
                   />
+
                 );
             })}
           </div>
