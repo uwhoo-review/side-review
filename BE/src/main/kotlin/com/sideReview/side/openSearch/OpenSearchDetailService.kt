@@ -8,13 +8,19 @@ import com.jillesvangurp.searchdsls.querydsl.bool
 import com.jillesvangurp.searchdsls.querydsl.match
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.dto.*
+import com.sideReview.side.person.PersonService
 import com.sideReview.side.review.StarRatingService
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchDetailService @Autowired constructor(val client: SearchClient, val starRatingService: StarRatingService)  {
+class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
+                                                     val starRatingService: StarRatingService,
+                                                     val personService: PersonService)  {
+    private val logger = LoggerFactory.getLogger(this.javaClass)!!
     private suspend fun findDocumentById(index : String, id: String) : SearchResponse {
         val search = client.search(index) {
             resultSize = 1
@@ -31,11 +37,49 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient, v
         return Season(now, list)
     }
 
+    suspend fun findDocumentByContentId(id: String): SearchResponse {
+        return client.search("person") {
+            query = bool {
+                should(
+                    match("cast.contentId", id),
+                    match("crew.contentId", id)
+                )
+            }
+        }
+    }
+
+    private fun filterCreditInfo(personList : List<PersonDocument>, id : String) :Pair<List<Actor>, List<Crew>>{
+        val actorList : MutableList<Actor> = mutableListOf()
+        val crewList : MutableList<Crew> = mutableListOf()
+        for(person in personList){
+            if(person.cast != null){
+                for(cast in person.cast!!)
+                    if(cast.contentId == id){
+                        actorList.add(
+                            Actor(person.name, person.id.toString(), cast.role, person.profilePath.toString())
+                        )
+                    }
+            }
+
+            if(person.crew != null){
+                for(crew in person.crew!!)
+                    if(crew.contentId == id){
+                        actorList.add(
+                            Actor(person.name, person.id.toString(), crew.job, person.profilePath.toString())
+                        )
+                    }
+            }
+        }
+        return Pair<List<Actor>, List<Crew>>(actorList, crewList)
+    }
+
     suspend fun getContentDocument(id: String) : DetailContentDto{
         val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
         val seasonList : List<String> = document.season ?: emptyList()
+
+        val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
 
         return DetailContentDto(
             id = document.id,
@@ -49,8 +93,8 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient, v
             trailer = document.trailer,
             photo = document.photo,
             poster = document.poster,
-            acting = emptyList(),
-            crew = emptyList(),
+            acting = filterCreditInfo(personList, id).first,
+            crew = filterCreditInfo(personList, id).second,
             rating = starRatingService.calculateWeightAverage(document.rating, id),
             age = 0,
             season = makeSeasonInfo(id, seasonList)

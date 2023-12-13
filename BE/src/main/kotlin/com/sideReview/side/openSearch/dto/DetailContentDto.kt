@@ -22,13 +22,15 @@ data class DetailContentDto(
 data class Actor(
     val name: String,
     val id : String,
-    val role: String
+    val role: String,
+    val profilePath : String
 )
 
 data class Crew(
     val name: String,
     val id : String,
-    val job: String
+    val job: String,
+    val profilePath : String
 )
 
 data class Season(

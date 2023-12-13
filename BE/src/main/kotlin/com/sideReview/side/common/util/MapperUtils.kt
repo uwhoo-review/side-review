@@ -118,6 +118,21 @@ object MapperUtils {
         }
         return mutableList.toList()
     }
+    fun parseToPersonDocument(searchResponse: SearchResponse) : List<PersonDocument>{
+        val mutableList: MutableList<PersonDocument> = mutableListOf();
+        val hits = searchResponse.hits
+        if (hits != null) {
+            for(data in hits.hits) {
+                if(data.source != null) {
+                    mutableList.add(
+                        Gson().fromJson(data.source.toString(),
+                            PersonDocument::class.java)
+                    )
+                }
+            }
+        }
+        return mutableList.toList()
+    }
 
     fun parseToSimpleContentDto(response: SearchResponse): List<SimpleContentDto> {
         val mutableList: MutableList<SimpleContentDto> = mutableListOf();
