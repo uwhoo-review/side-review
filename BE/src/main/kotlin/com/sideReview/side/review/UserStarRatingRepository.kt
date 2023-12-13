@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserStarRatingRepository : JpaRepository<UserStarRating, Int>{
-    fun findOneByTargetIdAndWriterId(contentId: String, writerId: String) : UserStarRating
+    fun findOneByTargetIdAndWriterId(contentId: String, writerId: String) : UserStarRating?
     fun findAllByTargetId(contentId : String) : List<UserStarRating>
     fun deleteByTargetIdAndWriterId(contentId: String, writerId: String)
     fun existsByTargetIdAndWriterId(contentId: String, writerId: String) : Boolean
