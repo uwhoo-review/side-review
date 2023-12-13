@@ -60,6 +60,6 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
         if(tmdbRating != null && userRating != null){
             rating = ((tmdbRating*tmdbWeight)+(userRating*userWeight))/(tmdbWeight+userWeight)
         }
-        return rating
+        return String.format("%.2f", rating).toDouble()
     }
 }
