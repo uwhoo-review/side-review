@@ -57,7 +57,7 @@ const ReviewCard = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list", "review", id, "best", false, 0, 6],
+        queryKey: ["list", "review", id, "best", 0, 0, 6],
       });
     },
   });
