@@ -27,6 +27,8 @@ api:
 
 server:
   port: 8080
+  servlet:
+    context-path: /api
 #  ssl:
 #    key-store: /home/ubuntu/app/BE/keystore.p12
 #    key-store-type: PKCS12
