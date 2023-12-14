@@ -46,6 +46,7 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
             rating = entity.rating
             ratingId = entity.id
         }
+
         return StarRatingDto(total, rating, ratingId)
     }
 
