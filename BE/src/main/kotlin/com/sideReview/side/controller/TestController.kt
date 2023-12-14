@@ -19,4 +19,10 @@ class TestController (
         return ResponseEntity.ok(tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople()));
         //return ResponseEntity.ok(tmdbPersonService.creditToPerson())
     }
+
+    @GetMapping("test")
+    fun getTest(): ResponseEntity<Any> {
+        return ResponseEntity.ok("ok");
+        //return ResponseEntity.ok(tmdbPersonService.creditToPerson())
+    }
 }
