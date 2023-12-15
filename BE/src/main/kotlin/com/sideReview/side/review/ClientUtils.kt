@@ -21,8 +21,8 @@ class ClientUtils {
                 ip = request.remoteAddr
             }
 
-            println("************** review 추가 ip log ***************")
-            println(ip)
+            System.err.println("************** review 추가 ip log ***************")
+            System.err.println(ip)
             return ip
         }
     }

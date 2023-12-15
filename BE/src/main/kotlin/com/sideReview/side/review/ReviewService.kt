@@ -56,9 +56,9 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
                 )
             )
         }.onFailure {
-            println("############################################")
-            println("########### Error on Review Save ###########")
-            println("############################################")
+            System.err.println("############################################")
+            System.err.println("########### Error on Review Save ###########")
+            System.err.println("############################################")
             System.err.println(it.message)
             System.err.println(it.stackTrace)
         }
