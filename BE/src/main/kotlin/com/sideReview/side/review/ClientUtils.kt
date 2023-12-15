@@ -21,6 +21,8 @@ class ClientUtils {
                 ip = request.remoteAddr
             }
 
+            println("************** review 추가 ip log ***************")
+            println(ip)
             return ip
         }
     }
