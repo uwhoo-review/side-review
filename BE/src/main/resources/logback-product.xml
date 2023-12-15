@@ -47,19 +47,19 @@
 
   <!-- com.example.springbootrestapi -->
   <logger name="com.example.springbootrestapi"
-    level="INFO"
+    level="info"
     additivity="false">
     <appender-ref ref="FILE-APPENDER"/>
   </logger>
   <!-- hikari -->
   <logger name="com.zaxxer.hikari"
-    level="INFO"
+    level="info"
     additivity="false">
     <appender-ref ref="FILE-APPENDER"/>
   </logger>
 
   <!-- 로그 레벨 설정 -->
-  <root level="INFO">
+  <root level="info">
     <appender-ref ref="FILE-APPENDER"/>
   </root>
 
