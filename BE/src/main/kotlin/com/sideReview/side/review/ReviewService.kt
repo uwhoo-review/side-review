@@ -4,6 +4,7 @@ import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDT
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserReview
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -13,6 +14,7 @@ import java.util.*
 
 @Service
 class ReviewService(val userReviewRepository: UserReviewRepository) {
+    private val logger = LoggerFactory.getLogger(this.javaClass)!!
     /*
     fun get(id: String, sort: String?, spoiler: Boolean): ReviewDTO {
         val reviews: List<UserReview>
@@ -56,11 +58,11 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
                 )
             )
         }.onFailure {
-            System.err.println("############################################")
-            System.err.println("########### Error on Review Save ###########")
-            System.err.println("############################################")
-            System.err.println(it.message)
-            System.err.println(it.stackTrace)
+            logger.error("############################################")
+            logger.error("########### Error on Review Save ###########")
+            logger.error("############################################")
+            logger.error(it.message)
+            logger.error("${it.stackTrace}")
         }
     }
 
