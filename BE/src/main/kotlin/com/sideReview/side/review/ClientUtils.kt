@@ -1,5 +1,6 @@
 package com.sideReview.side.review
 
+import org.slf4j.LoggerFactory
 import javax.servlet.http.HttpServletRequest
 
 class ClientUtils {
@@ -21,8 +22,9 @@ class ClientUtils {
                 ip = request.remoteAddr
             }
 
-            System.err.println("************** review 추가 ip log ***************")
-            System.err.println(ip)
+            val logger = LoggerFactory.getLogger(this.javaClass)!!
+            logger.error("************** review 추가 ip log ***************")
+            logger.error(ip)
             return ip
         }
     }
