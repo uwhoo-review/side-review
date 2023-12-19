@@ -19,7 +19,7 @@ import com.sideReview.side.tmdb.dto.TmdbContent
 import java.lang.reflect.Type
 
 object MapperUtils {
-    fun mapTmdbToDocument(tmdbContentList: List<TmdbContent>): List<ContentDocument> {
+    fun mapTmdbToDocument(tmdbContentList: List<TmdbContent>): MutableList<ContentDocument> {
         return tmdbContentList.map {
             ContentDocument(
                 id = it.id,
@@ -38,7 +38,7 @@ object MapperUtils {
                 popularity = it.popularity,
                 production = null
             )
-        }
+        }.toMutableList()
     }
 
     fun mapPeopleInfoToDocument(personInfoList: List<PersonInfo>): List<PersonDocument> {

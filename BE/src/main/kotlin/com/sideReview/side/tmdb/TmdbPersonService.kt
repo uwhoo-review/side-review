@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 import java.io.File
 
 @Service
-class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClient) {
+class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClient, private val tmdbContentService: TmdbContentService) {
     @Value("\${api.tmdb.key}")
     lateinit var accessKey: String
     fun getAllPeople(): List<PersonDocument> {
@@ -25,27 +25,13 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
 
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllPeople("Bearer $accessKey", page).results)
-            //if (page == 100) break;
         }
         return MapperUtils.mapPeopleInfoToDocument(dtoList)
     }
 
     fun getCreditInfo(personDocumentList: List<PersonDocument>): List<PersonDocument> {
-        val contentResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1)
-        //tmdb 페이지 제한에 따라 최대 500으로 설정
-        val pages: Int = 500
-        val contentIdList: MutableList<String> = mutableListOf()
+        val contentIdList = tmdbContentService.getAllContents().map { it.id }
         val personInfoMap = personDocumentList.associateBy { it.id }
-
-        contentIdList.addAll(contentResponse.results.map { it.id })
-
-        for (page in 2..pages) {
-            contentIdList.addAll(
-                tmdbClient.findAllTvShows(
-                    "Bearer $accessKey",
-                    page
-                ).results.map { it.id })
-        }
 
         for (id in contentIdList) {
             val creditDto = filterCredit(tmdbClient.findOneCredit("Bearer $accessKey", id))
