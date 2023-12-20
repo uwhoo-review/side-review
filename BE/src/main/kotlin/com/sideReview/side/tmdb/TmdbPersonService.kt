@@ -5,27 +5,42 @@ import com.sideReview.side.common.document.JobInfo
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.document.RoleInfo
 import com.sideReview.side.common.util.MapperUtils
+import com.sideReview.side.person.NamesRepository
+import com.sideReview.side.person.entity.Names
 import com.sideReview.side.tmdb.dto.*
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.io.File
+import javax.persistence.EntityNotFoundException
 
 @Service
-class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClient, private val tmdbContentService: TmdbContentService) {
+class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClient,
+                                               private val tmdbContentService: TmdbContentService,
+                                               private val namesRepository: NamesRepository) {
     @Value("\${api.tmdb.key}")
     lateinit var accessKey: String
+    private val logger = LoggerFactory.getLogger(this.javaClass)!!
     fun getAllPeople(): List<PersonDocument> {
         val peopleResponse: PeopleResponse = tmdbClient.findAllPeople("Bearer $accessKey", 1)
         //val pages: Int = peopleResponse.total_pages
-        val pages: Int = 500
-        val dtoList: MutableList<PersonInfo> = mutableListOf()
+        val pages: Int = 4
+        var dtoList: MutableList<PersonInfo> = mutableListOf()
 
         dtoList.addAll(peopleResponse.results)
 
         for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllPeople("Bearer $accessKey", page).results)
         }
+
+        dtoList.forEach {
+            val koreanName = convertIdToKorean(it.id)
+            if(koreanName != null && koreanName != "")
+                it.name = convertIdToKorean(it.id) ?: it.name
+        }
+
         return MapperUtils.mapPeopleInfoToDocument(dtoList)
     }
 
@@ -64,6 +79,33 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
         return personInfoMap.values.toList()
     }
 
+    @Transactional
+    fun savePersonNames() {
+        getAllPeople().forEach {
+            try {
+                val personResponse: PeopleDetailResponse = tmdbClient.findOnePerson("Bearer $accessKey", it.id)
+                namesRepository.save(
+                    Names(
+                        personResponse.id, filterKorean(personResponse.also_known_as), personResponse.name
+                ))
+            } catch (e: Exception) {
+                logger.info("An error occurred during person dictionary processing - $it.id")
+            }
+        }
+    }
+    private fun filterKorean(strings: List<String>): String {
+        val koreanRegex = "[가-힣]".toRegex()
+        var koreanName = ""
+
+        for (str in strings) {
+            if (koreanRegex.containsMatchIn(str)) {
+                koreanName = str
+            }
+        }
+
+        return koreanName
+    }
+
     private fun filterCredit(creditResponse: CreditResponse): CreditDto {
         val roleList: MutableList<RoleDto> = mutableListOf()
         val jobList: MutableList<JobDto> = mutableListOf()
@@ -81,50 +123,16 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
         }
         return CreditDto(roleList, jobList)
     }
-
-    //테스트용 메서드
-    fun creditToPerson(): Map<Int, PersonDocument> {
-        val jsonCredit = File("/home/hyejin/workspace/side/side-review/BE/src/main/resources/credit.txt").readText()
-        val jsonPeople = File("/home/hyejin/workspace/side/side-review/BE/src/main/resources/people.txt").readText()
-
-        val creditResponse = Gson().fromJson(jsonCredit, CreditResponse::class.java)
-        val peopleInfoList = Gson().fromJson(jsonPeople, PeopleResponse::class.java).results
-
-        val personDocumentList = MapperUtils.mapPeopleInfoToDocument(peopleInfoList)
-        val creditDto = filterCredit(creditResponse)
-
-
-        //val roleInfoList: MutableList<RoleInfo> = mutableListOf()
-        //val jobInfoList: MutableList<JobInfo> = mutableListOf()
-
-        val personInfoMap = personDocumentList.associateBy { it.id }
-
-        creditDto.roleDto?.forEach {
-            val roleInfoList: MutableList<RoleInfo> = mutableListOf()
-            roleInfoList.add(RoleInfo(it.role, "119051"))
-
-            if (personInfoMap.containsKey(it.personId)) {
-                val preCastList = personInfoMap[it.personId]?.cast
-                if (preCastList != null) {
-                    roleInfoList.addAll(preCastList)
-                }
-                personInfoMap[it.personId]?.cast = roleInfoList.toList()
-            }
+    private fun convertIdToKorean(id: Int) : String? {
+        var name: String? = null
+        var englishName: String? = null
+        try{
+            val entity = namesRepository.findById(id).get()
+            name = entity.koreanName
+            englishName = entity.englishName
+        }catch(e :Exception){
+            logger.info("No Such person - $id")
         }
-        creditDto.jobIDto?.forEach {
-            val jobInfoList: MutableList<JobInfo> = mutableListOf()
-            jobInfoList.add(JobInfo(it.job, "119051"))
-
-            if (personInfoMap.containsKey(it.personId)) {
-                val preCrewList = personInfoMap[it.personId]?.crew
-                if (preCrewList != null) {
-                    jobInfoList.addAll(preCrewList)
-                }
-                personInfoMap[it.personId]?.crew = jobInfoList.toList()
-            }
-        }
-
-        return personInfoMap
+        return name ?: englishName
     }
-
 }

@@ -89,4 +89,9 @@ interface TmdbClient {
         @PathVariable(name = "id", required = true) tmdbId: String
     ): DetailResponse
 
+    @GetMapping("person/{id}?language=ko-KR")
+    fun findOnePerson(
+        @RequestHeader("Authorization") apiKey: String,
+        @PathVariable(name = "id", required = true) tmdbId: Int
+    ) : PeopleDetailResponse
 }
