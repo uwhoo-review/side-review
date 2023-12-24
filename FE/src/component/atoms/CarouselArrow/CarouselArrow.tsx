@@ -3,6 +3,7 @@ import { IconChevronLeft, IconChevronRight } from "@res/index";
 import { SerializedStyles } from "@emotion/react";
 
 interface CarouselArrowProps {
+  theme?: string;
   direction: string;
   className?: string;
   height?: string;
@@ -17,6 +18,7 @@ interface CarouselArrowProps {
 
 const CarouselArrow = ({
   className,
+    theme="white",
   direction,
   height = "52px",
   width = "30px",
@@ -28,7 +30,7 @@ const CarouselArrow = ({
   return (
     <div
       className={className}
-      css={[styled.wrapper(width, height, radius, backgroundColor), customCss]}
+      css={[styled.wrapper(width, height, radius, backgroundColor, theme), customCss]}
       onClick={onClick}
     >
       {direction === "left" && <IconChevronLeft />}

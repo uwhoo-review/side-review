@@ -22,7 +22,7 @@ export default {
     width: 100%;
     margin-top: 20px;
   `,
-  sliderWrapper: css`
+  sliderWrapper: (currentPage: number, lastPage: number) => css`
     height: 314px;
     position: relative;
     background-color: ${Color.dark.elevation01};
@@ -32,7 +32,24 @@ export default {
     justify-content: center;
     align-items: center;
     padding: 50px 118px;
-    //gap: 20px;
+
+    &:hover {
+      .hover-arrow {
+        z-index: 1;
+        &.left {
+          display: ${currentPage === 1 ? "none" : "flex"};
+        }
+        &.right {
+          display: ${currentPage === lastPage ? "none" : "flex"};
+        }
+      }
+    }
+    &:not(:hover) {
+      .hover-arrow {
+        z-index: 0;
+        display: none;
+      }
+    }
   `,
   emptyWrapper: css`
     height: 314px;

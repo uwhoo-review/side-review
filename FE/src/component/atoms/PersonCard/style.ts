@@ -11,6 +11,10 @@ export default {
     //width: 120px;
     display: flex;
     flex-direction: column;
-    
   `,
+  imageWrapper: css`
+    width: 82px;
+    height: 82px;
+    border-radius: 20px;
+  `
 };

@@ -29,19 +29,37 @@ export default {
     width: 100%;
     margin-top: 20px;
   `,
-  cardSlider: css`
+  cardSlider: (currentPage: number, lastPage: number) => css`
     width: 1396px;
     position: relative;
     overflow: hidden;
+
+    &:hover {
+      .hover-arrow {
+        z-index: 1;
+        &.left {
+          display: ${currentPage === 1 ? "none" : "flex"};
+        }
+        &.right {
+          display: ${currentPage === lastPage ? "none" : "flex"};
+        }
+      }
+    }
+    &:not(:hover) {
+      .hover-arrow {
+        z-index: 0;
+        display: none;
+      }
+    }
   `,
-  cardWrapper: (currentPage: number) => css`
+  cardWrapper: (translateX: any) => css`
     display: flex;
     align-items: center;
     gap: 20px;
     flex-wrap: nowrap;
 
     transition: 0.5s ease;
-    transform: translate(${(currentPage - 1) * -(1396 + 20)}px, 0px);
+    transform: translateX(${translateX}px);
   `,
   card: css`
     width: 334px;
@@ -51,8 +69,7 @@ export default {
 
     border: none;
     border-radius: 10px;
-    overflow: hidden;    
-    
+    overflow: hidden;
   `,
   leftPageBtn: css`
     position: absolute;
@@ -73,7 +90,7 @@ export default {
     z-index: 1;
   `,
   previewBox: css`
-   /* @keyframes heightSlide {
+    /* @keyframes heightSlide {
       from {
         height: 0px;
       }

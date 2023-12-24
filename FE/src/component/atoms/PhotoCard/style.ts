@@ -18,14 +18,26 @@ export default {
     border: none;
   `,
   modalWrapper: css`
-    //max-width: 1600px;
-    //max-height: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   `,
   modalImg: css`
-    width: 1600px;
-    height: 900px;
+    max-width: 1256px;
+    max-height: 900px;
     object-fit: scale-down;
     //width: 90%;
     //height: 450px;
-  `
+  `,
+  leftPageBtn: css`
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 10px;
+
+  `,
+  rightPageBtn: css`
+    position: absolute;
+    top: calc(50% - 30px);
+    right: 10px;
+  `,
 };

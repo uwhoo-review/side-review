@@ -13,7 +13,7 @@ import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import person1 from "@res/temp/person1.png";
 import { card1, card3, IconChevronDoubleDown } from "@res/index";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const SearchResultContent = ({ data }: any) => {
   const navigate = useNavigate();
 
@@ -104,11 +104,16 @@ const SearchResultContent = ({ data }: any) => {
                 <div css={styled.sub2}>
                   {resultMatch.person.slice(0, personCnt).map((v: any) => (
                     <PersonCard
+                      id={v.id}
+                      name={v.name}
+                      subName={v?.role || v?.job}
                       width={"82px"}
                       height={"82px"}
-                      src={person1}
+                      srcId={person1}
                       className={"image-card"}
-                      onClick={() => {}}
+                      onClick={() => {
+                        navigate(`/person/${v.id}`);
+                      }}
                     />
                   ))}
                 </div>

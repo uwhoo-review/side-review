@@ -29,4 +29,20 @@ export default {
     border-radius: 10px;
     color: #9897a1;
   `,
+  leftPageBtn: css`
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 10px;
+
+  `,
+  rightPageBtn: css`
+    position: absolute;
+    top: calc(50% - 30px);
+    right: 10px;
+  `,
+  modalWrapper: css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
 };

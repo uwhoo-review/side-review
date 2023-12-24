@@ -36,7 +36,7 @@ const InformationBox = ({ item }: any) => {
                 </div>
                 <div className="col-full">
                   <HWTypography variant={"bodyM"} family={"Poppins"} color={Color.dark.grey800}>
-                    {`${new Date(item.firstAirDate).getFullYear()} ∙ ??? ∙ ${item?.originCountry[0]}`}
+                    {`${new Date(item.firstAirDate).getFullYear()} ∙ ${item?.originCountry[0]}`}
                   </HWTypography>
                 </div>
               </div>

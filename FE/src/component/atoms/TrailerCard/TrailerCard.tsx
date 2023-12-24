@@ -1,28 +1,40 @@
 import styled from "./style";
 import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { THUMBNAIL_URL, VIDEO_URL } from "@src/variables/tmdbConstants";
 import { IconPlay } from "@res/index";
-import {getCardURL, isNullOrEmpty} from "@src/tools/commonTools";
+import { getCardURL, isNullOrEmpty } from "@src/tools/commonTools";
+import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
+import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 
 interface TrailerCardProps {
   srcId: string;
+  idx?: number;
   width?: string;
   height?: string;
   useModal?: boolean;
   onClick?: () => void;
   size?: string;
+  trailerList?: string[];
 }
 
 const TrailerCard = ({
+  idx = 0,
   srcId,
   width = "100%",
   height = "100%",
   useModal = true,
   onClick,
   size = "mqdefault",
+  trailerList,
 }: TrailerCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [trailerSrc, setTrailerSrc] = useState(srcId);
+  const [trailerIdx, setTrailerIdx] = useState(idx);
+
+  useEffect(() => {
+    if (trailerList) setTrailerSrc(trailerList[trailerIdx]);
+  }, [trailerIdx]);
 
   return (
     <>
@@ -46,12 +58,39 @@ const TrailerCard = ({
       {useModal && (
         <>
           <HWDialog open={Boolean(isOpen)} onClose={() => setIsOpen(false)}>
-            <iframe
-              src={`${getCardURL({ type: "trailer", srcId: srcId, autoplay: true })}`}
-              title="Trailer"
-              css={styled.iframe}
-              allowFullScreen
-            />
+            <CenterWrapper>
+              <div css={styled.modalWrapper}>
+                {trailerIdx > 0 && (
+                  <CarouselArrow
+                    className={"hover-arrow left"}
+                    direction={"left"}
+                    customCss={styled.leftPageBtn}
+                    theme={"dark"}
+                    onClick={() => {
+                      trailerIdx > 0 && setTrailerIdx((prev: any) => prev - 1);
+                    }}
+                  />
+                )}
+                <iframe
+                  data-idx={trailerIdx}
+                  src={`${getCardURL({ type: "trailer", srcId: trailerSrc, autoplay: true })}`}
+                  title="Trailer"
+                  css={styled.iframe}
+                  allowFullScreen
+                />
+                {trailerList && trailerIdx < trailerList.length - 1 && (
+                  <CarouselArrow
+                    className={"hover-arrow right"}
+                    direction={"right"}
+                    customCss={styled.rightPageBtn}
+                    theme={"dark"}
+                    onClick={() => {
+                      trailerIdx < trailerList.length - 1 && setTrailerIdx((prev: any) => prev + 1);
+                    }}
+                  />
+                )}
+              </div>
+            </CenterWrapper>
           </HWDialog>
         </>
       )}
