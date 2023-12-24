@@ -80,15 +80,6 @@ const ContentCard = ({
         <div
           className={"title"}
           css={styled.title}
-          /*          onMouseEnter={(e: any) => {
-            console.log(e.target?.clientWidth, e.target?.scrollWidth);
-            console.log(divRef.current);
-            if (divRef.current) {
-              divRef.current.style = "animation: marquee 5s linear infinite;";
-              divRef.current.style += "white-space: nowrap;";
-              divRef.current.style += "text-overflow: unset;";
-            }
-          }}*/
         >
           <div className={"title-text"} css={styled.marquee} ref={divRef} data-overflow={isOverflow}>
             {contentName}

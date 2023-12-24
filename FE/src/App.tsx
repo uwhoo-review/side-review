@@ -20,7 +20,7 @@ const App = () => (
       {/*<GNB />*/}
       <Routes>
         {/*<Route path={"/*"} element={<Navigate to={"home"} />}>*/}
-        <Route path={"/*"} element={<CommonTemplate />}>
+        <Route path={"/"} element={<CommonTemplate />}>
           <Route index element={<MainPage />} />
           <Route path={"popular"} element={<PopularPage />} />
           <Route path={"recently"} element={<RecentlyPage />} />

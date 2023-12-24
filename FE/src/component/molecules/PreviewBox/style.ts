@@ -44,16 +44,16 @@ export default {
     gap: 20px;
   `,
   leftContents: css`
-    width: 640px;
+    //width: 640px;
     height: 360px;
-    flex-shrink: 0;
+    flex: 0 0 640px;
     iframe {
       border: none;
       border-radius: 6px;
     }
   `,
   rightContents: css`
-    flex-grow: 1;
+    flex: 1 1 660px;
     position: relative;
   `,
   bottomContents: css`
@@ -62,6 +62,13 @@ export default {
     justify-content: space-between;
     align-items: center;
     //margin-top: 30px;
+  `,
+  emptyReview: css`
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   `,
   typoTitle: css`
     margin-right: 8px;
@@ -134,5 +141,23 @@ export default {
     word-break: break-all;
     overflow: hidden;
     text-overflow: ellipsis;
+  `,
+  title: css`
+    width: 680px;
+    margin-bottom: 2px;
+    overflow-x: hidden;
+    display: flex;
+    flex: 0 0 auto;
+  `,
+  marquee: css`
+    :hover[data-overflow="true"] {
+      animation: marquee 5s linear infinite;
+      white-space: nowrap;
+    }
+    :not(:hover) {
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
   `,
 };

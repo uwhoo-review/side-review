@@ -14,7 +14,7 @@ import Color from "@src/common/styles/Color";
 import { Avatar, AvatarGroup, Modal, Rating } from "@mui/material";
 import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { VIDEO_URL } from "@src/variables/tmdbConstants";
 import { ContentDO } from "@src/interfaces/api.interface";
@@ -38,6 +38,15 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
   const [rating, setRating] = useState<number | null>(1.5);
   const [detailOpen, setDetailOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+  const divRef = useRef<any>(null);
+  const [isOverflow, setIsOverflow] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (divRef.current) {
+      if (divRef.current?.clientWidth < divRef.current?.scrollWidth) setIsOverflow(true);
+      else setIsOverflow(false);
+    }
+  }, [item]);
 
   return (
     <div css={styled.centerWrapper}>
@@ -71,23 +80,33 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     navigate(`/detail/${item.id}`);
                   }}
                 />
-                <div className={"flex flex-align-center"}>
-                  <HWTypography
-                    variant={"headlineS"}
-                    family={"Pretendard-SemiBold"}
-                    color={Color.dark.grey900}
-                    css={styled.typoTitle}
+                <div css={styled.title}>
+                  <div
+                    className={"title-text"}
+                    css={styled.marquee}
+                    ref={divRef}
+                    data-overflow={isOverflow}
                   >
-                    {item.name}
-                  </HWTypography>
-                  <HWTypography
-                    variant={"bodyXL"}
-                    family={"Poppins"}
-                    color={Color.dark.grey500}
-                    css={styled.typoYear}
-                  >
-                    {item.year}
-                  </HWTypography>
+                    <HWTypography
+                      variant={"headlineS"}
+                      family={"Pretendard-SemiBold"}
+                      color={Color.dark.grey900}
+                      css={styled.typoTitle}
+                      ref={divRef} data-overflow={isOverflow}
+                    >
+                      {item.name}
+                      {item.name}
+                      {item.name}
+                    </HWTypography>
+                    <HWTypography
+                      variant={"bodyXL"}
+                      family={"Poppins"}
+                      color={Color.dark.grey500}
+                      css={styled.typoYear}
+                    >
+                      {item.year}
+                    </HWTypography>
+                  </div>
                   {/*<HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />*/}
                 </div>
                 <div className={"grid margin-top-16"}>
@@ -205,6 +224,13 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
               </div>
             </div>
             <div css={styled.bottomContents}>
+              {item?.review.total === 0 && (
+                <div css={styled.emptyReview}>
+                  <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
+                    이 작품에 작성된 리뷰가 없습니다.
+                  </HWTypography>
+                </div>
+              )}
               {item?.review.review.map((v: any) => {
                 return (
                   <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
@@ -212,20 +238,6 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                   </ReviewCard>
                 );
               })}
-              <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
-                초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온
-                부모들이 시대와 세대를 넘어 닥치는 거대한 위험에 함께 맞서는 초능력 액션 히어로물.
-                초능력을 숨긴 채 현재를 살아가는 아이들과, 과거의 아픈 비밀을 숨긴 채 살아온
-                부모들이 시대와 세대를 넘어 닥치는 거
-                블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라블라
-              </ReviewCard>
-              {/*
-              <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
-                asd
-              </ReviewCard>
-              <ReviewCard best={false} date={"2023.02.29"} line={4} useModal={true}>
-                asd
-              </ReviewCard>*/}
             </div>
           </div>
           {/*<div css={styled.rightWrapper}>

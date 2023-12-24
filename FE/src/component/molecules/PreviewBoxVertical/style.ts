@@ -29,6 +29,13 @@ export default {
       border-radius: 6px;
     }
   `,
+  emptyReview: css`
+    height: 340px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
   synopsis: css`
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -140,5 +147,23 @@ export default {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+  `,
+  title: css`
+    width: 380px;
+    margin-bottom: 2px;
+    overflow-x: hidden;
+    display: flex;
+    flex: 0 0 auto;
+  `,
+  marquee: css`
+    :hover[data-overflow="true"] {
+      animation: marquee 5s linear infinite;
+      white-space: nowrap;
+    }
+    :not(:hover) {
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
   `,
 };

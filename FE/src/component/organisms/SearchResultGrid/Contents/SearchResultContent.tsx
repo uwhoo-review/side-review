@@ -73,6 +73,7 @@ const SearchResultContent = ({ data }: any) => {
                       age={v.age}
                       year={v.year}
                       rating={v.rating}
+                      launch={false}
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/detail/${v.id}`);
@@ -149,6 +150,7 @@ const SearchResultContent = ({ data }: any) => {
                   age={v.age}
                   year={v.year}
                   rating={v.rating}
+                  launch={false}
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/detail/${v.id}`);
