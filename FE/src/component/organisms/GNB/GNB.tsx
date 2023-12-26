@@ -1,5 +1,5 @@
 import styled from "./style";
-import { Link, NavLink, Outlet, useLocation, useParams } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { IconSearch, IconUwhoo } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
@@ -13,7 +13,7 @@ import { Popover } from "@mui/material";
 const GNB = (props: { children?: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const commonContext = useCommon();
-
+  const navigate = useNavigate();
   const searchEl = useRef<any>(null);
   const iconEl = useRef<any>(null);
 
@@ -52,12 +52,13 @@ const GNB = (props: { children?: React.ReactNode }) => {
     };
   }, []);
 
-
   return (
     <>
       <header
         css={styled.wrapper(
-          scrollTop && !commonContext.isFilterOpen && pathname === "/detail"
+          scrollTop &&
+            !commonContext.isFilterOpen &&
+            (pathname === "/detail" || pathname === "/login")
             ? "transparent"
             : "#232323",
           scrollTop
@@ -93,7 +94,13 @@ const GNB = (props: { children?: React.ReactNode }) => {
             >
               <IconSearch />
             </HWIconButton>
-            <HWButton variant={"lower"} size={"small"}>
+            <HWButton
+              variant={"lower"}
+              size={"small"}
+              onClick={() => {
+                navigate("login");
+              }}
+            >
               로그인
             </HWButton>
             <HWButton variant={"primary"} size={"small"}>
@@ -118,8 +125,6 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </CenterWrapper>
         </div>
       </Popover>
-
-      <ScrollTopButton target={window} />
       {/*<Outlet />*/}
     </>
   );

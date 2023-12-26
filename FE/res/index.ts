@@ -1,3 +1,15 @@
+/* background */
+import bg01 from "./background/bg_01.png";
+import bg02 from "./background/bg_02.png";
+import bg03 from "./background/bg_03.png";
+import bg04 from "./background/bg_04.png";
+import bg05 from "./background/bg_05.png";
+import bg06 from "./background/bg_06.png";
+import bg07 from "./background/bg_07.png";
+import bg08 from "./background/bg_08.png";
+import bg09 from "./background/bg_09.png";
+import bg10 from "./background/bg_10.png";
+
 /* ./card1 */
 import card1 from "./card/card1.png";
 import card2 from "./card/card2.png";
@@ -34,6 +46,9 @@ import { ReactComponent as IconWrite } from "./icon/ic_write.svg";
 /* ./logo */
 import { ReactComponent as IconApple } from "./logo/ic_apple.svg";
 import { ReactComponent as IconDisney } from "./logo/ic_disney.svg";
+import { ReactComponent as IconGoogle } from "./logo/ic_google.svg";
+import { ReactComponent as IconKakao } from "./logo/ic_kakao.svg";
+import { ReactComponent as IconNaver } from "./logo/ic_naver.svg";
 import { ReactComponent as IconNetflix } from "./logo/ic_netflix.svg";
 import { ReactComponent as IconTving } from "./logo/ic_tving.svg";
 import { ReactComponent as IconUwhoo } from "./logo/ic_uwhoo.svg";
@@ -78,4 +93,18 @@ export {
   IconWatcha,
   IconUwhoo,
   IconWavve,
+  IconGoogle,
+  IconKakao,
+  IconNaver,
+
+  bg01,
+  bg02,
+  bg03,
+  bg04,
+  bg05,
+  bg06,
+  bg07,
+  bg08,
+  bg09,
+  bg10,
 };
