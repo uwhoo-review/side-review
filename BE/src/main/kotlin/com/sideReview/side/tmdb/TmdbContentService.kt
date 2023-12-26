@@ -1,5 +1,6 @@
 package com.sideReview.side.tmdb
 
+import com.sideReview.side.common.constant.CountryEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.Product
 import com.sideReview.side.common.util.MapperUtils
@@ -22,7 +23,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 
     fun getAllContents(): MutableList<ContentDocument> {
         val dtoList: MutableList<TmdbContent> = mutableListOf()
-        val countryList = listOf("KR", "JP", "CN", "TW", "HK", "US", "GB", "FR", "ES")
+        val countryList = CountryEnum.getCountryCodes()
 
         countryList.forEach {
             val tmdbData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it)
@@ -80,7 +81,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 seasonDocList.addAll(getSeasonContents(id, detailResponse))
                 doc.episodeCount = detailResponse.seasons?.get(0)?.episode_count
                 doc.production = Product(detailResponse.production_companies?.map { it.name },
-                    detailResponse.production_countries?.map { it.name })
+                    detailResponse.origin_country?.map { CountryEnum.getNameByCode(it) })
             } catch (e: Exception) {
                 logger.info("An error occurred during detail processing - $id")
             }
