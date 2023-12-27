@@ -10,7 +10,7 @@ import MainContent from "@src/component/organisms/MainGrid/Contents/MainContent"
 const PopularTemplate = () => {
   const { status, data, error } = useQuery({
     queryKey: ["list", "popularity"],
-    queryFn: async () => await UWAxios.sample.getSample({ tab: CONTENTS_TABS.POPULARITY }),
+    queryFn: async () => await UWAxios.contents.getContents({ tab: CONTENTS_TABS.POPULARITY }),
     refetchOnWindowFocus: false,
   });
 
