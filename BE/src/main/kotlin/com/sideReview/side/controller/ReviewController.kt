@@ -30,7 +30,12 @@ class ReviewController(val reviewService: ReviewService) {
     @PutMapping("")
     fun evaluate(@RequestBody body: ReviewEvaDTO): ResponseEntity<Any> {
         if (body.eval != 0 && body.eval != 1) return ResponseEntity(HttpStatus.BAD_REQUEST)
-        reviewService.evaluate(body)
+        runCatching {
+            reviewService.evaluate(body)
+        }.onFailure {
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+
         return ResponseEntity(HttpStatus.OK)
     }
     @GetMapping("/{id}")
