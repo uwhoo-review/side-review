@@ -13,13 +13,14 @@ interface TmdbClient {
     fun findAllTvShows(
         @RequestHeader("Authorization") apiKey: String,
         @RequestParam("page") page: Int,
-        //@RequestParam("with_networks") withNetworks: Int = 213,
+        @RequestParam("with_origin_country") originCountry : String,
         @RequestParam("include_adult") includeAdult: Boolean = false,
         @RequestParam("include_null_first_air_dates") includeNullFirstAirDates: Boolean = false,
         @RequestParam("language") language: String = "ko-KR",
         @RequestParam("sort_by") sortBy: String = "popularity.desc", //popularity.desc or primary_release_date.desc
         @RequestParam("watch_region") watchRegion: String = "KR",
-        //@RequestParam("first_air_date_year") year : Int = 2022,
+        //@RequestParam("with_networks") withNetworks: Int = 213,
+        @RequestParam("first_air_date_year") year : Int = 2022,
         //@RequestParam("with_original_language") withOriginalLanguage: String = "en"
     ): TmdbResponse
 
@@ -88,4 +89,9 @@ interface TmdbClient {
         @PathVariable(name = "id", required = true) tmdbId: String
     ): DetailResponse
 
+    @GetMapping("person/{id}?language=ko-KR")
+    fun findOnePerson(
+        @RequestHeader("Authorization") apiKey: String,
+        @PathVariable(name = "id", required = true) tmdbId: Int
+    ) : PeopleDetailResponse
 }

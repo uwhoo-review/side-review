@@ -1,5 +1,6 @@
 package com.sideReview.side.tmdb
 
+import com.sideReview.side.common.constant.CountryEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.Product
 import com.sideReview.side.common.util.MapperUtils
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import kotlin.math.min
 
 @Service
 @Slf4j
@@ -19,32 +21,41 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
     lateinit var accessKey: String
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
 
-    fun getAllContents(): List<ContentDocument> {
+    fun getAllContents(): MutableList<ContentDocument> {
         val dtoList: MutableList<TmdbContent> = mutableListOf()
-        val tmdbData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1)
-        dtoList.addAll(tmdbData.results)
-        logger.info("[Discover] first: ${dtoList.size}")
+        val countryList = CountryEnum.getCountryCodes()
 
-        //val pages: Int = tmdbData.total_pages
-        val pages: Int = 500
-        for (page in 2..pages) {
-            dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page).results)
+        countryList.forEach {
+            val tmdbData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it)
+            dtoList.addAll(tmdbData.results)
+
+            logger.info("[Discover] $it first: ${dtoList.size}")
+
+            val pages: Int = min(tmdbData.total_pages, 500)
+            for (page in 2..pages) {
+                dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it).results)
+            }
+            logger.info("[Discover] $it final: ${dtoList.size}")
         }
-        logger.info("[Discover] final: ${dtoList.size}")
         return MapperUtils.mapTmdbToDocument(dtoList)
     }
 
-    fun getMoreInfo(docList: List<ContentDocument>): List<ContentDocument> {
-        var i: Int = 1;
+    fun getMoreInfo(docList: MutableList<ContentDocument>): List<ContentDocument> {
         val seasonDocList: MutableList<ContentDocument> = mutableListOf()
 
-        for (doc in docList) {
+        for (i in docList.size - 1 downTo 0) {
+            val doc = docList[i]
             val id = doc.id
 
             try {
                 val providersResponse: WatchProvidersResponse =
                     tmdbClient.findOneProvider("Bearer $accessKey", id)
                 doc.platform = filterPlatformList(providersResponse)
+                if(doc.platform!!.isEmpty()){
+                    docList.removeAt(i)
+                    logger.info("no provider : ${doc.name}")
+                    continue
+                }
             } catch (e: Exception) {
                 logger.info("An error occurred during platform processing - $id")
             }
@@ -70,13 +81,10 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 seasonDocList.addAll(getSeasonContents(id, detailResponse))
                 doc.episodeCount = detailResponse.seasons?.get(0)?.episode_count
                 doc.production = Product(detailResponse.production_companies?.map { it.name },
-                    detailResponse.production_countries?.map { it.name })
+                    detailResponse.origin_country?.map { CountryEnum.getNameByCode(it) })
             } catch (e: Exception) {
                 logger.info("An error occurred during detail processing - $id")
             }
-
-            if (i % 100 == 0) logger.info("Get more info processing ... $i / ${docList.size}")
-            i++
         }
         seasonDocList.addAll(docList)
         return seasonDocList

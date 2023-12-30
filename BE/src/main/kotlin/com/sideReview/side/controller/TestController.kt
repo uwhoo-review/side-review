@@ -14,15 +14,13 @@ class TestController (
         return ResponseEntity.ok(tmdbContentService.getMoreInfo(tmdbContentService.getAllContents()));
     }
 
-    @GetMapping("/init/people")
+    @GetMapping("/init/person")
     fun getPeople(): ResponseEntity<Any> {
-        return ResponseEntity.ok(tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople()));
-        //return ResponseEntity.ok(tmdbPersonService.creditToPerson())
+        return ResponseEntity.ok(tmdbPersonService.getAllPeople());
     }
 
     @GetMapping("/test")
     fun getTest(): ResponseEntity<Any> {
         return ResponseEntity.ok("ok");
-        //return ResponseEntity.ok(tmdbPersonService.creditToPerson())
     }
 }
