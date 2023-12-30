@@ -69,6 +69,16 @@ class MainContentsController @Autowired constructor(
                         )
                     )
                 }
+
+                "open" -> {
+                    response = ResponseEntity.ok(
+                            reviewService.fillReview(
+                                    MapperUtils.parseToContentDto(
+                                            openSearchGetService.get(request.tab, "new", request)
+                                    )
+                            )
+                    )
+                }
             }
         }
         return response
