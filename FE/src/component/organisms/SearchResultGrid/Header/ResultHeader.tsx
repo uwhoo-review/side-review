@@ -54,7 +54,7 @@ const ResultHeader = ({ data }: any) => {
                   color={Color.dark.primary700}
                   css={styled.typo1}
                 >
-                  {data.length}
+                  {data.total}
                 </HWTypography>
               </>
             )}

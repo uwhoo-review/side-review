@@ -31,7 +31,6 @@ const AxiosInterceptor = ({ children }: any) => {
 
     const responseInterceptor = axiosBaseInstance.interceptors.response.use(
       async (response: AxiosResponse) => {
-        console.log(response)
         response.data = response.data ? response.data : response.data;
         return response;
       },

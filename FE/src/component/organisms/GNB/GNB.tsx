@@ -9,6 +9,7 @@ import ScrollTopButton from "@src/component/atoms/ScrollTopButton/ScrollTopButto
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
 import { Popover } from "@mui/material";
+import {isNullOrEmpty} from "@src/tools/commonTools";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -67,7 +68,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
         <div css={styled.subWrapper}>
           <div css={styled.leftGroups}>
             <div>
-              <IconUwhoo css={styled.logo} />
+              <IconUwhoo css={styled.logo} onClick={() => navigate("/")} />
             </div>
           </div>
           <div css={styled.centerGroups}>
@@ -94,18 +95,25 @@ const GNB = (props: { children?: React.ReactNode }) => {
             >
               <IconSearch />
             </HWIconButton>
-            <HWButton
-              variant={"lower"}
-              size={"small"}
-              onClick={() => {
-                navigate("login");
-              }}
-            >
-              로그인
-            </HWButton>
-            <HWButton variant={"primary"} size={"small"}>
-              회원가입
-            </HWButton>
+            {isNullOrEmpty(commonContext.userInfo.token) ? (
+              <HWButton
+                variant={"lower"}
+                size={"small"}
+                onClick={() => {
+                  navigate("login");
+                }}
+              >
+                로그인
+              </HWButton>
+            ) : (
+              <HWButton variant={"lower"} size={"small"} onClick={() => {
+                  localStorage.removeItem("com.naver.nid.access_token");
+                  window.location.reload();
+                  commonContext.onResetUserInfo();
+              }}>
+                Logout
+              </HWButton>
+            )}
           </div>
         </div>
       </header>

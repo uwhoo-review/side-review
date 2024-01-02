@@ -6,6 +6,7 @@
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "types": [
+      "node",
       "react/next",
       "react-dom/next",
       "@emotion/react/types/css-prop",

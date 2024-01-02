@@ -8,7 +8,7 @@ import PreviewBoxVertical from "@src/component/molecules/PreviewBoxVertical/Prev
 import { IMAGE_URL } from "@src/variables/tmdbConstants";
 import { VirtuosoGrid } from "react-virtuoso";
 import ContentEmptyCard from "@src/component/atoms/ContentEmptyCard/ContentEmptyCard";
-import {ContentDO} from "@src/interfaces/api.interface";
+import { ContentDO } from "@src/interfaces/api.interface";
 
 const PopularContent = ({ data }: any) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -94,8 +94,8 @@ const PopularContent = ({ data }: any) => {
                     css={styled.item}
                   >
                     <ContentCard
-                        id={v.id}
-                        key={v.id}
+                      id={v.id}
+                      key={v.id}
                       className={`image-card`}
                       srcId={v.poster}
                       rank={i + 1}

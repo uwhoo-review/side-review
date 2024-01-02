@@ -26,6 +26,7 @@ import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
+import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
 
 interface PreviewBoxVerticalProps {
   item: ContentDO;
@@ -51,13 +52,17 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
       <div className="preview-box-wrapper" css={[styled.wrapper, customCss]}>
         <div css={styled.contents}>
           <div css={styled.topContents}>
-            <iframe
-              width="100%"
-              height="100%"
-              src={getCardURL({ type: "trailer", srcId: item.trailer[0] })}
-              title="Video"
-              allowFullScreen
-            />
+            {item.trailer ? (
+              <iframe
+                width="100%"
+                height="100%"
+                src={getCardURL({ type: "trailer", srcId: item.trailer })}
+                title="Video"
+                allowFullScreen
+              />
+            ) : (
+              <TrailerCard srcId={""} />
+            )}
           </div>
           <div css={styled.middleContents}>
             <IconLaunch

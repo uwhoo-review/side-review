@@ -58,11 +58,11 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
           <div css={styled.contents}>
             <div css={styled.topContents}>
               <div css={styled.leftContents}>
-                {item.trailer[0] ? (
+                {item.trailer ? (
                   <iframe
                     width="100%"
                     height="100%"
-                    src={getCardURL({ type: "trailer", srcId: item.trailer[0] })}
+                    src={getCardURL({ type: "trailer", srcId: item.trailer })}
                     title="Video"
                     allowFullScreen
                   />
