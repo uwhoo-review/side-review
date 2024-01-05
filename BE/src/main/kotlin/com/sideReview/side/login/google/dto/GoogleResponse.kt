@@ -1,5 +1,13 @@
 package com.sideReview.side.login.google.dto
 
+data class GoogleAuthResponse(
+    val access_token: String,
+    val expires_in: String,
+    val scope: String?,
+    val token_type: String,
+    val id_token: String,
+)
+
 data class GoogleProfileResponse(
     val id: String,
     val email: String,
