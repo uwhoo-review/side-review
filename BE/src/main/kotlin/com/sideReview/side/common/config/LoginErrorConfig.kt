@@ -14,7 +14,6 @@ class LoginErrorConfig {
 
     @ExceptionHandler(FeignException::class)
     fun handleFeignStatusException(e: FeignException, response: HttpServletResponse): Exception {
-        logger.error(e.message)
         return Exception(e)
     }
 }

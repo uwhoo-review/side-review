@@ -7,13 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 
-@FeignClient(name = "naver", url = "https:/")
-interface NaverClient {
-    @GetMapping("/nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${Const.CLIENT_ID}&client_secret=${Const.CLIENT_SECRET}")
+@FeignClient(name = "naverAuth", url = "https://nid.naver.com")
+interface NaverClientAuth {
+    @GetMapping("/oauth2.0/token?grant_type=authorization_code&client_id=${Const.CLIENT_ID}&client_secret=${Const.CLIENT_SECRET}")
     fun getAuth(@RequestParam code: String, @RequestParam state: String): NaverAuthResponse
 
-    @GetMapping("/openapi.naver.com/v1/nid/me")
-    fun getProfile(@RequestHeader("Authorization") auth: String): NaverProfileResponse
 }
 
 private class Const {

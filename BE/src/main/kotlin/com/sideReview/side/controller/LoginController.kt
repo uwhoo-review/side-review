@@ -5,7 +5,8 @@ import com.sideReview.side.login.google.dto.GoogleProfileResponse
 import com.sideReview.side.login.google.dto.GoogleRequest
 import com.sideReview.side.login.kakao.KakaoClient
 import com.sideReview.side.login.kakao.dto.KakaoProfileResponse
-import com.sideReview.side.login.naver.NaverClient
+import com.sideReview.side.login.naver.NaverClientAuth
+import com.sideReview.side.login.naver.NaverClientProfile
 import com.sideReview.side.login.naver.dto.NaverProfileDetail
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/login")
 class LoginController(
     val googleClient: GoogleClient,
-    val naverClient: NaverClient,
+    val naverClientAuth: NaverClientAuth,
+    val naverClientProfile: NaverClientProfile,
     val kakaoClient: KakaoClient
 ) {
     @GetMapping("/naver")
@@ -25,8 +27,8 @@ class LoginController(
         @RequestParam code: String,
         @RequestParam state: String
     ): ResponseEntity<NaverProfileDetail> {
-        val auth = naverClient.getAuth(code, state).access_token
-        val profile = naverClient.getProfile("Bearer $auth")
+        val auth = naverClientAuth.getAuth(code, state).access_token
+        val profile = naverClientProfile.getProfile("Bearer $auth")
         return ResponseEntity.ok(profile.response)
     }
 
