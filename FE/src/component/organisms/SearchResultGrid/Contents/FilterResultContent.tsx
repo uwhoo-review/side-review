@@ -33,18 +33,8 @@ const FilterResultContents = ({ content, total, filter, search, sort, pagination
   });
 
   useEffect(() => {
-    console.log(content);
     setResultContent(content);
   }, [content]);
-
-  useEffect(() => {
-    console.log(resultContent);
-  }, [resultContent]);
-  /*  useEffect(() => {
-    console.log(page);
-    mutation.mutate({ pagiation: resultContent.length });
-    // setResultContent((prev: any) => [...prev, ...content]);
-  }, [page]);*/
 
   return (
     <div className={"search-content-wrapper"} css={styled.wrapper}>

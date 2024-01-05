@@ -63,10 +63,6 @@ const PersonContent = ({ data }: any) => {
       </CenterWrapper>
       <CenterWrapper>
         <WrapperTitle title={"제작"} subTitle={crew.length} customCss={styled.subTitle} />
-        {/*<HWToggleButtonGroup customCss={styled.toggle}>
-          <HWToggleButton {...props2("a")}>드라마</HWToggleButton>
-          <HWToggleButton {...props2("b")}>인물</HWToggleButton>
-        </HWToggleButtonGroup>*/}
         <div css={styled.subWrapper}>
           <>
             <div css={styled.sub1}>

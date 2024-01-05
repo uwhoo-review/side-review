@@ -74,4 +74,15 @@ export default {
   card: css`
     cursor: pointer;
   `,
+  emptyWrapper: css`
+    height: 314px;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+  `,
 };

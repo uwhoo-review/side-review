@@ -7,6 +7,7 @@ import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
 import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
+import {getCardURL} from "@src/tools/commonTools";
 
 const PersonHeader = ({ data }: any) => {
   const commonContext = useCommon();
@@ -29,7 +30,7 @@ const PersonHeader = ({ data }: any) => {
         <div css={styled.subWrapper}>
           <div css={styled.left}>
             <>
-              <DefaultImage src={""} width={"140px"} height={"140px"} customCss={styled.personImage}/>
+              <DefaultImage src={getCardURL({ type: "photo", srcId: data.profilePath })} width={"140px"} height={"140px"} customCss={styled.personImage}/>
               <div css={styled.PersonTitle}>
                 <HWTypography variant={"headlineS"} family={"Pretendard-Bold"} customCss={styled.typo1}>
                   {data.name}
