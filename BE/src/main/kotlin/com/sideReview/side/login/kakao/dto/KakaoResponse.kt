@@ -8,13 +8,13 @@ data class KakaoAuthResponse(
     val refresh_token_expires_in: String
 )
 
+
+//참고 : https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#kakaoaccount
 data class KakaoProfileResponse(
     val id: Long,
     val kakao_account: KakaoAccount,
 )
 
-
-//참고 : https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#kakaoaccount
 data class KakaoAccount(
     val profile: KakaoProfileDetail,
     val is_email_valid: Boolean,
