@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse
 class LoginErrorConfig {
 
     @ExceptionHandler(FeignException::class)
-    fun handleFeignStatusException(e: FeignException, response: HttpServletResponse): String? {
+    fun handleFeignStatusException(e: FeignException, response: HttpServletResponse): Exception {
         e.printStackTrace()
-        return e.message
+        return Exception(e)
     }
 }
