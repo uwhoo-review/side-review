@@ -9,27 +9,44 @@ import { IMAGE_URL } from "@src/variables/tmdbConstants";
 import { VirtuosoGrid } from "react-virtuoso";
 import ContentEmptyCard from "@src/component/atoms/ContentEmptyCard/ContentEmptyCard";
 import { ContentDO } from "@src/interfaces/api.interface";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
+import { CONTENTS_TABS } from "@src/variables/APIConstants";
+import { useMutation } from "@tanstack/react-query";
 
 const PopularContent = ({ data }: any) => {
+  const mainRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [selectedCard, setSelectedCard] = useState<ContentDO | null>(null);
   const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
-  const [popularList, setPopularList] = useState<any>([]);
+  const [popularList, setPopularList] = useState<any>(data);
   const virtuosoRef = useRef<any>();
   const [isScrolling, setIsScrolling] = useState(false);
 
-  /*const loadMore = useCallback(() => {
-    return setTimeout(() => {
-      setPopularList((prev) => [...prev])
-    }, 200)
-  }, [setPopularList])*/
+  const mutation = useMutation({
+    mutationFn: async ({ p }: any) => {
+      return await UWAxios.contents.getContents({
+        tab: CONTENTS_TABS.POPULARITY,
+        pagination: p,
+      });
+    },
+    onSuccess: (data: any) => {
+      setPopularList((prev: any) => [...prev, ...data]);
+    },
+  });
 
-  useEffect(() => {
-    if (data) setPopularList(data);
-  }, []);
+/*  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+      if (clientHeight + scrollTop >= scrollHeight && scrollTop !== 0) {
+        mutation.mutate({ p: popularList.length });
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [popularList.length]);*/
 
   return (
-    <div className="popular-content-wrapper" css={styled.wrapper}>
+    <div className="popular-content-wrapper" css={styled.wrapper} ref={mainRef}>
       <CenterWrapper customCss={styled.centerWrapper}>
         <div css={styled.header}>
           <div css={styled.headline}>
@@ -54,9 +71,11 @@ const PopularContent = ({ data }: any) => {
           <div className={`popular-cards-wrapper`} css={styled.rightBox}>
             <VirtuosoGrid
               ref={virtuosoRef}
-              data={data}
+              data={popularList}
+              endReached={(index) => {
+                mutation.mutate({ p: popularList.length })
+              }}
               useWindowScroll={true}
-              // overscan={6}
               components={{
                 List: forwardRef((props, ref) => (
                   <div {...props} css={styled.listContainer(!!selectedCard)} ref={ref} />

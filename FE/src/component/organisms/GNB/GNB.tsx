@@ -1,24 +1,22 @@
 import styled from "./style";
-import { Link, NavLink, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { IconSearch, IconUwhoo } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
-import ScrollTopButton from "@src/component/atoms/ScrollTopButton/ScrollTopButton";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
 import { Popover } from "@mui/material";
-import {isNullOrEmpty} from "@src/tools/commonTools";
+import { isNullOrEmpty } from "@src/tools/commonTools";
 
 const GNB = (props: { children?: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const commonContext = useCommon();
   const navigate = useNavigate();
-  const searchEl = useRef<any>(null);
   const iconEl = useRef<any>(null);
 
   const { pathname } = useLocation();
+  const path = pathname.split("/")[1];
   const [scrollTop, setScrollTop] = useState<boolean>(true);
 
   /*  useEffect(() => {
@@ -57,9 +55,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
     <>
       <header
         css={styled.wrapper(
-          scrollTop &&
-            !commonContext.isFilterOpen &&
-            (pathname === "/detail" || pathname === "/login")
+          scrollTop && !commonContext.isFilterOpen && (path === "detail" || path === "login")
             ? "transparent"
             : "#232323",
           scrollTop
@@ -106,11 +102,15 @@ const GNB = (props: { children?: React.ReactNode }) => {
                 로그인
               </HWButton>
             ) : (
-              <HWButton variant={"lower"} size={"small"} onClick={() => {
+              <HWButton
+                variant={"lower"}
+                size={"small"}
+                onClick={() => {
                   localStorage.removeItem("com.naver.nid.access_token");
                   window.location.reload();
                   commonContext.onResetUserInfo();
-              }}>
+                }}
+              >
                 Logout
               </HWButton>
             )}
