@@ -16,14 +16,14 @@ data class UserInfo(
     val nickname: String,
 
     @Column(name = "prefer_ott", length = 100)
-    val preferOtt: String,
+    val preferOtt: String?,
 
     @Column(name = "prefer_genre", length = 100)
-    val preferGenre: String,
+    val preferGenre: String?,
 
     @OneToMany(mappedBy = "userInfo")
-    val favoriteContent: List<UserFavoriteContent>,
+    val favoriteContent: List<UserFavoriteContent>?,
 
     @OneToMany(mappedBy = "userInfo")
-    val favoritePerson: List<UserFavoritePerson>
+    val favoritePerson: List<UserFavoritePerson>?
 )
