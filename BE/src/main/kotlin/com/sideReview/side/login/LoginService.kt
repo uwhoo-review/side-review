@@ -9,51 +9,38 @@ import org.springframework.stereotype.Service
 @Service
 class LoginService(val userInfoRepository: UserInfoRepository) {
     fun saveUser(type: String, response: Any) {
+        var id: String = ""
+        var name: String = ""
         when (type) {
             "naver" -> {
                 val dto = response as NaverProfileDetail
-                userInfoRepository.save(
-                    UserInfo(
-                        dto.id,
-                        "naver",
-                        dto.nickname,
-                        null,
-                        null,
-                        null,
-                        null
-                    )
-                )
+                id = dto.id
+                name = dto.nickname
             }
 
             "google" -> {
                 val dto = response as GoogleProfileResponse
-                userInfoRepository.save(
-                    UserInfo(
-                        dto.id,
-                        "google",
-                        dto.name,
-                        null,
-                        null,
-                        null,
-                        null
-                    )
-                )
+                id = dto.id
+                name = dto.name
             }
 
             "kakao" -> {
                 val dto = response as KakaoProfileResponse
-                userInfoRepository.save(
-                    UserInfo(
-                        "${dto.id}",
-                        "kakao",
-                        dto.kakao_account.profile.nickname ?: dto.kakao_account.email,
-                        null,
-                        null,
-                        null,
-                        null
-                    )
-                )
+                id = "${dto.id}"
+                name = dto.kakao_account.profile.nickname ?: dto.kakao_account.email
             }
         }
+
+        userInfoRepository.save(
+            UserInfo(
+                id,
+                type,
+                name,
+                null,
+                null,
+                null,
+                null
+            )
+        )
     }
 }
