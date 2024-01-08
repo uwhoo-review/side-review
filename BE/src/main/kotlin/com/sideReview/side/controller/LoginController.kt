@@ -1,5 +1,6 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.login.LoginService
 import com.sideReview.side.login.google.GoogleClient
 import com.sideReview.side.login.google.dto.GoogleProfileResponse
 import com.sideReview.side.login.google.dto.GoogleRequest
@@ -20,7 +21,8 @@ class LoginController(
     val googleClient: GoogleClient,
     val naverClientAuth: NaverClientAuth,
     val naverClientProfile: NaverClientProfile,
-    val kakaoClient: KakaoClient
+    val kakaoClient: KakaoClient,
+    val loginService: LoginService
 ) {
     @GetMapping("/naver")
     fun getNaverProfile(
@@ -29,6 +31,7 @@ class LoginController(
     ): ResponseEntity<NaverProfileDetail> {
         val auth = naverClientAuth.getAuth(code, state).access_token
         val profile = naverClientProfile.getProfile("Bearer $auth")
+        loginService.saveUser("naver", profile)
         return ResponseEntity.ok(profile.response)
     }
 
@@ -43,6 +46,7 @@ class LoginController(
             )
         )
         val profile = googleClient.getProfile(auth.access_token)
+        loginService.saveUser("google", profile)
         return ResponseEntity.ok(profile)
     }
 
@@ -55,6 +59,7 @@ class LoginController(
         val profile = kakaoClient.getProfile(
             "${auth.token_type} ${auth.access_token}"
         )
+        loginService.saveUser("kakao", profile)
         return ResponseEntity.ok(profile)
     }
 }
