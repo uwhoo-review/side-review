@@ -1,6 +1,5 @@
 package com.sideReview.side.tmdb
 
-import com.google.gson.Gson
 import com.sideReview.side.common.document.JobInfo
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.document.RoleInfo
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.io.File
-import javax.persistence.EntityNotFoundException
 
 @Service
 class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClient,

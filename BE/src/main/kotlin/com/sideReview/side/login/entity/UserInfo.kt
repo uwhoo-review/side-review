@@ -13,7 +13,7 @@ data class UserInfo(
     val loginType: String,
 
     @Column(name = "nickname", length = 10)
-    val nickname: String,
+    var nickname: String,
 
     @Column(name = "prefer_ott", length = 100)
     val preferOtt: String?,
