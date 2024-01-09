@@ -7,19 +7,20 @@ import javax.persistence.*
 @Table(name = "user_favorite_person", catalog = "meta")
 @IdClass(UserFavoritePersonIdClass::class)
 data class UserFavoritePerson(
-    @Id @Column(name = "user_id", length = 50, nullable = false)
-    val userId: String,
+//    @Id @Column(name = "user_id", length = 50, nullable = false)
+//    val userId: String,
 
     @Id
     @Column(name = "person_id", length = 36, nullable = false)
     val personId: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_Id")
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "user_id")
     val userInfo: UserInfo
 )
 
 data class UserFavoritePersonIdClass(
-    var userId: String = "",
+    var userInfo: String = "",
     var personId: String = ""
 ) : Serializable
