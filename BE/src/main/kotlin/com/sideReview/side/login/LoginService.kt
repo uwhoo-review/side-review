@@ -7,7 +7,7 @@ import com.sideReview.side.login.naver.dto.NaverProfileResponse
 import org.springframework.stereotype.Service
 
 @Service
-class LoginService(val userInfoRepository: UserInfoRepository) {
+class LoginService(val userInfoRepository: UserInfoRepository, val nicknameService: NicknameService) {
     fun saveUser(type: String, response: Any) {
         var id: String = ""
         var name: String = ""
@@ -15,19 +15,19 @@ class LoginService(val userInfoRepository: UserInfoRepository) {
             "naver" -> {
                 val dto = response as NaverProfileResponse
                 id = dto.response.id
-                name = dto.response.nickname ?: " "
+                name = nicknameService.makeNickname(0) ?: " "
             }
 
             "google" -> {
                 val dto = response as GoogleProfileResponse
                 id = dto.id
-                name = dto.name
+                name = nicknameService.makeNickname(2) ?: " "
             }
 
             "kakao" -> {
                 val dto = response as KakaoProfileResponse
                 id = "${dto.id}"
-                name = dto.kakao_account.profile.nickname ?: dto.kakao_account.email
+                name = nicknameService.makeNickname(1) ?: " "
             }
         }
 
