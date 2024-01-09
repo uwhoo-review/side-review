@@ -93,7 +93,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </HWIconButton>
             {isNullOrEmpty(commonContext.userInfo.token) ? (
               <HWButton
-                variant={"lower"}
+                variant={"lowest"}
                 size={"small"}
                 onClick={() => {
                   navigate("login");

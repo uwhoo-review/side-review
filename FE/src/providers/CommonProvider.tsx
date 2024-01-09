@@ -16,7 +16,9 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const [userInfo, setUserInfo] = useState({
     userId: "",
     userName: "",
-    token: "",
+    age: "",
+    gender: "",
+    email: "",
     site: "",
   });
 
@@ -64,7 +66,8 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const onHandleFilterOpen = (v: boolean) => setIsFilterOpen(v);
   const onAlert = (item: any) => setAlert((prev) => ({ ...prev, ...item }));
   const onHandleUserInfo = (v: any) => setUserInfo((prev: any) => ({ ...prev, ...v }));
-  const onResetUserInfo = () => setUserInfo({ userId: "", userName: "", token: "", site: "" });
+  const onResetUserInfo = () =>
+    setUserInfo({ userId: "", userName: "", age: "", gender: "", email: "", site: "" });
   return (
     <CommonContext.Provider
       value={{
@@ -86,7 +89,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
 
         userInfo,
         onHandleUserInfo,
-        onResetUserInfo
+        onResetUserInfo,
       }}
     >
       <>

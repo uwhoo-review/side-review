@@ -14,6 +14,9 @@ import person1 from "@res/temp/person1.png";
 import { card1, card3, IconChevronDoubleDown } from "@res/index";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
 import { useNavigate } from "react-router-dom";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
+import { CONTENTS_TABS } from "@src/variables/APIConstants";
+import { useMutation } from "@tanstack/react-query";
 const SearchResultContent = ({ data, filter, search, sort }: any) => {
   const navigate = useNavigate();
 
@@ -25,12 +28,6 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
   const [similarCnt, setSimilarCnt] = useState(6);
 
   const [toggle1, setToggle1] = useState<string>("drama");
-  const [toggle2, setToggle2] = useState<string>("drama");
-
-  useEffect(() => {
-    setResultMatch(data.match);
-    setSimilarList(data.similar);
-  }, [data]);
 
   const props1 = (value: string) => {
     return {
@@ -40,14 +37,11 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
       },
     };
   };
-  const props2 = (value: string) => {
-    return {
-      checked: toggle2 === value,
-      onClick: () => {
-        setToggle2(value);
-      },
-    };
-  };
+
+  useEffect(() => {
+    setResultMatch(data.match);
+    setSimilarList(data.similar);
+  }, [data]);
 
   return (
     <div className={"search-content-wrapper"} css={styled.wrapper}>
@@ -88,21 +82,23 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                         />
                       ))}
                     </div>
-                    <div
-                      css={styled.plusBtn}
-                      onClick={() => {
-                        setContentCnt((prev) => prev + 6);
-                      }}
-                    >
-                      <HWTypography
-                        variant={"headlineXXS"}
-                        family={"Pretendard-SemiBold"}
-                        color={Color.dark.primary800}
+                    {contentCnt < resultMatch.content.length && (
+                      <div
+                        css={styled.plusBtn}
+                        onClick={() => {
+                          setContentCnt((prev) => prev + 6);
+                        }}
                       >
-                        더보기
-                      </HWTypography>
-                      <IconChevronDoubleDown />
-                    </div>
+                        <HWTypography
+                          variant={"headlineXXS"}
+                          family={"Pretendard-SemiBold"}
+                          color={Color.dark.primary800}
+                        >
+                          더보기
+                        </HWTypography>
+                        <IconChevronDoubleDown />
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div css={styled.emptyWrapper}>
@@ -142,19 +138,21 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                         />
                       ))}
                     </div>
-                    <div css={styled.plusBtn}>
-                      <HWTypography
-                        variant={"headlineXXS"}
-                        family={"Pretendard-SemiBold"}
-                        color={Color.dark.primary800}
-                        onClick={() => {
-                          setPersonCnt((prev) => prev + 6);
-                        }}
-                      >
-                        더보기
-                      </HWTypography>
-                      <IconChevronDoubleDown />
-                    </div>
+                    {personCnt < resultMatch.person.length && (
+                      <div css={styled.plusBtn}>
+                        <HWTypography
+                          variant={"headlineXXS"}
+                          family={"Pretendard-SemiBold"}
+                          color={Color.dark.primary800}
+                          onClick={() => {
+                            setPersonCnt((prev) => prev + 6);
+                          }}
+                        >
+                          더보기
+                        </HWTypography>
+                        <IconChevronDoubleDown />
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div css={styled.emptyWrapper}>
@@ -178,7 +176,11 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
         </div>
       </CenterWrapper>
       <CenterWrapper>
-        <WrapperTitle title={"연관 검색어"} subTitle={"24"} customCss={styled.subTitle} />
+        <WrapperTitle
+          title={"연관 검색어"}
+          subTitle={similarList.length}
+          customCss={styled.subTitle}
+        />
         <div css={styled.subWrapper}>
           <>
             {similarList.length !== 0 ? (
@@ -204,21 +206,23 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                     />
                   ))}
                 </div>
-                <div
-                  css={styled.plusBtn}
-                  onClick={() => {
-                    setSimilarCnt((prev) => prev + 6);
-                  }}
-                >
-                  <HWTypography
-                    variant={"headlineXXS"}
-                    family={"Pretendard-SemiBold"}
-                    color={Color.dark.primary800}
+                {similarCnt < similarList.length && (
+                  <div
+                    css={styled.plusBtn}
+                    onClick={() => {
+                      setSimilarCnt((prev) => prev + 6);
+                    }}
                   >
-                    더보기
-                  </HWTypography>
-                  <IconChevronDoubleDown />
-                </div>
+                    <HWTypography
+                      variant={"headlineXXS"}
+                      family={"Pretendard-SemiBold"}
+                      color={Color.dark.primary800}
+                    >
+                      더보기
+                    </HWTypography>
+                    <IconChevronDoubleDown />
+                  </div>
+                )}
               </>
             ) : (
               <div css={styled.emptyWrapper}>

@@ -13,6 +13,7 @@ import { CommonProvider } from "@src/providers/CommonProvider";
 import CommonTemplate from "@src/component/templates/CommonTemplate/CommonTemplate";
 import PersonPage from "@src/pages/PersonPage/PersonPage";
 import LoginPage from "@src/pages/LoginPage/LoginPage";
+import NaverRedirect from "@src/component/organisms/LoginGrid/Redirect/NaverRedirect";
 
 const App = () => (
   <CommonProvider>
@@ -22,12 +23,12 @@ const App = () => (
         <Route path={"/"} element={<CommonTemplate />}>
           <Route index element={<MainPage />} />
           <Route path={"login"} element={<LoginPage />} />
+          <Route path={"login/naver"} element={<NaverRedirect />} />
           <Route path={"popular"} element={<PopularPage />} />
           <Route path={"recently"} element={<RecentlyPage />} />
           <Route path={"upcoming"} element={<UpcomingPage />} />
           <Route path={"person/:id"} element={<PersonPage />} />
           <Route path={"detail/:id"} element={<DetailPage />}>
-            {/*<Route path={""} index element={<DetailPage />} />*/}
             <Route path={"reviewTotal"} element={<ReviewPage />} />
           </Route>
           <Route path={"search"}>

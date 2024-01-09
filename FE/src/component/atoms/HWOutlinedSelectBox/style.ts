@@ -4,10 +4,13 @@ import Color from "@src/common/styles/Color";
 export default {
   container: css`
     position: relative;
-    min-width: 150px;
+    min-width: 70px;
     vertical-align: top;
     border-radius: 8px;
     color: #c7c8d3;
+    .HW-Outlined-SelectBox-Contents-Wrapper{
+      width: 100%;
+    }
     :hover {
       .HW-Outlined-SelectBox-Contents {
         color: #fff;

@@ -1,6 +1,6 @@
 import styled from "./style";
 import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IMAGE_URL, THUMBNAIL_URL, VIDEO_URL } from "@src/variables/tmdbConstants";
 import { IconPlay } from "@res/index";
 import { getCardURL } from "@src/tools/commonTools";
@@ -26,15 +26,51 @@ const PhotoCard = ({
   useModal = true,
   onClick,
   size = "original",
-  photoList,
+  photoList = [],
 }: TrailerCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [photoSrc, setPhotoSrc] = useState(srcId);
   const [photoIdx, setPhotoIdx] = useState(idx);
 
+  const handlePrevPhoto = () => {
+    photoIdx > 0 && setPhotoIdx((prev: any) => prev - 1);
+  };
+
+  const handleNextPhoto = () => {
+    photoIdx < photoList.length - 1 && setPhotoIdx((prev: any) => prev + 1);
+  };
+
   useEffect(() => {
-    if (photoList) setPhotoSrc(photoList[photoIdx]);
+    if (photoList.length !== 0) setPhotoSrc(photoList[photoIdx]);
   }, [photoIdx]);
+
+  useEffect(() => {
+    const handleKeydown = (e: any) => {
+      e.preventDefault();
+
+      if (e.key === "ArrowRight") {
+        handleNextPhoto();
+      } else if (e.key === "ArrowLeft") {
+        handlePrevPhoto();
+      }
+    };
+    if (isOpen) {
+      addEventListener("keydown", handleKeydown);
+    }
+
+    return () => {
+      if (isOpen) removeEventListener("keydown", handleKeydown);
+    };
+  }, [isOpen, photoIdx]);
+
+  /*      onKeyDown={(e) => {
+        e.preventDefault();
+        if (e.key === "ArrowRight") {
+          onClickNext(e);
+        } else if (e.key === "ArrowLeft") {
+          onClickPrev(e);
+        }
+      }}*/
 
   return (
     <>
@@ -50,16 +86,25 @@ const PhotoCard = ({
         <>
           <HWDialog open={Boolean(isOpen)} onClose={() => setIsOpen(false)}>
             <CenterWrapper>
-              <div css={styled.modalWrapper}>
+              <div
+                css={styled.modalWrapper}
+                onKeyDown={(e) => {
+                  console.log(e.key);
+                  // e.preventDefault();
+                  console.log(e.key);
+                  if (e.key === "ArrowRight") {
+                  } else if (e.key === "ArrowLeft") {
+                    // onClickPrev(e);
+                  }
+                }}
+              >
                 {photoIdx > 0 && (
                   <CarouselArrow
                     className={"hover-arrow left"}
                     direction={"left"}
                     customCss={styled.leftPageBtn}
                     theme={"dark"}
-                    onClick={() => {
-                      photoIdx > 0 && setPhotoIdx((prev: any) => prev - 1);
-                    }}
+                    onClick={handlePrevPhoto}
                   />
                 )}
                 <img
@@ -74,9 +119,7 @@ const PhotoCard = ({
                     direction={"right"}
                     customCss={styled.rightPageBtn}
                     theme={"dark"}
-                    onClick={() => {
-                      photoIdx < photoList.length - 1 && setPhotoIdx((prev: any) => prev + 1);
-                    }}
+                    onClick={handleNextPhoto}
                   />
                 )}
               </div>

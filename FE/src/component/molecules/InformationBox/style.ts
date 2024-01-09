@@ -67,4 +67,13 @@ export default {
     bottom: 30px;
     right: 0;
   `,
+  selectBox: css`
+    display: flex;
+    width: 78px;
+  `,
+  titleWrapper: css`
+    display: flex;
+    align-content: center;
+    gap: 20px;
+  `
 };

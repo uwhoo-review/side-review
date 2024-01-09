@@ -20,11 +20,12 @@ import HWButton from "@src/component/atoms/HWButton/HWButton";
 import NaverLogin from "@src/component/molecules/NaverLogin/NaverLogin";
 import {useCommon} from "@src/providers/CommonProvider";
 import {useEffect} from "react";
+import Login from "@src/component/organisms/LoginGrid/Login/Login";
 const LoginTemplate = () => {
   const common = useCommon();
 
   useEffect(() => {
-    console.log(common.userInfo)
+    console.log("loginTemplate", common.userInfo)
   },[])
 
   return (
@@ -46,10 +47,10 @@ const LoginTemplate = () => {
           </HWTypography>
           를 이용해보세요!
         </div>
+        <Login />
         <div css={styled.buttonWrapper}>
 
-
-          <HWButton variant={"lower"} customCss={styled.googleBtn}>
+         {/* <HWButton variant={"lower"} customCss={styled.googleBtn}>
             <IconGoogle width={"30px"} height={"30px"} />
             <HWTypography variant={"bodyXL"}>구글로 계속하기</HWTypography>
           </HWButton>
@@ -57,7 +58,7 @@ const LoginTemplate = () => {
           <HWButton variant={"lower"} css={styled.kakaoBtn}>
             <IconKakao width={"23px"} height={"23px"} />
             <HWTypography variant={"bodyXL"}>카카오로 계속하기</HWTypography>
-          </HWButton>
+          </HWButton>*/}
         </div>
       </div>
     </section>

@@ -38,19 +38,8 @@ const RatingDetailBox = ({ item }: any) => {
             </HWTypography>
             <div className={"margin-top-12 flex flex-align-center gap-10"}>
               <IconStar css={styled.star} />
-              {/*<Rating
-                name="rating-value"
-                value={item.rating}
-                max={5}
-                precision={0.1}
-                css={styled.rating}
-                emptyIcon={<IconRatingEmpty />}
-                icon={<IconStar />}
-                readOnly={true}
-                // getLabelText={(value) => value.toString()}
-              />*/}
               <HWTypography
-                variant={"headlineXXS"}
+                variant={"headlineS"}
                 family={"Pretendard-SemiBold"}
                 color={Color.dark.grey900}
               >

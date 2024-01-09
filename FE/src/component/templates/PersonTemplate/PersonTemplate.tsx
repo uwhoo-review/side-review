@@ -11,12 +11,10 @@ const PersonTemplate = () => {
   const { status, data, error } = useQuery({
     queryKey: ["list", "person", id],
     queryFn: async () => {
-      return await UWAxios.person.getPersonDetail("974169");
+      return await UWAxios.person.getPersonDetail(id || "");
     },
     refetchOnWindowFocus: false,
   });
-
-  // useEffect(() => {}, [status]);
 
   return (
     <>

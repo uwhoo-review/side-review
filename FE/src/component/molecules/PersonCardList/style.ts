@@ -31,7 +31,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 50px 118px;
+    padding: 40px 118px;
 
     &:hover {
       .hover-arrow {
@@ -70,7 +70,7 @@ export default {
     grid-template-rows: repeat(2, 1fr);
     grid-auto-flow: column;
     column-gap: 20px;
-    row-gap: 50px;
+    row-gap: 20px;
     height: 100%;
     align-items: center;
 

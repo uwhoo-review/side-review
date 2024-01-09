@@ -12,6 +12,7 @@ export default {
     padding-bottom: 100px;
   `,
   subTitle: css`
+    margin-top: 40px;
     margin-bottom: 20px;
   `,
   toggle: css`
@@ -47,7 +48,6 @@ export default {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin-bottom: 40px;
   `,
   listContainer: css`
     display: flex;

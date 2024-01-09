@@ -30,7 +30,7 @@ const PersonHeader = ({ data }: any) => {
         <div css={styled.subWrapper}>
           <div css={styled.left}>
             <>
-              <DefaultImage src={getCardURL({ type: "photo", srcId: data.profilePath })} width={"140px"} height={"140px"} customCss={styled.personImage}/>
+              <DefaultImage src={getCardURL({ type: "content", srcId: data.profilePath })} width={"140px"} height={"140px"} customCss={styled.personImage}/>
               <div css={styled.PersonTitle}>
                 <HWTypography variant={"headlineS"} family={"Pretendard-Bold"} customCss={styled.typo1}>
                   {data.name}

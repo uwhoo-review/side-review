@@ -8,54 +8,35 @@ const NaverLogin = ({ setGetToken, setUserInfo }: any) => {
   const common = useCommon();
 
   const { naver }: any = window;
+  const naverLogin = new naver.LoginWithNaverId({
+    clientId: process.env.NAVER_CLIENT_ID,
+    callbackUrl: process.env.NAVER_CALLBACK_URL,
+    loginButton: { color: "green", type: 1, height: 60 },
+    isPopup: true,
+    callbackHandle: true,
+  });
 
   const initializeNaverLogin = async () => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: process.env.NAVER_CLIENT_ID,
-      callbackUrl: process.env.NAVER_CALLBACK_URL,
-      loginButton: { color: "green", type: 1, height: 60 },
-      isPopup: true,
-    });
     naverLogin.init();
-    // naverLogin.logout();
-    //
-    // const btn = document.getElementById("naverIdLogin")?.firstChild as any;
-    // btn.click();
-
-    await naverLogin.getLoginStatus(async function (status: any) {
-      console.log(status)
-      if (status) {
-        const userid = naverLogin.user.getEmail();
-        const username = naverLogin.user.getName();
-        console.log(naverLogin.user);
-        common.onHandleUserInfo({
-          token: window.location.href.includes("access_token"),
-        });
-        console.log(window.location.href.includes("access_token"));
-        window.opener && (window.opener.location.href = "http://localhost:3000/login");
-        window.close();
-      }
-    });
   };
 
   const getUser = async () => {
-    /*    await naverLogin.getLoginStatus(async function (status: any) {
+    await naverLogin.getLoginStatus(async function (status: any) {
       if (status) {
         // 아래처럼 선택하여 추출이 가능하고,
         const userid = naverLogin.user.getEmail();
         const username = naverLogin.user.getName();
-        console.log(naverLogin.user);
+        console.log(naverLogin);
         common.onHandleUserInfo({
           token: window.location.href.includes("access_token"),
         });
         console.log(window.location.href.includes("access_token"));
-        window.opener && (window.opener.location.href = "http://localhost:3000/login");
-        window.close();
+        // window.opener && (window.opener.location.href = "http://localhost:3000/");
+        // window.close();
         // 정보 전체를 아래처럼 state 에 저장하여 추출하여 사용가능하다.
         // setUserInfo(naverLogin.user)
       }
-    });*/
-    // 요기!
+    });
   };
 
   // 네이버 소셜 로그인 (네아로) 는 URL 에 엑세스 어스코드가 붙어서 전달된다.
@@ -77,7 +58,8 @@ const NaverLogin = ({ setGetToken, setUserInfo }: any) => {
 
   // 화면 첫 렌더링이후 바로 실행하기 위해 useEffect 를 사용하였다.
   useEffect(() => {
-    initializeNaverLogin();
+    naverLogin.init();
+    getUser();
     // userAccessToken();
   }, []);
 
@@ -87,7 +69,6 @@ const NaverLogin = ({ setGetToken, setUserInfo }: any) => {
         variant={"lower"}
         css={styled.wrapper}
         onClick={() => {
-          // initializeNaverLogin();
         }}
       >
         <IconNaver width={"23px"} height={"21px"} />

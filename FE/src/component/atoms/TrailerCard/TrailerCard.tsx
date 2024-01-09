@@ -26,15 +26,42 @@ const TrailerCard = ({
   useModal = true,
   onClick,
   size = "mqdefault",
-  trailerList,
+  trailerList = [],
 }: TrailerCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [trailerSrc, setTrailerSrc] = useState(srcId);
   const [trailerIdx, setTrailerIdx] = useState(idx);
 
+  const handlePrevTrailer = () => {
+    trailerIdx > 0 && setTrailerIdx((prev: any) => prev - 1);
+  };
+
+  const handleNextTrailer = () => {
+    trailerIdx < trailerList.length - 1 && setTrailerIdx((prev: any) => prev + 1);
+  };
+
   useEffect(() => {
-    if (trailerList) setTrailerSrc(trailerList[trailerIdx]);
+    if (trailerList.length !== 0) setTrailerSrc(trailerList[trailerIdx]);
   }, [trailerIdx]);
+
+  useEffect(() => {
+    const handleKeydown = (e: any) => {
+      e.preventDefault();
+
+      if (e.key === "ArrowRight") {
+        handleNextTrailer();
+      } else if (e.key === "ArrowLeft") {
+        handlePrevTrailer();
+      }
+    };
+    if (isOpen) {
+      addEventListener("keydown", handleKeydown);
+    }
+
+    return () => {
+      if (isOpen) removeEventListener("keydown", handleKeydown);
+    };
+  }, [isOpen, trailerIdx]);
 
   return (
     <>

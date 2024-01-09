@@ -47,4 +47,10 @@ export const UWAxios = {
       return res.data;
     },
   },
+  login: {
+    async getNaverToken(code: string, state: string) {
+      const res = await axiosBaseInstance.get<any>(`login/naver?code=${code}&state=${state}`);
+      return res.data;
+    }
+  }
 };

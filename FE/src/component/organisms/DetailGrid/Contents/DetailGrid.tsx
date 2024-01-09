@@ -63,7 +63,6 @@ const DetailGrid = ({ data }: any) => {
         />
         <BoxList
           title={"포토"}
-          useModal={true}
           boxList={photoList}
           EmptyComponent={
             <div css={styled.emptyWrapper}>

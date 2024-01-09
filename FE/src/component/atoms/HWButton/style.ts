@@ -19,7 +19,7 @@ export const root = (size: "xlarge" | "large" | "medium" | "small") => {
     width: max-content;
     height: ${heightEnum[size]};
     padding: ${paddingEnum[size]};
-    border-radius: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,7 +101,7 @@ export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | 
     case "box": {
       return css`
         border: 1px solid #d6d6d6;
-        border-radius: 4px;
+        border-radius: 6px;
         width: 36px;
         color: #7d7e85;
         padding: unset;

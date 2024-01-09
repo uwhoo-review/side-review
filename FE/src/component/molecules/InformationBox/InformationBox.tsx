@@ -12,7 +12,10 @@ import { useState } from "react";
 import { getCardURL } from "@src/tools/commonTools";
 import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
+import HWOutlinedSelectBox from "@src/component/atoms/HWOutlinedSelectBox";
+import { useNavigate } from "react-router-dom";
 const InformationBox = ({ item }: any) => {
+  const navigate = useNavigate();
   const posterURL = getCardURL({ type: "content", srcId: item.poster });
   const photoURL = getCardURL({ type: "photo", srcId: item.photo[0] });
 
@@ -25,9 +28,28 @@ const InformationBox = ({ item }: any) => {
           </div>
           <div className={"grid"} css={styled.rightBox}>
             <div className="col-full">
-              <HWTypography variant={"headlineXL"} family={"Pretendard-Bold"}>
-                {item.name}
-              </HWTypography>
+              <div css={styled.titleWrapper}>
+                <HWTypography variant={"headlineXL"} family={"Pretendard-Bold"}>
+                  {item.name}
+                </HWTypography>
+                <HWOutlinedSelectBox
+                  width={"78px"}
+                  value={item.id}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    navigate("/detail/" + value);
+                  }}
+                  customCss={styled.selectBox}
+                >
+                  {item.season.list.map((v: any, i: number) => {
+                    return (
+                      <HWOutlinedSelectBox.Item key={v} value={v}>
+                        {`시즌 ${i + 1}`}
+                      </HWOutlinedSelectBox.Item>
+                    );
+                  })}
+                </HWOutlinedSelectBox>
+              </div>
               <div className="grid margin-top-16">
                 <div className="col-full">
                   <HWTypography variant={"bodyM"} family={"Poppins"} color={Color.dark.grey800}>
@@ -140,7 +162,6 @@ const InformationBox = ({ item }: any) => {
                     color={Color.dark.grey700}
                   >
                     {item.synopsis}
-
                   </HWTypography>
                 </div>
               </div>
