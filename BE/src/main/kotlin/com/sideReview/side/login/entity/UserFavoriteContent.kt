@@ -9,9 +9,9 @@ import javax.persistence.*
 @IdClass(UserFavoriteContentIdClass::class)
 data class UserFavoriteContent(
 
-    @Id
-    @Column(name = "user_id", length = 50, nullable = false)
-    val userId: String,
+//    @Id
+//    @Column(name = "user_id", length = 50, nullable = false)
+//    val userId: String,
 
     @Id
     @Column(name = "content_id", length = 36, nullable = false)
@@ -20,13 +20,16 @@ data class UserFavoriteContent(
     @Column(name = "rank", length = 1)
     val rank: Int,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_Id")
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "user_id")
     val userInfo: UserInfo
 )
 
 
 data class UserFavoriteContentIdClass(
-    var userId: String = "",
+    var userInfo: String = "",
     var contentId: String = ""
-) : Serializable
+) : Serializable {
+    constructor(userInfo: UserInfo, contentId: String) : this(userInfo.userId, contentId)
+}
