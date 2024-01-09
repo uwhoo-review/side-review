@@ -35,7 +35,7 @@ class LoginService(val userInfoRepository: UserInfoRepository) {
             UserInfo(
                 id,
                 type,
-                name,
+                name.ifEmpty { "" },
                 null,
                 null,
                 null,
