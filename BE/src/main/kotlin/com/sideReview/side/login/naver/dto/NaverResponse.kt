@@ -17,7 +17,7 @@ data class NaverProfileResponse(
 
 data class NaverProfileDetail(
     val id: String,         // naver ID 별 고유 값
-    val nickname: String,
+    val nickname: String?,
     val name: String,
     val email: String,
     val gender: String,     // F:여성, M: 남성, U: 확인 불가

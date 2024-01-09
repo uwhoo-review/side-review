@@ -15,7 +15,7 @@ class LoginService(val userInfoRepository: UserInfoRepository) {
             "naver" -> {
                 val dto = response as NaverProfileResponse
                 id = dto.response.id
-                name = dto.response.nickname
+                name = dto.response.nickname ?: " "
             }
 
             "google" -> {
@@ -35,7 +35,7 @@ class LoginService(val userInfoRepository: UserInfoRepository) {
             UserInfo(
                 id,
                 type,
-                name.ifEmpty { "" },
+                name,
                 null,
                 null,
                 null,
