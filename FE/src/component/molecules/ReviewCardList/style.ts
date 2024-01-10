@@ -54,8 +54,29 @@ export default {
     align-items: center;
     gap: 2px;
     cursor: pointer;
-    &:hover{
+    &:hover {
       color: #fff;
     }
-  `
-}
+  `,
+  modal: css`
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  `,
+  modalWrapper: css`
+    width: 100%;
+    height: calc(100% - 60px);
+    background-color: #121212;
+    padding-top: 70px;
+    overflow: auto;
+  `,
+  plusBtn: css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  `,
+};

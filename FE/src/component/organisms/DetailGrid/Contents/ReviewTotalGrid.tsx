@@ -6,7 +6,7 @@ const ReviewTotalGrid = () => {
   return (
     <div className="contents-review-wrapper" css={styled.reviewWrapper}>
       <CenterWrapper>
-        <ReviewCardList total={true} />
+        <ReviewCardList total={true} size={10} />
       </CenterWrapper>
     </div>
   );

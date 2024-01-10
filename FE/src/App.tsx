@@ -28,7 +28,8 @@ const App = () => (
           <Route path={"recently"} element={<RecentlyPage />} />
           <Route path={"upcoming"} element={<UpcomingPage />} />
           <Route path={"person/:id"} element={<PersonPage />} />
-          <Route path={"detail/:id"} element={<DetailPage />}>
+          <Route path={"detail/:id"}>
+            <Route index element={<DetailPage />} />
             <Route path={"reviewTotal"} element={<ReviewPage />} />
           </Route>
           <Route path={"search"}>
