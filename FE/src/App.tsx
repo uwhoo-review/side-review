@@ -14,6 +14,8 @@ import CommonTemplate from "@src/component/templates/CommonTemplate/CommonTempla
 import PersonPage from "@src/pages/PersonPage/PersonPage";
 import LoginPage from "@src/pages/LoginPage/LoginPage";
 import NaverRedirect from "@src/component/organisms/LoginGrid/Redirect/NaverRedirect";
+import KakaoRedirect from "@src/component/organisms/LoginGrid/Redirect/KakaoRedirect";
+import GoogleRedirect from "@src/component/organisms/LoginGrid/Redirect/GoogleRedirect";
 
 const App = () => (
   <CommonProvider>
@@ -24,6 +26,8 @@ const App = () => (
           <Route index element={<MainPage />} />
           <Route path={"login"} element={<LoginPage />} />
           <Route path={"login/naver"} element={<NaverRedirect />} />
+          <Route path={"login/kakao"} element={<KakaoRedirect />} />
+          <Route path={"login/google"} element={<GoogleRedirect />} />
           <Route path={"popular"} element={<PopularPage />} />
           <Route path={"recently"} element={<RecentlyPage />} />
           <Route path={"upcoming"} element={<UpcomingPage />} />

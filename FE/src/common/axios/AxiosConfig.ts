@@ -51,6 +51,14 @@ export const UWAxios = {
     async getNaverToken(code: string, state: string) {
       const res = await axiosBaseInstance.get<any>(`login/naver?code=${code}&state=${state}`);
       return res.data;
+    },
+    async getKakaoToken(code: string, uri: string) {
+      const res = await axiosBaseInstance.get<any>(`login/kakao?code=${code}&uri=${uri}`);
+      return res.data;
+    },
+    async getGoogleToken(code: string, uri: string) {
+      const res = await axiosBaseInstance.get<any>(`login/google?code=${code}&uri=${uri}`);
+      return res.data;
     }
   }
 };
