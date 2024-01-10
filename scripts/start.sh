@@ -27,6 +27,9 @@ else
   echo "$TIME_NOW > .env 파일이 존재하지 않습니다." >> $DEPLOY_LOG
 fi
 
+# 기존 로그 파일 삭제
+echo "$TIME_NOW > 기존 로그 파일 삭제" >> $DEPLOY_LOG
+rm -f "$APP_LOG" "$ERROR_LOG" "$DEPLOY_LOG"
 
 # build 파일 복사
 echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
