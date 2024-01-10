@@ -178,4 +178,17 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             this.add(addFun, addParam)
         return formatter.format(this.time).toString()
     }
+
+    suspend fun findDocumentByKeyword(keyword: String, page: Int, size: Int) : SearchResponse {
+        val search = client.search("content") {
+            from = page * size - size
+            resultSize = size
+            query = bool {
+                must(
+                    match("name", keyword)
+                )
+            }
+        }
+        return search
+    }
 }

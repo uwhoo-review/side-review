@@ -10,7 +10,6 @@ import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.dto.*
-import com.sideReview.side.person.PersonService
 import com.sideReview.side.review.StarRatingService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,8 +17,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
-                                                     val starRatingService: StarRatingService,
-                                                     val personService: PersonService)  {
+                                                     val starRatingService: StarRatingService)  {
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
     private suspend fun findDocumentById(index : String, id: String) : SearchResponse {
         val search = client.search(index) {
@@ -27,6 +25,17 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
             query = bool { must(match("id", id)) }
         }
         return search
+    }
+
+    suspend fun findDirectorByContentId(id: String): SearchResponse {
+        return client.search("person") {
+            query = bool {
+                must(
+                    match("crew.contentId", id),
+                    match("crew.job", "Production")
+                )
+            }
+        }
     }
 
     fun makeSeasonInfo(id : String, list : List<String>) : Season {
@@ -48,7 +57,7 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         }
     }
 
-    private fun filterCreditInfo(personList : List<PersonDocument>, id : String) :Pair<List<Actor>, List<Crew>>{
+    fun filterCreditInfo(personList : List<PersonDocument>, id : String) :Pair<List<Actor>, List<Crew>>{
         val actorList : MutableList<Actor> = mutableListOf()
         val crewList : MutableList<Crew> = mutableListOf()
         for(person in personList){
