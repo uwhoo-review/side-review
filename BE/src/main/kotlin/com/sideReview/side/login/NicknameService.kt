@@ -8,8 +8,8 @@ import java.util.*
 @Service
 class NicknameService(private val userInfoRepository: UserInfoRepository) {
     fun makeNickname(type: Int): String? {
-        val nounPath = "src/main/resources/username_noun.csv"
-        val adjectivePath = "src/main/resources/username_adjective.csv"
+        val nounPath = "/home/ubuntu/app/BE/src/main/resources/username_noun.csv"
+        val adjectivePath = "/home/ubuntu/app/BE/src/main/resources/username_adjective.csv"
         while (true) {
             val adjLine = (1..1608).random()
             val nounLine = (2..106).random()
