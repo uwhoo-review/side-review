@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 
 
-@FeignClient(name = "google", url = "https://www.googleapis.com")
-interface GoogleClient {
-    @PostMapping("/token")
-    fun getAuth(@RequestBody body: GoogleRequest): GoogleAuthResponse
-
+@FeignClient(name = "googleProfile", url = "https://www.googleapis.com")
+interface GoogleClientProfile {
     @GetMapping("/userinfo/v2/me")
     fun getProfile(@RequestParam("access_token") accessToken: String): GoogleProfileResponse
 }

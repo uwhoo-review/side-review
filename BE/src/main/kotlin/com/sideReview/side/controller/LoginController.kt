@@ -1,7 +1,8 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.login.LoginService
-import com.sideReview.side.login.google.GoogleClient
+import com.sideReview.side.login.google.GoogleClientAuth
+import com.sideReview.side.login.google.GoogleClientProfile
 import com.sideReview.side.login.google.dto.GoogleProfileResponse
 import com.sideReview.side.login.google.dto.GoogleRequest
 import com.sideReview.side.login.kakao.KakaoClient
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/login")
 class LoginController(
-    val googleClient: GoogleClient,
+    val googleClientProfile: GoogleClientProfile,
+    val googleClientAuth: GoogleClientAuth,
     val naverClientAuth: NaverClientAuth,
     val naverClientProfile: NaverClientProfile,
     val kakaoClient: KakaoClient,
@@ -40,12 +42,12 @@ class LoginController(
         @RequestParam code: String,
         @RequestParam uri: String
     ): ResponseEntity<GoogleProfileResponse> {
-        val auth = googleClient.getAuth(
+        val auth = googleClientAuth.getAuth(
             GoogleRequest(
                 code = code, redirect_uri = uri
             )
         )
-        val profile = googleClient.getProfile(auth.access_token)
+        val profile = googleClientProfile.getProfile(auth.access_token)
         loginService.saveUser("google", profile)
         return ResponseEntity.ok(profile)
     }
