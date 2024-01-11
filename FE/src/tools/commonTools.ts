@@ -89,20 +89,23 @@ export function getCardURL({
   size?: string;
   autoplay?: boolean;
 }) {
-  if(srcId === "") return "";
-  const id = srcId?.replaceAll(/^\/|.jpg$/gi, "");
+  if (srcId === "") return "";
+
+  const id = srcId?.replaceAll(/^\/|.jpg$|.png$/gi, "");
+  const extension = srcId?.replace(/(\w|-)+./, "") || "jpg";
+
   let res = "";
   if (type === "content") {
-    if (size) res = `${IMAGE_URL}/${size}/${id}.jpg`;
-    else res = `${IMAGE_URL}/w500/${id}.jpg`;
+    if (size) res = `${IMAGE_URL}/${size}/${id}.${extension}`;
+    else res = `${IMAGE_URL}/w500/${id}.${extension}`;
   } else if (type === "photo") {
-    if (size) res = `${IMAGE_URL}/${size}/${id}.jpg`;
-    else res = `${IMAGE_URL}/original/${id}.jpg`;
+    if (size) res = `${IMAGE_URL}/${size}/${id}.${extension}`;
+    else res = `${IMAGE_URL}/original/${id}.${extension}`;
   } else if (type === "trailer") {
     res = `${VIDEO_URL}/${id}?mute=1${autoplay ? "&autoplay=1" : ""}`;
   } else if (type === "thumbnail") {
-    if (size) res = `${THUMBNAIL_URL}/${id}/${size}.jpg`;
-    else res = `${THUMBNAIL_URL}/${id}/mqdefault.jpg`;
+    if (size) res = `${THUMBNAIL_URL}/${id}/${size}.${extension}`;
+    else res = `${THUMBNAIL_URL}/${id}/mqdefault.${extension}`;
   }
 
   return res;

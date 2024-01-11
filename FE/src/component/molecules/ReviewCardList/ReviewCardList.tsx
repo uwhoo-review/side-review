@@ -30,10 +30,9 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
   const [isSpoiler, setIsSpoiler] = useState(0);
   const [sort, setSort] = useState("best");
   const [isReviewModal, setIsReviewModal] = useState(false);
-  const [reviewSize, setReviewSize] = useState(size);
 
   const { status, data, error } = useQuery({
-    queryKey: ["list", "review", id, sort, isSpoiler, page, reviewSize],
+    queryKey: ["list", "review", id, sort, isSpoiler, page, size],
     queryFn: async ({ queryKey }) => {
       return await UWAxios.review.getReview(
         queryKey[2],
@@ -47,8 +46,14 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
   });
 
   const mutation = useMutation({
-    mutationFn: async ({ id, sort, isSpoiler, page, reviewSize }: any) => {
-      return await UWAxios.review.getReview(id, sort, isSpoiler, page, reviewSize);
+    mutationFn: async (data: any) => {
+      return await UWAxios.review.getReview(
+        data.id,
+        data.sort,
+        data.isSpoiler,
+        data.page,
+        data.size
+      );
     },
     onSuccess: (res: any) => {
       setReviewList((prev: any) => [...prev, ...res.review]);
@@ -73,16 +78,27 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
             rightWrapper={
               <div>
                 {!total && (
-                  <HWTypography
-                    variant={"bodyXL"}
-                    family={"Pretendard-SemiBold"}
-                    color={Color.dark.primary800}
-                    customCss={styled.typo1}
-                    // onClick={() => setIsReviewModal(true)}
-                    onClick={() => navigate("reviewTotal")}
-                  >
-                    리뷰 전체보기
-                  </HWTypography>
+                  <HWButton variant={"lowest"} onClick={() => navigate("review-total")}>
+                    <HWTypography
+                      variant={"bodyXL"}
+                      family={"Pretendard-SemiBold"}
+                      color={Color.dark.primary800}
+                      // onClick={() => setIsReviewModal(true)}
+                    >
+                      리뷰 전체보기 (page)
+                    </HWTypography>
+                  </HWButton>
+                )}
+                {!total && (
+                  <HWButton variant={"lowest"} onClick={() => setIsReviewModal(true)}>
+                    <HWTypography
+                      variant={"bodyXL"}
+                      family={"Pretendard-SemiBold"}
+                      color={Color.dark.primary800}
+                    >
+                      리뷰 전체보기 (modal)
+                    </HWTypography>
+                  </HWButton>
                 )}
               </div>
             }
@@ -157,7 +173,7 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
                       sort,
                       isSpoiler,
                       page: page + 1,
-                      reviewSize: reviewSize,
+                      size,
                     };
                     mutation.mutate(v);
                   }}
@@ -199,21 +215,22 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
           )}
         </>
       </div>
-      {/*<Modal
-        open={isReviewModal}
-        onClose={() => setIsReviewModal(false)}
-        css={styled.modal}
-        closeAfterTransition
-      >
-        <Slide in={isReviewModal} direction={"up"} style={{ borderTop: "1ps solid transparent" }}>
-          <div css={[styled.modalWrapper]}>
-            <CenterWrapper>
-              <ReviewCardList total={true} size={5} />
-
-            </CenterWrapper>
-          </div>
-        </Slide>
-      </Modal>*/}
+      {
+        <Modal
+          open={isReviewModal}
+          onClose={() => setIsReviewModal(false)}
+          css={styled.modal}
+          closeAfterTransition
+        >
+          <Slide in={isReviewModal} direction={"up"} style={{ borderTop: "1ps solid transparent" }}>
+            <div css={[styled.modalWrapper]}>
+              <CenterWrapper>
+                <ReviewCardList total={true} size={10} />
+              </CenterWrapper>
+            </div>
+          </Slide>
+        </Modal>
+      }
 
       {/*)}*/}
     </>

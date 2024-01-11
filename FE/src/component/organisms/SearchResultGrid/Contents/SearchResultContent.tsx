@@ -52,8 +52,12 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
           customCss={styled.subTitle}
         />
         <HWToggleButtonGroup customCss={styled.toggle}>
-          <HWToggleButton {...props1("drama")}>드라마</HWToggleButton>
-          <HWToggleButton {...props1("person")}>인물</HWToggleButton>
+          <HWToggleButton customCss={styled.toggleBtn} {...props1("drama")}>
+            드라마<span css={styled.typo}>{data.match.content.length}</span>
+          </HWToggleButton>
+          <HWToggleButton customCss={styled.toggleBtn} {...props1("person")}>
+            인물<span css={styled.typo}>{data.match.person.length}</span>
+          </HWToggleButton>
         </HWToggleButtonGroup>
         <div css={styled.subWrapper}>
           <>
@@ -109,7 +113,7 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                     >
                       일치하는 검색 결과가 없습니다.
                     </HWTypography>
-                    <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"}>
+                    <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"} css={styled.typoCenter}>
                       `{search}`에 대해 일치하는 검색 결과를 찾을 수 없습니다.
                       <br />
                       필터 설정을 바꾸거나 다른 검색어를 입력해보세요.
@@ -130,7 +134,7 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                           subName={v?.role || v?.job}
                           width={"82px"}
                           height={"82px"}
-                          srcId={person1}
+                          srcId={v.profilePath}
                           className={"image-card"}
                           onClick={() => {
                             navigate(`/person/${v.id}`);
@@ -163,7 +167,7 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                     >
                       일치하는 검색 결과가 없습니다.
                     </HWTypography>
-                    <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"}>
+                    <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"} css={styled.typoCenter}>
                       `{search}`에 대해 일치하는 검색 결과를 찾을 수 없습니다.
                       <br />
                       필터 설정을 바꾸거나 다른 검색어를 입력해보세요.
@@ -227,9 +231,9 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
             ) : (
               <div css={styled.emptyWrapper}>
                 <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#C7C8D3"}>
-                  일치하는 검색 결과가 없습니다.
+                  연관된 검색 결과가 없습니다.
                 </HWTypography>
-                <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"}>
+                <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"} css={styled.typoCenter}>
                   `{search}`에 대해 연관된 검색 결과를 찾을 수 없습니다.
                   <br />
                   필터 설정을 바꾸거나 다른 검색어를 입력해보세요.

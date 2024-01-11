@@ -34,7 +34,7 @@ const App = () => (
           <Route path={"person/:id"} element={<PersonPage />} />
           <Route path={"detail/:id"}>
             <Route index element={<DetailPage />} />
-            <Route path={"reviewTotal"} element={<ReviewPage />} />
+            <Route path={"review-total"} element={<ReviewPage />} />
           </Route>
           <Route path={"search"}>
             <Route path={"*"} index element={<SearchResultPage />} />

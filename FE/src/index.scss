@@ -162,16 +162,34 @@ html {
     height: 100%;
     width: 100%;
 
-    overflow: auto !important;
+    //overflow: auto !important;
     //overflow: auto;
-    padding: 0 !important;
+    //padding: 0 !important;
     //padding: 0;
 
     div#root {
       height: 100%;
       width: 100%;
       margin: 0;
-      //overflow: auto;
+      ::-webkit-scrollbar {
+        //display: none;
+        width: 15px;
+        height: 15px;
+        border-radius: 0px 4px 3px 0px;
+        background-color: #121212;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #42424A;
+        border-radius: 10px;
+        min-height: 30px;
+        background-clip: padding-box;
+        border: 4px solid transparent;
+      }
+      ::-webkit-scrollbar-button:vertical:start:decrement {
+        display: block;
+        height: 52px;
+      }
+
     }
     .none-draggable{
       //-ms-user-select: none;
@@ -190,24 +208,7 @@ html {
 
     }
   }
-  ::-webkit-scrollbar {
-    //display: none;
-/*    width: 15px;
-    height: 15px;
-    border-radius: 0px 4px 3px 0px;
-    background-color: #121212;*/
-  }
-  ::-webkit-scrollbar-thumb {
-/*    background-color: #42424A;
-    border-radius: 10px;
-    min-height: 30px;
-    background-clip: padding-box;
-    border: 4px solid transparent;*/
-  }
-  ::-webkit-scrollbar-button:vertical:start:decrement {
-    //display: block;
-    //height: 52px;
-  }
+
 }
 
 
@@ -219,6 +220,11 @@ textarea,
 div {
   font-family: Pretendard,sans-serif;
   margin: 0;
+}
+
+
+.block {
+  display: block;
 }
 
 .flex {
@@ -249,7 +255,6 @@ div {
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  //grid-template-rows: 14rem repeat(9, 13rem) repeat(2, 11rem) 9rem 4rem;
 }
 .grid .col-1  { grid-column-end: span 1;  }
 .grid .row-1  { grid-row-end: span 1;     }
@@ -274,11 +279,6 @@ div {
 .grid .col-11 { grid-column-end: span 11; }
 .grid .row-11 { grid-row-end: span 11;    }
 .grid .col-full { grid-column: 1 / 12;    }
-
-.block {
-  display: block;
-}
-
 
 
 .margin-top-8 {

@@ -69,6 +69,7 @@ export default {
     background-color: #121212;
     padding-top: 70px;
     overflow: auto;
+    border-radius: 15px;
   `,
   plusBtn: css`
     display: flex;

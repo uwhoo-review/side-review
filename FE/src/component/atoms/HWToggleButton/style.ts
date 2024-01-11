@@ -14,13 +14,12 @@ export const root = (width: string, height: string) => css`
   z-index: 0;
   background-color: ${Color.dark.elevation01};
   border: 1px solid ${Color.dark.grey100};
-  color: #7d7e85;
+  color: ${Color.dark.grey500};
+  margin: 3px;
 
   :hover {
-    color: #3e3e3e;
+    color: ${Color.dark.grey700};
   }
-  margin: 3px;
-  
   /* Common/ButtonMedium */
   font-family: Pretendard;
   font-size: 16px;

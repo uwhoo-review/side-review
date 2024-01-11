@@ -2,10 +2,7 @@ import { css } from "@emotion/react";
 import Color from "@src/common/styles/Color";
 
 export default {
-  wrapper: css`
-
-
-  `,
+  wrapper: css``,
   subWrapper: css``,
   virtuosoWrapper: css`
     margin-top: 50px;
@@ -17,6 +14,9 @@ export default {
   `,
   toggle: css`
     margin-bottom: 49px;
+  `,
+  toggleBtn: css`
+    gap: 8px;
   `,
   sub1: css`
     display: flex;
@@ -85,4 +85,14 @@ export default {
     background-color: #1e1e1e;
     border-radius: 10px;
   `,
+  typo: css`
+    color: #9897a1;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+  `,
+  typoCenter: css`
+    text-align: center;
+  `
 };

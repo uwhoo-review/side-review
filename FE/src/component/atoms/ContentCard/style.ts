@@ -40,6 +40,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 24px;
   `,
   rating: css`
     display: flex;

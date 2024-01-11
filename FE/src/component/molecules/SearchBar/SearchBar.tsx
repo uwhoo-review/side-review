@@ -68,7 +68,7 @@ const SearchBar = () => {
                 </HWIconButton>
               )
             }
-            placeholder={"제목, 이물 검색"}
+            placeholder={"제목, 인물 검색"}
             fullWidth={true}
             value={filterState.search}
             onChange={(e) => onHandleFilter({ search: e.target.value })}
