@@ -7,6 +7,7 @@ import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.SimpleContentDto
 import com.sideReview.side.person.dto.PersonDto
@@ -118,15 +119,18 @@ object MapperUtils {
         }
         return mutableList.toList()
     }
-    fun parseToPersonDocument(searchResponse: SearchResponse) : List<PersonDocument>{
+
+    fun parseToPersonDocument(searchResponse: SearchResponse): List<PersonDocument> {
         val mutableList: MutableList<PersonDocument> = mutableListOf();
         val hits = searchResponse.hits
         if (hits != null) {
-            for(data in hits.hits) {
-                if(data.source != null) {
+            for (data in hits.hits) {
+                if (data.source != null) {
                     mutableList.add(
-                        Gson().fromJson(data.source.toString(),
-                            PersonDocument::class.java)
+                        Gson().fromJson(
+                            data.source.toString(),
+                            PersonDocument::class.java
+                        )
                     )
                 }
             }
@@ -170,4 +174,24 @@ object MapperUtils {
         return details
     }
 
+    fun convertPersonDtoToFavoritePersonDetailDto(personDtoList: List<PersonDto>): List<FavoritePersonDetailDto> {
+        val details = mutableListOf<FavoritePersonDetailDto>()
+        for (r in personDtoList) {
+            val cast = r.cast?.map { it.content.name }?.toList()
+            val crew = r.crew?.map { it.content.name }?.toList()
+            var union: List<String> =
+                if (cast != null && crew != null) cast.union(crew).toList()
+                else cast ?: crew!!
+            if (union.size > 3) union = union.subList(0, 3)
+            details.add(
+                FavoritePersonDetailDto(
+                    id = r.id,
+                    name = r.name,
+                    profilePath = r.profilePath,
+                    cast = union
+                )
+            )
+        }
+        return details
+    }
 }

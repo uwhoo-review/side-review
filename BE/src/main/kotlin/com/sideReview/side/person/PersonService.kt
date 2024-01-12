@@ -20,9 +20,11 @@ class PersonService @Autowired constructor(val client: SearchClient) {
         }
     }
 
-    suspend fun searchMatch(name: String): SearchResponse {
+    suspend fun searchMatch(name: String, page: Int, size: Int): SearchResponse {
         return client.search("person") {
             query = match(PersonDocument::name, name)
+            resultSize = size
+            from = page
         }
     }
 
