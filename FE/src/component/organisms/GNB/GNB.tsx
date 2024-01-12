@@ -91,7 +91,19 @@ const GNB = (props: { children?: React.ReactNode }) => {
             >
               <IconSearch />
             </HWIconButton>
-            {isNullOrEmpty(commonContext.userInfo.token) ? (
+            {commonContext.isLogin ? (
+              <HWButton
+                variant={"lower"}
+                size={"small"}
+                onClick={() => {
+                  commonContext.onHandleLogin(false);
+                  commonContext.onResetUserInfo();
+                  window.location.reload();
+                }}
+              >
+                Logout
+              </HWButton>
+            ) : (
               <HWButton
                 variant={"lowest"}
                 size={"small"}
@@ -100,18 +112,6 @@ const GNB = (props: { children?: React.ReactNode }) => {
                 }}
               >
                 로그인
-              </HWButton>
-            ) : (
-              <HWButton
-                variant={"lower"}
-                size={"small"}
-                onClick={() => {
-                  localStorage.removeItem("com.naver.nid.access_token");
-                  window.location.reload();
-                  commonContext.onResetUserInfo();
-                }}
-              >
-                Logout
               </HWButton>
             )}
           </div>

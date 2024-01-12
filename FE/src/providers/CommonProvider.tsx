@@ -13,6 +13,7 @@ export const useCommon = () => {
 };
 
 export const CommonProvider = ({ children }: { children: React.ReactElement }) => {
+  const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({
     userId: "",
     userName: "",
@@ -20,6 +21,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
     gender: "",
     email: "",
     site: "",
+    date: null,
   });
 
   const [alert, setAlert] = useState({
@@ -67,7 +69,8 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const onAlert = (item: any) => setAlert((prev) => ({ ...prev, ...item }));
   const onHandleUserInfo = (v: any) => setUserInfo((prev: any) => ({ ...prev, ...v }));
   const onResetUserInfo = () =>
-    setUserInfo({ userId: "", userName: "", age: "", gender: "", email: "", site: "" });
+    setUserInfo({ userId: "", userName: "", age: "", gender: "", email: "", site: "" , date: null});
+  const onHandleLogin = (v: boolean) => setIsLogin(v);
   return (
     <CommonContext.Provider
       value={{
@@ -90,6 +93,9 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
         userInfo,
         onHandleUserInfo,
         onResetUserInfo,
+
+        isLogin,
+        onHandleLogin,
       }}
     >
       <>

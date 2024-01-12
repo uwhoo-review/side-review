@@ -6,7 +6,8 @@ export default {
     flex-direction: column;
     gap: 20px;
     margin-top: 87px;
-    div {
+    position: relative;
+    .login-btn {
       width: 390px;
       height: 60px;
       flex-shrink: 0;
@@ -15,7 +16,6 @@ export default {
       align-items: center;
       border-radius: 10px;
       gap: 12px;
-      cursor: pointer;
       opacity: 0.9;
     }
   `,
@@ -51,5 +51,13 @@ export default {
       opacity: 1;
       background: rgba(253, 220, 63, 1);
     }
+  `,
+  btnWrapper: css`
+    position: relative;
+  `,
+  bubble: css`
+    position: absolute;
+    right: calc(100% + 15px);
+    top: calc(50% - 15px);
   `,
 };

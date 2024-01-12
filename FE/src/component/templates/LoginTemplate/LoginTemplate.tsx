@@ -48,18 +48,6 @@ const LoginTemplate = () => {
           를 이용해보세요!
         </div>
         <Login />
-{/*        <div css={styled.buttonWrapper}>
-
-          <HWButton variant={"lower"} customCss={styled.googleBtn}>
-            <IconGoogle width={"30px"} height={"30px"} />
-            <HWTypography variant={"bodyXL"}>구글로 계속하기</HWTypography>
-          </HWButton>
-          <NaverLogin />
-          <HWButton variant={"lower"} css={styled.kakaoBtn}>
-            <IconKakao width={"23px"} height={"23px"} />
-            <HWTypography variant={"bodyXL"}>카카오로 계속하기</HWTypography>
-          </HWButton>
-        </div>*/}
       </div>
     </section>
   );

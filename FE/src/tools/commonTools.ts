@@ -1,4 +1,12 @@
 import { IMAGE_URL, THUMBNAIL_URL, VIDEO_URL } from "@src/variables/tmdbConstants";
+interface CookieOptions {
+  expires?: Date;
+  maxAge?: number;
+  domain?: string;
+  secure?: boolean;
+  httpOnly?: boolean;
+  sameSite?: "strict" | "lax" | "none";
+}
 
 export function isNullOrEmpty(v: any) {
   return v === null || v === undefined || v === "";
@@ -178,4 +186,77 @@ export function getMaxByteText(s: string, limit?: number) {
     byte: totalByte,
     s: str,
   };
+}
+
+
+export function setCookie(name: string, value: string, options: CookieOptions = {}): void {
+  const {
+    expires,
+    maxAge = 3600,
+    domain,
+    secure = false,
+    httpOnly = false,
+    sameSite = "lax",
+  }: CookieOptions = options;
+
+  const cookieParts: string[] = [`${name}=${value}`];
+
+  if (expires) {
+    cookieParts.push(`expires=${expires.toUTCString()}`);
+  }
+
+  if (maxAge) {
+    cookieParts.push(`max-age=${maxAge}`);
+  }
+
+  if (domain) {
+    cookieParts.push(`domain=${domain}`);
+  }
+
+  if (secure) {
+    cookieParts.push(`secure`);
+  }
+
+  if (httpOnly) {
+    cookieParts.push(`httpOnly`);
+  }
+
+  if (sameSite) {
+    cookieParts.push(`SameSite=${sameSite}`);
+  }
+
+  const cookieString: string = cookieParts.join("; ");
+  document.cookie = `${cookieString}; path=/`;
+}
+
+export function getCookie(name: string): string | null {
+  const cookies: string[] = document.cookie.split(";");
+
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue]: string[] = cookie.trim().split("=");
+
+    if (cookieName === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}
+
+export function deleteCookie(name: string, options: CookieOptions = {}): void {
+  if (getCookie(name)) {
+    setCookie(name, "", {
+      ...options,
+      expires: new Date(0),
+      maxAge: 0,
+    });
+  }
+}
+
+export function deleteAllCookies(): void {
+  const cookies: string[] = document.cookie.split(";");
+
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue]: string[] = cookie.trim().split("=");
+    deleteCookie(cookieName);
+  }
 }
