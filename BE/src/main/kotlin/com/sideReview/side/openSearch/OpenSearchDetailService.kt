@@ -38,7 +38,7 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         }
     }
 
-    fun makeSeasonInfo(id : String, list : List<String>) : Season {
+    suspend fun makeSeasonInfo(id : String, list : List<String>) : Season {
         var now :Int = 1
         if(id.contains("_")){
             now = id.split("_")[1].toInt()
@@ -86,10 +86,20 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
+        var season = document.season
+        var firstSeasonId = id
         var seasonList : MutableList<String> = mutableListOf()
 
-        seasonList.add(id)
-        seasonList.addAll(document.season)
+        if(id.contains("_")){
+            val firstSeasonResponse: SearchResponse = findDocumentById("content", id.split("_")[0])
+            val firstSeasonSource = firstSeasonResponse.hits?.hits?.get(0)?.source
+            val firstSeasonDocument = Gson().fromJson("$firstSeasonSource", ContentDocument::class.java)
+            season = firstSeasonDocument.season
+            firstSeasonId = id.split("_")[0]
+        }
+
+        seasonList.add(firstSeasonId)
+        seasonList.addAll(season)
 
         val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
 
