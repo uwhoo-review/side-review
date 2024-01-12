@@ -16,7 +16,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
       filename: "./index.html",
-      favicon: path.resolve(__dirname, "public/uwhoo_favicon2.ico")
+      favicon: path.resolve(__dirname, "public/uwhoo_favicon2.png")
     }),
     new CleanWebpackPlugin(),
   ].concat(process.env.NODE_ENV === "development" ? [new Dotenv({path: ".env.development"})] : [new Dotenv({path: ".env.production"})]),
