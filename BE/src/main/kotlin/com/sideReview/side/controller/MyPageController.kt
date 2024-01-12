@@ -1,14 +1,11 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.login.NicknameService
-import com.sideReview.side.mypage.MyPageService
-import com.sideReview.side.review.ClientUtils
-import com.sideReview.side.review.dto.StarRatingUpdateDto
+import com.sideReview.side.myPage.MyPageService
 import kotlinx.coroutines.runBlocking
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/user/{userId}")

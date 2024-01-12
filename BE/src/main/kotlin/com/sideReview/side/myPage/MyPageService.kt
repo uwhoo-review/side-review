@@ -1,17 +1,15 @@
-package com.sideReview.side.mypage
+package com.sideReview.side.myPage
 
 import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.login.UserInfoRepository
-import com.sideReview.side.mypage.dto.FavoriteContentDto
-import com.sideReview.side.mypage.dto.FavoriteContentPageDto
+import com.sideReview.side.myPage.dto.FavoriteContentDto
+import com.sideReview.side.myPage.dto.FavoriteContentPageDto
 import com.sideReview.side.openSearch.OpenSearchDetailService
 import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.review.UserStarRatingRepository
 import com.sideReview.side.review.dto.PageInfo
-import com.sideReview.side.review.entity.UserStarRating
 import org.springframework.stereotype.Service
 
 @Service

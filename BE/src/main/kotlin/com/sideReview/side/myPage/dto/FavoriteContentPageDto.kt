@@ -1,4 +1,4 @@
-package com.sideReview.side.mypage.dto
+package com.sideReview.side.myPage.dto
 
 import com.sideReview.side.review.dto.PageInfo
 
