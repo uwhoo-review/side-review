@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class PersonDto(
     val id: String,
     val name: String,
-    val profile: String,
+    val profilePath: String,
     val cast: List<PersonRoleDto>,
     val crew: List<PersonJobDto>
 )
