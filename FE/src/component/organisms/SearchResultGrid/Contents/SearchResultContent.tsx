@@ -22,12 +22,34 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
 
   const [resultMatch, setResultMatch] = useState<any>({ content: [], person: [] });
   const [similarList, setSimilarList] = useState<any>([]);
-
-  const [contentCnt, setContentCnt] = useState(6);
-  const [personCnt, setPersonCnt] = useState(6);
-  const [similarCnt, setSimilarCnt] = useState(6);
+  const [total, setTotal] = useState<any>({
+    match: {
+      content: 0,
+      person: 0,
+    },
+    similar: 0,
+  });
+  const [contentCnt, setContentCnt] = useState(12);
+  const [personCnt, setPersonCnt] = useState(12);
+  const [similarCnt, setSimilarCnt] = useState(12);
 
   const [toggle1, setToggle1] = useState<string>("drama");
+
+  const mutation = useMutation({
+    mutationFn: async ({ s }: any) => {
+      return await UWAxios.contents.getSearch({
+        tab: CONTENTS_TABS.SEARCH,
+        filter: [...filter],
+        query: search,
+        sort: sort,
+        pagination: s,
+      });
+    },
+    onSuccess: (data: any) => {
+      console.log(data);
+      // setResultContent((prev: any) => [...prev, ...data.content]);
+    },
+  });
 
   const props1 = (value: string) => {
     return {
@@ -41,6 +63,7 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
   useEffect(() => {
     setResultMatch(data.match);
     setSimilarList(data.similar);
+    setTotal(data.total);
   }, [data]);
 
   return (
@@ -48,15 +71,15 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
       <CenterWrapper>
         <WrapperTitle
           title={"일치하는 검색어"}
-          subTitle={resultMatch.content.length + resultMatch.person.length}
+          subTitle={total.match.content + total.match.person}
           customCss={styled.subTitle}
         />
         <HWToggleButtonGroup customCss={styled.toggle}>
           <HWToggleButton customCss={styled.toggleBtn} {...props1("drama")}>
-            드라마<span css={styled.typo}>{data.match.content.length}</span>
+            드라마<span css={styled.typo}>{total.match.content}</span>
           </HWToggleButton>
           <HWToggleButton customCss={styled.toggleBtn} {...props1("person")}>
-            인물<span css={styled.typo}>{data.match.person.length}</span>
+            인물<span css={styled.typo}>{total.match.person}</span>
           </HWToggleButton>
         </HWToggleButtonGroup>
         <div css={styled.subWrapper}>
@@ -86,7 +109,7 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                         />
                       ))}
                     </div>
-                    {contentCnt < resultMatch.content.length && (
+                    {contentCnt < total.match.content && (
                       <div
                         css={styled.plusBtn}
                         onClick={() => {
@@ -113,7 +136,12 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                     >
                       일치하는 검색 결과가 없습니다.
                     </HWTypography>
-                    <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"} css={styled.typoCenter}>
+                    <HWTypography
+                      variant={"bodyS"}
+                      family={"Pretendard-Regular"}
+                      color={"#84838D"}
+                      css={styled.typoCenter}
+                    >
                       `{search}`에 대해 일치하는 검색 결과를 찾을 수 없습니다.
                       <br />
                       필터 설정을 바꾸거나 다른 검색어를 입력해보세요.
@@ -142,7 +170,7 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                         />
                       ))}
                     </div>
-                    {personCnt < resultMatch.person.length && (
+                    {personCnt < total.match.person && (
                       <div css={styled.plusBtn}>
                         <HWTypography
                           variant={"headlineXXS"}
@@ -167,7 +195,12 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                     >
                       일치하는 검색 결과가 없습니다.
                     </HWTypography>
-                    <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"} css={styled.typoCenter}>
+                    <HWTypography
+                      variant={"bodyS"}
+                      family={"Pretendard-Regular"}
+                      color={"#84838D"}
+                      css={styled.typoCenter}
+                    >
                       `{search}`에 대해 일치하는 검색 결과를 찾을 수 없습니다.
                       <br />
                       필터 설정을 바꾸거나 다른 검색어를 입력해보세요.
@@ -182,7 +215,7 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
       <CenterWrapper>
         <WrapperTitle
           title={"연관 검색어"}
-          subTitle={similarList.length}
+          subTitle={total.similar}
           customCss={styled.subTitle}
         />
         <div css={styled.subWrapper}>
@@ -210,7 +243,7 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                     />
                   ))}
                 </div>
-                {similarCnt < similarList.length && (
+                {similarCnt < total.similar && (
                   <div
                     css={styled.plusBtn}
                     onClick={() => {
@@ -233,7 +266,12 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                 <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#C7C8D3"}>
                   연관된 검색 결과가 없습니다.
                 </HWTypography>
-                <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"} css={styled.typoCenter}>
+                <HWTypography
+                  variant={"bodyS"}
+                  family={"Pretendard-Regular"}
+                  color={"#84838D"}
+                  css={styled.typoCenter}
+                >
                   `{search}`에 대해 연관된 검색 결과를 찾을 수 없습니다.
                   <br />
                   필터 설정을 바꾸거나 다른 검색어를 입력해보세요.
