@@ -68,8 +68,7 @@ export default {
     right: 0;
   `,
   selectBox: css`
-    display: flex;
-    width: 78px;
+    //display: flex;
   `,
   titleWrapper: css`
     display: flex;

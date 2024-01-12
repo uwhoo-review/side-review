@@ -33,12 +33,13 @@ const InformationBox = ({ item }: any) => {
                   {item.name}
                 </HWTypography>
                 <HWOutlinedSelectBox
-                  width={"78px"}
+                  width={"100px"}
                   value={item.id}
                   onChange={(e) => {
                     const value = e.target.value;
                     navigate("/detail/" + value);
                   }}
+                  disablePortal={true}
                   customCss={styled.selectBox}
                 >
                   {item.season.list.map((v: any, i: number) => {
