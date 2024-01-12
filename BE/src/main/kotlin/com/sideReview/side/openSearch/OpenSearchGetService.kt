@@ -15,52 +15,52 @@ import java.util.*
 class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
     suspend fun get(tab: String, sort: String?, request: ContentRequestDTO): SearchResponse {
-
+        val reDup = request.copy()
         if (tab == "main" && sort == "popularity") {
             // 최근 1년간의 결과만 가져오기 위해 filter 추가
-            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
-            request.filter!!.add(
-                    ContentRequestFilterDetail(
-                            "date",
-                            listOf(
-                                    Calendar.getInstance().addDate(Calendar.YEAR, -1),
-                                    Calendar.getInstance().addDate(null, null)
-                            )
+            if (reDup.filter.isNullOrEmpty()) reDup.filter = mutableListOf()
+            reDup.filter!!.add(
+                ContentRequestFilterDetail(
+                    "date",
+                    listOf(
+                        Calendar.getInstance().addDate(Calendar.YEAR, -1),
+                        Calendar.getInstance().addDate(null, null)
                     )
+                )
             )
         } else if (tab == "open") {
             // 오늘 날짜 이후만 가져오도록 filter 추가
-            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
-            request.filter!!.add(
-                    ContentRequestFilterDetail(
-                            "date",
-                            listOf(
-                                    Calendar.getInstance().addDate(null, null),
-                                    ""
-                            )
+            if (reDup.filter.isNullOrEmpty()) reDup.filter = mutableListOf()
+            reDup.filter!!.add(
+                ContentRequestFilterDetail(
+                    "date",
+                    listOf(
+                        Calendar.getInstance().addDate(null, null),
+                        ""
                     )
+                )
             )
         }
 
         // client 요청 전송
         return client.search(
-                "content", block = createBlock(sort, request, ::makeGetQuery, tab)
+            "content", block = createBlock(sort, reDup, ::makeGetQuery, tab)
         )
     }
 
     suspend fun search(sort: String?, request: ContentRequestDTO?): SearchResponse {
         // client 요청 전송
         return client.search(
-                "content",
-                block = createBlock(sort, request, ::makeSearchQuery)
+            "content",
+            block = createBlock(sort, request, ::makeSearchQuery)
         )
     }
 
     private fun createBlock(
-            sort: String?,
-            request: ContentRequestDTO?,
-            queryBlock: (request: ContentRequestDTO) -> ESQuery,
-            tab: String = "search"
+        sort: String?,
+        request: ContentRequestDTO?,
+        queryBlock: (request: ContentRequestDTO) -> ESQuery,
+        tab: String = "search"
     ): SearchDSL.() -> Unit = {
         // tab 따라 max 설정
         when (tab) {
@@ -82,7 +82,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
             // pagination search_after
             if (request.pagination != null) {
-                from = request.pagination
+                from = request.pagination!!
             }
         }
     }
@@ -108,6 +108,9 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             if (!request.query.isNullOrBlank()) {
                 must(SearchDSL().match("name", request.query))
             }
+            if (request.notQuery != null && request.notQuery!!.isNotEmpty()) {
+                mustNot(TermsQuery("id", *request.notQuery!!.toTypedArray()))
+            }
         }
     }
 
@@ -119,10 +122,10 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             if (!request.query.isNullOrBlank()) {
                 mustNot(SearchDSL().match("name", request.query))
                 should(SearchDSL().multiMatch(
-                        request.query,
-                        "synopsis",
-                        "production.company",
-                        "production.country"
+                    request.query,
+                    "synopsis",
+                    "production.company",
+                    "production.country"
                 ) {
                     minimumShouldMatch = "1"
                 })
@@ -152,9 +155,9 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             // 타입 별 filter 생성
             when (filterDetail.type) {
                 "genre", "platform", "age" -> filterList.add(
-                        TermsQuery(
-                                filterDetail.type, *filterDetail.value.filterNotNull().toTypedArray()
-                        )
+                    TermsQuery(
+                        filterDetail.type, *filterDetail.value.filterNotNull().toTypedArray()
+                    )
                 )
 
                 "date", "rating" -> {
@@ -163,7 +166,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
                     filterList.add(RangeQuery(t) {
                         if (!filterDetail.value[0].isNullOrBlank()) gte = filterDetail.value[0]!!
                         if (filterDetail.value.size > 2 && !filterDetail.value[1].isNullOrBlank()) lte =
-                                filterDetail.value[1]!!
+                            filterDetail.value[1]!!
                     })
                 }
             }
@@ -179,7 +182,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         return formatter.format(this.time).toString()
     }
 
-    suspend fun findDocumentByKeyword(keyword: String, page: Int, size: Int) : SearchResponse {
+    suspend fun findDocumentByKeyword(keyword: String, page: Int, size: Int): SearchResponse {
         val search = client.search("content") {
             from = page * size - size
             resultSize = size

@@ -4,8 +4,9 @@ data class ContentRequestDTO(
     val tab: String?,
     val sort: String?,
     val query: String?,
+    var notQuery: List<String>?,
     var filter: MutableList<ContentRequestFilterDetail>?,
-    val pagination: Int?
+    var pagination: Int?
 )
 
 data class ContentRequestFilterDetail(

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 @RequestMapping("/contents")
@@ -47,17 +48,38 @@ class MainContentsController @Autowired constructor(
                 }
 
                 "popularity" -> {
+                    val page = request.pagination ?: 0
+
+                    // 기간 filter 있는 맨 처음 20개를 제외하기 위해 가져옴.
+                    request.pagination = 0
                     val lastOneYear =
                         MapperUtils.parseToContentDto(
                             openSearchGetService.get("main", "popularity", request)
                         )
+
+                    // lastOneYear의 id를 제외, popularity 순으로 정렬, page-20번~30개 가져옴
+                    request.notQuery = lastOneYear.map { it.id }
+                    request.pagination = if (page < 20) page else page - 20
                     val sortByPopular =
                         MapperUtils.parseToContentDto(
                             openSearchGetService.get(request.tab, "popularity", request)
                         )
-                    response = ResponseEntity.ok(
-                        reviewService.fillReview(lastOneYear.union(sortByPopular).toList())
-                    )
+
+                    // 요청 데이터 번호가 20 이전일 경우 1년 내의 결과 + popularity 순에서 모자란거 채워서 30개 생성
+                    response = if (page < 20) {
+                        ResponseEntity.ok(
+                            reviewService.fillReview(
+                                lastOneYear.subList(page, 19)
+                                    .union(sortByPopular.subList(0, 10 + page))
+                                    .toList()
+                            )
+                        )
+                    } else {
+                        ResponseEntity.ok(
+                            reviewService.fillReview(sortByPopular.toList())
+                        )
+                    }
+
                 }
 
                 "new" -> {
@@ -72,11 +94,11 @@ class MainContentsController @Autowired constructor(
 
                 "open" -> {
                     response = ResponseEntity.ok(
-                            reviewService.fillReview(
-                                    MapperUtils.parseToContentDto(
-                                            openSearchGetService.get(request.tab, "new", request)
-                                    )
+                        reviewService.fillReview(
+                            MapperUtils.parseToContentDto(
+                                openSearchGetService.get(request.tab, "new", request)
                             )
+                        )
                     )
                 }
             }
