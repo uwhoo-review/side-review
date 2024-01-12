@@ -86,7 +86,10 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
-        val seasonList : List<String> = document.season ?: emptyList()
+        var seasonList : MutableList<String> = mutableListOf()
+
+        seasonList.add(id)
+        seasonList.addAll(document.season)
 
         val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
 
@@ -105,8 +108,9 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
             acting = filterCreditInfo(personList, id).first,
             crew = filterCreditInfo(personList, id).second,
             rating = starRatingService.calculateWeightAverage(document.rating, id),
+            totalRating = starRatingService.getTotalStarRating(document.id),
             age = 0,
-            season = makeSeasonInfo(id, seasonList)
+            season = makeSeasonInfo(id, seasonList.sorted())
         )
     }
 

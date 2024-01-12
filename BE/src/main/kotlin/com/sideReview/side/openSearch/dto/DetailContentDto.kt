@@ -15,6 +15,7 @@ data class DetailContentDto(
     val acting: List<Actor>? = null,
     val crew: List<Crew>? = null,
     val rating: Double? = null,
+    val totalRating : Int = 0,
     val age: Int? = null,
     var season: Season
 )
