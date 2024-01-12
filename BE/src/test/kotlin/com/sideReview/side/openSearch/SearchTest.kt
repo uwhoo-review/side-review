@@ -16,7 +16,7 @@ class SearchTest @Autowired constructor(val service: OpenSearchGetService) {
         runBlocking {
             println("***************** result **************")
 
-            println(service.get("", "", ContentRequestDTO("","","",null,null)).toString())
+            println(service.get("", "", ContentRequestDTO("","","",null,null, null)).toString())
         }
     }
 
@@ -25,7 +25,7 @@ class SearchTest @Autowired constructor(val service: OpenSearchGetService) {
         runBlocking {
             println("***************** result **************")
 
-            println(MapperUtils.parseToContentDto(service.get("", "", ContentRequestDTO("","","",null,null))))
+            println(MapperUtils.parseToContentDto(service.get("", "", ContentRequestDTO("","","",null,null, null))))
 
         }
     }
