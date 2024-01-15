@@ -4,12 +4,13 @@ import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.ktsearch.search
-import com.jillesvangurp.searchdsls.querydsl.bool
-import com.jillesvangurp.searchdsls.querydsl.match
+import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.util.MapperUtils
+import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
+import com.sideReview.side.person.dto.PersonDto
 import com.sideReview.side.review.StarRatingService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,6 +26,17 @@ class OpenSearchDetailService @Autowired constructor(
         val search = client.search(index) {
             resultSize = 1
             query = bool { must(match("id", id)) }
+        }
+        return search
+    }
+
+    private suspend fun findContentByIdSortByFirstAirDate(
+        id: List<String>
+    ): SearchResponse {
+        val search = client.search("content") {
+            resultSize = 1
+            query = bool { must(terms("id", *id.toTypedArray())) }
+            sort { add("firstAirDate", SortOrder.DESC) }
         }
         return search
     }
@@ -97,7 +109,7 @@ class OpenSearchDetailService @Autowired constructor(
         return Pair<List<Actor>, List<Crew>>(actorList, crewList)
     }
 
-    suspend fun getContentDocument(id: String): DetailContentDto {
+    suspend fun getContentDocumentAsDetailContentDto(id: String): DetailContentDto {
         val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
@@ -162,7 +174,7 @@ class OpenSearchDetailService @Autowired constructor(
         if (document.cast != null && document.cast?.size!! > 0) {
             job.add("Acting")
             for (castRole in document.cast!!) {
-                val content = getContentDocument(castRole.contentId)
+                val content = getContentDocumentAsDetailContentDto(castRole.contentId)
                 roleList.add(
                     CastItem(
                         contentName = content.name,
@@ -177,7 +189,7 @@ class OpenSearchDetailService @Autowired constructor(
         }
         if (document.crew != null) {
             for (crewJob in document.crew!!) {
-                val content = getContentDocument(crewJob.contentId)
+                val content = getContentDocumentAsDetailContentDto(crewJob.contentId)
                 if (!job.contains(crewJob.job)) job.add(crewJob.job)
                 jobList.add(
                     CrewItem(
@@ -202,4 +214,61 @@ class OpenSearchDetailService @Autowired constructor(
         )
 
     }
+
+    suspend fun fillCast(matchPersonDto: List<PersonDto>): List<FavoritePersonDetailDto> {
+        val detail: MutableList<FavoritePersonDetailDto> = mutableListOf()
+        for (person in matchPersonDto) {
+            if (person.cast != null) {
+                val response: SearchResponse? =
+                    kotlin.runCatching {
+                        findContentByIdSortByFirstAirDate(person.cast.map { it.contentId })
+                    }.getOrNull()
+                if (response != null) {
+                    val contents: List<ContentDocument> =
+                        MapperUtils.parseToContentDocument(response)
+                    detail.add(
+                        FavoritePersonDetailDto(
+                            person.id,
+                            person.name,
+                            person.profilePath,
+                            contents.map { it.name }
+                        )
+                    )
+                }
+
+            }
+        }
+        return detail
+    }
+
+
+//    suspend fun getContentDocumentAsContentDto(id: String): ContentDto? {
+//        var response: SearchResponse? = null
+//        kotlin.runCatching {
+//            response = findDocumentById("content", id)
+//        }
+//        if (response != null) {
+//            val source = response!!.hits?.hits?.get(0)?.source
+//            val document = Gson().fromJson("$source", ContentDocument::class.java)
+//            val seasonList: MutableList<String> = getSeasonFromDocument(document)
+//            val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
+//
+//            return ContentDto(
+//                id = document.id,
+//                name = document.name,
+//                platform = document.platform?.map { it.toString() }?.toList() ?: emptyList(),
+//                genre = document.genre?.map { it.toString() }?.toList() ?: emptyList(),
+//                year = document.firstAirDate?.substring(0, 4),
+//                synopsis = document.synopsis,
+//                trailer = document.trailer?.get(0),
+//                poster = document.poster,
+//                rating = starRatingService.calculateWeightAverage(document.rating, id),
+//                actors = filterCreditInfo(personList, id).first.map { it.name }.toList(),
+//                age = 0,
+//                season = makeSeasonInfo(id, seasonList.sorted()).list
+//            )
+//        } else return null
+//    }
+
+
 }

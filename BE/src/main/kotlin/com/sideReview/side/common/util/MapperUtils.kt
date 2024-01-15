@@ -7,7 +7,6 @@ import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
-import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.SimpleContentDto
 import com.sideReview.side.person.dto.PersonDto
@@ -82,10 +81,9 @@ object MapperUtils {
         }
     }
 
-    fun parseToContentDto(response: SearchResponse): List<ContentDto> {
-        val mutableList: MutableList<ContentDto> = mutableListOf();
+    private fun <T> parse(response: SearchResponse, collectionType: Type): List<T> {
+        val mutableList: MutableList<T> = mutableListOf();
         val hits = response.hits
-        val collectionType: Type = object : TypeToken<ContentDto>() {}.type
         if (hits != null) {
             for (data in hits.hits) {
                 if (data.source != null) {
@@ -99,62 +97,31 @@ object MapperUtils {
             }
         }
         return mutableList.toList()
+    }
+
+    fun parseToContentDto(response: SearchResponse): List<ContentDto> {
+        val collectionType: Type = object : TypeToken<ContentDto>() {}.type
+        return parse(response, collectionType)
+    }
+
+    fun parseToContentDocument(response: SearchResponse): List<ContentDocument> {
+        val collectionType: Type = object : TypeToken<ContentDocument>() {}.type
+        return parse(response, collectionType)
     }
 
     fun parseToPersonDto(response: SearchResponse): List<PersonDto> {
-        val mutableList: MutableList<PersonDto> = mutableListOf();
-        val hits = response.hits
         val collectionType: Type = object : TypeToken<PersonDto>() {}.type
-        if (hits != null) {
-            for (data in hits.hits) {
-                if (data.source != null) {
-                    mutableList.add(
-                        Gson().fromJson(
-                            "${data.source}",
-                            collectionType
-                        )
-                    )
-                }
-            }
-        }
-        return mutableList.toList()
+        return parse(response, collectionType)
     }
 
-    fun parseToPersonDocument(searchResponse: SearchResponse): List<PersonDocument> {
-        val mutableList: MutableList<PersonDocument> = mutableListOf();
-        val hits = searchResponse.hits
-        if (hits != null) {
-            for (data in hits.hits) {
-                if (data.source != null) {
-                    mutableList.add(
-                        Gson().fromJson(
-                            data.source.toString(),
-                            PersonDocument::class.java
-                        )
-                    )
-                }
-            }
-        }
-        return mutableList.toList()
+    fun parseToPersonDocument(response: SearchResponse): List<PersonDocument> {
+        val collectionType: Type = object : TypeToken<PersonDocument>() {}.type
+        return parse(response, collectionType)
     }
 
     fun parseToSimpleContentDto(response: SearchResponse): List<SimpleContentDto> {
-        val mutableList: MutableList<SimpleContentDto> = mutableListOf();
-        val hits = response.hits
         val collectionType: Type = object : TypeToken<SimpleContentDto>() {}.type
-        if (hits != null) {
-            for (data in hits.hits) {
-                if (data.source != null) {
-                    mutableList.add(
-                        Gson().fromJson(
-                            "${data.source}",
-                            collectionType
-                        )
-                    )
-                }
-            }
-        }
-        return mutableList.toList()
+        return parse(response, collectionType)
     }
 
     fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
@@ -174,24 +141,4 @@ object MapperUtils {
         return details
     }
 
-    fun convertPersonDtoToFavoritePersonDetailDto(personDtoList: List<PersonDto>): List<FavoritePersonDetailDto> {
-        val details = mutableListOf<FavoritePersonDetailDto>()
-        for (r in personDtoList) {
-            val cast = r.cast?.map { it.content.name }?.toList()
-            val crew = r.crew?.map { it.content.name }?.toList()
-            var union: List<String> =
-                if (cast != null && crew != null) cast.union(crew).toList()
-                else cast ?: crew!!
-            if (union.size > 3) union = union.subList(0, 3)
-            details.add(
-                FavoritePersonDetailDto(
-                    id = r.id,
-                    name = r.name,
-                    profilePath = r.profilePath,
-                    cast = union
-                )
-            )
-        }
-        return details
-    }
 }

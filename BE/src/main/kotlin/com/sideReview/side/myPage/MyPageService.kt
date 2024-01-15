@@ -70,10 +70,8 @@ class MyPageService(
     ): FavoritePersonDto {
         val matchPerson =
             personService.searchMatch(keyword, (page - 1) * size, size)
-
-        val personDtoList = MapperUtils.convertPersonDtoToFavoritePersonDetailDto(
-            MapperUtils.parseToPersonDto(matchPerson)
-        )
+        val matchPersonDto = MapperUtils.parseToPersonDto(matchPerson)
+        val personDtoList = openSearchDetailService.fillCast(matchPersonDto)
         val total = matchPerson.hits?.total?.value?.toInt() ?: 0
         val totalPages = if (total % size == 0) total / size else total / size + 1
         return FavoritePersonDto(personDtoList, PageInfo(total, totalPages, page))
