@@ -10,21 +10,14 @@ import com.sideReview.side.person.dto.PersonDto
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
-@JsonAdapter(MatchDtoDeserializer::class)
 @Serializable
-data class MatchDto(
-    val content: List<SimpleContentDto>,
-    val person: List<PersonDto>
-)
-
-@Serializable
-data class MatchContentDto(
+data class SearchContentDto(
     val total: Int,
     val content: List<SimpleContentDto>
 )
 
 @Serializable
-data class MatchPersonDto(
+data class SearchPersonDto(
     val total: Int,
     val content: List<PersonDto>
 )
@@ -61,29 +54,6 @@ class SimpleContentDeserializer : JsonDeserializer<SimpleContentDto> {
 
         return SimpleContentDto(
             id, name, platform, poster, rating, year
-        )
-    }
-}
-
-class MatchDtoDeserializer : JsonDeserializer<MatchDto> {
-    override fun deserialize(
-        json: JsonElement?,
-        typeOfT: Type?,
-        context: JsonDeserializationContext?
-    ): MatchDto {
-        val jsonObject =
-            json?.asJsonObject ?: throw NullPointerException("Response Json String is null")
-        val gson = Gson()
-        val contentTypeToken: Type = object : TypeToken<List<SimpleContentDto>>() {}.type
-        val personTypeToken: Type = object : TypeToken<List<PersonDto>>() {}.type
-        val content: List<SimpleContentDto> =
-            gson.fromJson(jsonObject["content"].asJsonArray, contentTypeToken)
-        val person: List<PersonDto> =
-            gson.fromJson(jsonObject["person"].asJsonArray, personTypeToken)
-
-        return MatchDto(
-            content = content,
-            person = person
         )
     }
 }

@@ -118,7 +118,7 @@ class MainContentsController @Autowired constructor(
             if (request.query.isNullOrBlank()) {
                 val content = openSearchGetService.get("sortFilter", request.sort, request)
                 response = ResponseEntity.ok(
-                    MatchContentDto(
+                    SearchContentDto(
                         total = content.hits?.total?.value?.toInt() ?: 0,
                         content = MapperUtils.parseToSimpleContentDto(content)
                     )
@@ -128,7 +128,7 @@ class MainContentsController @Autowired constructor(
                     "content" -> {
                         val matchContent = openSearchGetService.get("search", request.sort, request)
                         response = ResponseEntity.ok(
-                            MatchContentDto(
+                            SearchContentDto(
                                 total = matchContent.hits?.total?.value?.toInt() ?: 0,
                                 content = MapperUtils.parseToSimpleContentDto(matchContent)
                             )
@@ -139,7 +139,7 @@ class MainContentsController @Autowired constructor(
                         val matchPerson =
                             personService.searchMatch(request.query, request.pagination ?: 0, 12)
                         response = ResponseEntity.ok(
-                            MatchPersonDto(
+                            SearchPersonDto(
                                 total = matchPerson.hits?.total?.value?.toInt() ?: 0,
                                 content = MapperUtils.parseToPersonDto(matchPerson)
 
@@ -163,7 +163,7 @@ class MainContentsController @Autowired constructor(
             runBlocking {
                 val similar = openSearchGetService.search(request.sort, request)
                 response = ResponseEntity.ok(
-                    MatchContentDto(
+                    SearchContentDto(
                         content = MapperUtils.parseToSimpleContentDto(similar),
                         total = similar.hits?.total?.value?.toInt() ?: 0
                     )
