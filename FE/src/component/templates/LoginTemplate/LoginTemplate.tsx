@@ -16,8 +16,6 @@ import {
   IconUwhoo,
 } from "@res/index";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
-import HWButton from "@src/component/atoms/HWButton/HWButton";
-import NaverLogin from "@src/component/molecules/NaverLogin/NaverLogin";
 import {useCommon} from "@src/providers/CommonProvider";
 import {useEffect} from "react";
 import Login from "@src/component/organisms/LoginGrid/Login/Login";

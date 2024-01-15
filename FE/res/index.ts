@@ -18,6 +18,7 @@ import card4 from "./card/card4.png";
 import card5 from "./card/card5.png";
 
 /* ./icon */
+import { ReactComponent as IconAlarm } from "./icon/ic_alarm.svg";
 import { ReactComponent as IconBlub } from "./icon/ic_blub.svg";
 import { ReactComponent as IconCancel } from "./icon/ic_cancel.svg";
 import { ReactComponent as IconCheck } from "./icon/ic_check.svg";
@@ -31,6 +32,8 @@ import { ReactComponent as IconChevronRight } from "./icon/ic_chevron_right.svg"
 import { ReactComponent as IconInit } from "./icon/ic_init.svg";
 import { ReactComponent as IconLaunch } from "./icon/ic_launch.svg";
 import { ReactComponent as IconLink } from "./icon/ic_link.svg";
+import { ReactComponent as IconLogout } from "./icon/ic_logout.svg";
+import { ReactComponent as IconMyPage } from "./icon/ic_mypage.svg";
 import { ReactComponent as IconPlay } from "./icon/ic_play.svg";
 import { ReactComponent as IconPopcorn } from "./icon/ic_popcorn.svg";
 import { ReactComponent as IconRating } from "./icon/ic_rating.svg";
@@ -85,6 +88,9 @@ export {
   IconWrite,
   IconPopcorn,
   IconBlub,
+  IconLogout,
+  IconMyPage,
+  IconAlarm,
 
   IconApple,
   IconDisney,

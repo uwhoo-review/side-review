@@ -1,7 +1,9 @@
-import { createContext, createRef, useContext, useRef, useState } from "react";
+import { createContext, createRef, useContext, useEffect, useRef, useState } from "react";
 import styled from "./style";
 import HWAlert from "@src/component/atoms/HWAlert";
 import { FilterProps } from "@src/interfaces/common.interface";
+import { UWHOO_LOGIN } from "@src/variables/LoginConstants";
+import { getCookie } from "@src/tools/commonTools";
 
 const CommonContext = createContext<any | null>(null);
 export const useCommon = () => {
@@ -69,8 +71,17 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const onAlert = (item: any) => setAlert((prev) => ({ ...prev, ...item }));
   const onHandleUserInfo = (v: any) => setUserInfo((prev: any) => ({ ...prev, ...v }));
   const onResetUserInfo = () =>
-    setUserInfo({ userId: "", userName: "", age: "", gender: "", email: "", site: "" , date: null});
+    setUserInfo({ userId: "", userName: "", age: "", gender: "", email: "", site: "", date: null });
   const onHandleLogin = (v: boolean) => setIsLogin(v);
+
+  useEffect(() => {
+    const userInfoStr = getCookie(UWHOO_LOGIN);
+    if (userInfoStr) {
+      const userInfo = JSON.parse(userInfoStr);
+      setIsLogin(true);
+      setUserInfo({ ...userInfo });
+    }
+  }, []);
 
   return (
     <CommonContext.Provider

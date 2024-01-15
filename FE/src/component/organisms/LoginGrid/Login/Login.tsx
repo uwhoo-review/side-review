@@ -11,7 +11,7 @@ import SpeechBubble from "@src/component/atoms/SpeechBubble/SpeechBubble";
 const Login = () => {
   const NAVER_URI = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NAVER_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NAVER_CALLBACK_URL}&state=${process.env.NAVER_STATE}`;
   const KAKAO_URI = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_CALLBACK_URL}`;
-  const GOOGLE_URI = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=email profile&client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_CALLBACK_URL}`;
+  const GOOGLE_URI = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=email profile &client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_CALLBACK_URL}`;
   const commonContext = useCommon();
   const [loginHistory, setLoginHistory] = useState<any>(null);
   useEffect(() => {

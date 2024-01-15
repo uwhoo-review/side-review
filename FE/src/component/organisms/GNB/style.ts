@@ -78,6 +78,10 @@ export default {
     background-color: ${open ? "#FFFFFF1A" : "transparent"};
     border-radius: 6px;
   `,
+  iconAlarm: css`
+    color: #ffffff;
+    border-radius: 6px;
+  `,
   popover: css`
     top: 52px;
 

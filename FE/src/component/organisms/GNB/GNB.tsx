@@ -1,13 +1,14 @@
 import styled from "./style";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
-import { IconSearch, IconUwhoo } from "@res/index";
+import { IconAlarm, IconSearch, IconUwhoo } from "@res/index";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
 import { Box, ClickAwayListener } from "@mui/material";
+import ProfileBox from "@src/component/molecules/ProfileBox/ProfileBox";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const commonContext = useCommon();
@@ -97,10 +98,10 @@ const GNB = (props: { children?: React.ReactNode }) => {
                   onClick={() => {
                     commonContext.onHandleFilterOpen(!commonContext.isFilterOpen);
                   }}
-                  css={styled.iconSearch(commonContext.isFilterOpen)}
+                  customCss={styled.iconSearch(commonContext.isFilterOpen)}
                   ref={iconEl}
                 >
-                  <IconSearch />
+                  <IconSearch width={"20px"} height={"20px"} />
                 </HWIconButton>
                 <div
                   className={`search-wrapper ${commonContext.isFilterOpen && "open"}`}
@@ -115,20 +116,15 @@ const GNB = (props: { children?: React.ReactNode }) => {
               </Box>
             </ClickAwayListener>
             {commonContext.isLogin ? (
-              <HWButton
-                variant={"lower"}
-                size={"small"}
-                onClick={() => {
-                  commonContext.onHandleLogin(false);
-                  commonContext.onResetUserInfo();
-                  window.location.reload();
-                }}
-              >
-                Logout
-              </HWButton>
+              <>
+                <HWIconButton customCss={styled.iconAlarm}>
+                  <IconAlarm width={"20px"} height={"20px"} />
+                </HWIconButton>
+                <ProfileBox />
+              </>
             ) : (
               <HWButton
-                variant={"lowest"}
+                variant={"primary"}
                 size={"small"}
                 onClick={() => {
                   navigate("login");

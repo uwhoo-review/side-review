@@ -14,7 +14,6 @@ const NaverRedirect = () => {
 
   // 컴포넌트가 마운트되면 로그인 로직 실행
   useEffect(() => {
-    console.log("naver login redirect");
     async function naverLogin() {
       const res = await UWAxios.login.getNaverToken(code, state); // 이 부분은 서버 API에 따라 바뀔 수 있으니 API 명세서를 잘 확인하세요.
       onHandleLogin(true);
