@@ -45,7 +45,7 @@ class PersonDtoDeserializer : JsonDeserializer<PersonDto> {
 
         val id = jsonObject["id"].asString
         val name = jsonObject["name"].asString
-        val profilePath = jsonObject["profilePath"].asString
+        val profilePath = jsonObject["profilePath"]?.asString ?: ""
         val castString =
             gson.fromJson<List<PersonRoleDeserializeDto>>(jsonObject["cast"], typeTokenCast)
         val cast: MutableList<PersonRoleDto> = mutableListOf()
