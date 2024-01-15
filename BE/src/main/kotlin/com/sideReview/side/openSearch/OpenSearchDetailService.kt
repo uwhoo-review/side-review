@@ -218,19 +218,20 @@ class OpenSearchDetailService @Autowired constructor(
     suspend fun fillCastCrew(matchPersonDto: List<PersonDto>): List<FavoritePersonDetailDto> {
         val detail: MutableList<FavoritePersonDetailDto> = mutableListOf()
         for (person in matchPersonDto) {
-            val content: MutableList<String> = mutableListOf()
+            val content: MutableSet<String> = mutableSetOf()
             if (person.cast != null) {
                 content.addAll(getNames(person.cast.map { it.contentId }))
             }
             if (person.crew != null) {
                 content.addAll(getNames(person.crew.map { it.contentId }))
             }
+
             detail.add(
                 FavoritePersonDetailDto(
                     person.id,
                     person.name,
                     person.profilePath,
-                    content
+                    content.toList()
                 )
             )
         }
