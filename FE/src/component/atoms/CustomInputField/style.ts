@@ -86,20 +86,8 @@ export default {
     border: `1px solid ${Color.dark.grey300}`,
     padding: "10px 10px",
     marginTop: "10px",
-    ".MuiMenu-list": {
-      padding: 0,
-    },
-    "&::-webkit-scrollbar": {
-      width: "12px",
-      borderRadius: "10px",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#42424A",
-      borderRadius: "10px",
-      minHeight: "10px",
-      backgroundClip: "padding-box",
-      border: "3px solid transparent",
-    },
+    zIndex: 99,
+
   }),
   contents: (height?: string) => css`
     width: 100%;
@@ -154,14 +142,11 @@ export default {
     font-style: normal;
     font-weight: 500;
     line-height: 22px;
-    padding: 0;
-    //height: 40px;
     .menu-box {
       height: 100%;
       width: 100%;
       display: flex;
       align-items: center;
-      //padding: 0px 10px;
       border-radius: 4px;
       color: #fff;
       justify-content: space-between;

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-import { Menu } from "@mui/material";
+import { ClickAwayListener, Menu, MenuItem, MenuList, Paper, Popper } from "@mui/material";
 import React, { useState } from "react";
 import { HWOutlinedSelectBoxProps } from "./type";
 import style from "./style";
@@ -45,7 +45,7 @@ const HWOutlinedSelectBox = React.forwardRef(
       width = "200px",
       height = "46px",
       onChange,
-      disablePortal = false,
+      disablePortal = true,
       multiple,
       displayEmpty,
       PaperProps = { sx: {} },
@@ -180,119 +180,166 @@ const HWOutlinedSelectBox = React.forwardRef(
 
     return (
       <React.Fragment>
-        <div
-          ref={ref}
-          className={classNames.join(" ")}
-          css={[style.container, fullWidth ? { width: "100%" } : { width }, customCss]}
-          aria-disabled={disabled}
-          onKeyUp={(e) => {
-            if (e.key === " " || e.key === "Enter") {
-              setAnchorEl(e.currentTarget);
-            }
-            if (onKeyUp) {
-              onKeyUp(e);
-            }
-          }}
-          {...props}
-        >
-          <div className="HW-Outlined-SelectBox-Contents-Wrapper">
-            {label !== undefined && (
-              <label className="HW-Outlined-SelectBox-Label" css={style.label}>
-                {label}
-                {required && <span style={{ color: "red" }}>*</span>}
-              </label>
-            )}
-            <div
-              className="HW-Outlined-SelectBox-Contents"
-              css={style.contents(height)}
-              aria-expanded={open}
-              role="button"
-              tabIndex={0}
-              onClick={(e) => {
+        <>
+          <div
+            ref={ref}
+            className={classNames.join(" ")}
+            css={[style.container, fullWidth ? { width: "100%" } : { width }, customCss]}
+            aria-disabled={disabled}
+            onKeyUp={(e) => {
+              if (e.key === " " || e.key === "Enter") {
                 setAnchorEl(e.currentTarget);
-              }}
-              ref={inputRef}
-            >
-              <div
-                className="HW-Outlined-SelectBox-Input"
-                css={style.input}
-                placeholder={placeholder}
-              >
-                {display}
-              </div>
-              <IconChevronDown className="HW-Outlined-SelectBox-Icon" />
-            </div>
-          </div>
-          {helperText && (
-            <HWTypography
-              className="HW-Outlined-SelectBox-HelperText"
-              customCss={css`
-                margin-left: 14px;
-                margin-top: 3px;
-                width: calc(100% - 14px);
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                display: block;
-              `}
-              variant="Helper Text"
-            >
-              {helperText}
-            </HWTypography>
-          )}
-        </div>
-        {open && (
-          <Menu
-            disablePortal={disablePortal}
-            PaperProps={{
-              ...PaperProps,
-              sx: {
-                ...style.popover(anchorEl?.clientWidth),
-                boxSizing: "border-box",
-                ...PaperProps.sx,
-              },
+              }
+              if (onKeyUp) {
+                onKeyUp(e);
+              }
             }}
-            anchorOrigin={{
-              horizontal: "left",
-              vertical: "bottom",
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={() => {
-              setAnchorEl(null);
-            }}
+            {...props}
           >
-            {childrenArray.map((child) => {
-              if (!React.isValidElement(child)) {
-                return null;
-              }
+            <div className="HW-Outlined-SelectBox-Contents-Wrapper">
+              {label !== undefined && (
+                <label className="HW-Outlined-SelectBox-Label" css={style.label}>
+                  {label}
+                  {required && <span style={{ color: "red" }}>*</span>}
+                </label>
+              )}
+              <div
+                className="HW-Outlined-SelectBox-Contents"
+                css={style.contents(height)}
+                aria-expanded={open}
+                role="button"
+                tabIndex={0}
+                onClick={(e) => {
+                  setAnchorEl(e.currentTarget);
+                }}
+                ref={inputRef}
+              >
+                <div
+                  className="HW-Outlined-SelectBox-Input"
+                  css={style.input}
+                  placeholder={placeholder}
+                >
+                  {display}
+                </div>
+                <IconChevronDown className="HW-Outlined-SelectBox-Icon" />
+              </div>
+            </div>
+            {helperText && (
+              <HWTypography
+                className="HW-Outlined-SelectBox-HelperText"
+                customCss={css`
+                  margin-left: 14px;
+                  margin-top: 3px;
+                  width: calc(100% - 14px);
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  display: block;
+                `}
+                variant="Helper Text"
+              >
+                {helperText}
+              </HWTypography>
+            )}
+          </div>
+          <Popper
+            open={open}
+            anchorEl={anchorEl}
+            disablePortal={disablePortal}
+            placement={"bottom-start"}
+            sx={{ zIndex: 99 }}
+          >
+            <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
+              <MenuList
+                sx={{
+                  ...style.popover(anchorEl?.clientWidth),
+                  ...PaperProps.sx,
+                }}
+              >
+                {childrenArray.map((child) => {
+                  if (!React.isValidElement(child)) {
+                    return null;
+                  }
 
-              let selected = false;
+                  let selected = false;
 
-              if (multiple) {
-                if (!Array.isArray(value)) {
-                  throw new Error(
-                    "The `value` prop must be an array " +
-                      "when using the `Select` component with `multiple`."
-                  );
-                }
+                  if (multiple) {
+                    if (!Array.isArray(value)) {
+                      throw new Error(
+                        "The `value` prop must be an array " +
+                          "when using the `Select` component with `multiple`."
+                      );
+                    }
 
-                selected = value.some((v) => areEqualValues(v, child.props.value));
-              } else {
-                selected = areEqualValues(value, child.props.value);
-              }
+                    selected = value.some((v) => areEqualValues(v, child.props.value));
+                  } else {
+                    selected = areEqualValues(value, child.props.value);
+                  }
 
-              return React.cloneElement(child as React.ReactElement, {
-                "aria-selected": selected ? "true" : "false",
-                onClick: handleItemClick(child),
-                role: "option",
-                selected,
-                value: undefined,
-                "data-value": child.props.value,
-              });
-            })}
-          </Menu>
-        )}
+                  return React.cloneElement(child as React.ReactElement, {
+                    "aria-selected": selected ? "true" : "false",
+                    onClick: handleItemClick(child),
+                    role: "option",
+                    selected,
+                    value: undefined,
+                    "data-value": child.props.value,
+                  });
+                })}
+              </MenuList>
+              {/*<MenuList
+                autoFocusItem={open}
+                                disablePortal={disablePortal}
+                                        PaperProps={{
+                                          ...PaperProps,
+                                          sx: {
+                                            ...style.popover(anchorEl?.clientWidth),
+                                            boxSizing: "border-box",
+                                            ...PaperProps.sx,
+                                          },
+                                        }}
+                                        anchorOrigin={{
+                                          horizontal: "left",
+                                          vertical: "bottom",
+                                        }}
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={() => {
+                                          setAnchorEl(null);
+                                        }}
+              >
+                {childrenArray.map((child) => {
+                  if (!React.isValidElement(child)) {
+                    return null;
+                  }
+
+                  let selected = false;
+
+                  if (multiple) {
+                    if (!Array.isArray(value)) {
+                      throw new Error(
+                        "The `value` prop must be an array " +
+                          "when using the `Select` component with `multiple`."
+                      );
+                    }
+
+                    selected = value.some((v) => areEqualValues(v, child.props.value));
+                  } else {
+                    selected = areEqualValues(value, child.props.value);
+                  }
+
+                  return React.cloneElement(child as React.ReactElement, {
+                    "aria-selected": selected ? "true" : "false",
+                    onClick: handleItemClick(child),
+                    role: "option",
+                    selected,
+                    value: undefined,
+                    "data-value": child.props.value,
+                  });
+                })}
+              </MenuList>*/}
+            </ClickAwayListener>
+          </Popper>
+        </>
       </React.Fragment>
     );
   }

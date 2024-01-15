@@ -1,6 +1,6 @@
 import { cloneElement, forwardRef, useEffect, useState } from "react";
 import { IconChevronDown, IconSettings } from "@res/index";
-import { Menu, MenuItem } from "@mui/material";
+import {Box, ClickAwayListener, Menu, MenuItem, MenuList, Paper, Popper} from "@mui/material";
 import style from "./style";
 
 function hasValue(value: any) {
@@ -25,7 +25,7 @@ const CustomInputField = forwardRef(
       readOnly,
       width = "200px",
       height = "46px",
-      disablePortal,
+      disablePortal = true,
       onKeyUp,
       value,
       renderValue,
@@ -104,7 +104,27 @@ const CustomInputField = forwardRef(
             </div>
           </div>
         </div>
-        {open && (
+        <Popper
+          open={open}
+          anchorEl={anchorEl}
+          disablePortal={disablePortal}
+          placement={"bottom-start"}
+          sx={{ zIndex: 99 }}
+        >
+          <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
+            <Box
+              sx={{
+                ...style.popover(anchorEl?.clientWidth),
+                ...PaperProps.sx,
+              }}
+              css={[style.menuRoot, customCss]}
+            >
+              <div className={"menu-box"}>{children}</div>
+            </Box>
+          </ClickAwayListener>
+        </Popper>
+
+        {/*        {open && (
           <Menu
             disablePortal={disablePortal}
             PaperProps={{
@@ -129,7 +149,7 @@ const CustomInputField = forwardRef(
               <div className={"menu-box"}>{children}</div>
             </div>
           </Menu>
-        )}
+        )}*/}
       </>
     );
   }

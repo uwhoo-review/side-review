@@ -93,9 +93,9 @@ export default {
     }
   `,
   searchWrapper: css`
-    //position: fixed;
-    top: 0;
-    //margin-top: 52px;
+    position: fixed;
+    top: 52px;
+    left: 0;
     width: 100%;
     //height: 238px;
     background-color: ${Color.dark.elevation02};

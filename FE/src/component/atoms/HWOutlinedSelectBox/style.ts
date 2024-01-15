@@ -160,19 +160,10 @@ export default {
     border: `1px solid ${Color.dark.grey300}`,
     padding: "4px 6px",
     marginTop: "10px",
+    overflow: "auto",
+
     ".MuiMenu-list": {
       padding: 0,
-    },
-    "&::-webkit-scrollbar": {
-      width: "12px",
-      borderRadius: "10px",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#42424A",
-      borderRadius: "10px",
-      minHeight: "10px",
-      backgroundClip: "padding-box",
-      border: "3px solid transparent",
     },
   }),
 };

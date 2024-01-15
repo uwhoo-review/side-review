@@ -7,8 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
-import { Popover } from "@mui/material";
-import { isNullOrEmpty } from "@src/tools/commonTools";
+import {Box, ClickAwayListener} from "@mui/material";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const commonContext = useCommon();
@@ -82,15 +81,31 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </NavLink>
           </div>
           <div css={styled.rightGroups}>
-            <HWIconButton
-              onClick={() => {
-                commonContext.onHandleFilterOpen(!commonContext.isFilterOpen);
-              }}
-              css={styled.iconSearch(commonContext.isFilterOpen)}
-              ref={iconEl}
-            >
-              <IconSearch />
-            </HWIconButton>
+            <ClickAwayListener onClickAway={() => commonContext.onHandleFilterOpen(false)}>
+              <Box>
+                <HWIconButton
+                  onClick={() => {
+                    commonContext.onHandleFilterOpen(!commonContext.isFilterOpen);
+                  }}
+                  css={styled.iconSearch(commonContext.isFilterOpen)}
+                  ref={iconEl}
+                >
+                  <IconSearch />
+                </HWIconButton>
+                {commonContext.isFilterOpen ? (
+                  <div
+                    className={`search-wrapper ${commonContext.isFilterOpen && "open"}`}
+                    css={styled.searchWrapper}
+                  >
+                    <CenterWrapper>
+                      <div css={styled.searchGrid}>
+                        <SearchBar />
+                      </div>
+                    </CenterWrapper>
+                  </div>
+                ) : null}
+              </Box>
+            </ClickAwayListener>
             {commonContext.isLogin ? (
               <HWButton
                 variant={"lower"}
@@ -117,7 +132,8 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </div>
         </div>
       </header>
-      <Popover
+
+      {/*      <Popover
         open={commonContext.isFilterOpen}
         onClose={() => commonContext.onHandleFilterOpen(false)}
         css={styled.popover}
@@ -132,7 +148,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </div>
           </CenterWrapper>
         </div>
-      </Popover>
+      </Popover>*/}
       {/*<Outlet />*/}
     </>
   );
