@@ -16,10 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
-                                                     val starRatingService: StarRatingService)  {
+class OpenSearchDetailService @Autowired constructor(
+    val client: SearchClient,
+    val starRatingService: StarRatingService
+) {
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
-    private suspend fun findDocumentById(index : String, id: String) : SearchResponse {
+    private suspend fun findDocumentById(index: String, id: String): SearchResponse {
         val search = client.search(index) {
             resultSize = 1
             query = bool { must(match("id", id)) }
@@ -38,9 +40,9 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         }
     }
 
-    suspend fun makeSeasonInfo(id : String, list : List<String>) : Season {
-        var now :Int = 1
-        if(id.contains("_")){
+    suspend fun makeSeasonInfo(id: String, list: List<String>): Season {
+        var now: Int = 1
+        if (id.contains("_")) {
             now = id.split("_")[1].toInt()
         }
         return Season(now, list)
@@ -57,24 +59,37 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         }
     }
 
-    fun filterCreditInfo(personList : List<PersonDocument>, id : String) :Pair<List<Actor>, List<Crew>>{
-        val actorList : MutableList<Actor> = mutableListOf()
-        val crewList : MutableList<Crew> = mutableListOf()
-        for(person in personList){
-            if(person.cast != null){
-                for(cast in person.cast!!)
-                    if(cast.contentId == id){
+    fun filterCreditInfo(
+        personList: List<PersonDocument>,
+        id: String
+    ): Pair<List<Actor>, List<Crew>> {
+        val actorList: MutableList<Actor> = mutableListOf()
+        val crewList: MutableList<Crew> = mutableListOf()
+        for (person in personList) {
+            if (person.cast != null) {
+                for (cast in person.cast!!)
+                    if (cast.contentId == id) {
                         actorList.add(
-                            Actor(person.name, person.id.toString(), cast.role, person.profilePath.toString())
+                            Actor(
+                                person.name,
+                                person.id.toString(),
+                                cast.role,
+                                person.profilePath.toString()
+                            )
                         )
                     }
             }
 
-            if(person.crew != null){
-                for(crew in person.crew!!)
-                    if(crew.contentId == id){
+            if (person.crew != null) {
+                for (crew in person.crew!!)
+                    if (crew.contentId == id) {
                         crewList.add(
-                            Crew(person.name, person.id.toString(), crew.job, person.profilePath.toString())
+                            Crew(
+                                person.name,
+                                person.id.toString(),
+                                crew.job,
+                                person.profilePath.toString()
+                            )
                         )
                     }
             }
@@ -82,25 +97,11 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         return Pair<List<Actor>, List<Crew>>(actorList, crewList)
     }
 
-    suspend fun getContentDocument(id: String) : DetailContentDto{
+    suspend fun getContentDocument(id: String): DetailContentDto {
         val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
-        var season = document.season
-        var firstSeasonId = id
-        var seasonList : MutableList<String> = mutableListOf()
-
-        if(id.contains("_")){
-            val firstSeasonResponse: SearchResponse = findDocumentById("content", id.split("_")[0])
-            val firstSeasonSource = firstSeasonResponse.hits?.hits?.get(0)?.source
-            val firstSeasonDocument = Gson().fromJson("$firstSeasonSource", ContentDocument::class.java)
-            season = firstSeasonDocument.season
-            firstSeasonId = id.split("_")[0]
-        }
-
-        seasonList.add(firstSeasonId)
-        seasonList.addAll(season)
-
+        val seasonList: MutableList<String> = getSeasonFromDocument(document)
         val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
 
         return DetailContentDto(
@@ -124,10 +125,32 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         )
     }
 
-    suspend fun getPersonDocument(id: String) : DetailPersonDto {
+    suspend fun getSeasonFromDocument(
+        document: ContentDocument
+    ): MutableList<String> {
+        var season = document.season
+        var firstSeasonId = document.id
+        val seasonList: MutableList<String> = mutableListOf()
+
+        if (document.id.contains("_")) {
+            val firstSeasonResponse: SearchResponse =
+                findDocumentById("content", document.id.split("_")[0])
+            val firstSeasonSource = firstSeasonResponse.hits?.hits?.get(0)?.source
+            val firstSeasonDocument =
+                Gson().fromJson("$firstSeasonSource", ContentDocument::class.java)
+            season = firstSeasonDocument.season
+            firstSeasonId = document.id.split("_")[0]
+        }
+
+        seasonList.add(firstSeasonId)
+        seasonList.addAll(season)
+        return seasonList
+    }
+
+    suspend fun getPersonDocument(id: String): DetailPersonDto {
         val response: SearchResponse = findDocumentById("person", id)
 
-        if(response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.");
+        if (response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.");
         //TODO: exception handling
 
         val source = response.hits?.hits?.get(0)?.source
@@ -136,9 +159,9 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
         val roleList: MutableList<CastItem> = mutableListOf()
         val jobList: MutableList<CrewItem> = mutableListOf()
 
-        if(document.cast != null && document.cast?.size!! > 0) {
+        if (document.cast != null && document.cast?.size!! > 0) {
             job.add("Acting")
-            for(castRole in document.cast!!){
+            for (castRole in document.cast!!) {
                 val content = getContentDocument(castRole.contentId)
                 roleList.add(
                     CastItem(
@@ -152,7 +175,7 @@ class OpenSearchDetailService @Autowired constructor(val client: SearchClient,
                 )
             }
         }
-        if(document.crew != null) {
+        if (document.crew != null) {
             for (crewJob in document.crew!!) {
                 val content = getContentDocument(crewJob.contentId)
                 if (!job.contains(crewJob.job)) job.add(crewJob.job)
