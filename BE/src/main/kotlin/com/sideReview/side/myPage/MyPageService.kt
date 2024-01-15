@@ -3,22 +3,28 @@ package com.sideReview.side.myPage
 import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.entity.UserFavoritePerson
+import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.myPage.dto.FavoriteContentDto
 import com.sideReview.side.myPage.dto.FavoriteContentPageDto
 import com.sideReview.side.myPage.dto.FavoritePersonDto
+import com.sideReview.side.myPage.repository.UserFavoritePersonRepository
 import com.sideReview.side.openSearch.OpenSearchDetailService
 import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.person.PersonService
 import com.sideReview.side.review.UserStarRatingRepository
 import com.sideReview.side.review.dto.PageInfo
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MyPageService(
     val openSearchGetService: OpenSearchGetService,
     val openSearchDetailService: OpenSearchDetailService,
     val userStarRatingRepository: UserStarRatingRepository,
+    val userFavoritePersonRepository: UserFavoritePersonRepository,
+    val userInfoRepository: UserInfoRepository,
     val personService: PersonService
 ) {
     suspend fun getKeywordContent(
@@ -75,5 +81,13 @@ class MyPageService(
         val total = matchPerson.hits?.total?.value?.toInt() ?: 0
         val totalPages = if (total % size == 0) total / size else total / size + 1
         return FavoritePersonDto(personDtoList, PageInfo(total, totalPages, page))
+    }
+
+    @Transactional
+    fun saveFavoritePerson(userId: String, personId: String) {
+        val user = userInfoRepository.getReferenceById(userId)
+        userFavoritePersonRepository.save(
+            UserFavoritePerson(personId = personId, userInfo = user)
+        )
     }
 }

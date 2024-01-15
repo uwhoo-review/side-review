@@ -1,4 +1,4 @@
-package com.sideReview.side.login.entity
+package com.sideReview.side.common.entity
 
 import java.io.Serializable
 import javax.persistence.*

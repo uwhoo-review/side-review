@@ -47,6 +47,17 @@ class MyPageController(val nicknameService: NicknameService, val myPageService: 
                 ResponseEntity.ok(myPageService.getKeywordPerson(keyword, page, size))
         }
         return response
+    }
 
+    @PutMapping("/person")
+    fun saveFavoritePerson(
+        @PathVariable userId: String,
+        @RequestParam personId: String,
+    ): ResponseEntity<Any> {
+        kotlin.runCatching { myPageService.saveFavoritePerson(userId, personId) }
+            .onFailure {
+                return ResponseEntity.internalServerError().body(it.message)
+            }
+        return ResponseEntity.ok("save success")
     }
 }

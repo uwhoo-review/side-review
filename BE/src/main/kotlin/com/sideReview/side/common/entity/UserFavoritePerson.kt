@@ -1,4 +1,4 @@
-package com.sideReview.side.login.entity
+package com.sideReview.side.common.entity
 
 import java.io.Serializable
 import javax.persistence.*
@@ -15,7 +15,7 @@ data class UserFavoritePerson(
     val personId: String,
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val userInfo: UserInfo
 )

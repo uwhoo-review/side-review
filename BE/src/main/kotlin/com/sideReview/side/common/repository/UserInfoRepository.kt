@@ -1,6 +1,6 @@
-package com.sideReview.side.login
+package com.sideReview.side.common.repository
 
-import com.sideReview.side.login.entity.UserInfo
+import com.sideReview.side.common.entity.UserInfo
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

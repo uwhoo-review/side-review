@@ -1,4 +1,4 @@
-package com.sideReview.side.login.entity
+package com.sideReview.side.common.entity
 
 import javax.persistence.*
 
@@ -21,9 +21,9 @@ data class UserInfo(
     @Column(name = "prefer_genre", length = 100)
     val preferGenre: String?,
 
-    @OneToMany(mappedBy = "userInfo")
+    @OneToMany(mappedBy = "userInfo", cascade = [CascadeType.ALL])
     val favoriteContent: List<UserFavoriteContent>?,
 
-    @OneToMany(mappedBy = "userInfo")
+    @OneToMany(mappedBy = "userInfo", cascade = [CascadeType.ALL])
     val favoritePerson: List<UserFavoritePerson>?
 )

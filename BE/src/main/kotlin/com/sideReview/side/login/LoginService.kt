@@ -1,6 +1,7 @@
 package com.sideReview.side.login
 
-import com.sideReview.side.login.entity.UserInfo
+import com.sideReview.side.common.entity.UserInfo
+import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.login.google.dto.GoogleProfileResponse
 import com.sideReview.side.login.kakao.dto.KakaoProfileResponse
 import com.sideReview.side.login.naver.dto.NaverProfileResponse
