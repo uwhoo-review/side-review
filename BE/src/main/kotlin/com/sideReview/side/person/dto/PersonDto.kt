@@ -6,7 +6,6 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.reflect.TypeToken
-import com.sideReview.side.openSearch.dto.ContentDto
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
@@ -23,13 +22,13 @@ data class PersonDto(
 @Serializable
 data class PersonRoleDto(
     val role: String,
-    val content: ContentDto
+    val contentId: String
 )
 
 @Serializable
 data class PersonJobDto(
     val job: String,
-    val content: ContentDto
+    val contentId: String
 )
 
 class PersonDtoDeserializer : JsonDeserializer<PersonDto> {
@@ -55,11 +54,7 @@ class PersonDtoDeserializer : JsonDeserializer<PersonDto> {
                 cast.add(
                     PersonRoleDto(
                         role = c.role,
-                        content = ContentDto(
-                            id = c.contentId,
-                            name = "",
-                            platform = emptyList()
-                        )
+                        contentId = c.contentId
                     )
                 )
             }
@@ -72,11 +67,7 @@ class PersonDtoDeserializer : JsonDeserializer<PersonDto> {
                 crew.add(
                     PersonJobDto(
                         job = c.job,
-                        content = ContentDto(
-                            id = c.contentId,
-                            name = "",
-                            platform = emptyList()
-                        )
+                        contentId = c.contentId
                     )
                 )
             }
