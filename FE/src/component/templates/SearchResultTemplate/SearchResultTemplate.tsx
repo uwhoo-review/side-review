@@ -60,8 +60,6 @@ const SearchResultTemplate = () => {
     enabled: !!search,
   });
 
-  console.log(useMatchContent.status, useMatchPerson.status, !search, search);
-
   return (
     <>
       {useMatchContent.status === "pending" &&

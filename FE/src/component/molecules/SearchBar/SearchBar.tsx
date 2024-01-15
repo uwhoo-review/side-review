@@ -3,7 +3,7 @@ import { IconCancel, IconCheckboxOff, IconCheckboxOn, IconInit, IconSearch } fro
 import styled from "./style";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
-import {useCallback, useEffect, useRef, useState} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isNullOrEmpty } from "@src/tools/commonTools";
 import { useCommon } from "@src/providers/CommonProvider";
@@ -27,24 +27,19 @@ const SearchBar = () => {
   const { filterState, filterRef, onHandleFilter, onHandleFilterOpen, isFilterOpen } = useCommon();
 
   const onResult = () => {
-    let queryStr = "?";
-    queryStr += filterState.search.length !== 0 ? `search=${filterState.search}` : "";
-    queryStr += filterState.genre.length !== 0 ? `&genre=${filterState.genre}` : "";
-    queryStr += filterState.platform.length !== 0 ? `&platform=${filterState.platform}` : "";
-    queryStr += filterState.watch.length !== 0 ? `&watch=${filterState.watch}` : "";
-    queryStr +=
-      filterState.rating[0] !== 0 || filterState.rating[1] !== 5
-        ? `&rating=${filterState.rating}`
-        : "";
-    queryStr +=
-      filterState.date[0] !== null || filterState.date[1] !== null
-        ? `&date=${filterState.date}`
-        : "";
-    queryStr += filterState.sort ? `&sort=${filterState.sort}` : "";
+    const query = [];
+    filterState.search.length !== 0 && query.push(`search=${filterState.search}`);
+    filterState.genre.length !== 0 && query.push(`genre=${filterState.genre}`);
+    filterState.platform.length !== 0 && query.push(`platform=${filterState.platform}`);
+    filterState.watch.length !== 0 && query.push(`watch=${filterState.watch}`);
+    (filterState.rating[0] !== 0 || filterState.rating[1] !== 5) &&
+      query.push(`rating=${filterState.rating}`);
+    (filterState.date[0] !== null || filterState.date[1] !== null) &&
+      query.push(`date=${filterState.date}`);
+    filterState.sort && query.push(`sort=${filterState.sort}`);
 
-    navigate({ pathname: "/search", search: `${queryStr}` });
+    navigate({ pathname: "/search", search: `?${query.join("&")}` });
     onHandleFilterOpen(false);
-
   };
 
   return (
@@ -75,7 +70,6 @@ const SearchBar = () => {
             onKeyUp={(e) => {
               if (e.key === "Enter") {
                 onResult();
-
               }
             }}
           />
