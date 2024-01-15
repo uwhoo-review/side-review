@@ -1,8 +1,8 @@
 package com.sideReview.side.openSearch.dto
 
 data class ContentRequestDTO(
-    val tab: String?,
-    val sort: String?,
+    var tab: String?,
+    var sort: String?,
     val query: String?,
     var notQuery: List<String>?,
     var filter: MutableList<ContentRequestFilterDetail>?,

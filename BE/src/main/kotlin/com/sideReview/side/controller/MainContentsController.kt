@@ -30,13 +30,13 @@ class MainContentsController @Autowired constructor(
                 "main" -> {
                     val popular = reviewService.fillReview(
                         MapperUtils.parseToContentDto(
-                            openSearchGetService.get(request.tab, "popularity", request)
+                            openSearchGetService.get(request.tab!!, "popularity", request)
                         )
                     )
 
                     val latest = reviewService.fillReview(
                         MapperUtils.parseToContentDto(
-                            openSearchGetService.get(request.tab, "new", request)
+                            openSearchGetService.get(request.tab!!, "new", request)
                         )
                     )
                     response = ResponseEntity.ok(
@@ -62,7 +62,7 @@ class MainContentsController @Autowired constructor(
                     request.pagination = if (page < 20) page else page - 20
                     val sortByPopular =
                         MapperUtils.parseToContentDto(
-                            openSearchGetService.get(request.tab, "popularity", request)
+                            openSearchGetService.get(request.tab!!, "popularity", request)
                         )
 
                     // 요청 데이터 번호가 20 이전일 경우 1년 내의 결과 + popularity 순에서 모자란거 채워서 30개 생성
@@ -86,7 +86,7 @@ class MainContentsController @Autowired constructor(
                     response = ResponseEntity.ok(
                         reviewService.fillReview(
                             MapperUtils.parseToContentDto(
-                                openSearchGetService.get(request.tab, "new", request)
+                                openSearchGetService.get(request.tab!!, "new", request)
                             )
                         )
                     )
@@ -96,7 +96,7 @@ class MainContentsController @Autowired constructor(
                     response = ResponseEntity.ok(
                         reviewService.fillReview(
                             MapperUtils.parseToContentDto(
-                                openSearchGetService.get(request.tab, "new", request)
+                                openSearchGetService.get(request.tab!!, "new", request)
                             )
                         )
                     )
@@ -107,43 +107,65 @@ class MainContentsController @Autowired constructor(
     }
 
 
-    @PostMapping("/search")
+    @PostMapping("/search/match")
+    fun searchContents(
+        @RequestBody request: ContentRequestDTO,
+        @RequestParam type: String?
+    ): ResponseEntity<Any> {
+        var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
+        runBlocking {
+            if (request.sort.isNullOrBlank()) request.sort = "popularity"
+            if (request.query.isNullOrBlank()) {
+                val content = openSearchGetService.get("sortFilter", request.sort, request)
+                response = ResponseEntity.ok(
+                    MatchContentDto(
+                        total = content.hits?.total?.value?.toInt() ?: 0,
+                        content = MapperUtils.parseToSimpleContentDto(content)
+                    )
+                )
+            } else {
+                when (type) {
+                    "content" -> {
+                        val matchContent = openSearchGetService.get("search", request.sort, request)
+                        response = ResponseEntity.ok(
+                            MatchContentDto(
+                                total = matchContent.hits?.total?.value?.toInt() ?: 0,
+                                content = MapperUtils.parseToSimpleContentDto(matchContent)
+                            )
+                        )
+                    }
+
+                    "person" -> {
+                        val matchPerson =
+                            personService.searchMatch(request.query, request.pagination ?: 0, 12)
+                        response = ResponseEntity.ok(
+                            MatchPersonDto(
+                                total = matchPerson.hits?.total?.value?.toInt() ?: 0,
+                                content = MapperUtils.parseToPersonDto(matchPerson)
+
+                            )
+                        )
+                    }
+                }
+            }
+        }
+        return response
+    }
+
+    @PostMapping("/search/similar")
     fun searchContents(
         @RequestBody request: ContentRequestDTO
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
-        runBlocking {
-            // 정렬 & 필터만 있을 경우
-            if (request.query.isNullOrBlank()) {
-                val sort = if (request.sort.isNullOrBlank()) "popularity" else request.sort
-                val source = openSearchGetService.get("sortFilter", sort, request)
-                response = ResponseEntity.ok(
-                    SFContendDto(
-                        total = source.hits?.total?.value?.toInt() ?: 0,
-                        content = MapperUtils.parseToSimpleContentDto(source)
-                    )
-                )
-            } else {
-                val matchContent = openSearchGetService.get("search", request.sort, request)
-                val matchPerson =
-                    personService.searchMatch(request.query, request.pagination ?: 0, 12)
+        if (request.query != null) {
+            if (request.sort.isNullOrBlank()) request.sort = "popularity"
+            request.tab = "search"
+            runBlocking {
                 val similar = openSearchGetService.search(request.sort, request)
-
                 response = ResponseEntity.ok(
-                    SearchContentDto(
-                        match = MatchDto(
-                            content = MapperUtils.parseToSimpleContentDto(matchContent),
-                            person = MapperUtils.parseToPersonDto(matchPerson)
-                        ),
-                        similar =
-                        MapperUtils.parseToSimpleContentDto(similar),
-                        total = SearchContentCountDto(
-                            match = MatchCountDto(
-                                content = matchContent.hits?.total?.value?.toInt() ?: 0,
-                                person = matchPerson.hits?.total?.value?.toInt() ?: 0
-                            ),
-                            similar = similar.hits?.total?.value?.toInt() ?: 0
-                        )
+                    MatchContentDto(
+                        content = MapperUtils.parseToSimpleContentDto(similar),
+                        total = similar.hits?.total?.value?.toInt() ?: 0
                     )
                 )
             }

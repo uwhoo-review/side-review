@@ -10,25 +10,6 @@ import com.sideReview.side.person.dto.PersonDto
 import kotlinx.serialization.Serializable
 import java.lang.reflect.Type
 
-@Serializable
-data class SearchContentCountDto(
-    val match: MatchCountDto,
-    val similar: Int
-)
-
-@Serializable
-data class MatchCountDto(
-    val content: Int,
-    val person: Int
-)
-
-@Serializable
-data class SearchContentDto(
-    val match: MatchDto,
-    val similar: List<SimpleContentDto>,
-    val total: SearchContentCountDto
-)
-
 @JsonAdapter(MatchDtoDeserializer::class)
 @Serializable
 data class MatchDto(
@@ -37,9 +18,15 @@ data class MatchDto(
 )
 
 @Serializable
-data class SFContendDto(
+data class MatchContentDto(
     val total: Int,
     val content: List<SimpleContentDto>
+)
+
+@Serializable
+data class MatchPersonDto(
+    val total: Int,
+    val content: List<PersonDto>
 )
 
 @JsonAdapter(SimpleContentDeserializer::class)
