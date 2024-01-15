@@ -215,32 +215,39 @@ class OpenSearchDetailService @Autowired constructor(
 
     }
 
-    suspend fun fillCast(matchPersonDto: List<PersonDto>): List<FavoritePersonDetailDto> {
+    suspend fun fillCastCrew(matchPersonDto: List<PersonDto>): List<FavoritePersonDetailDto> {
         val detail: MutableList<FavoritePersonDetailDto> = mutableListOf()
         for (person in matchPersonDto) {
+            val content: MutableList<String> = mutableListOf()
             if (person.cast != null) {
-                val response: SearchResponse? =
-                    kotlin.runCatching {
-                        findContentByIdSortByFirstAirDate(person.cast.map { it.contentId })
-                    }.getOrNull()
-                if (response != null) {
-                    val contents: List<ContentDocument> =
-                        MapperUtils.parseToContentDocument(response)
-                    detail.add(
-                        FavoritePersonDetailDto(
-                            person.id,
-                            person.name,
-                            person.profilePath,
-                            contents.map { it.name }
-                        )
-                    )
-                }
-
+                content.addAll(getNames(person.cast.map { it.contentId }))
             }
+            if (person.crew != null) {
+                content.addAll(getNames(person.crew.map { it.contentId }))
+            }
+            detail.add(
+                FavoritePersonDetailDto(
+                    person.id,
+                    person.name,
+                    person.profilePath,
+                    content
+                )
+            )
         }
         return detail
     }
 
+    private suspend fun getNames(ids: List<String>): List<String> {
+        val response: SearchResponse? =
+            kotlin.runCatching {
+                findContentByIdSortByFirstAirDate(ids)
+            }.getOrNull()
+        return if (response != null) {
+            val contents: List<ContentDocument> =
+                MapperUtils.parseToContentDocument(response)
+            contents.map { it.name }
+        } else emptyList()
+    }
 
 //    suspend fun getContentDocumentAsContentDto(id: String): ContentDto? {
 //        var response: SearchResponse? = null
