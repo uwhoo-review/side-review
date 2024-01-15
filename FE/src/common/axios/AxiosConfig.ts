@@ -20,8 +20,12 @@ export const UWAxios = {
       const res = await axiosBaseInstance.get<any>(`contents/${id}`);
       return res.data;
     },
-    async getSearch(data: any) {
-      const res = await axiosBaseInstance.post<any>(`contents/search`, data);
+    async getSearchMatch(type: string, data: any) {
+      const res = await axiosBaseInstance.post<any>(`contents/search/match?type=${type}`, data);
+      return res.data;
+    },
+    async getSearchSimilar(data: any) {
+      const res = await axiosBaseInstance.post<any>(`contents/search/similar`, data);
       return res.data;
     },
   },
@@ -59,6 +63,24 @@ export const UWAxios = {
     async getGoogleToken(code: string, uri: string) {
       const res = await axiosBaseInstance.get<any>(`login/google?code=${code}&uri=${uri}`);
       return res.data;
-    }
-  }
+    },
+  },
+  star: {
+    async postStart(id: string) {
+      const res = await axiosBaseInstance.post<any>(`star/${id}`);
+      return res.data;
+    },
+    async getStart(id: string) {
+      const res = await axiosBaseInstance.get<any>(`star/${id}`);
+      return res.data;
+    },
+    async deleteStart(id: string) {
+      const res = await axiosBaseInstance.delete<any>(`star/${id}`);
+      return res.data;
+    },
+    async putStart(id: string) {
+      const res = await axiosBaseInstance.put<any>(`star/${id}`);
+      return res.data;
+    },
+  },
 };

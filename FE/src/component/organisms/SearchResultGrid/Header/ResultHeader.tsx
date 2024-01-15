@@ -12,10 +12,10 @@ import {
   FILTER_SORT_ID_NAME,
   GENRE_ID_NAME,
   GENRE_NAME,
-  PLATFORM_ID_NAME
+  PLATFORM_ID_NAME,
 } from "@src/variables/CommonConstants";
 
-const ResultHeader = ({ data }: any) => {
+const ResultHeader = ({ content }: any) => {
   const commonContext = useCommon();
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
@@ -54,7 +54,7 @@ const ResultHeader = ({ data }: any) => {
                   color={Color.dark.primary700}
                   css={styled.typo1}
                 >
-                  {data.total}
+                  {content.total}
                 </HWTypography>
               </>
             )}
@@ -155,7 +155,6 @@ const ResultHeader = ({ data }: any) => {
                       }
                     }}
                   />
-
                 );
             })}
           </div>

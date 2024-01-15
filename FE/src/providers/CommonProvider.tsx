@@ -71,6 +71,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const onResetUserInfo = () =>
     setUserInfo({ userId: "", userName: "", age: "", gender: "", email: "", site: "" , date: null});
   const onHandleLogin = (v: boolean) => setIsLogin(v);
+
   return (
     <CommonContext.Provider
       value={{

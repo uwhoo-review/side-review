@@ -69,6 +69,11 @@ export default {
   `,
   selectBox: css`
     //display: flex;
+    .HW-Outlined-SelectBox-Contents{
+      border: none;      
+      background-color: #00000080;
+    }
+
   `,
   titleWrapper: css`
     display: flex;

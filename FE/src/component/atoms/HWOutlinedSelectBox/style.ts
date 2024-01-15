@@ -161,6 +161,7 @@ export default {
     padding: "4px 6px",
     marginTop: "10px",
     overflow: "auto",
+    borderRadius: "6px",
 
     ".MuiMenu-list": {
       padding: 0,

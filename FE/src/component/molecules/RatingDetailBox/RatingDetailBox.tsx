@@ -47,7 +47,7 @@ const RatingDetailBox = ({ item }: any) => {
               </HWTypography>
               <Divider direction={"v"} length={"14px"} />
               <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                200+
+                {item.totalRating > 200 ? "200+" : item.totalRating}
               </HWTypography>
             </div>
           </div>
@@ -62,8 +62,8 @@ const RatingDetailBox = ({ item }: any) => {
                 max={5}
                 precision={0.5}
                 css={styled.rating}
-                emptyIcon={<IconRatingEmpty />}
-                icon={<IconRating />}
+                emptyIcon={<IconRatingEmpty style={{ marginLeft: "4px", marginRight: "4px" }} />}
+                icon={<IconRating style={{ marginLeft: "4px", marginRight: "4px" }} />}
                 onChange={(e, val) => {
                   setRating(val);
                 }}

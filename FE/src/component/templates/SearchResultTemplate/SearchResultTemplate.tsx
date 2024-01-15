@@ -18,55 +18,88 @@ const SearchResultTemplate = () => {
   const filter = getFilterParams(searchParams);
   const search = searchParams.get("search");
   const sort = searchParams.get("sort");
-  const [pagination, setPagination] = useState(0);
-  const { status, data, error } = useQuery({
-    queryKey: ["list", "search", filter, search, sort, pagination],
-    queryFn: async () => {
-      return await UWAxios.contents.getSearch({
+  const useMatchContent = useQuery({
+    queryKey: ["list", "search", "content", filter, search, sort, 0],
+    queryFn: async ({ queryKey }: any) => {
+      return await UWAxios.contents.getSearchMatch(queryKey[2], {
         tab: CONTENTS_TABS.SEARCH,
-        filter: [...filter],
-        query: search,
-        sort: sort,
-        pagination: pagination,
+        filter: [...queryKey[3]],
+        query: queryKey[4],
+        sort: queryKey[5],
+        pagination: queryKey[6],
       });
     },
     refetchOnWindowFocus: false,
   });
+  const useMatchPerson = useQuery({
+    queryKey: ["list", "search", "person", filter, search, sort, 0],
+    queryFn: async ({ queryKey }: any) => {
+      return await UWAxios.contents.getSearchMatch(queryKey[2], {
+        tab: CONTENTS_TABS.SEARCH,
+        filter: [...queryKey[3]],
+        query: queryKey[4],
+        sort: queryKey[5],
+        pagination: queryKey[6],
+      });
+    },
+    refetchOnWindowFocus: false,
+    enabled: !!search,
+  });
+  const useMatchSimilar = useQuery({
+    queryKey: ["list", "search", "similar", filter, search, sort, 0],
+    queryFn: async ({ queryKey }: any) => {
+      return await UWAxios.contents.getSearchSimilar({
+        tab: CONTENTS_TABS.SEARCH,
+        filter: [...queryKey[3]],
+        query: queryKey[4],
+        sort: queryKey[5],
+        pagination: queryKey[6],
+      });
+    },
+    refetchOnWindowFocus: false,
+    enabled: !!search,
+  });
 
-  useEffect(() => {}, [status]);
+  console.log(useMatchContent.status, useMatchPerson.status, !search, search);
 
   return (
     <>
-      {status === "pending" && <LoadingGrid />}
-      {status === "success" && (
-        <section className="detail-template-wrapper" css={styled.wrapper}>
-          <ResultHeader data={data} />
-          {isNullOrEmpty(search) ? (
-            <>
-              <FilterResultContents
-                content={data.content}
-                total={data.total}
-                filter={filter}
-                search={search}
-                sort={sort}
-                pagination={pagination}
-
-              />
-            </>
-          ) : (
-            <>
-              <SearchResultContent
-                data={data}
-                filter={filter}
-                search={search}
-                sort={sort}
-                pagination={pagination}
-
-              />
-            </>
-          )}
-        </section>
-      )}
+      {useMatchContent.status === "pending" &&
+        (!search ||
+          (useMatchPerson.status === "pending" && useMatchSimilar.status === "pending")) && (
+          <LoadingGrid />
+        )}
+      {useMatchContent.status === "success" &&
+        (!search ||
+          (useMatchPerson.status === "success" && useMatchSimilar.status === "success")) && (
+          <section className="detail-template-wrapper" css={styled.wrapper}>
+            <ResultHeader content={useMatchContent.data} />
+            {isNullOrEmpty(search) ? (
+              <>
+                <FilterResultContents
+                  content={useMatchContent.data}
+                  total={useMatchContent.data.total}
+                  filter={filter}
+                  search={search}
+                  sort={sort}
+                  pagination={0}
+                />
+              </>
+            ) : (
+              <>
+                <SearchResultContent
+                  content={useMatchContent.data}
+                  person={useMatchPerson.data}
+                  similar={useMatchSimilar.data}
+                  filter={filter}
+                  search={search}
+                  sort={sort}
+                  pagination={0}
+                />
+              </>
+            )}
+          </section>
+        )}
     </>
   );
 };

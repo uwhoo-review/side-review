@@ -29,7 +29,7 @@ export default {
   `,
   rating: css`
     font-size: 30px;
-    gap: 8px;
+    //gap: 8px;
     svg {
       width: 1em;
       height: 1em;

@@ -16,10 +16,10 @@ const FilterResultContents = ({ content, total, filter, search, sort, pagination
   const virtuosoRef = useRef<any>();
   const [isScrolling, setIsScrolling] = useState(false);
 
-  const [resultContent, setResultContent] = useState<any>([]);
+  const [resultContent, setResultContent] = useState<any>(content.content);
   const mutation = useMutation({
     mutationFn: async ({ s }: any) => {
-      return await UWAxios.contents.getSearch({
+      return await UWAxios.contents.getSearchMatch("content", {
         tab: CONTENTS_TABS.SEARCH,
         filter: [...filter],
         query: search,
@@ -32,9 +32,6 @@ const FilterResultContents = ({ content, total, filter, search, sort, pagination
     },
   });
 
-  useEffect(() => {
-    setResultContent(content);
-  }, [content]);
 
   return (
     <div className={"search-content-wrapper"} css={styled.wrapper}>

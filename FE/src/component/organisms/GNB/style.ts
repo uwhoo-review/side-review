@@ -62,6 +62,7 @@ export default {
           font-weight: 600;
           opacity: 1;
           border-bottom: 4px solid #6d6ada;
+          //border-radius: 4px;
         }
       }
     }
@@ -105,7 +106,7 @@ export default {
 
     border-top: 1px solid #42424a;
     //box-sizing: border-box;
-    //transition: opacity 1s ease;
+    transition: opacity 0.5s ease;
 
     //overflow-x: auto;
     display: flex;

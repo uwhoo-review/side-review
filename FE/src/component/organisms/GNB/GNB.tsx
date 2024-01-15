@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
-import {Box, ClickAwayListener} from "@mui/material";
+import { Box, ClickAwayListener } from "@mui/material";
 
 const GNB = (props: { children?: React.ReactNode }) => {
   const commonContext = useCommon();
@@ -17,7 +17,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
   const { pathname } = useLocation();
   const path = pathname.split("/")[1];
   const [scrollTop, setScrollTop] = useState<boolean>(true);
-
+  const [open, setOpen] = useState(commonContext.isFilterOpen);
   /*  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (e.target) {
@@ -50,6 +50,11 @@ const GNB = (props: { children?: React.ReactNode }) => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   setOpen(commonContext.isFilterOpen);
+  //   console.log(commonContext.isFilterOpen);
+  // }, [commonContext.isFilterOpen]);
+
   return (
     <>
       <header
@@ -81,7 +86,12 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </NavLink>
           </div>
           <div css={styled.rightGroups}>
-            <ClickAwayListener onClickAway={() => commonContext.onHandleFilterOpen(false)}>
+            <ClickAwayListener
+              onClickAway={(e: any) => {
+                if (e?.target.classList.contains("chip-label")) return;
+                commonContext.onHandleFilterOpen(false);
+              }}
+            >
               <Box>
                 <HWIconButton
                   onClick={() => {
@@ -92,18 +102,16 @@ const GNB = (props: { children?: React.ReactNode }) => {
                 >
                   <IconSearch />
                 </HWIconButton>
-                {commonContext.isFilterOpen ? (
-                  <div
-                    className={`search-wrapper ${commonContext.isFilterOpen && "open"}`}
-                    css={styled.searchWrapper}
-                  >
-                    <CenterWrapper>
-                      <div css={styled.searchGrid}>
-                        <SearchBar />
-                      </div>
-                    </CenterWrapper>
-                  </div>
-                ) : null}
+                <div
+                  className={`search-wrapper ${commonContext.isFilterOpen && "open"}`}
+                  css={styled.searchWrapper}
+                >
+                  <CenterWrapper>
+                    <div css={styled.searchGrid}>
+                      <SearchBar />
+                    </div>
+                  </CenterWrapper>
+                </div>
               </Box>
             </ClickAwayListener>
             {commonContext.isLogin ? (

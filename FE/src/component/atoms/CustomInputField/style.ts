@@ -86,6 +86,8 @@ export default {
     border: `1px solid ${Color.dark.grey300}`,
     padding: "10px 10px",
     marginTop: "10px",
+    borderRadius: "6px",
+
     zIndex: 99,
 
   }),

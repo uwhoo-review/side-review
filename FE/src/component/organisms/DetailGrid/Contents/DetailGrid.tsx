@@ -36,7 +36,11 @@ const DetailGrid = ({ data }: any) => {
         <PhotoCard key={v} srcId={v} idx={i} photoList={data.photo} />
       ))
     );
-    setPersonList([...data.acting, ...data.crew]);
+
+    const production = data.crew.find((v: any) => v.job === "Production");
+    const crewFilter = data.crew.filter((v: any) => v.job !== "Production");
+
+    setPersonList([production, ...data.acting, ...crewFilter]);
   }, [data]);
 
   return (

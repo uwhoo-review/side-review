@@ -17,27 +17,22 @@ import { useNavigate } from "react-router-dom";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import { useMutation } from "@tanstack/react-query";
-const SearchResultContent = ({ data, filter, search, sort }: any) => {
+const SearchResultContent = ({ content, person, similar, filter, search, sort }: any) => {
   const navigate = useNavigate();
 
-  const [resultMatch, setResultMatch] = useState<any>({ content: [], person: [] });
-  const [similarList, setSimilarList] = useState<any>([]);
-  const [total, setTotal] = useState<any>({
-    match: {
-      content: 0,
-      person: 0,
-    },
-    similar: 0,
-  });
+  const [contentList, setContentList] = useState<any>(content.content);
+  const [personList, setPersonList] = useState<any>(person.content);
+  const [similarList, setSimilarList] = useState<any>(similar.content);
   const [contentCnt, setContentCnt] = useState(12);
   const [personCnt, setPersonCnt] = useState(12);
   const [similarCnt, setSimilarCnt] = useState(12);
 
   const [toggle1, setToggle1] = useState<string>("drama");
 
-  const mutation = useMutation({
+
+  const mutationContent = useMutation({
     mutationFn: async ({ s }: any) => {
-      return await UWAxios.contents.getSearch({
+      return await UWAxios.contents.getSearchMatch("content", {
         tab: CONTENTS_TABS.SEARCH,
         filter: [...filter],
         query: search,
@@ -46,8 +41,36 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
       });
     },
     onSuccess: (data: any) => {
-      console.log(data);
-      // setResultContent((prev: any) => [...prev, ...data.content]);
+      setContentList((prev: any) => [...prev, ...data.content]);
+    },
+  });
+  const mutationPerson = useMutation({
+    mutationFn: async ({ s }: any) => {
+      return await UWAxios.contents.getSearchMatch("person", {
+        tab: CONTENTS_TABS.SEARCH,
+        filter: [...filter],
+        query: search,
+        sort: sort,
+        pagination: s,
+      });
+    },
+    onSuccess: (data: any) => {
+      setPersonList((prev: any) => [...prev, ...data.content]);
+    },
+  });
+
+  const mutationSimilar = useMutation({
+    mutationFn: async ({ s }: any) => {
+      return await UWAxios.contents.getSearchSimilar({
+        tab: CONTENTS_TABS.SEARCH,
+        filter: [...filter],
+        query: search,
+        sort: sort,
+        pagination: s,
+      });
+    },
+    onSuccess: (data: any) => {
+      setSimilarList((prev: any) => [...prev, ...data.content]);
     },
   });
 
@@ -60,36 +83,30 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
     };
   };
 
-  useEffect(() => {
-    setResultMatch(data.match);
-    setSimilarList(data.similar);
-    setTotal(data.total);
-  }, [data]);
-
   return (
     <div className={"search-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
         <WrapperTitle
           title={"일치하는 검색어"}
-          subTitle={total.match.content + total.match.person}
+          subTitle={content.total + person.total}
           customCss={styled.subTitle}
         />
         <HWToggleButtonGroup customCss={styled.toggle}>
           <HWToggleButton customCss={styled.toggleBtn} {...props1("drama")}>
-            드라마<span css={styled.typo}>{total.match.content}</span>
+            드라마<span css={styled.typo}>{content.total}</span>
           </HWToggleButton>
           <HWToggleButton customCss={styled.toggleBtn} {...props1("person")}>
-            인물<span css={styled.typo}>{total.match.person}</span>
+            인물<span css={styled.typo}>{person.total}</span>
           </HWToggleButton>
         </HWToggleButtonGroup>
         <div css={styled.subWrapper}>
           <>
             {toggle1 === "drama" && (
               <>
-                {resultMatch.content.length !== 0 ? (
+                {contentList.length !== 0 ? (
                   <>
                     <div css={styled.sub1}>
-                      {resultMatch.content.slice(0, contentCnt).map((v: any) => (
+                      {contentList.map((v: any) => (
                         <ContentCard
                           id={v.id}
                           key={v.id}
@@ -109,11 +126,12 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                         />
                       ))}
                     </div>
-                    {contentCnt < total.match.content && (
+                    {contentList.length < content.total && (
                       <div
                         css={styled.plusBtn}
                         onClick={() => {
-                          setContentCnt((prev) => prev + 6);
+                          // setContentCnt((prev) => prev + 6);
+                          mutationContent.mutate({ s: contentList.length });
                         }}
                       >
                         <HWTypography
@@ -152,10 +170,10 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
             )}
             {toggle1 === "person" && (
               <>
-                {resultMatch.person.length !== 0 ? (
+                {personList.length !== 0 ? (
                   <>
                     <div css={styled.sub2}>
-                      {resultMatch.person.slice(0, personCnt).map((v: any) => (
+                      {personList.map((v: any) => (
                         <PersonCard
                           id={v.id}
                           name={v.name}
@@ -170,14 +188,15 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                         />
                       ))}
                     </div>
-                    {personCnt < total.match.person && (
+                    {personList.length < person.total && (
                       <div css={styled.plusBtn}>
                         <HWTypography
                           variant={"headlineXXS"}
                           family={"Pretendard-SemiBold"}
                           color={Color.dark.primary800}
                           onClick={() => {
-                            setPersonCnt((prev) => prev + 6);
+                            // setPersonCnt((prev) => prev + 6);
+                            mutationPerson.mutate({ s: personList.length });
                           }}
                         >
                           더보기
@@ -213,17 +232,13 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
         </div>
       </CenterWrapper>
       <CenterWrapper>
-        <WrapperTitle
-          title={"연관 검색어"}
-          subTitle={total.similar}
-          customCss={styled.subTitle}
-        />
+        <WrapperTitle title={"연관 검색어"} subTitle={similar.total} customCss={styled.subTitle} />
         <div css={styled.subWrapper}>
           <>
             {similarList.length !== 0 ? (
               <>
                 <div css={styled.sub1}>
-                  {similarList.slice(0, similarCnt).map((v: any) => (
+                  {similarList.map((v: any) => (
                     <ContentCard
                       id={v.id}
                       key={v.id}
@@ -243,11 +258,12 @@ const SearchResultContent = ({ data, filter, search, sort }: any) => {
                     />
                   ))}
                 </div>
-                {similarCnt < total.similar && (
+                {similarList.length < similar.total && (
                   <div
                     css={styled.plusBtn}
                     onClick={() => {
-                      setSimilarCnt((prev) => prev + 6);
+                      // setSimilarCnt((prev) => prev + 6);
+                      mutationSimilar.mutate({ s: similarList.length });
                     }}
                   >
                     <HWTypography
