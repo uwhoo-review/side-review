@@ -37,11 +37,12 @@ const DetailGrid = ({ data }: any) => {
       ))
     );
 
-    const production = data.crew.find((v: any) => v.job === "Production");
+    const production = data.crew.filter((v: any) => v.job === "Production");
     const crewFilter = data.crew.filter((v: any) => v.job !== "Production");
 
-    setPersonList([production, ...data.acting, ...crewFilter]);
+    setPersonList([...production, ...data.acting, ...crewFilter]);
   }, [data]);
+  console.log(personList)
 
   return (
     <>
