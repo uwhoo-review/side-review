@@ -126,7 +126,7 @@ class MainContentsController @Autowired constructor(
             } else {
                 val matchContent = openSearchGetService.get("search", request.sort, request)
                 val matchPerson =
-                    personService.searchMatch(request.query, 12, request.pagination ?: 0)
+                    personService.searchMatch(request.query, request.pagination ?: 0, 12)
                 val similar = openSearchGetService.search(request.sort, request)
 
                 response = ResponseEntity.ok(
