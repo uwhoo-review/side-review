@@ -84,9 +84,9 @@ class MyPageService(
     }
 
     @Transactional
-    fun saveFavoritePerson(userId: String, personId: String) {
+    fun saveFavoritePerson(userId: String, personId: String): UserFavoritePerson {
         val user = userInfoRepository.getReferenceById(userId)
-        userFavoritePersonRepository.save(
+        return userFavoritePersonRepository.save(
             UserFavoritePerson(personId = personId, userInfo = user)
         )
     }
