@@ -60,15 +60,15 @@ class MyPageController(
         @PathVariable userId: String,
         @RequestParam personId: String,
     ): ResponseEntity<Any> {
-        var body: Any? = null
+        var person: Any? = null
         kotlin.runCatching {
-            val favoritePerson = myPageService.saveFavoritePerson(userId, personId)
+            myPageService.saveFavoritePerson(userId, personId)
             runBlocking {
-                body = MapperUtils.parseToPersonDto(personService.get(favoritePerson.personId))[0]
+                person = MapperUtils.parseToPersonDto(personService.get(personId))[0]
             }
         }.onFailure {
             return ResponseEntity.internalServerError().body(it.message)
         }
-        return ResponseEntity.ok(body)
+        return ResponseEntity.ok(person)
     }
 }
