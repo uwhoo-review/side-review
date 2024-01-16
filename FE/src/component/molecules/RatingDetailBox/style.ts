@@ -38,5 +38,8 @@ export default {
   `,
   star: css`
     font-size: 30px;
+  `,
+  clear: css`
+    cursor: pointer;
   `
 };

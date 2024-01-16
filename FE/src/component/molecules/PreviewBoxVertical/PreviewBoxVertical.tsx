@@ -108,7 +108,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                         평균 별점
                       </HWTypography>
                     </div>
-                    <div className={"margin-top-12 flex flex-align-center gap-10"}>
+                    <div className={"margin-top-12 flex flex-align-center gap-10"} css={styled.height28}>
                       <div className={"flex flex-align-center gap-5"}>
                         <IconStar css={styled.icons} />
                         <HWTypography
@@ -131,7 +131,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                         내 별점
                       </HWTypography>
                     </div>
-                    <div className={"margin-top-12 flex flex-align-center gap-5"}>
+                    <div className={"margin-top-12 flex flex-align-center gap-5"} css={styled.height28}>
                       <Rating
                         name="rating-value"
                         value={rating}
@@ -141,8 +141,8 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                           setRating(val);
                         }}
                         css={styled.rating}
-                        emptyIcon={<IconRatingEmpty />}
-                        icon={<IconRating />}
+                        emptyIcon={<IconRatingEmpty style={{ marginLeft: "2px", marginRight: "2px" }} />}
+                        icon={<IconRating style={{ marginLeft: "2px", marginRight: "2px" }} />}
                       />
                       <Divider direction={"v"} length={"14px"} />{" "}
                       <HWTypography

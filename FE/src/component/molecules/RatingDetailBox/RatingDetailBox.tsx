@@ -6,10 +6,11 @@ import Color from "@src/common/styles/Color";
 import Divider from "@src/component/atoms/Divider/Divider";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { Rating } from "@mui/material";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import ReviewModal from "@src/component/molecules/ReviewModal/ReviewModal";
 import { useLocation } from "react-router-dom";
 import { useCommon } from "@src/providers/CommonProvider";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
 
 const RatingDetailBox = ({ item }: any) => {
   const [rating, setRating] = useState<number | null>(0);
@@ -28,6 +29,29 @@ const RatingDetailBox = ({ item }: any) => {
       console.log(err);
     }
   };
+
+  const handleChangeRating = async (e: SyntheticEvent, val: number | null) => {
+    if (val) {
+      const data = {
+        contentId: item.id,
+        rating: val,
+      };
+      if (rating === 0) {
+        setRating(val);
+        //rating 없을때
+        console.log("추가");
+        const res = await UWAxios.star.postStart(data.contentId, data);
+      } else {
+        console.log("변경");
+        // const res = await UWAxios.star.putStart(data.contentId, data);
+      }
+    }
+  };
+
+  const handleClearRating = async (id: string) => {
+    const res = await UWAxios.star.deleteStart(id);
+  };
+
   return (
     <div css={styled.wrapper}>
       <div css={styled.inputGroups}>
@@ -56,6 +80,9 @@ const RatingDetailBox = ({ item }: any) => {
               내 별점
             </HWTypography>
             <div className={"margin-top-12 flex flex-align-center gap-10"}>
+              {/*<div css={styled.clear} onClick={}>*/}
+              {/*  -*/}
+              {/*</div>*/}
               <Rating
                 name="rating-value"
                 value={rating}
@@ -64,9 +91,7 @@ const RatingDetailBox = ({ item }: any) => {
                 css={styled.rating}
                 emptyIcon={<IconRatingEmpty style={{ marginLeft: "4px", marginRight: "4px" }} />}
                 icon={<IconRating style={{ marginLeft: "4px", marginRight: "4px" }} />}
-                onChange={(e, val) => {
-                  setRating(val);
-                }}
+                onChange={handleChangeRating}
               />
               <Divider direction={"v"} length={"14px"} />
               <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>

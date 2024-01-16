@@ -66,8 +66,8 @@ export const UWAxios = {
     },
   },
   star: {
-    async postStart(id: string) {
-      const res = await axiosBaseInstance.post<any>(`star/${id}`);
+    async postStart(id: string, data: any) {
+      const res = await axiosBaseInstance.post<any>(`star/${id}`, data);
       return res.data;
     },
     async getStart(id: string) {
@@ -78,8 +78,8 @@ export const UWAxios = {
       const res = await axiosBaseInstance.delete<any>(`star/${id}`);
       return res.data;
     },
-    async putStart(id: string) {
-      const res = await axiosBaseInstance.put<any>(`star/${id}`);
+    async putStart(id: string, data: any) {
+      const res = await axiosBaseInstance.put<any>(`star/${id}`, data);
       return res.data;
     },
   },

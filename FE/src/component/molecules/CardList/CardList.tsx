@@ -5,17 +5,13 @@ import HWCarouselFixedPagination from "@src/component/molecules/HWCarouselFixedP
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
-import { IMAGE_URL } from "@src/variables/tmdbConstants";
 import { ContentDO } from "@src/interfaces/api.interface";
-import { getCardURL } from "@src/tools/commonTools";
 interface CardListProps {
   title: string;
   subTitle: string | ReactNode;
   cardList: ContentDO[];
 }
 const CardList = ({ title, subTitle, cardList }: CardListProps) => {
-  const boxRef = useRef<HTMLDivElement>(null);
-  const [preview, setPreview] = useState<boolean>(false);
   const [selectedCard, setSelectedCard] = useState<ContentDO | null>(null);
   const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
 
@@ -28,13 +24,8 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
   const [lastIdx, setLastIdx] = useState(6);
   const [translateX, setTranslateX] = useState(0);
 
-  useEffect(() => {
-    const x = (firstIdx - 1) * (-216 - 20);
-    setTranslateX(x);
-  }, [firstIdx]);
-
   const onPrevHandler = () => {
-    if (currentPage == 1) {
+    if (currentPage === 1) {
       setCurrentPage(1);
     } else {
       setCurrentPage(currentPage - 1);
@@ -49,7 +40,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
   };
 
   const onNextHandler = () => {
-    if (currentPage == TOTAL_PAGE) {
+    if (currentPage === TOTAL_PAGE) {
       setCurrentPage(TOTAL_PAGE);
     } else {
       setCurrentPage(currentPage + 1);
@@ -63,6 +54,11 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
     }
   };
 
+  useEffect(() => {
+    const x = (firstIdx - 1) * (-216 - 20);
+    setTranslateX(x);
+  }, [firstIdx]);
+
   return (
     <div css={styled.wrapper}>
       <CenterWrapper>
@@ -74,6 +70,24 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
             curPage={currentPage - 1}
             customCss={styled.dotPagination}
             onClickCircle={(e) => {
+              const movePage = Math.abs(e - currentPage);
+              if (e - currentPage > 0) {
+                if (lastIdx + MOVE * movePage < TOTAL_LIST) {
+                  setFirstIdx((prev) => prev + MOVE * movePage);
+                  setLastIdx((prev) => prev + MOVE * movePage);
+                } else {
+                  setFirstIdx((prev) => prev + TOTAL_LIST - lastIdx);
+                  setLastIdx((prev) => TOTAL_LIST);
+                }
+              } else if (e - currentPage < 0) {
+                if (firstIdx - MOVE * movePage > 1) {
+                  setFirstIdx((prev) => prev - MOVE * movePage);
+                  setLastIdx((prev) => prev - MOVE * movePage);
+                } else {
+                  setFirstIdx((prev) => 1);
+                  setLastIdx((prev) => prev - (firstIdx - 1));
+                }
+              }
               setCurrentPage(e);
             }}
           />
@@ -93,12 +107,10 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                   key={v.id}
                   onClick={() => {
                     if (selectedCard === null) {
-                      setPreview(true);
                       setSelectedCard(v);
                       setSelectedCardIdx(i);
                     } else {
                       if (selectedCard.id === v.id) {
-                        setPreview(false);
                         setSelectedCard(null);
                         setSelectedCardIdx(null);
                       } else {
