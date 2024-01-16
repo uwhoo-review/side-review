@@ -51,7 +51,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 val providersResponse: WatchProvidersResponse =
                     tmdbClient.findOneProvider("Bearer $accessKey", id)
                 doc.platform = filterPlatformList(providersResponse)
-                if(doc.platform!!.isEmpty()){
+                if (doc.platform!!.isEmpty()) {
                     docList.removeAt(i)
                     logger.info("no provider : ${doc.name}")
                     continue
@@ -72,6 +72,13 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 doc.photo = filterImages(imageInfo)
             } catch (e: Exception) {
                 logger.info("An error occurred during image processing - $id")
+            }
+
+            try {
+                val contentRatingResponse: ContentRatingResponse = tmdbClient.findOneAge("Bearer $accessKey", id)
+                doc.age = filterAge(contentRatingResponse);
+            } catch (e: Exception) {
+                logger.info("An error occurred during age processing - $id")
             }
 
             try {
@@ -195,5 +202,12 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             seasonList.add("${detailResponse.id}_$i")
 
         return seasonList
+    }
+
+    private fun filterAge(contentRatingResponse: ContentRatingResponse): String {
+        contentRatingResponse.results.forEach {
+            if (it.iso_3166_1 == "KR") return it.rating
+        }
+        return ""
     }
 }

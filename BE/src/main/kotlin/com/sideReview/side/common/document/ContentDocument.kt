@@ -8,6 +8,7 @@ data class ContentDocument(
     val name: String,
     val originalName: String,
     val sortingName: String,
+    var age: String? = "",
     var platform: List<Int>? = null,
     var genre: List<Int>? = null,
     val rating: Double? = null,
@@ -22,8 +23,9 @@ data class ContentDocument(
     var episodeCount: Int? = null,
     var production: Product? = null
 )
+
 @Serializable
 data class Product(
-    var company : List<String>? = null,
-    var country : List<String>? = null
+    var company: List<String>? = null,
+    var country: List<String>? = null
 )

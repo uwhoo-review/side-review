@@ -94,4 +94,10 @@ interface TmdbClient {
         @RequestHeader("Authorization") apiKey: String,
         @PathVariable(name = "id", required = true) tmdbId: Int
     ) : PeopleDetailResponse
+
+    @GetMapping("tv/{id}/content_ratings")
+    fun findOneAge(
+        @RequestHeader("Authorization") apiKey: String,
+        @PathVariable(name = "id", required = true) tmdbId: String
+    ) :ContentRatingResponse
 }
