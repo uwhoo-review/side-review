@@ -95,8 +95,6 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       ref={divRef} data-overflow={isOverflow}
                     >
                       {item.name}
-                      {item.name}
-                      {item.name}
                     </HWTypography>
                     <HWTypography
                       variant={"bodyXL"}
