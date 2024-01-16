@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 export default {
   wrapper: (bg: any) => css`
     transition: 5s ease-in-out all;
-    background-image: url(${bg});
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

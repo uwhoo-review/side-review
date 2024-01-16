@@ -30,7 +30,11 @@ const LoginTemplate = () => {
   }, 1000 * 10);
 
   return (
-    <section className="login-template-wrapper" css={styled.wrapper(bgArr[bgIdx])}>
+    <section
+      className="login-template-wrapper"
+      style={{ backgroundImage: `url(${bgArr[bgIdx]})` }}
+      css={styled.wrapper}
+    >
       <div css={styled.loginWrapper}>
         <IconUwhoo width={"300px"} height={"48px"} />
         <div css={styled.typo1}>로그인</div>
