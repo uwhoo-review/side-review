@@ -6,6 +6,8 @@ import { ClickAwayListener, Popper } from "@mui/material";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import { IconApple, IconLogout, IconMyPage } from "@res/index";
 import { useCommon } from "@src/providers/CommonProvider";
+import { setCookie } from "@src/tools/commonTools";
+import { GOOGLE, UWHOO_LOGIN } from "@src/variables/LoginConstants";
 
 const ProfileBox = () => {
   const commonContext = useCommon();
@@ -45,11 +47,19 @@ const ProfileBox = () => {
                 마이페이지
               </HWButton>
               <HWButton
-                variant={"lowest"}
+                variant={"secondary"}
                 customCss={styled.btn2}
                 onClick={() => {
-                  commonContext.onHandleLogin(false);
-                  commonContext.onResetUserInfo();
+                  setCookie(
+                    UWHOO_LOGIN,
+                    JSON.stringify({
+                      isLogin: false,
+                      userInfo: null,
+                      recentSite: commonContext.userInfo.site,
+                    }),
+                    { maxAge: 3600 * 24 * 30 }
+                  );
+
                   window.location.reload();
                 }}
               >

@@ -51,11 +51,6 @@ const GNB = (props: { children?: React.ReactNode }) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   setOpen(commonContext.isFilterOpen);
-  //   console.log(commonContext.isFilterOpen);
-  // }, [commonContext.isFilterOpen]);
-
   return (
     <>
       <header

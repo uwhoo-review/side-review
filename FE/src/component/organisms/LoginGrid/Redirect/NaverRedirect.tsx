@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { axiosBaseInstance } from "@src/common/axios/AxiosInstance";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useCommon } from "@src/providers/CommonProvider";
-import {NAVER, UWHOO_LOGIN} from "@src/variables/LoginConstants";
+import { NAVER, UWHOO_LOGIN } from "@src/variables/LoginConstants";
 import { setCookie } from "@src/tools/commonTools";
 
 const NaverRedirect = () => {
@@ -28,8 +28,15 @@ const NaverRedirect = () => {
         date: new Date(),
       };
       onHandleUserInfo(loginInfo);
-      // localStorage.setItem("login_info", JSON.stringify(loginInfo));
-      setCookie(UWHOO_LOGIN, JSON.stringify(loginInfo), { maxAge: 3600 * 24 * 30 });
+      setCookie(
+        UWHOO_LOGIN,
+        JSON.stringify({
+          isLogin: true,
+          userInfo: loginInfo,
+          recentSite: NAVER,
+        }),
+        { maxAge: 3600 * 24 * 30 }
+      );
       navigate("/", { replace: true }); // 로그인 완료시 메인으로 이동
     }
     naverLogin();

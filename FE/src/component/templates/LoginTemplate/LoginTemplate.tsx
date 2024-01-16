@@ -16,21 +16,21 @@ import {
   IconUwhoo,
 } from "@res/index";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
-import {useCommon} from "@src/providers/CommonProvider";
-import {useEffect} from "react";
+import { useCommon } from "@src/providers/CommonProvider";
+import { useEffect, useState } from "react";
 import Login from "@src/component/organisms/LoginGrid/Login/Login";
+import useInterval from "@src/tools/useInterval";
 const LoginTemplate = () => {
   const common = useCommon();
-
-  useEffect(() => {
-    console.log("loginTemplate", common.userInfo)
-  },[])
+  const bgArr = [bg01, bg02, bg03, bg04, bg05, bg06, bg07, bg08, bg09, bg10];
+  const [bgIdx, setBgIdx] = useState(0);
+  useInterval(() => {
+    if (bgIdx >= bgArr.length - 1) setBgIdx(0);
+    else setBgIdx(bgIdx + 1);
+  }, 1000 * 10);
 
   return (
-    <section
-      className="login-template-wrapper"
-      css={styled.wrapper([bg01, bg02, bg03, bg04, bg05, bg06, bg07, bg08, bg09, bg10])}
-    >
+    <section className="login-template-wrapper" css={styled.wrapper(bgArr[bgIdx])}>
       <div css={styled.loginWrapper}>
         <IconUwhoo width={"300px"} height={"48px"} />
         <div css={styled.typo1}>로그인</div>

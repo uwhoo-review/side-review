@@ -15,9 +15,9 @@ const Login = () => {
   const commonContext = useCommon();
   const [loginHistory, setLoginHistory] = useState<any>(null);
   useEffect(() => {
-    const loginInfo = getCookie(UWHOO_LOGIN);
-    if (loginInfo) {
-      setLoginHistory(JSON.parse(loginInfo));
+    const loginInfoStr = getCookie(UWHOO_LOGIN);
+    if (loginInfoStr) {
+      setLoginHistory(JSON.parse(loginInfoStr)?.recentSite || null);
     }
   }, []);
 
@@ -36,7 +36,7 @@ const Login = () => {
         {loginHistory === null && (
           <SpeechBubble customCss={styled.bubble}>3초만에 시작하기</SpeechBubble>
         )}
-        {loginHistory?.site === GOOGLE && (
+        {loginHistory === GOOGLE && (
           <SpeechBubble customCss={styled.bubble}>최근 로그인</SpeechBubble>
         )}
       </div>
@@ -50,7 +50,7 @@ const Login = () => {
           <IconNaver width={"23px"} height={"23px"} />
           <HWTypography variant={"bodyXL"}>네이버로 계속하기</HWTypography>
         </HWButton>
-        {loginHistory?.site === NAVER && (
+        {loginHistory === NAVER && (
           <SpeechBubble customCss={styled.bubble}>최근 로그인</SpeechBubble>
         )}{" "}
       </div>
@@ -64,9 +64,9 @@ const Login = () => {
           <IconKakao width={"23px"} height={"23px"} />
           <HWTypography variant={"bodyXL"}>카카오로 계속하기</HWTypography>
         </HWButton>
-        {loginHistory?.site === KAKAO && (
+        {loginHistory === KAKAO && (
           <SpeechBubble customCss={styled.bubble}>최근 로그인</SpeechBubble>
-        )}{" "}
+        )}
       </div>
     </div>
   );

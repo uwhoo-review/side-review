@@ -51,14 +51,14 @@ export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | 
     }
     case "secondary": {
       return css`
-        background-color: unset;
-        color: #2e7af2;
-        border: solid 1px #2e7af2;
+        background-color: #383838;
+        color: #b5b5bd;
+        border: solid 1px transparent;
         &:hover {
-          background-color: #eff4fc;
+          background-color: #ffffff1f;
         }
         .MuiTouchRipple-root {
-          color: #1e71d2;
+          color: #ffffff;
         }
         &.Mui-disabled {
           border: solid 1px #d6d6d6;
@@ -75,7 +75,7 @@ export const variant = (variant: "primary" | "secondary" | "lower" | "lowest" | 
           background-color: #6d6ada0a;
         }
         .MuiTouchRipple-root {
-          color: #ffffff;
+          color: #bb86fc;
         }
         &.Mui-disabled {
           color: #ffffff66;

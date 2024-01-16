@@ -75,11 +75,13 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const onHandleLogin = (v: boolean) => setIsLogin(v);
 
   useEffect(() => {
-    const userInfoStr = getCookie(UWHOO_LOGIN);
-    if (userInfoStr) {
-      const userInfo = JSON.parse(userInfoStr);
-      setIsLogin(true);
-      setUserInfo({ ...userInfo });
+    const loginInfoStr = getCookie(UWHOO_LOGIN);
+    if (loginInfoStr) {
+      const loginInfo = JSON.parse(loginInfoStr);
+      if (loginInfo.isLogin && loginInfo.userInfo !== null) {
+        setIsLogin(true);
+        setUserInfo({ ...loginInfo.userInfo });
+      }
     }
   }, []);
 
