@@ -6,11 +6,12 @@ import com.sideReview.side.review.dto.StarRatingUpdateDto
 import com.sideReview.side.review.entity.UserStarRating
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+
 @Service
-class StarRatingService (val userStarRatingRepository: UserStarRatingRepository){
+class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) {
     @Transactional
     fun saveStarRating(dto: StarRatingCreateDto, ip: String) {
-        if(!userStarRatingRepository.existsByTargetIdAndWriterId(dto.contentId, ip)){
+        if (!userStarRatingRepository.existsByTargetIdAndWriterId(dto.contentId, ip)) {
             userStarRatingRepository.save(
                 UserStarRating(
                     targetId = dto.contentId,
@@ -18,7 +19,7 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
                     rating = dto.rating
                 )
             )
-        }else{
+        } else {
             // TODO : exception handling
             throw Exception("Duplicated star rating request")
         }
@@ -36,9 +37,9 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
         )
     }
 
-    fun findStarRating(id : String, ip :String) : StarRatingDto {
-        val entity : UserStarRating? = userStarRatingRepository.findOneByTargetIdAndWriterId(id, ip)
-        val total : Int = userStarRatingRepository.countByTargetId(id)
+    fun findStarRating(id: String, ip: String): StarRatingDto {
+        val entity: UserStarRating? = userStarRatingRepository.findOneByTargetIdAndWriterId(id, ip)
+        val total: Int = userStarRatingRepository.countByTargetId(id)
         var rating = 0.0f
         var ratingId = -1
         if (entity != null) {
@@ -48,16 +49,16 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
         return StarRatingDto(total, rating, ratingId)
     }
 
-    fun getTotalStarRating(id: String) : Int {
+    fun getTotalStarRating(id: String): Int {
         return userStarRatingRepository.findAllByTargetId(id).size
     }
 
     @Transactional
-    fun deleteStartRating(id : String, ip :String) {
+    fun deleteStartRating(id: String, ip: String) {
         userStarRatingRepository.deleteByTargetIdAndWriterId(id, ip)
     }
 
-    fun calculateWeightAverage(tmdbRating : Double?, id : String) : Double {
+    fun calculateWeightAverage(tmdbRating: Double?, id: String): Double {
         val tmdbWeight = 8
         val userWeight = 2
 
@@ -66,8 +67,8 @@ class StarRatingService (val userStarRatingRepository: UserStarRatingRepository)
             .average().takeIf { it.isFinite() } ?: null
 
         var rating = tmdbRating ?: userRating ?: 0.0
-        if(tmdbRating != null && userRating != null){
-            rating = ((tmdbRating*tmdbWeight)+(userRating*userWeight))/(tmdbWeight+userWeight)
+        if (tmdbRating != null && userRating != null) {
+            rating = ((tmdbRating * tmdbWeight) + (userRating * userWeight)) / (tmdbWeight + userWeight)
         }
         return String.format("%.2f", rating).toDouble()
     }
