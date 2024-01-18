@@ -107,6 +107,7 @@ class OpenSearchDetailService @Autowired constructor(
         val seasonList: MutableList<String> = getSeasonFromDocument(document)
         val id = document.id
         val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
+        val credit = filterCreditInfo(personList, id)
 
         return DetailContentDto(
             id = document.id,
@@ -120,10 +121,10 @@ class OpenSearchDetailService @Autowired constructor(
             trailer = document.trailer,
             photo = document.photo,
             poster = document.poster,
-            actors = filterCreditInfo(personList, id).first,
-            crew = filterCreditInfo(personList, id).second,
+            actors = credit.first,
+            crew = credit.second,
             rating = starRatingService.getRating(document.rating, id, userId),
-            age = 0,
+            age = document.age?.toInt() ?: 0,
             season = makeSeasonInfo(id, seasonList.sorted())
         )
     }
