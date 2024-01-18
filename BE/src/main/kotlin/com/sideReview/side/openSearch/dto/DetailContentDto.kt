@@ -12,7 +12,7 @@ data class DetailContentDto(
     val trailer: List<String>? = null,
     val photo: List<String>? = null,
     val poster: String? = null,
-    val acting: List<Actor>? = null, // TODO : actors로 용어 수정, search랑 공통으로  #convention
+    val actors: List<Actor>? = null, // TODO : actors로 용어 수정, search랑 공통으로  #convention
     val crew: List<Crew>? = null,
     val rating: Double? = null, // TODO: total, user rating이랑 묶어서 ratingDto로 사용하기 #covention
     val totalRating: Int = 0,
