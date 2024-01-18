@@ -74,7 +74,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
     }
 
-    fun getReviewsByTargetId(
+    fun getReviewsByTargetId( //TODO : 리뷰, rating 만드는 서비스 만들고 공유!! #convention
         id: String,
         sort: String,
         spoiler: String,

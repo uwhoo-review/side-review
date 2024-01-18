@@ -24,13 +24,14 @@ data class SearchPersonDto(
 
 @JsonAdapter(SimpleContentDeserializer::class)
 @Serializable
-data class SimpleContentDto(
+data class SimpleContentDto( //content 관련 기본 dto #convention
     val id: String,
     val name: String,
     val platform: List<String>,
     var poster: String? = null,
     val rating: Double? = null,
     val year: String? = null
+    //TODO: year -> date 로 변환. 이거는 무조건 날짜까지 들어가고 알아서 파싱되도록 #convention
 )
 
 class SimpleContentDeserializer : JsonDeserializer<SimpleContentDto> {

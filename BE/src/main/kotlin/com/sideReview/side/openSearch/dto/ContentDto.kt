@@ -13,7 +13,6 @@ import java.lang.reflect.Type
 @JsonAdapter(ContentDeserializer::class)
 @Serializable
 data class ContentDto(
-    //TODO : actor, rating, age
     val id: String,
     val name: String,
     val platform: List<String>,

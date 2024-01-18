@@ -109,6 +109,7 @@ class OpenSearchDetailService @Autowired constructor(
         return Pair<List<Actor>, List<Crew>>(actorList, crewList)
     }
 
+    //TODO : 이거 쓰면 된다 영은!
     suspend fun getContentDocumentAsDetailContentDto(id: String): DetailContentDto {
         val response: SearchResponse = findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
@@ -159,6 +160,7 @@ class OpenSearchDetailService @Autowired constructor(
         return seasonList
     }
 
+    //TODO: service 로직과 dto 만드는 로직 구분하기!!! #convention
     suspend fun getPersonDocument(id: String): DetailPersonDto {
         val response: SearchResponse = findDocumentById("person", id)
 

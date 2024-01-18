@@ -56,6 +56,14 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         )
     }
 
+    suspend fun search(
+        target: String,
+        request: ContentRequestDTO,
+        block: (request: ContentRequestDTO) -> ESQuery
+    ): SearchResponse {
+        return client.search(target, block = createBlock(request.sort, request, block))
+    }
+
     private fun createBlock(
         sort: String?,
         request: ContentRequestDTO?,
@@ -100,6 +108,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         }
     }
 
+    //TODO : 쿼리 만들때 사용 #covention
     private fun makeGetQuery(request: ContentRequestDTO): ESQuery {
         val filterList = getFilterFromRequest(request)
 
