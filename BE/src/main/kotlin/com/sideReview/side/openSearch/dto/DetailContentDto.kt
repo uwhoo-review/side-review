@@ -7,7 +7,7 @@ data class DetailContentDto(
     val originCountry: List<String>? = null,
     val platform: List<Int>?,
     val genre: List<Int>?,
-    val firstAirDate: String? = null,
+    val date: String? = null,
     val synopsis: String?,
     val trailer: List<String>? = null,
     val photo: List<String>? = null,
