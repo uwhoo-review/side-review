@@ -110,12 +110,9 @@ class OpenSearchDetailService @Autowired constructor(
     }
 
     //TODO : 이거 쓰면 된다 영은!
-    suspend fun getContentDocumentAsDetailContentDto(id: String): DetailContentDto {
-        val response: SearchResponse = findDocumentById("content", id)
-        val source = response.hits?.hits?.get(0)?.source
-        val document = Gson().fromJson("$source", ContentDocument::class.java)
+    suspend fun getContentDocumentAsDetailContentDto(document: ContentDocument): DetailContentDto {
         val seasonList: MutableList<String> = getSeasonFromDocument(document)
-        val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
+        val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(document.id))
 
         return DetailContentDto(
             id = document.id,
