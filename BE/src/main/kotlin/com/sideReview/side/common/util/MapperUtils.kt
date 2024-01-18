@@ -159,4 +159,16 @@ object MapperUtils {
             null // TODO. Review 추가
         )
     }
+
+    fun parseSearchResponseToSimpleContentDto(response: SearchResponse) : SimpleContentDto{
+        val source = response.hits?.hits?.get(0)?.source
+        val document = Gson().fromJson("$source", ContentDocument::class.java)
+        return SimpleContentDto(
+            document.id,
+            document.name,
+            document.platform,
+            document.poster,
+            document.rating,
+            document.firstAirDate)
+    }
 }

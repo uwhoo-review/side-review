@@ -31,7 +31,8 @@ data class SimpleContentDto( //content 관련 기본 dto #convention
     var poster: String? = null,
     val rating: Double? = null,
     val year: String? = null
-    //TODO: year -> date 로 변환. 이거는 무조건 날짜까지 들어가고 알아서 파싱되도록 #convention
+    // TODO: year -> date 로 변환. 이거는 무조건 날짜까지 들어가고 알아서 파싱되도록 #convention
+    // TODO: platform data type 통일 필요
 )
 
 class SimpleContentDeserializer : JsonDeserializer<SimpleContentDto> {

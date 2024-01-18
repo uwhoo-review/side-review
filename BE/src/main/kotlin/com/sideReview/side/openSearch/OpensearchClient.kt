@@ -39,7 +39,7 @@ class OpensearchClient(
     }
 
     suspend fun getOneContent(id: String, userId : String): DetailContentDto {
-        val response: SearchResponse = openSearchGetService.findDocumentById("content", id)
+        val response: SearchResponse = openSearchDetailService.findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
 

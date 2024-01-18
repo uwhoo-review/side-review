@@ -8,6 +8,7 @@ import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.util.MapperUtils
+import com.sideReview.side.common.util.MapperUtils.parseSearchResponseToSimpleContentDto
 import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.person.dto.PersonDto
@@ -19,10 +20,16 @@ import org.springframework.stereotype.Service
 @Service
 class OpenSearchDetailService @Autowired constructor(
     private val client: SearchClient,
-    private val starRatingService: StarRatingService,
-    private val openSearchGetService: OpenSearchGetService
+    private val starRatingService: StarRatingService
 ) {
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
+    suspend fun findDocumentById(index: String, id: String): SearchResponse {
+        val search = client.search(index) {
+            resultSize = 1
+            query = bool { must(match("id", id)) }
+        }
+        return search
+    }
     private suspend fun findContentByIdSortByFirstAirDate(
         id: List<String>
     ): SearchResponse {
@@ -138,7 +145,7 @@ class OpenSearchDetailService @Autowired constructor(
 
         if (document.id.contains("_")) {
             val firstSeasonResponse: SearchResponse =
-                openSearchGetService.findDocumentById("content", document.id.split("_")[0])
+                findDocumentById("content", document.id.split("_")[0])
             val firstSeasonSource = firstSeasonResponse.hits?.hits?.get(0)?.source
             val firstSeasonDocument =
                 Gson().fromJson("$firstSeasonSource", ContentDocument::class.java)
@@ -153,7 +160,7 @@ class OpenSearchDetailService @Autowired constructor(
 
     //TODO: service 로직과 dto 만드는 로직 구분하기!!! #convention
     suspend fun getPersonDocument(id: String): DetailPersonDto {
-        val response: SearchResponse = openSearchGetService.findDocumentById("person", id)
+        val response: SearchResponse = findDocumentById("person", id)
 
         if (response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.");
         //TODO: exception handling
@@ -167,11 +174,11 @@ class OpenSearchDetailService @Autowired constructor(
         if (document.cast != null && document.cast?.size!! > 0) {
             job.add("Acting")
             for (castRole in document.cast!!) {
-                val content = getContentDocumentAsDetailContentDto(castRole.contentId)
+                val content = parseSearchResponseToSimpleContentDto(findDocumentById("contend",castRole.contentId))
                 roleList.add(
                     CastItem(
                         contentName = content.name,
-                        year = content.date?.substring(0, 4)!!.toInt(),
+                        year = content.year?.toInt() ,
                         contentId = castRole.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",
@@ -182,12 +189,12 @@ class OpenSearchDetailService @Autowired constructor(
         }
         if (document.crew != null) {
             for (crewJob in document.crew!!) {
-                val content = getContentDocumentAsDetailContentDto(crewJob.contentId)
+                val content = parseSearchResponseToSimpleContentDto(findDocumentById("contend",crewJob.contentId))
                 if (!job.contains(crewJob.job)) job.add(crewJob.job)
                 jobList.add(
                     CrewItem(
                         contentName = content.name,
-                        year = content.date?.substring(0, 4)!!.toInt(),
+                        year = content.year?.toInt(),
                         contentId = crewJob.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",

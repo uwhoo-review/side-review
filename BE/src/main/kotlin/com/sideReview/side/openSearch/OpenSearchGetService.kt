@@ -13,13 +13,6 @@ import java.util.*
 
 @Service
 class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
-    suspend fun findDocumentById(index: String, id: String): SearchResponse {
-        val search = client.search(index) {
-            resultSize = 1
-            query = bool { must(match("id", id)) }
-        }
-        return search
-    }
     suspend fun get(tab: String, sort: String?, request: ContentRequestDTO): SearchResponse {
         val reDup = request.copy()
         if (tab == "main" && sort == "popularity") {
