@@ -120,7 +120,7 @@ class OpenSearchDetailService @Autowired constructor(
             trailer = document.trailer,
             photo = document.photo,
             poster = document.poster,
-            acting = filterCreditInfo(personList, id).first,
+            actors = filterCreditInfo(personList, id).first,
             crew = filterCreditInfo(personList, id).second,
             rating = starRatingService.getRating(document.rating, id, userId),
             age = 0,
