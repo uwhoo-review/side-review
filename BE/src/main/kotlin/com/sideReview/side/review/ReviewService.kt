@@ -120,8 +120,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
 
         return PageReviewDto(
-            total,
-            mapUserReviewToReviewDetailDTO(userReviewList),
+            ReviewDTO(total,mapUserReviewToReviewDetailDTO(userReviewList)),
             PageInfo(totalElements, totalPages, pageable.pageNumber)
         )
     }
