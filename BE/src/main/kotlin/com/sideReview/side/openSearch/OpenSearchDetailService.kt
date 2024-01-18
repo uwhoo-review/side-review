@@ -18,18 +18,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class OpenSearchDetailService @Autowired constructor(
-    val client: SearchClient,
-    val starRatingService: StarRatingService
+    private val client: SearchClient,
+    private val starRatingService: StarRatingService,
+    private val openSearchGetService: OpenSearchGetService
 ) {
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
-    private suspend fun findDocumentById(index: String, id: String): SearchResponse {
-        val search = client.search(index) {
-            resultSize = 1
-            query = bool { must(match("id", id)) }
-        }
-        return search
-    }
-
     private suspend fun findContentByIdSortByFirstAirDate(
         id: List<String>
     ): SearchResponse {
@@ -110,7 +103,7 @@ class OpenSearchDetailService @Autowired constructor(
     }
 
     //TODO : 이거 쓰면 된다 영은!
-    suspend fun getContentDocumentAsDetailContentDto(document: ContentDocument): DetailContentDto {
+    suspend fun getContentDocumentAsDetailContentDto(document: ContentDocument, userId : String): DetailContentDto {
         val seasonList: MutableList<String> = getSeasonFromDocument(document)
         val id = document.id
         val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
@@ -122,15 +115,14 @@ class OpenSearchDetailService @Autowired constructor(
             originCountry = document.production?.country ?: emptyList(),
             platform = document.platform,
             genre = document.genre,
-            firstAirDate = document.firstAirDate,
+            date = document.firstAirDate,
             synopsis = document.synopsis,
             trailer = document.trailer,
             photo = document.photo,
             poster = document.poster,
             acting = filterCreditInfo(personList, id).first,
             crew = filterCreditInfo(personList, id).second,
-            rating = starRatingService.calculateWeightAverage(document.rating, id),
-            totalRating = starRatingService.getTotalStarRating(document.id),
+            rating = starRatingService.getRating(document.rating, id, userId),
             age = 0,
             season = makeSeasonInfo(id, seasonList.sorted())
         )
@@ -145,7 +137,7 @@ class OpenSearchDetailService @Autowired constructor(
 
         if (document.id.contains("_")) {
             val firstSeasonResponse: SearchResponse =
-                findDocumentById("content", document.id.split("_")[0])
+                openSearchGetService.findDocumentById("content", document.id.split("_")[0])
             val firstSeasonSource = firstSeasonResponse.hits?.hits?.get(0)?.source
             val firstSeasonDocument =
                 Gson().fromJson("$firstSeasonSource", ContentDocument::class.java)
@@ -160,7 +152,7 @@ class OpenSearchDetailService @Autowired constructor(
 
     //TODO: service 로직과 dto 만드는 로직 구분하기!!! #convention
     suspend fun getPersonDocument(id: String): DetailPersonDto {
-        val response: SearchResponse = findDocumentById("person", id)
+        val response: SearchResponse = openSearchGetService.findDocumentById("person", id)
 
         if (response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.");
         //TODO: exception handling
@@ -178,7 +170,7 @@ class OpenSearchDetailService @Autowired constructor(
                 roleList.add(
                     CastItem(
                         contentName = content.name,
-                        year = content.firstAirDate?.substring(0, 4)!!.toInt(),
+                        year = content.date?.substring(0, 4)!!.toInt(),
                         contentId = castRole.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",
@@ -194,7 +186,7 @@ class OpenSearchDetailService @Autowired constructor(
                 jobList.add(
                     CrewItem(
                         contentName = content.name,
-                        year = content.firstAirDate?.substring(0, 4)!!.toInt(),
+                        year = content.date?.substring(0, 4)!!.toInt(),
                         contentId = crewJob.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",

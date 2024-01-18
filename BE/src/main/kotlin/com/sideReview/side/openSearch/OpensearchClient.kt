@@ -1,11 +1,14 @@
 package com.sideReview.side.openSearch
 
+import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
+import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.ContentRequestDTO
 import com.sideReview.side.openSearch.dto.ContentRequestFilterDetail
+import com.sideReview.side.openSearch.dto.DetailContentDto
 import kotlinx.coroutines.runBlocking
 
 class OpensearchClient(
@@ -35,6 +38,13 @@ class OpensearchClient(
         // Response 가공 단계 > 각자 알아서
     }
 
+    suspend fun getOneContent(id: String, userId : String): DetailContentDto {
+        val response: SearchResponse = openSearchGetService.findDocumentById("content", id)
+        val source = response.hits?.hits?.get(0)?.source
+        val document = Gson().fromJson("$source", ContentDocument::class.java)
+
+        return openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
+    }
     fun getContents(request: ContentRequestDTO): List<ContentDto> {
         // SearchResponse 가져오는 단계
         val query: (request: ContentRequestDTO) -> ESQuery = {

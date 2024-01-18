@@ -1,6 +1,7 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.openSearch.OpenSearchDetailService
+import com.sideReview.side.openSearch.OpensearchClient
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -10,12 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class DetailController @Autowired constructor(private val openSearchDetailService: OpenSearchDetailService){
+class DetailController @Autowired constructor(
+    private val openSearchDetailService: OpenSearchDetailService,
+    private val opensearchClient: OpensearchClient
+) {
     @GetMapping("/contents/{id}")
-    fun getContentDetail(@PathVariable id : String) : ResponseEntity<Any> {
+    fun getContentDetail(@PathVariable id: String, @PathVariable userId : String ): ResponseEntity<Any> {
         var response: ResponseEntity<Any>
-        runBlocking{
-            response = ResponseEntity.ok(openSearchDetailService.getContentDocumentAsDetailContentDto(id))
+
+        runBlocking {
+            response = ResponseEntity.ok(opensearchClient.getOneContent(id, userId))
         }
         return response
     }

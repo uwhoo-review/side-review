@@ -1,6 +1,7 @@
 package com.sideReview.side.openSearch.dto
 
 import kotlinx.serialization.Serializable
+import com.sideReview.side.common.dto.RatingDto
 
 data class DetailContentDto(
     val id: String,
@@ -14,13 +15,11 @@ data class DetailContentDto(
     val trailer: List<String>? = null,
     val photo: List<String>? = null,
     val poster: String? = null,
-    val actors: List<Actor>? = null, // TODO : actors로 용어 수정, search랑 공통으로  #convention
+    val actors: List<Actor>? = null, // TODO : search랑 공통으로  #convention
     val crew: List<Crew>? = null,
-    val rating: Double? = null, // TODO: total, user rating이랑 묶어서 ratingDto로 사용하기 #covention
-    val totalRating: Int = 0,
     val age: Int? = null,
+    val rating : RatingDto,
     var season: Season
-    // TODO: ratingDto 만드는 공통 서비스 만들기!
 )
 data class Actor(
     val name: String,
