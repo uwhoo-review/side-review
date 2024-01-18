@@ -76,6 +76,19 @@ class MyPageController(
         return ResponseEntity.ok(person)
     }
 
+    @DeleteMapping("/person")
+    fun deleteFavoritePerson(
+        @PathVariable userId: String,
+        @RequestParam personId: String,
+    ): ResponseEntity<Any> {
+        kotlin.runCatching {
+            myPageService.deleteFavoritePerson(userId, personId)
+        }.onFailure {
+            return ResponseEntity.internalServerError().body(it.message)
+        }
+        return ResponseEntity.ok("delete success")
+    }
+
     @PutMapping("/contents")
     fun saveFavoriteContents(
         @PathVariable userId: String,

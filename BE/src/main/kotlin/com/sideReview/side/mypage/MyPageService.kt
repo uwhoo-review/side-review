@@ -1,10 +1,10 @@
 package com.sideReview.side.mypage
 
-import com.sideReview.side.common.entity.*
+import com.sideReview.side.common.entity.UserFavoriteContentIdClass
+import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.*
-import com.sideReview.side.mypage.dto.UserInfo
 import com.sideReview.side.mypage.repository.UserFavoriteContentRepository
 import com.sideReview.side.mypage.repository.UserFavoritePersonRepository
 import com.sideReview.side.mypage.repository.UserReportRepository
@@ -54,6 +54,16 @@ class MyPageService(
         val user = userInfoRepository.getReferenceById(userId)
         return userFavoritePersonRepository.save(
             UserFavoritePerson(personId = personId, userInfo = user)
+        )
+    }
+    @Transactional
+    fun deleteFavoritePerson(userId: String, personId: String) {
+        val user = userInfoRepository.getReferenceById(userId)
+        userFavoritePersonRepository.delete(
+            UserFavoritePerson(
+                personId,
+                user
+            )
         )
     }
 
@@ -106,7 +116,11 @@ class MyPageService(
 
     fun getFavoriteContent(user: com.sideReview.side.common.entity.UserInfo): List<FavoriteContentDto> {
         val defaultDtoList =
-            MapperUtils.mapFavoriteContentEntityToDto(userFavoriteContentRepository.findAllByUserInfo(user))
+            MapperUtils.mapFavoriteContentEntityToDto(
+                userFavoriteContentRepository.findAllByUserInfo(
+                    user
+                )
+            )
         val dtoList: MutableList<FavoriteContentDto> = mutableListOf()
         defaultDtoList.forEach {
             dtoList.add(getOneContent(it, user.userId))
@@ -115,7 +129,8 @@ class MyPageService(
     }
 
     fun getFavoritePeople(user: com.sideReview.side.common.entity.UserInfo): List<FavoritePersonDetailDto> {
-        val favoritePeopleIdList = userFavoritePersonRepository.findAllByUserInfo(user).map { it.personId }
+        val favoritePeopleIdList =
+            userFavoritePersonRepository.findAllByUserInfo(user).map { it.personId }
         val docList = opensearchClient.getAllPeople(favoritePeopleIdList)
         return MapperUtils.mapPersonDocumentToFavoriteDetailDto(docList)
     }
