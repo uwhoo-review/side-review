@@ -8,6 +8,7 @@ import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.openSearch.dto.ContentDto
+import com.sideReview.side.openSearch.dto.DetailContentDto
 import com.sideReview.side.openSearch.dto.SimpleContentDto
 import com.sideReview.side.person.dto.PersonDto
 import com.sideReview.side.review.dto.ReviewDetailDTO
@@ -141,4 +142,21 @@ object MapperUtils {
         return details
     }
 
+    fun mapDetailToContent(detail: DetailContentDto): ContentDto {
+        return ContentDto(
+            detail.id,
+            detail.name,
+            detail.platform,
+            detail.genre,
+            detail.date?.substring(0, 4),
+            detail.synopsis,
+            if (!detail.trailer.isNullOrEmpty()) detail.trailer[0] else null,
+            detail.poster,
+            detail.rating,
+            if (!detail.actors.isNullOrEmpty()) detail.actors.map { it.name } else null,
+            detail.age,
+            detail.season,
+            null // TODO. Review 추가
+        )
+    }
 }

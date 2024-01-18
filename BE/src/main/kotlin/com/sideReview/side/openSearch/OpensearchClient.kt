@@ -7,8 +7,6 @@ import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.ContentRequestDTO
 import com.sideReview.side.openSearch.dto.ContentRequestFilterDetail
 import kotlinx.coroutines.runBlocking
-import java.text.SimpleDateFormat
-import java.util.*
 
 class OpensearchClient(
     val openSearchGetService: OpenSearchGetService,
@@ -64,7 +62,7 @@ class OpensearchClient(
 
                 // detail Content dto -> Content dto
                 // contentDtoList.add....
-
+                contentDtoList.add(MapperUtils.mapDetailToContent(detailContentDto))
             }
         }
         return contentDtoList

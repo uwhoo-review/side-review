@@ -1,5 +1,7 @@
 package com.sideReview.side.openSearch.dto
 
+import kotlinx.serialization.Serializable
+
 data class DetailContentDto(
     val id: String,
     val name: String,
@@ -33,7 +35,7 @@ data class Crew(
     val job: String,
     val profilePath: String
 )
-
+@Serializable
 data class Season(
     val now: Int,
     val list: List<String> = emptyList()
