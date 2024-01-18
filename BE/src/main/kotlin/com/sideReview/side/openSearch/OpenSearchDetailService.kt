@@ -112,7 +112,8 @@ class OpenSearchDetailService @Autowired constructor(
     //TODO : 이거 쓰면 된다 영은!
     suspend fun getContentDocumentAsDetailContentDto(document: ContentDocument): DetailContentDto {
         val seasonList: MutableList<String> = getSeasonFromDocument(document)
-        val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(document.id))
+        val id = document.id
+        val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
 
         return DetailContentDto(
             id = document.id,
