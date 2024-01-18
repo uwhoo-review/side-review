@@ -42,12 +42,12 @@ class OpensearchClient(
         val query: (request: ContentRequestDTO) -> ESQuery = {
             val filterList = getFilterFromRequest(it)
             SearchDSL().bool {
-                if (request.filter != null) filter(filterList)
-                if (!request.query.isNullOrBlank()) {
-                    must(SearchDSL().match("name", request.query))
+                if (it.filter != null) filter(filterList)
+                if (!it.query.isNullOrBlank()) {
+                    must(SearchDSL().match("name", it.query))
                 }
-                if (request.notQuery != null && request.notQuery!!.isNotEmpty()) {
-                    mustNot(TermsQuery("id", *request.notQuery!!.toTypedArray()))
+                if (it.notQuery != null && it.notQuery!!.isNotEmpty()) {
+                    mustNot(TermsQuery("id", *it.notQuery!!.toTypedArray()))
                 }
             }
         }
