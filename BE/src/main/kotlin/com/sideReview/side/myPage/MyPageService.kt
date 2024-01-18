@@ -90,4 +90,15 @@ class MyPageService(
             UserFavoritePerson(personId = personId, userInfo = user)
         )
     }
+
+    fun deleteFavoritePerson(userId: String, personId: String) {
+        val user = userInfoRepository.getReferenceById(userId)
+        userFavoritePersonRepository.delete(
+            UserFavoritePerson(
+                personId,
+                user
+            )
+        )
+
+    }
 }
