@@ -3,6 +3,7 @@ package com.sideReview.side.myPage
 import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.dto.PageInfo
 import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
@@ -14,7 +15,6 @@ import com.sideReview.side.openSearch.OpenSearchDetailService
 import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.person.PersonService
 import com.sideReview.side.review.UserStarRatingRepository
-import com.sideReview.side.review.dto.PageInfo
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
