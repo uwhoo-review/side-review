@@ -1,5 +1,6 @@
 package com.sideReview.side.common.document
 
+import com.sideReview.side.tmdb.dto.SeasonDto
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -18,7 +19,7 @@ data class ContentDocument(
     var photo: List<String>? = null,
     var poster: String? = null,
     var avgStarRating: Float? = null,
-    var season: List<String> = emptyList(),
+    var season: List<SeasonDto> = emptyList(),
     var popularity: Double? = null,
     var episodeCount: Int? = null,
     var production: Product? = null

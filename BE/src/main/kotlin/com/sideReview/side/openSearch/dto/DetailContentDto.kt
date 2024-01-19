@@ -2,6 +2,7 @@ package com.sideReview.side.openSearch.dto
 
 import kotlinx.serialization.Serializable
 import com.sideReview.side.common.dto.RatingDto
+import com.sideReview.side.tmdb.dto.SeasonDto
 
 data class DetailContentDto(
     val id: String,
@@ -39,5 +40,5 @@ data class Crew(
 @Serializable
 data class Season(
     val now: Int,
-    val list: List<String> = emptyList()
+    val list: List<SeasonDto> = emptyList()
 )

@@ -3,7 +3,7 @@ package com.sideReview.side.myPage
 import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.sideReview.side.common.document.ContentDocument
-import com.sideReview.side.common.dto.PageInfo
+import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
@@ -66,7 +66,7 @@ class MyPageService(
             )
             contentList.add(userFavoriteContentDto)
         }
-        return FavoriteContentPageDto(contentList, PageInfo(total, totalPages, page))
+        return FavoriteContentPageDto(contentList, PageInfoDto(total, totalPages, page))
     }
 
     suspend fun getKeywordPerson(
@@ -80,7 +80,7 @@ class MyPageService(
         val personDtoList = openSearchDetailService.fillCastCrew(matchPersonDto)
         val total = matchPerson.hits?.total?.value?.toInt() ?: 0
         val totalPages = if (total % size == 0) total / size else total / size + 1
-        return FavoritePersonDto(personDtoList, PageInfo(total, totalPages, page))
+        return FavoritePersonDto(personDtoList, PageInfoDto(total, totalPages, page))
     }
 
     @Transactional

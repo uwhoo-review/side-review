@@ -196,12 +196,21 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         return photoList
     }
 
-    private fun filterDetail(detailResponse: DetailResponse): List<String> {
-        val seasonList: MutableList<String> = mutableListOf()
-        for (i in 2..detailResponse.number_of_seasons!!)
-            seasonList.add("${detailResponse.id}_$i")
+    private fun filterDetail(detailResponse: DetailResponse): List<SeasonDto> {
+        val seasonInfoList: MutableList<SeasonDto> = mutableListOf()
+        for (i in 1..detailResponse.number_of_seasons!!) {
+            var seasonName = ""
+            var seasonId = ""
+            detailResponse.seasons?.forEach {
+                if (it.season_number == i) seasonName = it.name ?: ""
+            }
 
-        return seasonList
+            if (i == 1) seasonId = detailResponse.id.toString()
+            else seasonId = "${detailResponse.id}_$i"
+
+            seasonInfoList.add(SeasonDto(seasonId, seasonName))
+        }
+        return seasonInfoList
     }
 
     private fun filterAge(contentRatingResponse: ContentRatingResponse): String {

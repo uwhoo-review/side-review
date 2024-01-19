@@ -13,6 +13,7 @@ import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.person.dto.PersonDto
 import com.sideReview.side.review.StarRatingService
+import com.sideReview.side.tmdb.dto.SeasonDto
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -52,7 +53,7 @@ class OpenSearchDetailService @Autowired constructor(
         }
     }
 
-    suspend fun makeSeasonInfo(id: String, list: List<String>): Season {
+    suspend fun makeSeasonInfo(id: String, list: List<SeasonDto>): Season {
         var now: Int = 1
         if (id.contains("_")) {
             now = id.split("_")[1].toInt()
@@ -111,7 +112,7 @@ class OpenSearchDetailService @Autowired constructor(
 
     //TODO : 이거 쓰면 된다 영은!
     suspend fun getContentDocumentAsDetailContentDto(document: ContentDocument, userId : String): DetailContentDto {
-        val seasonList: MutableList<String> = getSeasonFromDocument(document)
+        val seasonList: MutableList<SeasonDto> = getSeasonFromDocument(document)
         val id = document.id
         val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
         val credit = filterCreditInfo(personList, id)
@@ -132,16 +133,15 @@ class OpenSearchDetailService @Autowired constructor(
             crew = credit.second,
             rating = starRatingService.getRating(document.rating, id, userId),
             age = document.age?.toInt() ?: 0,
-            season = makeSeasonInfo(id, seasonList.sorted())
+            season = makeSeasonInfo(id, seasonList)
         )
     }
 
     suspend fun getSeasonFromDocument(
         document: ContentDocument
-    ): MutableList<String> {
+    ): MutableList<SeasonDto> {
         var season = document.season
-        var firstSeasonId = document.id
-        val seasonList: MutableList<String> = mutableListOf()
+        val seasonInfoList: MutableList<SeasonDto> = mutableListOf()
 
         if (document.id.contains("_")) {
             val firstSeasonResponse: SearchResponse =
@@ -150,12 +150,9 @@ class OpenSearchDetailService @Autowired constructor(
             val firstSeasonDocument =
                 Gson().fromJson("$firstSeasonSource", ContentDocument::class.java)
             season = firstSeasonDocument.season
-            firstSeasonId = document.id.split("_")[0]
         }
-
-        seasonList.add(firstSeasonId)
-        seasonList.addAll(season)
-        return seasonList
+        seasonInfoList.addAll(season)
+        return seasonInfoList
     }
 
     //TODO: service 로직과 dto 만드는 로직 구분하기!!! #convention

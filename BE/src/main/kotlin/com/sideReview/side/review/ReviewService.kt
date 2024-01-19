@@ -1,6 +1,6 @@
 package com.sideReview.side.review
 
-import com.sideReview.side.common.dto.PageInfo
+import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDTO
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.*
@@ -121,7 +121,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
 
         return PageReviewDto(
             ReviewDTO(total,mapUserReviewToReviewDetailDTO(userReviewList)),
-            PageInfo(totalElements, totalPages, pageable.pageNumber)
+            PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }
 
