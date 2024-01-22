@@ -3,6 +3,7 @@ package com.sideReview.side.myPage
 import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
@@ -14,7 +15,6 @@ import com.sideReview.side.openSearch.OpenSearchDetailService
 import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.person.PersonService
 import com.sideReview.side.review.UserStarRatingRepository
-import com.sideReview.side.review.dto.PageInfo
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -44,7 +44,7 @@ class MyPageService(
             val source = it.source
             val document = Gson().fromJson("$source", ContentDocument::class.java)
             val personList = MapperUtils.parseToPersonDocument(
-                openSearchDetailService.findDirectorByContentId(document.id)
+                openSearchGetService.findDirectorByContentId(document.id)
             )
             val rating =
                 userStarRatingRepository.findOneByTargetIdAndWriterId(document.id, userId)?.rating
@@ -52,10 +52,8 @@ class MyPageService(
                 id = document.id,
                 poster = document.poster,
                 name = document.name,
-                year = if (document.firstAirDate == null) "unknown" else document.firstAirDate.substring(
-                    0,
-                    4
-                )!!,
+                year = if (document.firstAirDate == null) "unknown"
+                        else document.firstAirDate.substring(0, 4),
                 director = if (personList == null) emptyList() else openSearchDetailService.filterCreditInfo(
                     personList,
                     document.id
@@ -66,7 +64,7 @@ class MyPageService(
             )
             contentList.add(userFavoriteContentDto)
         }
-        return FavoriteContentPageDto(contentList, PageInfo(total, totalPages, page))
+        return FavoriteContentPageDto(contentList, PageInfoDto(total, totalPages, page))
     }
 
     suspend fun getKeywordPerson(
@@ -80,7 +78,7 @@ class MyPageService(
         val personDtoList = openSearchDetailService.fillCastCrew(matchPersonDto)
         val total = matchPerson.hits?.total?.value?.toInt() ?: 0
         val totalPages = if (total % size == 0) total / size else total / size + 1
-        return FavoritePersonDto(personDtoList, PageInfo(total, totalPages, page))
+        return FavoritePersonDto(personDtoList, PageInfoDto(total, totalPages, page))
     }
 
     @Transactional

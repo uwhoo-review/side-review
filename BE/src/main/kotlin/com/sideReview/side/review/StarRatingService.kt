@@ -1,7 +1,7 @@
 package com.sideReview.side.review
 
+import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.review.dto.StarRatingCreateDto
-import com.sideReview.side.review.dto.StarRatingDto
 import com.sideReview.side.review.dto.StarRatingUpdateDto
 import com.sideReview.side.review.entity.UserStarRating
 import org.springframework.stereotype.Service
@@ -37,28 +37,12 @@ class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) 
         )
     }
 
-    fun findStarRating(id: String, ip: String): StarRatingDto {
-        val entity: UserStarRating? = userStarRatingRepository.findOneByTargetIdAndWriterId(id, ip)
-        val total: Int = userStarRatingRepository.countByTargetId(id)
-        var rating = 0.0f
-        var ratingId = -1
-        if (entity != null) {
-            rating = entity.rating
-            ratingId = entity.id
-        }
-        return StarRatingDto(total, rating, ratingId)
-    }
-
-    fun getTotalStarRating(id: String): Int {
-        return userStarRatingRepository.findAllByTargetId(id).size
-    }
-
     @Transactional
     fun deleteStartRating(id: String, ip: String) {
         userStarRatingRepository.deleteByTargetIdAndWriterId(id, ip)
     }
 
-    fun calculateWeightAverage(tmdbRating: Double?, id: String): Double {
+    private fun calculateWeightAverage(tmdbRating: Float?, id: String): Float {
         val tmdbWeight = 8
         val userWeight = 2
 
@@ -70,6 +54,16 @@ class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) 
         if (tmdbRating != null && userRating != null) {
             rating = ((tmdbRating * tmdbWeight) + (userRating * userWeight)) / (tmdbWeight + userWeight)
         }
-        return String.format("%.2f", rating).toDouble()
+        return String.format("%.2f", rating).toFloat()
+    }
+
+    fun getRating(tmdbRating: Float?, id: String, userId: String): RatingDto {
+        val userStarRatingList = userStarRatingRepository.findAllByTargetId(id)
+        val userRating = userStarRatingList.firstOrNull { it.writerId == userId }?.rating ?: 0.0f
+        return RatingDto(
+            calculateWeightAverage(tmdbRating, id),
+            userStarRatingList.size,
+            userRating
+        )
     }
 }

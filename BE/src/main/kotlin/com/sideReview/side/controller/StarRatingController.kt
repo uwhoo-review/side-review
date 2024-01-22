@@ -30,13 +30,6 @@ class StarRatingController ( val starRatingService: StarRatingService){
         return ResponseEntity(HttpStatus.OK)
     }
 
-    @GetMapping
-    fun read(@PathVariable id : String,
-             request: HttpServletRequest
-    ) : ResponseEntity<Any> {
-        return ResponseEntity.ok(starRatingService.findStarRating(id, ClientUtils.getIp(request)))
-    }
-
     @DeleteMapping
     fun delete(@PathVariable id :String,
                request: HttpServletRequest

@@ -1,10 +1,10 @@
 package com.sideReview.side.myPage.dto
+import com.sideReview.side.common.dto.PageInfoDto
 
-import com.sideReview.side.review.dto.PageInfo
 
 data class FavoritePersonDto(
     val person: List<FavoritePersonDetailDto>,
-    val pageInfo: PageInfo
+    val pageInfo: PageInfoDto
 )
 
 data class FavoritePersonDetailDto(

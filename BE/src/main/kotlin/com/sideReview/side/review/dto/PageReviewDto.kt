@@ -1,12 +1,8 @@
 package com.sideReview.side.review.dto
 
+import com.sideReview.side.common.dto.PageInfoDto
+
 data class PageReviewDto(
-    val total: Int,
-    val review: List<ReviewDetailDTO>,
-    val pageInfo: PageInfo
-)
-data class PageInfo(
-    val totalElements: Int,
-    val totalPages: Int,
-    val page: Int,
+    val reviewDTO: ReviewDTO,
+    val pageInfo: PageInfoDto
 )

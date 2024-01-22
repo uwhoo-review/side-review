@@ -1,5 +1,6 @@
 package com.sideReview.side.review
 
+import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDTO
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.*
@@ -74,7 +75,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
     }
 
-    fun getReviewsByTargetId(
+    fun getReviewsByTargetId( //TODO : 리뷰 만들고 공유!! #convention
         id: String,
         sort: String,
         spoiler: String,
@@ -119,9 +120,8 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
 
         return PageReviewDto(
-            total,
-            mapUserReviewToReviewDetailDTO(userReviewList),
-            PageInfo(totalElements, totalPages, pageable.pageNumber)
+            ReviewDTO(total,mapUserReviewToReviewDetailDTO(userReviewList)),
+            PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }
 

@@ -7,7 +7,9 @@ import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.openSearch.dto.ContentDto
+import com.sideReview.side.openSearch.dto.DetailContentDto
 import com.sideReview.side.openSearch.dto.SimpleContentDto
 import com.sideReview.side.person.dto.PersonDto
 import com.sideReview.side.review.dto.ReviewDetailDTO
@@ -141,4 +143,45 @@ object MapperUtils {
         return details
     }
 
+    fun mapDetailToContent(detail: DetailContentDto): ContentDto {
+        return ContentDto(
+            detail.id,
+            detail.name,
+            detail.platform,
+            detail.genre,
+            detail.date?.substring(0, 4),
+            detail.synopsis,
+            if (!detail.trailer.isNullOrEmpty()) detail.trailer[0] else null,
+            detail.poster,
+            detail.rating,
+            if (!detail.actors.isNullOrEmpty()) detail.actors.map { it.name } else null,
+            detail.age,
+            detail.season,
+            null // TODO. Review 추가
+        )
+    }
+
+    fun mapDetailToSimpleContent(detail: DetailContentDto): SimpleContentDto {
+        return SimpleContentDto(
+            detail.id,
+            detail.name,
+            detail.platform,
+            detail.poster,
+            detail.rating,
+            detail.date?.substring(0, 4)
+        )
+    }
+
+    fun parseSearchResponseToSimpleContentDto(response: SearchResponse): SimpleContentDto {
+        val source = response.hits?.hits?.get(0)?.source
+        val document = Gson().fromJson("$source", ContentDocument::class.java)
+        return SimpleContentDto(
+            document.id,
+            document.name,
+            document.platform,
+            document.poster,
+            RatingDto(document.rating?.toFloat(),0,null),
+            document.firstAirDate
+        )
+    }
 }

@@ -1,8 +1,9 @@
 package com.sideReview.side.myPage.dto
 
-import com.sideReview.side.review.dto.PageInfo
+import com.sideReview.side.common.dto.PageInfoDto
+
 
 data class FavoriteContentPageDto(
     val content: List<FavoriteContentDto>,
-    val pageInfo: PageInfo
+    val pageInfo: PageInfoDto
 )

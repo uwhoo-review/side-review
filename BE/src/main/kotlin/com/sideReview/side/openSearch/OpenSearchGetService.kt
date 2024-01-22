@@ -8,52 +8,27 @@ import com.sideReview.side.openSearch.dto.ContentRequestDTO
 import com.sideReview.side.openSearch.dto.ContentRequestFilterDetail
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Service
 class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
-    suspend fun get(tab: String, sort: String?, request: ContentRequestDTO): SearchResponse {
-        val reDup = request.copy()
-        if (tab == "main" && sort == "popularity") {
-            // 최근 1년간의 결과만 가져오기 위해 filter 추가
-            if (reDup.filter.isNullOrEmpty()) reDup.filter = mutableListOf()
-            reDup.filter!!.add(
-                ContentRequestFilterDetail(
-                    "date",
-                    listOf(
-                        Calendar.getInstance().addDate(Calendar.YEAR, -1),
-                        Calendar.getInstance().addDate(null, null)
-                    )
-                )
-            )
-        } else if (tab == "open") {
-            // 오늘 날짜 이후만 가져오도록 filter 추가
-            if (reDup.filter.isNullOrEmpty()) reDup.filter = mutableListOf()
-            reDup.filter!!.add(
-                ContentRequestFilterDetail(
-                    "date",
-                    listOf(
-                        Calendar.getInstance().addDate(null, null),
-                        ""
-                    )
-                )
-            )
-        }
-
-        // client 요청 전송
-        return client.search(
-            "content", block = createBlock(sort, reDup, ::makeGetQuery, tab)
-        )
-    }
-
+    /*
+    * 직접 SearchClient를 통해 OpenSearch에 접근하여 데이터를 가져온다.
+    * */
     suspend fun search(sort: String?, request: ContentRequestDTO?): SearchResponse {
         // client 요청 전송
         return client.search(
             "content",
             block = createBlock(sort, request, ::makeSearchQuery)
         )
+    }
+
+    suspend fun search(
+        target: String,
+        request: ContentRequestDTO,
+        block: (request: ContentRequestDTO) -> ESQuery
+    ): SearchResponse {
+        return client.search(target, block = createBlock(request.sort, request, block))
     }
 
     private fun createBlock(
@@ -100,19 +75,20 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         }
     }
 
-    private fun makeGetQuery(request: ContentRequestDTO): ESQuery {
-        val filterList = getFilterFromRequest(request)
-
-        return SearchDSL().bool {
-            if (request.filter != null) filter(filterList)
-            if (!request.query.isNullOrBlank()) {
-                must(SearchDSL().match("name", request.query))
-            }
-            if (request.notQuery != null && request.notQuery!!.isNotEmpty()) {
-                mustNot(TermsQuery("id", *request.notQuery!!.toTypedArray()))
-            }
-        }
-    }
+    //TODO : 쿼리 만들때 사용 #covention
+//    private fun makeGetQuery(request: ContentRequestDTO): ESQuery {
+//        val filterList = getFilterFromRequest(request)
+//
+//        return SearchDSL().bool {
+//            if (request.filter != null) filter(filterList)
+//            if (!request.query.isNullOrBlank()) {
+//                must(SearchDSL().match("name", request.query))
+//            }
+//            if (request.notQuery != null && request.notQuery!!.isNotEmpty()) {
+//                mustNot(TermsQuery("id", *request.notQuery!!.toTypedArray()))
+//            }
+//        }
+//    }
 
     private fun makeSearchQuery(request: ContentRequestDTO): ESQuery {
         val filterList = getFilterFromRequest(request)
@@ -174,12 +150,12 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         return filterList
     }
 
-    fun Calendar.addDate(addFun: Int?, addParam: Int?): String {
-        this.timeZone = TimeZone.getTimeZone("Asia/Seoul")
-        val formatter = SimpleDateFormat("yyyy-MM-dd")
-        if (addFun != null && addParam != null)
-            this.add(addFun, addParam)
-        return formatter.format(this.time).toString()
+    suspend fun findDocumentById(index: String, id: String): SearchResponse {
+        val search = client.search(index) {
+            resultSize = 1
+            query = bool { must(match("id", id)) }
+        }
+        return search
     }
 
     suspend fun findDocumentByKeyword(keyword: String, page: Int, size: Int): SearchResponse {
@@ -193,5 +169,39 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             }
         }
         return search
+    }
+
+    suspend fun findDocumentByContentId(id: String): SearchResponse {
+        return client.search("person") {
+            query = bool {
+                should(
+                    match("cast.contentId", id),
+                    match("crew.contentId", id)
+                )
+            }
+        }
+    }
+
+
+    suspend fun findContentByIdSortByFirstAirDate(
+        id: List<String>
+    ): SearchResponse {
+        val search = client.search("content") {
+            resultSize = 1
+            query = bool { must(terms("id", *id.toTypedArray())) }
+            sort { add("firstAirDate", SortOrder.DESC) }
+        }
+        return search
+    }
+
+    suspend fun findDirectorByContentId(id: String): SearchResponse {
+        return client.search("person") {
+            query = bool {
+                must(
+                    match("crew.contentId", id),
+                    match("crew.job", "Production")
+                )
+            }
+        }
     }
 }
