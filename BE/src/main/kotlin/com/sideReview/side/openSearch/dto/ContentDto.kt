@@ -1,14 +1,8 @@
 package com.sideReview.side.openSearch.dto
 
-import com.google.gson.Gson
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.annotations.JsonAdapter
-import com.google.gson.reflect.TypeToken
+import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.review.dto.ReviewDTO
 import kotlinx.serialization.Serializable
-import java.lang.reflect.Type
 
 //@JsonAdapter(ContentDeserializer::class)
 @Serializable
@@ -21,7 +15,7 @@ data class ContentDto(
     var synopsis: String? = null,
     val trailer: String? = null,
     var poster: String? = null,
-    val rating: Double? = null,
+    val rating: RatingDto? = null,
     val actors: List<String>? = null,
     val age: Int? = null,
     val season: Season? = null,
