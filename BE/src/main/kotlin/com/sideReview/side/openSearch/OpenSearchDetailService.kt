@@ -7,6 +7,7 @@ import com.jillesvangurp.ktsearch.search
 import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.parseSearchResponseToSimpleContentDto
 import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
@@ -31,6 +32,7 @@ class OpenSearchDetailService @Autowired constructor(
         }
         return search
     }
+
     private suspend fun findContentByIdSortByFirstAirDate(
         id: List<String>
     ): SearchResponse {
@@ -111,7 +113,10 @@ class OpenSearchDetailService @Autowired constructor(
     }
 
     //TODO : 이거 쓰면 된다 영은!
-    suspend fun getContentDocumentAsDetailContentDto(document: ContentDocument, userId : String): DetailContentDto {
+    suspend fun getContentDocumentAsDetailContentDto(
+        document: ContentDocument,
+        userId: String?
+    ): DetailContentDto {
         val seasonList: MutableList<SeasonDto> = getSeasonFromDocument(document)
         val id = document.id
         val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
@@ -131,7 +136,12 @@ class OpenSearchDetailService @Autowired constructor(
             poster = document.poster,
             actors = credit.first,
             crew = credit.second,
-            rating = starRatingService.getRating(document.rating, id, userId),
+            rating = if (userId == null) RatingDto()
+            else starRatingService.getRating(
+                document.rating,
+                id,
+                userId
+            ),
             age = document.age?.toInt() ?: 0,
             season = makeSeasonInfo(id, seasonList)
         )
@@ -171,11 +181,16 @@ class OpenSearchDetailService @Autowired constructor(
         if (document.cast != null && document.cast?.size!! > 0) {
             job.add("Acting")
             for (castRole in document.cast!!) {
-                val content = parseSearchResponseToSimpleContentDto(findDocumentById("contend",castRole.contentId))
+                val content = parseSearchResponseToSimpleContentDto(
+                    findDocumentById(
+                        "content",
+                        castRole.contentId
+                    )
+                )
                 roleList.add(
                     CastItem(
                         contentName = content.name,
-                        year = content.year?.toInt() ,
+                        year = content.year?.toInt(),
                         contentId = castRole.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",
@@ -186,7 +201,12 @@ class OpenSearchDetailService @Autowired constructor(
         }
         if (document.crew != null) {
             for (crewJob in document.crew!!) {
-                val content = parseSearchResponseToSimpleContentDto(findDocumentById("contend",crewJob.contentId))
+                val content = parseSearchResponseToSimpleContentDto(
+                    findDocumentById(
+                        "content",
+                        crewJob.contentId
+                    )
+                )
                 if (!job.contains(crewJob.job)) job.add(crewJob.job)
                 jobList.add(
                     CrewItem(
