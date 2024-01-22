@@ -10,41 +10,46 @@ import com.sideReview.side.openSearch.dto.ContentRequestDTO
 import com.sideReview.side.openSearch.dto.ContentRequestFilterDetail
 import com.sideReview.side.openSearch.dto.DetailContentDto
 import kotlinx.coroutines.runBlocking
+import org.springframework.stereotype.Service
+import java.text.SimpleDateFormat
+import java.util.*
 
+@Service
 class OpensearchClient(
     val openSearchGetService: OpenSearchGetService,
     val openSearchDetailService: OpenSearchDetailService
 ) {
     // template
     // 사용 방법 가이드
-    fun findContents() {
-        // SearchResponse 가져오는 단계
-        val request: ContentRequestDTO = ContentRequestDTO(
-            tab = null,
-            sort = null,
-            query = "",
-            notQuery = null,
-            filter = null,
-            pagination = null
-        )
-        val query: (request: ContentRequestDTO) -> ESQuery = (
+//    fun findContents() {
+//        // SearchResponse 가져오는 단계
+//        val request: ContentRequestDTO = ContentRequestDTO(
+//            tab = null,
+//            sort = null,
+//            query = "",
+//            notQuery = null,
+//            filter = null,
+//            pagination = null
+//        )
+//        val query: (request: ContentRequestDTO) -> ESQuery = (
+//
+//                )
+//        val response: SearchResponse
+//        runBlocking {
+//            response = openSearchGetService.search("content", request, query)
+//        }
+//
+//        // Response 가공 단계 > 각자 알아서
+//    }
 
-                )
-        val response: SearchResponse
-        runBlocking {
-            response = openSearchGetService.search("content", request, query)
-        }
-
-        // Response 가공 단계 > 각자 알아서
-    }
-
-    suspend fun getOneContent(id: String, userId : String): DetailContentDto {
+    suspend fun getOneContent(id: String, userId: String): DetailContentDto {
         val response: SearchResponse = openSearchDetailService.findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
 
         return openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
     }
+
     fun getContents(request: ContentRequestDTO): List<ContentDto> {
         // SearchResponse 가져오는 단계
         val query: (request: ContentRequestDTO) -> ESQuery = {
@@ -60,15 +65,41 @@ class OpensearchClient(
             }
         }
 
+        if (request.tab == "main" && request.sort == "popularity") {
+            // 최근 1년간의 결과만 가져오기 위해 filter 추가
+            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
+            request.filter!!.add(
+                ContentRequestFilterDetail(
+                    "date",
+                    listOf(
+                        Calendar.getInstance().addDate(Calendar.YEAR, -1),
+                        Calendar.getInstance().addDate(null, null)
+                    )
+                )
+            )
+        } else if (request.tab == "open") {
+            // 오늘 날짜 이후만 가져오도록 filter 추가
+            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
+            request.filter!!.add(
+                ContentRequestFilterDetail(
+                    "date",
+                    listOf(
+                        Calendar.getInstance().addDate(null, null),
+                        ""
+                    )
+                )
+            )
+        }
+
 
         val contentDtoList: MutableList<ContentDto> = mutableListOf()
         runBlocking {
             val response = openSearchGetService.search("content", request, query)
             val documentList = MapperUtils.parseToContentDocument(response)
-            // Response 가공 단계 > 각자 알아서
+            // Response 가공 단계
             for (doc in documentList) {
                 val detailContentDto =
-                    openSearchDetailService.getContentDocumentAsDetailContentDto(doc)
+                    openSearchDetailService.getContentDocumentAsDetailContentDto(doc, null)
 
                 // detail Content dto -> Content dto
                 // contentDtoList.add....
@@ -117,5 +148,11 @@ class OpensearchClient(
         }
         return filterList
     }
-
+    fun Calendar.addDate(addFun: Int?, addParam: Int?): String {
+        this.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        if (addFun != null && addParam != null)
+            this.add(addFun, addParam)
+        return formatter.format(this.time).toString()
+    }
 }

@@ -2,6 +2,7 @@ package com.sideReview.side.controller
 
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.OpenSearchGetService
+import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.person.PersonService
 import com.sideReview.side.review.ReviewService
@@ -16,6 +17,7 @@ import java.util.*
 @RequestMapping("/contents")
 class MainContentsController @Autowired constructor(
     private val openSearchGetService: OpenSearchGetService,
+    private val opensearchClient: OpensearchClient,
     private val personService: PersonService,
     private val reviewService: ReviewService
 ) {
@@ -26,18 +28,17 @@ class MainContentsController @Autowired constructor(
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         runBlocking {
-            when (request.tab) {
+            var reDup = request.copy()
+            when (reDup.tab) {
                 "main" -> {
+                    reDup.sort = "popularity"
                     val popular = reviewService.fillReview(
-                        MapperUtils.parseToContentDto(
-                            openSearchGetService.get(request.tab!!, "popularity", request)
-                        )
+                        opensearchClient.getContents(reDup)
                     )
 
+                    reDup.sort = "new"
                     val latest = reviewService.fillReview(
-                        MapperUtils.parseToContentDto(
-                            openSearchGetService.get(request.tab!!, "new", request)
-                        )
+                        opensearchClient.getContents(reDup)
                     )
                     response = ResponseEntity.ok(
                         MainContentDto(
@@ -51,19 +52,17 @@ class MainContentsController @Autowired constructor(
                     val page = request.pagination ?: 0
 
                     // 기간 filter 있는 맨 처음 20개를 제외하기 위해 가져옴.
-                    request.pagination = 0
-                    val lastOneYear =
-                        MapperUtils.parseToContentDto(
-                            openSearchGetService.get("main", "popularity", request)
-                        )
+                    reDup.pagination = 0
+                    reDup.tab = "main"
+                    reDup.sort = "popularity"
+                    val lastOneYear = opensearchClient.getContents(reDup)
 
                     // lastOneYear의 id를 제외, popularity 순으로 정렬, page-20번~30개 가져옴
-                    request.notQuery = lastOneYear.map { it.id }
-                    request.pagination = if (page < 20) page else page - 20
-                    val sortByPopular =
-                        MapperUtils.parseToContentDto(
-                            openSearchGetService.get(request.tab!!, "popularity", request)
-                        )
+                    reDup = request.copy()
+                    reDup.sort = "popularity"
+                    reDup.notQuery = lastOneYear.map { it.id }
+                    reDup.pagination = if (page < 20) page else page - 20
+                    val sortByPopular = opensearchClient.getContents(reDup)
 
                     // 요청 데이터 번호가 20 이전일 경우 1년 내의 결과 + popularity 순에서 모자란거 채워서 30개 생성
                     response = if (page < 20) {
@@ -82,22 +81,11 @@ class MainContentsController @Autowired constructor(
 
                 }
 
-                "new" -> {
+                "new", "open" -> {
+                    reDup.sort = "new"
                     response = ResponseEntity.ok(
                         reviewService.fillReview(
-                            MapperUtils.parseToContentDto(
-                                openSearchGetService.get(request.tab!!, "new", request)
-                            )
-                        )
-                    )
-                }
-
-                "open" -> {
-                    response = ResponseEntity.ok(
-                        reviewService.fillReview(
-                            MapperUtils.parseToContentDto(
-                                openSearchGetService.get(request.tab!!, "new", request)
-                            )
+                            opensearchClient.getContents(reDup)
                         )
                     )
                 }
