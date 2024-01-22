@@ -27,7 +27,7 @@ data class SearchPersonDto(
 data class SimpleContentDto( //content 관련 기본 dto #convention
     val id: String,
     val name: String,
-    val platform: List<Int>,
+    val platform: List<Int>?,
     var poster: String? = null,
     val rating: Double? = null,
     val year: String? = null
