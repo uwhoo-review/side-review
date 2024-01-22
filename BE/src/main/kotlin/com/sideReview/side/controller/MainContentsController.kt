@@ -16,7 +16,6 @@ import java.util.*
 @RestController
 @RequestMapping("/contents")
 class MainContentsController @Autowired constructor(
-    private val openSearchGetService: OpenSearchGetService,
     private val opensearchClient: OpensearchClient,
     private val personService: PersonService,
     private val reviewService: ReviewService
@@ -102,30 +101,26 @@ class MainContentsController @Autowired constructor(
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         runBlocking {
-            if (request.sort.isNullOrBlank()) request.sort = "popularity"
-            if (request.query.isNullOrBlank()) {
-                val content = openSearchGetService.get("sortFilter", request.sort, request)
+            val reDup = request.copy()
+            if (reDup.sort.isNullOrBlank()) reDup.sort = "popularity"
+            if (reDup.query.isNullOrBlank()) {
+                reDup.tab = "sortFilter"
+
                 response = ResponseEntity.ok(
-                    SearchContentDto(
-                        total = content.hits?.total?.value?.toInt() ?: 0,
-                        content = MapperUtils.parseToSimpleContentDto(content)
-                    )
+                    opensearchClient.getMatchContents(reDup)
                 )
             } else {
                 when (type) {
                     "content" -> {
-                        val matchContent = openSearchGetService.get("search", request.sort, request)
+                        reDup.tab = "search"
                         response = ResponseEntity.ok(
-                            SearchContentDto(
-                                total = matchContent.hits?.total?.value?.toInt() ?: 0,
-                                content = MapperUtils.parseToSimpleContentDto(matchContent)
-                            )
+                            opensearchClient.getMatchContents(reDup)
                         )
                     }
 
                     "person" -> {
                         val matchPerson =
-                            personService.searchMatch(request.query, request.pagination ?: 0, 12)
+                            personService.searchMatch(reDup.query, reDup.pagination ?: 0, 12)
                         response = ResponseEntity.ok(
                             SearchPersonDto(
                                 total = matchPerson.hits?.total?.value?.toInt() ?: 0,
@@ -145,16 +140,13 @@ class MainContentsController @Autowired constructor(
         @RequestBody request: ContentRequestDTO
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
-        if (request.query != null) {
-            if (request.sort.isNullOrBlank()) request.sort = "popularity"
-            request.tab = "search"
+        val reDup = request.copy()
+        if (reDup.query != null) {
+            if (reDup.sort.isNullOrBlank()) reDup.sort = "popularity"
+            reDup.tab = "search"
             runBlocking {
-                val similar = openSearchGetService.search(request.sort, request)
                 response = ResponseEntity.ok(
-                    SearchContentDto(
-                        content = MapperUtils.parseToSimpleContentDto(similar),
-                        total = similar.hits?.total?.value?.toInt() ?: 0
-                    )
+                    opensearchClient.getSimilarContents(reDup)
                 )
             }
         }

@@ -1,10 +1,7 @@
 package com.sideReview.side.openSearch
 
 import com.google.gson.Gson
-import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
-import com.jillesvangurp.ktsearch.search
-import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.RatingDto
@@ -21,39 +18,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class OpenSearchDetailService @Autowired constructor(
-    private val client: SearchClient,
-    private val starRatingService: StarRatingService
+    private val starRatingService: StarRatingService,
+    private val openSearchGetService: OpenSearchGetService
 ) {
+    /*
+    * SearchClient에 직접 접근하지 않고 dto 생성에 정보가 더 필요한 경우
+    * openSearchGetService를 통해 정보를 불러온 뒤 dto를 채우는 서비스
+    * */
     private val logger = LoggerFactory.getLogger(this.javaClass)!!
-    suspend fun findDocumentById(index: String, id: String): SearchResponse {
-        val search = client.search(index) {
-            resultSize = 1
-            query = bool { must(match("id", id)) }
-        }
-        return search
-    }
-
-    private suspend fun findContentByIdSortByFirstAirDate(
-        id: List<String>
-    ): SearchResponse {
-        val search = client.search("content") {
-            resultSize = 1
-            query = bool { must(terms("id", *id.toTypedArray())) }
-            sort { add("firstAirDate", SortOrder.DESC) }
-        }
-        return search
-    }
-
-    suspend fun findDirectorByContentId(id: String): SearchResponse {
-        return client.search("person") {
-            query = bool {
-                must(
-                    match("crew.contentId", id),
-                    match("crew.job", "Production")
-                )
-            }
-        }
-    }
 
     suspend fun makeSeasonInfo(id: String, list: List<SeasonDto>): Season {
         var now: Int = 1
@@ -63,16 +35,6 @@ class OpenSearchDetailService @Autowired constructor(
         return Season(now, list)
     }
 
-    suspend fun findDocumentByContentId(id: String): SearchResponse {
-        return client.search("person") {
-            query = bool {
-                should(
-                    match("cast.contentId", id),
-                    match("crew.contentId", id)
-                )
-            }
-        }
-    }
 
     fun filterCreditInfo(
         personList: List<PersonDocument>,
@@ -119,7 +81,8 @@ class OpenSearchDetailService @Autowired constructor(
     ): DetailContentDto {
         val seasonList: MutableList<SeasonDto> = getSeasonFromDocument(document)
         val id = document.id
-        val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
+        val personList =
+            MapperUtils.parseToPersonDocument(openSearchGetService.findDocumentByContentId(id))
         val credit = filterCreditInfo(personList, id)
 
         return DetailContentDto(
@@ -155,7 +118,7 @@ class OpenSearchDetailService @Autowired constructor(
 
         if (document.id.contains("_")) {
             val firstSeasonResponse: SearchResponse =
-                findDocumentById("content", document.id.split("_")[0])
+                openSearchGetService.findDocumentById("content", document.id.split("_")[0])
             val firstSeasonSource = firstSeasonResponse.hits?.hits?.get(0)?.source
             val firstSeasonDocument =
                 Gson().fromJson("$firstSeasonSource", ContentDocument::class.java)
@@ -167,7 +130,7 @@ class OpenSearchDetailService @Autowired constructor(
 
     //TODO: service 로직과 dto 만드는 로직 구분하기!!! #convention
     suspend fun getPersonDocument(id: String): DetailPersonDto {
-        val response: SearchResponse = findDocumentById("person", id)
+        val response: SearchResponse = openSearchGetService.findDocumentById("person", id)
 
         if (response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.");
         //TODO: exception handling
@@ -182,7 +145,7 @@ class OpenSearchDetailService @Autowired constructor(
             job.add("Acting")
             for (castRole in document.cast!!) {
                 val content = parseSearchResponseToSimpleContentDto(
-                    findDocumentById(
+                    openSearchGetService.findDocumentById(
                         "content",
                         castRole.contentId
                     )
@@ -190,7 +153,7 @@ class OpenSearchDetailService @Autowired constructor(
                 roleList.add(
                     CastItem(
                         contentName = content.name,
-                        year = content.year?.toInt(),
+                        year = content.date?.toInt(),
                         contentId = castRole.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",
@@ -202,7 +165,7 @@ class OpenSearchDetailService @Autowired constructor(
         if (document.crew != null) {
             for (crewJob in document.crew!!) {
                 val content = parseSearchResponseToSimpleContentDto(
-                    findDocumentById(
+                    openSearchGetService.findDocumentById(
                         "content",
                         crewJob.contentId
                     )
@@ -211,7 +174,7 @@ class OpenSearchDetailService @Autowired constructor(
                 jobList.add(
                     CrewItem(
                         contentName = content.name,
-                        year = content.year?.toInt(),
+                        year = content.date?.toInt(),
                         contentId = crewJob.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",
@@ -258,7 +221,7 @@ class OpenSearchDetailService @Autowired constructor(
     private suspend fun getNames(ids: List<String>): List<String> {
         val response: SearchResponse? =
             kotlin.runCatching {
-                findContentByIdSortByFirstAirDate(ids)
+                openSearchGetService.findContentByIdSortByFirstAirDate(ids)
             }.getOrNull()
         return if (response != null) {
             val contents: List<ContentDocument> =
@@ -270,7 +233,7 @@ class OpenSearchDetailService @Autowired constructor(
 //    suspend fun getContentDocumentAsContentDto(id: String): ContentDto? {
 //        var response: SearchResponse? = null
 //        kotlin.runCatching {
-//            response = findDocumentById("content", id)
+//            response = openSearchGetService.findDocumentById("content", id)
 //        }
 //        if (response != null) {
 //            val source = response!!.hits?.hits?.get(0)?.source

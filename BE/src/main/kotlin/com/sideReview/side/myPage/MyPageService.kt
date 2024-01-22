@@ -44,7 +44,7 @@ class MyPageService(
             val source = it.source
             val document = Gson().fromJson("$source", ContentDocument::class.java)
             val personList = MapperUtils.parseToPersonDocument(
-                openSearchDetailService.findDirectorByContentId(document.id)
+                openSearchGetService.findDirectorByContentId(document.id)
             )
             val rating =
                 userStarRatingRepository.findOneByTargetIdAndWriterId(document.id, userId)?.rating
@@ -52,10 +52,8 @@ class MyPageService(
                 id = document.id,
                 poster = document.poster,
                 name = document.name,
-                year = if (document.firstAirDate == null) "unknown" else document.firstAirDate.substring(
-                    0,
-                    4
-                )!!,
+                year = if (document.firstAirDate == null) "unknown"
+                        else document.firstAirDate.substring(0, 4),
                 director = if (personList == null) emptyList() else openSearchDetailService.filterCreditInfo(
                     personList,
                     document.id

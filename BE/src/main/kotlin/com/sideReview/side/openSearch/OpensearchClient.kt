@@ -5,10 +5,7 @@ import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.openSearch.dto.ContentDto
-import com.sideReview.side.openSearch.dto.ContentRequestDTO
-import com.sideReview.side.openSearch.dto.ContentRequestFilterDetail
-import com.sideReview.side.openSearch.dto.DetailContentDto
+import com.sideReview.side.openSearch.dto.*
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 import java.text.SimpleDateFormat
@@ -19,6 +16,13 @@ class OpensearchClient(
     val openSearchGetService: OpenSearchGetService,
     val openSearchDetailService: OpenSearchDetailService
 ) {
+    /**
+     *  openSearchGetService를 통해 전체 Document 가져온다.
+     *  openSearchDetailService를 통해 전체 Document 중 추가로 가져와야 할 정보를 가져온다.
+     *                     + 정보를 DetailContent or DetailPerson Dto로 변경한다.
+     *  OpensearchClient를 통해 DetailContent or DetailPerson Dto를 필요한 형태로 변환한 후 리턴한다.
+     */
+
     // template
     // 사용 방법 가이드
 //    fun findContents() {
@@ -43,7 +47,7 @@ class OpensearchClient(
 //    }
 
     suspend fun getOneContent(id: String, userId: String): DetailContentDto {
-        val response: SearchResponse = openSearchDetailService.findDocumentById("content", id)
+        val response: SearchResponse = openSearchGetService.findDocumentById("content", id)
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
 
@@ -52,19 +56,6 @@ class OpensearchClient(
 
     fun getContents(request: ContentRequestDTO): List<ContentDto> {
         // SearchResponse 가져오는 단계
-        val query: (request: ContentRequestDTO) -> ESQuery = {
-            val filterList = getFilterFromRequest(it)
-            SearchDSL().bool {
-                if (it.filter != null) filter(filterList)
-                if (!it.query.isNullOrBlank()) {
-                    must(SearchDSL().match("name", it.query))
-                }
-                if (it.notQuery != null && it.notQuery!!.isNotEmpty()) {
-                    mustNot(TermsQuery("id", *it.notQuery!!.toTypedArray()))
-                }
-            }
-        }
-
         if (request.tab == "main" && request.sort == "popularity") {
             // 최근 1년간의 결과만 가져오기 위해 filter 추가
             if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
@@ -94,7 +85,7 @@ class OpensearchClient(
 
         val contentDtoList: MutableList<ContentDto> = mutableListOf()
         runBlocking {
-            val response = openSearchGetService.search("content", request, query)
+            val response = openSearchGetService.search("content", request, ::defaultQuery)
             val documentList = MapperUtils.parseToContentDocument(response)
             // Response 가공 단계
             for (doc in documentList) {
@@ -107,6 +98,65 @@ class OpensearchClient(
             }
         }
         return contentDtoList
+    }
+
+    fun getMatchContents(request: ContentRequestDTO): SearchContentDto {
+        // SearchResponse 가져오는 단계
+        val simpleContentDtoList: MutableList<SimpleContentDto> = mutableListOf()
+        var total: Int
+        runBlocking {
+            val response = openSearchGetService.search("content", request, ::defaultQuery)
+            val documentList = MapperUtils.parseToContentDocument(response)
+            total = response.hits?.total?.value?.toInt() ?: 0
+            // Response 가공 단계
+            for (doc in documentList) {
+                val detailContentDto =
+                    openSearchDetailService.getContentDocumentAsDetailContentDto(doc, null)
+
+                // detail Content dto -> SimpleContent dto
+                simpleContentDtoList.add(MapperUtils.mapDetailToSimpleContent(detailContentDto))
+            }
+        }
+        return SearchContentDto(
+            total = total,
+            content = simpleContentDtoList
+        )
+    }
+
+    fun getSimilarContents(request: ContentRequestDTO): SearchContentDto {
+        // SearchResponse 가져오는 단계
+        val simpleContentDtoList: MutableList<SimpleContentDto> = mutableListOf()
+        var total: Int
+        runBlocking {
+            val response = openSearchGetService.search("content", request)
+            val documentList = MapperUtils.parseToContentDocument(response)
+            total = response.hits?.total?.value?.toInt() ?: 0
+            // Response 가공 단계
+            for (doc in documentList) {
+                val detailContentDto =
+                    openSearchDetailService.getContentDocumentAsDetailContentDto(doc, null)
+
+                // detail Content dto -> SimpleContent dto
+                simpleContentDtoList.add(MapperUtils.mapDetailToSimpleContent(detailContentDto))
+            }
+        }
+        return SearchContentDto(
+            total = total,
+            content = simpleContentDtoList
+        )
+    }
+
+    fun defaultQuery(request: ContentRequestDTO): ESQuery {
+        val filterList = getFilterFromRequest(request)
+        return SearchDSL().bool {
+            if (request.filter != null) filter(filterList)
+            if (!request.query.isNullOrBlank()) {
+                must(SearchDSL().match("name", request.query))
+            }
+            if (request.notQuery != null && request.notQuery!!.isNotEmpty()) {
+                mustNot(TermsQuery("id", *request.notQuery!!.toTypedArray()))
+            }
+        }
     }
 
     private fun getFilterFromRequest(request: ContentRequestDTO): MutableList<ESQuery> {
@@ -148,6 +198,7 @@ class OpensearchClient(
         }
         return filterList
     }
+
     fun Calendar.addDate(addFun: Int?, addParam: Int?): String {
         this.timeZone = TimeZone.getTimeZone("Asia/Seoul")
         val formatter = SimpleDateFormat("yyyy-MM-dd")

@@ -160,7 +160,18 @@ object MapperUtils {
         )
     }
 
-    fun parseSearchResponseToSimpleContentDto(response: SearchResponse) : SimpleContentDto{
+    fun mapDetailToSimpleContent(detail: DetailContentDto): SimpleContentDto {
+        return SimpleContentDto(
+            detail.id,
+            detail.name,
+            detail.platform,
+            detail.poster,
+            detail.rating,
+            detail.date?.substring(0, 4)
+        )
+    }
+
+    fun parseSearchResponseToSimpleContentDto(response: SearchResponse): SimpleContentDto {
         val source = response.hits?.hits?.get(0)?.source
         val document = Gson().fromJson("$source", ContentDocument::class.java)
         return SimpleContentDto(
@@ -169,6 +180,7 @@ object MapperUtils {
             document.platform,
             document.poster,
             document.rating,
-            document.firstAirDate)
+            document.firstAirDate
+        )
     }
 }
