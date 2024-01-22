@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.dto.*
 import kotlinx.coroutines.runBlocking
@@ -46,12 +47,29 @@ class OpensearchClient(
 //        // Response 가공 단계 > 각자 알아서
 //    }
 
-    suspend fun getOneContent(id: String, userId: String): DetailContentDto {
-        val response: SearchResponse = openSearchGetService.findDocumentById("content", id)
-        val source = response.hits?.hits?.get(0)?.source
-        val document = Gson().fromJson("$source", ContentDocument::class.java)
+    fun getOneContent(id: String, userId: String?): DetailContentDto {
+        val detailContentDto: DetailContentDto
+        runBlocking {
+            val response: SearchResponse = openSearchGetService.findDocumentById("content", id)
+            val source = response.hits?.hits?.get(0)?.source
+            val document = Gson().fromJson("$source", ContentDocument::class.java)
 
-        return openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
+            detailContentDto = openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
+        }
+        return detailContentDto
+    }
+
+    fun getOnePerson(id: String): DetailPersonDto {
+        val detailPersonDto: DetailPersonDto
+        runBlocking {
+            val response: SearchResponse = openSearchGetService.findDocumentById("person", id)
+            if (response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.")
+            val source = response.hits?.hits?.get(0)?.source
+            val document = Gson().fromJson("$source", PersonDocument::class.java)
+
+            detailPersonDto = openSearchDetailService.getPersonDocument(document)
+        }
+        return detailPersonDto
     }
 
     fun getContents(request: ContentRequestDTO): List<ContentDto> {

@@ -7,6 +7,7 @@ import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.DetailContentDto
 import com.sideReview.side.openSearch.dto.SimpleContentDto
@@ -179,7 +180,7 @@ object MapperUtils {
             document.name,
             document.platform,
             document.poster,
-            document.rating,
+            RatingDto(document.rating?.toFloat(),0,null),
             document.firstAirDate
         )
     }

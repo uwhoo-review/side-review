@@ -101,7 +101,7 @@ class OpenSearchDetailService @Autowired constructor(
             crew = credit.second,
             rating = if (userId == null) RatingDto()
             else starRatingService.getRating(
-                document.rating,
+                document.rating?.toFloat(),
                 id,
                 userId
             ),
@@ -128,15 +128,7 @@ class OpenSearchDetailService @Autowired constructor(
         return seasonInfoList
     }
 
-    //TODO: service 로직과 dto 만드는 로직 구분하기!!! #convention
-    suspend fun getPersonDocument(id: String): DetailPersonDto {
-        val response: SearchResponse = openSearchGetService.findDocumentById("person", id)
-
-        if (response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.");
-        //TODO: exception handling
-
-        val source = response.hits?.hits?.get(0)?.source
-        val document = Gson().fromJson("$source", PersonDocument::class.java)
+    suspend fun getPersonDocument(document: PersonDocument): DetailPersonDto {
         val job: MutableList<String> = mutableListOf()
         val roleList: MutableList<CastItem> = mutableListOf()
         val jobList: MutableList<CrewItem> = mutableListOf()

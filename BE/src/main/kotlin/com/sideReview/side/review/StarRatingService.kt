@@ -42,7 +42,7 @@ class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) 
         userStarRatingRepository.deleteByTargetIdAndWriterId(id, ip)
     }
 
-    private fun calculateWeightAverage(tmdbRating: Double?, id: String): Double {
+    private fun calculateWeightAverage(tmdbRating: Float?, id: String): Float {
         val tmdbWeight = 8
         val userWeight = 2
 
@@ -54,10 +54,10 @@ class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) 
         if (tmdbRating != null && userRating != null) {
             rating = ((tmdbRating * tmdbWeight) + (userRating * userWeight)) / (tmdbWeight + userWeight)
         }
-        return String.format("%.2f", rating).toDouble()
+        return String.format("%.2f", rating).toFloat()
     }
 
-    fun getRating(tmdbRating: Double?, id: String, userId: String): RatingDto {
+    fun getRating(tmdbRating: Float?, id: String, userId: String): RatingDto {
         val userStarRatingList = userStarRatingRepository.findAllByTargetId(id)
         val userRating = userStarRatingList.firstOrNull { it.writerId == userId }?.rating ?: 0.0f
         return RatingDto(
