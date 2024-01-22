@@ -18,10 +18,10 @@ data class DetailContentDto(
     val poster: String? = null,
     val actors: List<Actor>? = null,
     val crew: List<Crew>? = null,
+    val directors: List<String>? = null,
     val age: Int? = null,
     val rating : RatingDto,
     var season: Season
-    //TODO : 감독 이름 수집&추가
 )
 data class Actor(
     val name: String,

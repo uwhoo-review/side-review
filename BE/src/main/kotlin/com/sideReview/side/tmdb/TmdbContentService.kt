@@ -92,6 +92,13 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             } catch (e: Exception) {
                 logger.info("An error occurred during detail processing - $id")
             }
+
+            try{
+                val creditResponse: CreditResponse = tmdbClient.findOneSeasonCredit("Bearer $accessKey", id, 1)
+                doc.directors = filterDirectors(creditResponse)
+            } catch (e: Exception) {
+                logger.info("An error occurred during director processing - $id")
+            }
         }
         seasonDocList.addAll(docList)
         return seasonDocList
@@ -106,6 +113,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             val trailer: MutableList<String> = mutableListOf()
             val provider: MutableList<Int> = mutableListOf()
             val image: MutableList<String> = mutableListOf()
+            val directors: MutableList<String> = mutableListOf()
 
             try {
                 val videoResponse: VideoResponse =
@@ -132,6 +140,13 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 logger.info("An error occurred during season image processing - $id - $season")
             }
 
+            try {
+                val creditResponse: CreditResponse = tmdbClient.findOneSeasonCredit("Bearer $accessKey", id, 1)
+                directors.addAll(filterDirectors(creditResponse))
+            } catch (e: Exception) {
+                logger.info("An error occurred during director processing - $id")
+            }
+
             docList.add(
                 ContentDocument(
                     id = id + "_" + "$season",
@@ -151,6 +166,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                     season = emptyList(),
                     popularity = null,
                     episodeCount = seasonInfo?.episode_count,
+                    directors = directors
                 )
             )
         }
@@ -218,5 +234,14 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             if (it.iso_3166_1 == "KR") return it.rating
         }
         return ""
+    }
+
+    private fun filterDirectors(creditResponse: CreditResponse): List<String> {
+        val directors: MutableList<String> = mutableListOf()
+        creditResponse.crew?.forEach {
+            if (it.department == "Directing" || it.department == "Production")
+                directors.add(it.name ?: "")
+        }
+        return directors
     }
 }
