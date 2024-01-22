@@ -23,10 +23,10 @@ class NicknameService(private val userInfoRepository: UserInfoRepository) {
         }
     }
     fun editNickname(id: String, name : String){
-        val userInfo : Optional<UserInfo> = userInfoRepository.findById(id)
         if(!userInfoRepository.existsByNickname(name)){
-            userInfo.get().nickname = name
-            userInfoRepository.save(userInfo.get())
+            val userInfo : UserInfo = userInfoRepository.findById(id).get()
+            userInfo.nickname = name
+            userInfoRepository.save(userInfo)
         }else{
             //TODO: 예외 처리
             throw Exception("Duplicated nickname")
