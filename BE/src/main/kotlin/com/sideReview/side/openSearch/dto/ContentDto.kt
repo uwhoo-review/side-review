@@ -11,7 +11,7 @@ data class ContentDto(
     val name: String,
     val platform: List<Int>?,
     val genre: List<Int>? = null,
-    val year: String? = null,
+    val date: String? = null,
     var synopsis: String? = null,
     val trailer: String? = null,
     var poster: String? = null,
