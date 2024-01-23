@@ -62,8 +62,8 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
 
   useEffect(() => {
     if (data) {
-      setReviewList(data.review);
-      setTotalCnt(data.total);
+      setReviewList(data.reviewDTO.review);
+      setTotalCnt(data.reviewDTO.total);
       setPageInfo(data.pageInfo);
     }
   }, [data]);
@@ -85,18 +85,7 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
                       color={Color.dark.primary800}
                       // onClick={() => setIsReviewModal(true)}
                     >
-                      리뷰 전체보기 (page)
-                    </HWTypography>
-                  </HWButton>
-                )}
-                {!total && (
-                  <HWButton variant={"lowest"} onClick={() => setIsReviewModal(true)}>
-                    <HWTypography
-                      variant={"bodyXL"}
-                      family={"Pretendard-SemiBold"}
-                      color={Color.dark.primary800}
-                    >
-                      리뷰 전체보기 (modal)
+                      리뷰 전체보기
                     </HWTypography>
                   </HWButton>
                 )}

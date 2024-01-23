@@ -1,30 +1,29 @@
 import styled from "./style";
 import { IconLaunch, IconNetflix, IconStar, IconTving, IconWatcha } from "@res/index";
-import { Avatar, AvatarGroup } from "@mui/material";
 import { SerializedStyles } from "@emotion/react";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
-import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import { useNavigate } from "react-router-dom";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
+import {RatingDO, SeasonDO} from "@src/interfaces/api.interface";
 
 interface ContentCardProps {
   id: string;
   srcId: string;
   contentName: string;
-  rating?: number;
-  platform: string[];
+  platform: number[];
+  className?: string;
   age?: number;
-  year: string;
+  date: string;
   active: boolean;
   launch?: boolean;
   rank?: number;
+  rating?: RatingDO;
+  season?: SeasonDO;
   onClick?: (e: React.MouseEvent) => void;
-  className?: string;
   customCss?: SerializedStyles;
 }
 const ContentCard = ({
@@ -34,7 +33,7 @@ const ContentCard = ({
   rating,
   platform,
   age,
-  year,
+  date,
   launch = true,
   className,
   rank,
@@ -89,10 +88,10 @@ const ContentCard = ({
           <div className={"title-star"} css={styled.flexBetween}>
             <div css={styled.rating}>
               <IconStar css={styled.iconStar} />
-              <HWTypography variant={"bodyXS"}>{rating || 0}</HWTypography>
+              <HWTypography variant={"bodyXS"}>{rating?.rating || 0}</HWTypography>
             </div>
             <HWTypography variant={"bodyXS"} color={Color.dark.grey400} css={styled.typo1}>
-              {year}
+              {date}
             </HWTypography>
           </div>
           <PlatformAvatar list={platform} max={3} direction={"right"} />

@@ -121,7 +121,7 @@ const PopularContent = ({ data }: any) => {
                       contentName={v.name}
                       platform={v.platform}
                       age={v.age}
-                      year={v.year}
+                      date={v.year}
                       rating={v.rating}
                       active={selectedCard ? selectedCard?.id === v.id : true}
                       customCss={styled.card}

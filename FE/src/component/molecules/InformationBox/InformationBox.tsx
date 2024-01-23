@@ -30,7 +30,7 @@ const InformationBox = ({ item }: any) => {
             <div className="col-full">
               <div css={styled.titleWrapper}>
                 <HWTypography variant={"headlineXL"} family={"Pretendard-Bold"}>
-                  {item.name}
+                  {item.name} : {item.season.list.find((v: any) => v.id === item.id).name || ""}
                 </HWTypography>
                 <HWOutlinedSelectBox
                   width={"100px"}
@@ -44,7 +44,7 @@ const InformationBox = ({ item }: any) => {
                 >
                   {item.season.list.map((v: any, i: number) => {
                     return (
-                      <HWOutlinedSelectBox.Item key={v} value={v}>
+                      <HWOutlinedSelectBox.Item key={v.id} value={v.id}>
                         {`시즌 ${i + 1}`}
                       </HWOutlinedSelectBox.Item>
                     );
@@ -59,7 +59,7 @@ const InformationBox = ({ item }: any) => {
                 </div>
                 <div className="col-full">
                   <HWTypography variant={"bodyM"} family={"Poppins"} color={Color.dark.grey800}>
-                    {`${new Date(item.firstAirDate).getFullYear()} ∙ ${item?.originCountry[0]}`}
+                    {`${new Date(item.date).getFullYear()} ∙ ${item?.originCountry[0]}`}
                   </HWTypography>
                 </div>
               </div>
@@ -90,7 +90,7 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    ----
+                    {item.age}
                   </HWTypography>
                 </div>
                 <div className="col-3">
@@ -107,7 +107,7 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    20부작
+                    {item.episodeCnt}부작
                   </HWTypography>
                 </div>
                 <div className="col-3">
@@ -124,7 +124,7 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    {item.firstAirDate}
+                    {item.date}
                   </HWTypography>
                 </div>
                 <div className="col-3">
@@ -141,7 +141,7 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    누구게
+                    {item.directors.join(", ")}
                   </HWTypography>
                 </div>
               </div>
@@ -170,18 +170,6 @@ const InformationBox = ({ item }: any) => {
           </div>
           <div css={styled.avatarWrapper}>
             <PlatformAvatar list={item.platform} max={3} direction={"right"} size={"60px"} />
-
-            {/*<AvatarGroup css={styled.avatarGroup}>
-              <Avatar css={styled.avatar}>
-                <IconNetflix />
-              </Avatar>
-              <Avatar css={styled.avatar}>
-                <IconWatcha />
-              </Avatar>
-              <Avatar css={styled.avatar}>
-                <IconNetflix />
-              </Avatar>
-            </AvatarGroup>*/}
           </div>
         </div>
       </CenterWrapper>

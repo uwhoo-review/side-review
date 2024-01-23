@@ -5,6 +5,7 @@ import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import {
   IconChevronLeft,
   IconChevronRight,
+  IconCircleCheck,
   IconLaunch,
   IconNetflix,
   IconRating,
@@ -34,7 +35,7 @@ interface PreviewBoxVerticalProps {
 }
 
 const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
-  const [rating, setRating] = useState<number | null>(1.5);
+  const [rating, setRating] = useState<number | null>(item?.rating?.user || 0);
   const [viewState, setViewState] = useState<"info" | "review">("info");
   const navigate = useNavigate();
   const divRef = useRef<any>(null);
@@ -92,10 +93,10 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                   color={Color.dark.grey500}
                   css={styled.typoYear}
                 >
-                  {item.year}
+                  {item.date}
                 </HWTypography>
+                <HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />
               </div>
-              {/*<HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />*/}
             </div>
           </div>
           <div css={styled.bottomContents}>
@@ -108,7 +109,10 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                         평균 별점
                       </HWTypography>
                     </div>
-                    <div className={"margin-top-12 flex flex-align-center gap-10"} css={styled.height28}>
+                    <div
+                      className={"margin-top-12 flex flex-align-center gap-10"}
+                      css={styled.height28}
+                    >
                       <div className={"flex flex-align-center gap-5"}>
                         <IconStar css={styled.icons} />
                         <HWTypography
@@ -116,13 +120,21 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                           family={"Pretendard-SemiBold"}
                           color={Color.dark.grey900}
                         >
-                          {item.rating}
+                          {item.rating?.rating}
                         </HWTypography>
                       </div>
-                      <Divider direction={"v"} length={"14px"} />{" "}
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                        @TODO
-                      </HWTypography>
+                      {item.rating && item.rating.total > 0 && (
+                        <>
+                          <Divider direction={"v"} length={"14px"} />
+                          <HWTypography
+                            variant={"bodyS"}
+                            family={"Poppins"}
+                            color={Color.dark.grey500}
+                          >
+                            {item.rating?.total}
+                          </HWTypography>
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className={"col-7"}>
@@ -131,7 +143,10 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                         내 별점
                       </HWTypography>
                     </div>
-                    <div className={"margin-top-12 flex flex-align-center gap-5"} css={styled.height28}>
+                    <div
+                      className={"margin-top-12 flex flex-align-center gap-5"}
+                      css={styled.height28}
+                    >
                       <Rating
                         name="rating-value"
                         value={rating}
@@ -141,7 +156,9 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                           setRating(val);
                         }}
                         css={styled.rating}
-                        emptyIcon={<IconRatingEmpty style={{ marginLeft: "2px", marginRight: "2px" }} />}
+                        emptyIcon={
+                          <IconRatingEmpty style={{ marginLeft: "2px", marginRight: "2px" }} />
+                        }
                         icon={<IconRating style={{ marginLeft: "2px", marginRight: "2px" }} />}
                       />
                       <Divider direction={"v"} length={"14px"} />{" "}
@@ -150,7 +167,14 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                         family={"Pretendard"}
                         color={Color.dark.grey500}
                       >
-                        별점을 매겨주세요!
+                        {rating === 0 ? (
+                          "별점을 매겨주세요!"
+                        ) : (
+                          <div css={styled.ratingFlex}>
+                            <IconCircleCheck />
+                            평가를 완료했어요!
+                          </div>
+                        )}
                       </HWTypography>
                     </div>
                   </div>
@@ -255,14 +279,14 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
             )}
             {viewState === "review" && (
               <div className={"bottom-review"}>
-                {item?.review.total === 0 && (
+                {item?.review?.total === 0 && (
                   <div css={styled.emptyReview}>
                     <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
                       이 작품에 작성된 리뷰가 없습니다.
                     </HWTypography>
                   </div>
                 )}
-                {item?.review.review.map((v: any) => {
+                {item?.review?.review.map((v: any) => {
                   return (
                     <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
                       v

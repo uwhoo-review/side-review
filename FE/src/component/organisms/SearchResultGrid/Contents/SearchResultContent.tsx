@@ -115,7 +115,7 @@ const SearchResultContent = ({ content, person, similar, filter, search, sort }:
                           contentName={v.name}
                           platform={v.platform}
                           age={v.age}
-                          year={v.year}
+                          date={v.date}
                           rating={v.rating}
                           launch={false}
                           onClick={(e) => {
@@ -247,7 +247,7 @@ const SearchResultContent = ({ content, person, similar, filter, search, sort }:
                       contentName={v.name}
                       platform={v.platform}
                       age={v.age}
-                      year={v.year}
+                      date={v.date}
                       rating={v.rating}
                       launch={false}
                       onClick={(e) => {

@@ -5,13 +5,13 @@ import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import { PLATFORM_ID_NAME, PLATFORM_NAME } from "@src/variables/CommonConstants";
 
 interface PlatformAvatarProps {
-  list: string[];
+  list: number[];
   max?: number;
   size?: string;
   direction?: string;
 }
 
-const getAvatar = (v: string) => {
+const getAvatar = (v: number) => {
   return (
     <>
       {PLATFORM_ID_NAME[+v] === PLATFORM_NAME.NETFLIX && <IconNetflix />}

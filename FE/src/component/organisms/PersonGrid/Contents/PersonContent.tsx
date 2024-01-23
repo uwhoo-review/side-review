@@ -34,7 +34,7 @@ const PersonContent = ({ data }: any) => {
                   srcId={v.poster}
                   contentName={v.contentName}
                   platform={v.platform}
-                  year={v.year}
+                  date={v.year}
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/detail/${v.id}`);

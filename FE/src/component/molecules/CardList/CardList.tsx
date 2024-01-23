@@ -128,7 +128,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                     contentName={v.name}
                     platform={v.platform}
                     age={v.age}
-                    year={v.year}
+                    date={v.date}
                     rating={v.rating}
                     active={selectedCard ? selectedCard.id === v.id : true}
                     customCss={styled.card}

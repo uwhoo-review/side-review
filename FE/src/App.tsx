@@ -16,6 +16,7 @@ import LoginPage from "@src/pages/LoginPage/LoginPage";
 import NaverRedirect from "@src/component/organisms/LoginGrid/Redirect/NaverRedirect";
 import KakaoRedirect from "@src/component/organisms/LoginGrid/Redirect/KakaoRedirect";
 import GoogleRedirect from "@src/component/organisms/LoginGrid/Redirect/GoogleRedirect";
+import MyPage from "@src/pages/MyPage/MyPage";
 
 const App = () => (
   <CommonProvider>
@@ -39,6 +40,7 @@ const App = () => (
           <Route path={"search"}>
             <Route path={"*"} index element={<SearchResultPage />} />
           </Route>
+          <Route path={"mypage"} element={<MyPage />} />
         </Route>
       </Routes>
     </AxiosInterceptor>

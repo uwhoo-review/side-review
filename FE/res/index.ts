@@ -29,6 +29,7 @@ import { ReactComponent as IconChevronDoubleDown } from "./icon/ic_chevron_doubl
 import { ReactComponent as IconChevronDown } from "./icon/ic_chevron_down.svg";
 import { ReactComponent as IconChevronLeft } from "./icon/ic_chevron_left.svg";
 import { ReactComponent as IconChevronRight } from "./icon/ic_chevron_right.svg";
+import { ReactComponent as IconCircleCheck } from "./icon/ic_circle-check.svg";
 import { ReactComponent as IconInit } from "./icon/ic_init.svg";
 import { ReactComponent as IconLaunch } from "./icon/ic_launch.svg";
 import { ReactComponent as IconLink } from "./icon/ic_link.svg";
@@ -36,6 +37,7 @@ import { ReactComponent as IconLogout } from "./icon/ic_logout.svg";
 import { ReactComponent as IconMyPage } from "./icon/ic_mypage.svg";
 import { ReactComponent as IconPlay } from "./icon/ic_play.svg";
 import { ReactComponent as IconPopcorn } from "./icon/ic_popcorn.svg";
+import { ReactComponent as IconQuestion } from "./icon/ic_question.svg";
 import { ReactComponent as IconRating } from "./icon/ic_rating.svg";
 import { ReactComponent as IconRatingEmpty } from "./icon/ic_rating_emtpy.svg";
 import { ReactComponent as IconSearch } from "./icon/ic_search.svg";
@@ -91,6 +93,8 @@ export {
   IconLogout,
   IconMyPage,
   IconAlarm,
+  IconQuestion,
+  IconCircleCheck,
 
   IconApple,
   IconDisney,

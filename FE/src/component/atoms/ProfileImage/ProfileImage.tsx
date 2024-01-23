@@ -1,8 +1,8 @@
 import styled from "./style";
 
-const ProfileImage = ({ size = "60px", src }: any) => {
+const ProfileImage = ({ size = "60px", src, customCss }: any) => {
   return (
-    <svg width={size} height={size} viewBox="0 0 60 60" fill="none">
+    <svg width={size} height={size} viewBox="0 0 60 60" fill="none" css={[customCss]}>
       <path
         d="M1.66735 15.1402C3.19214 8.43116 8.43117 3.19214 15.1402 1.66735C24.922 -0.555784 35.078 -0.555784 44.8598 1.66735C51.5688 3.19214 56.8079 8.43116 58.3326 15.1402C60.5558 24.922 60.5558 35.078 58.3326 44.8598C56.8079 51.5688 51.5688 56.8079 44.8598 58.3326C35.078 60.5558 24.922 60.5558 15.1402 58.3326C8.43117 56.8079 3.19214 51.5688 1.66735 44.8598C-0.555784 35.078 -0.555784 24.922 1.66735 15.1402Z"
         fill="url(#pattern0)"
@@ -12,7 +12,7 @@ const ProfileImage = ({ size = "60px", src }: any) => {
         stroke="white"
         strokeOpacity="0.5"
       />
-      <img src={src} alt={""} />
+      <image href={src} height={"100%"} width={"100%"} />
     </svg>
   );
 };

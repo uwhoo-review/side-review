@@ -13,7 +13,7 @@ import { useCommon } from "@src/providers/CommonProvider";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 
 const RatingDetailBox = ({ item }: any) => {
-  const [rating, setRating] = useState<number | null>(0);
+  const [rating, setRating] = useState<number>(item.user || 0);
   const [dialog, setDialog] = useState(false);
   const location = useLocation();
   const commonContext = useCommon();
@@ -67,12 +67,17 @@ const RatingDetailBox = ({ item }: any) => {
                 family={"Pretendard-SemiBold"}
                 color={Color.dark.grey900}
               >
-                {item.rating}
+                {item.rating.rating || 0}
               </HWTypography>
-              <Divider direction={"v"} length={"14px"} />
-              <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                {item.totalRating > 200 ? "200+" : item.totalRating}
-              </HWTypography>
+
+              {item.rating.total > 0 && (
+                <>
+                  <Divider direction={"v"} length={"14px"} />
+                  <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+                    {item.rating.total}
+                  </HWTypography>
+                </>
+              )}
             </div>
           </div>
           <div css={styled.ratingBox}>

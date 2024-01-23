@@ -3,6 +3,7 @@ import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import Divider from "@src/component/atoms/Divider/Divider";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import {
+  IconCircleCheck,
   IconLaunch,
   IconNetflix,
   IconRating,
@@ -35,7 +36,7 @@ interface PreviewBoxProps {
 }
 
 const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
-  const [rating, setRating] = useState<number | null>(1.5);
+  const [rating, setRating] = useState<number | null>(item?.rating?.user || 0);
   const [detailOpen, setDetailOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const divRef = useRef<any>(null);
@@ -52,9 +53,6 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
     <div css={styled.centerWrapper}>
       <CenterWrapper>
         <div className="preview-box-wrapper" css={[styled.wrapper, customCss]}>
-          {/*<div css={styled.leftWrapper}>
-            <CarouselArrow direction={"left"} onClick={onPrev} />
-          </div>*/}
           <div css={styled.contents}>
             <div css={styled.topContents}>
               <div css={styled.leftContents}>
@@ -69,8 +67,6 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                 ) : (
                   <TrailerCard srcId={""} />
                 )}
-
-                {/*<TrailerCard srcId={getCardURL({ type: "trailer", srcId: item.trailer[0] })} />*/}
               </div>
               <div css={styled.rightContents}>
                 <IconLaunch
@@ -92,7 +88,8 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       family={"Pretendard-SemiBold"}
                       color={Color.dark.grey900}
                       css={styled.typoTitle}
-                      ref={divRef} data-overflow={isOverflow}
+                      ref={divRef}
+                      data-overflow={isOverflow}
                     >
                       {item.name}
                     </HWTypography>
@@ -102,10 +99,10 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       color={Color.dark.grey500}
                       css={styled.typoYear}
                     >
-                      {item.year}
+                      {item.date}
                     </HWTypography>
+                    <HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />
                   </div>
-                  {/*<HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />*/}
                 </div>
                 <div className={"grid margin-top-16"}>
                   <div className={"col-4"}>
@@ -114,19 +111,30 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                         평균 별점
                       </HWTypography>
                     </div>
-                    <div className={"margin-top-12 flex flex-align-center gap-10"} css={styled.height28}>
+                    <div
+                      className={"margin-top-12 flex flex-align-center gap-10"}
+                      css={styled.height28}
+                    >
                       <IconStar css={styled.icons} />
                       <HWTypography
                         variant={"headlineXXS"}
                         family={"Pretendard-SemiBold"}
                         color={Color.dark.grey900}
                       >
-                        {item.rating}
+                        {item.rating?.rating || 0}
                       </HWTypography>
-                      <Divider direction={"v"} length={"14px"} />{" "}
-                      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                        @TODO 평점
-                      </HWTypography>
+                      {item.rating && item.rating.total > 0 && (
+                        <>
+                          <Divider direction={"v"} length={"14px"} />{" "}
+                          <HWTypography
+                            variant={"bodyS"}
+                            family={"Poppins"}
+                            color={Color.dark.grey500}
+                          >
+                            {item.rating?.total}
+                          </HWTypography>
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className={"col-8"}>
@@ -135,7 +143,10 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                         내 별점
                       </HWTypography>
                     </div>
-                    <div className={"margin-top-12 flex flex-align-center gap-10"} css={styled.height28}>
+                    <div
+                      className={"margin-top-12 flex flex-align-center gap-10"}
+                      css={styled.height28}
+                    >
                       <Rating
                         name="rating-value"
                         value={rating}
@@ -145,7 +156,9 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                           setRating(val);
                         }}
                         css={styled.rating}
-                        emptyIcon={<IconRatingEmpty style={{ marginLeft: "2px", marginRight: "2px" }} />}
+                        emptyIcon={
+                          <IconRatingEmpty style={{ marginLeft: "2px", marginRight: "2px" }} />
+                        }
                         icon={<IconRating style={{ marginLeft: "2px", marginRight: "2px" }} />}
                       />
                       <Divider direction={"v"} length={"14px"} />{" "}
@@ -154,7 +167,14 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                         family={"Pretendard"}
                         color={Color.dark.grey500}
                       >
-                        별점을 매겨주세요!
+                        {rating === 0 ? (
+                          "별점을 매겨주세요!"
+                        ) : (
+                          <div css={styled.ratingFlex}>
+                            <IconCircleCheck />
+                            평가를 완료했어요!
+                          </div>
+                        )}
                       </HWTypography>
                     </div>
                   </div>
@@ -222,14 +242,14 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
               </div>
             </div>
             <div css={styled.bottomContents}>
-              {item?.review.total === 0 && (
+              {item?.review?.total === 0 && (
                 <div css={styled.emptyReview}>
                   <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
                     이 작품에 작성된 리뷰가 없습니다.
                   </HWTypography>
                 </div>
               )}
-              {item?.review.review.map((v: any) => {
+              {item?.review?.review.map((v: any) => {
                 return (
                   <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
                     v
