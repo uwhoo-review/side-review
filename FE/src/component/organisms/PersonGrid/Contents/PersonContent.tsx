@@ -35,6 +35,7 @@ const PersonContent = ({ data }: any) => {
                   contentName={v.contentName}
                   platform={v.platform}
                   date={v.year}
+                  season={v.season}
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate(`/detail/${v.id}`);
