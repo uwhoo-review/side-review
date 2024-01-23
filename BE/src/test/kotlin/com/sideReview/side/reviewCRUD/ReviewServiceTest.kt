@@ -1,8 +1,8 @@
 package com.sideReview.side.reviewCRUD
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.sideReview.side.review.dto.ReviewCreateDTO
-import com.sideReview.side.review.dto.ReviewEvaDTO
+import com.sideReview.side.review.dto.ReviewCreateDto
+import com.sideReview.side.review.dto.ReviewEvaDto
 import io.ktor.client.request.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,7 +34,7 @@ class ReviewServiceTest {
     @Test
     fun create() {
         val mapper: ObjectMapper = ObjectMapper()
-        val dto: ReviewCreateDTO = ReviewCreateDTO(
+        val dto: ReviewCreateDto = ReviewCreateDto(
             dramaId = "109958",
             content = "aaaaaa",
             spoiler = false
@@ -49,7 +49,7 @@ class ReviewServiceTest {
     @Test
     fun eval() {
         val mapper: ObjectMapper = ObjectMapper()
-        val dto: ReviewEvaDTO = ReviewEvaDTO(
+        val dto: ReviewEvaDto = ReviewEvaDto(
             reviewId = "070264a6-53fc-4dd5-af03-2c9603c03687",
             eval = 1
         )

@@ -12,7 +12,7 @@ import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.DetailContentDto
 import com.sideReview.side.openSearch.dto.SimpleContentDto
 import com.sideReview.side.person.dto.PersonDto
-import com.sideReview.side.review.dto.ReviewDetailDTO
+import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.tmdb.dto.ImageResponse
 import com.sideReview.side.tmdb.dto.PersonInfo
@@ -126,11 +126,11 @@ object MapperUtils {
         return parse(response, collectionType)
     }
 
-    fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
-        val details = mutableListOf<ReviewDetailDTO>()
+    fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDto> {
+        val details = mutableListOf<ReviewDetailDto>()
         for (r in review) {
             details.add(
-                ReviewDetailDTO(
+                ReviewDetailDto(
                     id = r.reviewId,
                     content = r.content,
                     date = "${r.create}",
