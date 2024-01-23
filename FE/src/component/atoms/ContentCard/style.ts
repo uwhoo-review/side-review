@@ -73,7 +73,7 @@ export default {
     width: ${active ? "216px" : "196px"};
     height: ${active ? "324px" : "294px"};
 
-    border-radius: 11px;
+    border-radius: 10px;
     overflow: hidden;
     transition: 0.1s ease height;
 
