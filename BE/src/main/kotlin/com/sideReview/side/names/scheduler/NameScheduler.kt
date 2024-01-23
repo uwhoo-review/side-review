@@ -1,7 +1,6 @@
-package com.sideReview.side.person.scheduler
+package com.sideReview.side.names.scheduler
 
 import com.sideReview.side.tmdb.TmdbPersonService
-import kotlinx.coroutines.runBlocking
 import org.springframework.context.annotation.Configuration
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled

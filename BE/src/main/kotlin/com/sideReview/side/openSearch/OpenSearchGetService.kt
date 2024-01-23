@@ -4,6 +4,7 @@ import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.ktsearch.search
 import com.jillesvangurp.searchdsls.querydsl.*
+import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.openSearch.dto.ContentRequestDTO
 import com.sideReview.side.openSearch.dto.ContentRequestFilterDetail
 import org.springframework.beans.factory.annotation.Autowired
@@ -204,4 +205,19 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
             }
         }
     }
+
+    suspend fun getPerson(id: String): SearchResponse {
+        return client.search("person") {
+            query = match(PersonDocument::id, id)
+        }
+    }
+
+    suspend fun searchMatch(name: String, page: Int, size: Int): SearchResponse {
+        return client.search("person") {
+            query = match(PersonDocument::name, name)
+            resultSize = size
+            from = page
+        }
+    }
+
 }

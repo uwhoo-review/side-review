@@ -1,10 +1,7 @@
 package com.sideReview.side.openSearch
 
-import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
-import com.sideReview.side.common.document.ContentDocument
-import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.myPage.dto.FavoriteContentDto
@@ -54,8 +51,7 @@ class OpensearchClient(
         val detailContentDto: DetailContentDto
         runBlocking {
             val response: SearchResponse = openSearchGetService.findDocumentById("content", id)
-            val source = response.hits?.hits?.get(0)?.source
-            val document = Gson().fromJson("$source", ContentDocument::class.java)
+            val document = MapperUtils.parseToContentDocument(response)[0]
 
             detailContentDto =
                 openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
@@ -68,8 +64,7 @@ class OpensearchClient(
         runBlocking {
             val response: SearchResponse = openSearchGetService.findDocumentById("person", id)
             if (response.hits?.hits?.size == 0) throw RuntimeException("The person does not exist in UWHOO database.")
-            val source = response.hits?.hits?.get(0)?.source
-            val document = Gson().fromJson("$source", PersonDocument::class.java)
+            val document = MapperUtils.parseToPersonDocument(response)[0]
 
             detailPersonDto = openSearchDetailService.getPersonDocument(document)
         }
@@ -103,7 +98,6 @@ class OpensearchClient(
                 )
             )
         }
-
 
         val contentDtoList: MutableList<ContentDto> = mutableListOf()
         runBlocking {
@@ -142,6 +136,26 @@ class OpensearchClient(
         return SearchContentDto(
             total = total,
             content = simpleContentDtoList
+        )
+    }
+
+    fun getMatchPeople(request: ContentRequestDTO): SearchPersonDto {
+        val people: MutableList<PersonDto> = mutableListOf()
+        var total: Int
+        runBlocking {
+            val response =
+                openSearchGetService.searchMatch(request.query!!, request.pagination ?: 0, 12)
+            total = response.hits?.total?.value?.toInt() ?: 0
+
+            val documentList = MapperUtils.parseToPersonDocument(response)
+            for (document in documentList) {
+                val detailPersonDto = openSearchDetailService.getPersonDocument(document)
+                people.add(MapperUtils.mapDetailToPerson(detailPersonDto))
+            }
+        }
+        return SearchPersonDto(
+            total = total,
+            content = people
         )
     }
 
@@ -194,7 +208,6 @@ class OpensearchClient(
             pageInfo = PageInfoDto(total, totalPages, page)
         )
     }
-
 
     fun defaultQuery(request: ContentRequestDTO): ESQuery {
         val filterList = getFilterFromRequest(request)

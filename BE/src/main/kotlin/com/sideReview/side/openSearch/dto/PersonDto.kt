@@ -1,4 +1,4 @@
-package com.sideReview.side.person.dto
+package com.sideReview.side.openSearch.dto
 
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
@@ -12,9 +12,9 @@ import java.lang.reflect.Type
 @JsonAdapter(PersonDtoDeserializer::class)
 @Serializable
 data class PersonDto(
-    val id: String,
+    val id: Int,
     val name: String,
-    val profilePath: String,
+    val profilePath: String?,
     val cast: List<PersonRoleDto>?,
     val crew: List<PersonJobDto>?
 )
@@ -43,7 +43,7 @@ class PersonDtoDeserializer : JsonDeserializer<PersonDto> {
         val typeTokenCast: Type = object : TypeToken<List<PersonRoleDeserializeDto>>() {}.type
         val typeTokenCrew: Type = object : TypeToken<List<PersonJobDeserializeDto>>() {}.type
 
-        val id = jsonObject["id"].asString
+        val id = jsonObject["id"].asInt
         val name = jsonObject["name"].asString
         val profilePath = jsonObject["profilePath"]?.asString ?: ""
         val castString =

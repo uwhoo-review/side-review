@@ -9,10 +9,7 @@ import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.myPage.dto.FavoriteContentDto
-import com.sideReview.side.openSearch.dto.ContentDto
-import com.sideReview.side.openSearch.dto.DetailContentDto
-import com.sideReview.side.openSearch.dto.SimpleContentDto
-import com.sideReview.side.person.dto.PersonDto
+import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.tmdb.dto.*
@@ -41,7 +38,7 @@ object MapperUtils {
         }.toMutableList()
     }
 
-    fun mapCastContentToDocument(tvCastInfoList: List<TvCastInfo>) : MutableList<ContentDocument> {
+    fun mapCastContentToDocument(tvCastInfoList: List<TvCastInfo>): MutableList<ContentDocument> {
         return tvCastInfoList.map {
             ContentDocument(
                 id = it.id.toString(),
@@ -63,7 +60,7 @@ object MapperUtils {
         }.toMutableList()
     }
 
-    fun mapCrewContentToDocument(tvCrewInfoList: List<TvCrewInfo>) : MutableList<ContentDocument> {
+    fun mapCrewContentToDocument(tvCrewInfoList: List<TvCrewInfo>): MutableList<ContentDocument> {
         return tvCrewInfoList.map {
             ContentDocument(
                 id = it.id.toString(),
@@ -238,5 +235,35 @@ object MapperUtils {
             country = detailContentDto.originCountry
             // user 개인의 rating은 외부에서 따로 넣음
         )
+    }
+
+    fun mapDetailToPerson(dto: DetailPersonDto): PersonDto {
+        return PersonDto(
+            id = dto.id,
+            name = dto.name,
+            profilePath = dto.profilePath,
+            cast = mapCastItemToRole(dto.cast),
+            crew = mapCrewItemToJob(dto.crew)
+        )
+    }
+
+    private fun mapCastItemToRole(cast: List<CastItem>?): List<PersonRoleDto>? {
+        if (cast.isNullOrEmpty()) return emptyList()
+        return cast.map {
+            PersonRoleDto(
+                it.role,
+                it.contentId
+            )
+        }
+    }
+
+    private fun mapCrewItemToJob(crew: List<CrewItem>?): List<PersonJobDto>? {
+        if (crew.isNullOrEmpty()) return emptyList()
+        return crew.map {
+            PersonJobDto(
+                it.job,
+                it.contentId
+            )
+        }
     }
 }

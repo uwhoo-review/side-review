@@ -1,7 +1,6 @@
 package com.sideReview.side.openSearch.dto
 
 import com.sideReview.side.common.dto.RatingDto
-import com.sideReview.side.person.dto.PersonDto
 import kotlinx.serialization.Serializable
 
 @Serializable

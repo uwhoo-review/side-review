@@ -9,7 +9,7 @@ import com.sideReview.side.myPage.dto.FavoritePersonDto
 import com.sideReview.side.myPage.repository.UserFavoritePersonRepository
 import com.sideReview.side.openSearch.OpenSearchDetailService
 import com.sideReview.side.openSearch.OpensearchClient
-import com.sideReview.side.person.PersonService
+import com.sideReview.side.openSearch.PersonService
 import com.sideReview.side.review.UserStarRatingRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

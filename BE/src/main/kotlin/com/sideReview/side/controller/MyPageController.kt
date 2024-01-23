@@ -3,7 +3,7 @@ package com.sideReview.side.controller
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.login.NicknameService
 import com.sideReview.side.myPage.MyPageService
-import com.sideReview.side.person.PersonService
+import com.sideReview.side.openSearch.PersonService
 import kotlinx.coroutines.runBlocking
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -64,7 +64,7 @@ class MyPageController(
         kotlin.runCatching {
             myPageService.saveFavoritePerson(userId, personId)
             runBlocking {
-                person = MapperUtils.parseToPersonDto(personService.get(personId))[0]
+                person = MapperUtils.parseToPersonDto(personService.getPerson(personId))[0]
             }
         }.onFailure {
             return ResponseEntity.internalServerError().body(it.message)

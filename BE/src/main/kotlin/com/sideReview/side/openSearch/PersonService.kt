@@ -1,4 +1,4 @@
-package com.sideReview.side.person
+package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.SearchClient
 import com.jillesvangurp.ktsearch.SearchResponse
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PersonService @Autowired constructor(val client: SearchClient) {
-    suspend fun get(id: String): SearchResponse {
+    suspend fun getPerson(id: String): SearchResponse {
         return client.search("person") {
             query = match(PersonDocument::id, id)
         }

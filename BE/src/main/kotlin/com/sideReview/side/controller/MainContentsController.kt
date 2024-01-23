@@ -3,7 +3,7 @@ package com.sideReview.side.controller
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.openSearch.dto.*
-import com.sideReview.side.person.PersonService
+import com.sideReview.side.openSearch.PersonService
 import com.sideReview.side.review.ReviewService
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
@@ -118,14 +118,8 @@ class MainContentsController @Autowired constructor(
                     }
 
                     "person" -> {
-                        val matchPerson =
-                            personService.searchMatch(reDup.query, reDup.pagination ?: 0, 12)
                         response = ResponseEntity.ok(
-                            SearchPersonDto(
-                                total = matchPerson.hits?.total?.value?.toInt() ?: 0,
-                                content = MapperUtils.parseToPersonDto(matchPerson)
-
-                            )
+                            opensearchClient.getMatchPeople(reDup)
                         )
                     }
                 }
