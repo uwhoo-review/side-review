@@ -2,6 +2,7 @@ package com.sideReview.side.tmdb
 
 import com.sideReview.side.common.constant.CountryEnum
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.document.Product
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.mapProviderStringToCode
@@ -174,6 +175,23 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             )
         }
 
+        return docList
+    }
+
+    fun getAllContentsFromPerson(personDocList: List<PersonDocument>): MutableList<ContentDocument> {
+        val docList: MutableList<ContentDocument> = mutableListOf()
+        personDocList.forEach {
+            val id = it.id
+            try {
+                val response: TvCreditResponse = tmdbClient.findPersonTvCredits("Bearer $accessKey", id.toString())
+                if (response.cast?.size!! > 0)
+                    docList.addAll(MapperUtils.mapCastContentToDocument(response.cast))
+                if (response.crew?.size!! > 0)
+                    docList.addAll(MapperUtils.mapCrewContentToDocument(response.crew))
+            } catch (e: Exception) {
+                logger.info("An error occurred during person tv credit processing - $id")
+            }
+        }
         return docList
     }
 
