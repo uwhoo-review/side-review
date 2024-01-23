@@ -1,44 +1,41 @@
 package com.sideReview.side.common.document
 
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.annotations.JsonAdapter
-import com.google.gson.reflect.TypeToken
-import com.sideReview.side.tmdb.dto.Season
-import com.sideReview.side.tmdb.dto.SeasonDto
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
 
 //@JsonAdapter(ContentDocumentDeserializer::class)
 @Serializable
 data class ContentDocument(
-    val id: String,
-    val name: String,
-    val originalName: String,
-    val sortingName: String,
-    var age: String? = "",
-    var platform: List<Int>? = null,
-    var genre: List<Int>? = null,
-    val rating: Double? = null,
-    val firstAirDate: String? = "",
-    val synopsis: String? = null,
-    var trailer: List<String>? = null,
-    var photo: List<String>? = null,
-    var poster: String? = null,
-    var avgStarRating: Float? = null,
-    var season: List<SeasonDto> = emptyList(),
-    var popularity: Double? = null,
-    var episodeCount: Int? = null,
-    var production: Product? = null,
-    var directors: List<String> = emptyList()
+    val id: String,//
+    val name: String,//
+    val originalName: String,//
+    val sortingName: String,//
+    var age: String? = "",//
+    var platform: List<Int>? = null,//
+    var genre: List<Int>? = null,//
+    val rating: Double? = null,//
+    val firstAirDate: String? = "",   //
+    val synopsis: String? = null,//
+    var trailer: List<String>? = null,//
+    var photo: List<String>? = null,//
+    var poster: String? = null,//
+    var avgStarRating: Float? = null, //
+    var season: List<Season> = emptyList(), //
+    var popularity: Double? = null,//
+    var episodeCount: Int? = null,  //
+    var production: Product? = null,//
+    var directors: List<String> = emptyList() //
 )
 
 @Serializable
 data class Product(
     var company: List<String>? = null,
     var country: List<String>? = null
+)
+
+@Serializable
+data class Season(
+    val id: String,
+    val name: String
 )
 
 /*
