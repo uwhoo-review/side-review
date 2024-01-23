@@ -75,7 +75,8 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             }
 
             try {
-                val contentRatingResponse: ContentRatingResponse = tmdbClient.findOneAge("Bearer $accessKey", id)
+                val contentRatingResponse: ContentRatingResponse =
+                    tmdbClient.findOneAge("Bearer $accessKey", id)
                 doc.age = filterAge(contentRatingResponse);
             } catch (e: Exception) {
                 logger.info("An error occurred during age processing - $id")
@@ -93,8 +94,9 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 logger.info("An error occurred during detail processing - $id")
             }
 
-            try{
-                val creditResponse: CreditResponse = tmdbClient.findOneSeasonCredit("Bearer $accessKey", id, 1)
+            try {
+                val creditResponse: CreditResponse =
+                    tmdbClient.findOneSeasonCredit("Bearer $accessKey", id, 1)
                 doc.directors = filterDirectors(creditResponse)
             } catch (e: Exception) {
                 logger.info("An error occurred during director processing - $id")
@@ -141,7 +143,8 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             }
 
             try {
-                val creditResponse: CreditResponse = tmdbClient.findOneSeasonCredit("Bearer $accessKey", id, 1)
+                val creditResponse: CreditResponse =
+                    tmdbClient.findOneSeasonCredit("Bearer $accessKey", id, 1)
                 directors.addAll(filterDirectors(creditResponse))
             } catch (e: Exception) {
                 logger.info("An error occurred during director processing - $id")
@@ -212,8 +215,9 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         return photoList
     }
 
-    private fun filterDetail(detailResponse: DetailResponse): List<SeasonDto> {
-        val seasonInfoList: MutableList<SeasonDto> = mutableListOf()
+    private fun filterDetail(detailResponse: DetailResponse): List<com.sideReview.side.common.document.Season> {
+        val seasonInfoList: MutableList<com.sideReview.side.common.document.Season> =
+            mutableListOf()
         for (i in 1..detailResponse.number_of_seasons!!) {
             var seasonName = ""
             var seasonId = ""
@@ -224,7 +228,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             if (i == 1) seasonId = detailResponse.id.toString()
             else seasonId = "${detailResponse.id}_$i"
 
-            seasonInfoList.add(SeasonDto(seasonId, seasonName))
+            seasonInfoList.add(com.sideReview.side.common.document.Season(seasonId, seasonName))
         }
         return seasonInfoList
     }

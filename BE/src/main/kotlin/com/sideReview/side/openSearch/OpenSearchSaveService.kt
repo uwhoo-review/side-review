@@ -50,7 +50,12 @@ class OpenSearchSaveService(
                     number<Float>(ContentDocument::avgStarRating)
                     number<Double>(ContentDocument::popularity)
                     number<Int>(ContentDocument::episodeCount)
-                    text(ContentDocument::season)
+                    objField(ContentDocument::season) {
+                        text(Season::name) {
+                            analyzer = "nori"
+                        }
+                        keyword(Season::id)
+                    }
                     objField(ContentDocument::production) {
                         text(Product::company) {
                             analyzer = "nori"
@@ -59,6 +64,9 @@ class OpenSearchSaveService(
                             analyzer = "nori"
                         }
                     }
+                    text(ContentDocument::directors)
+                    keyword(ContentDocument::age)
+                    text(ContentDocument::originalName)
                 }
             }
         }.onFailure {
@@ -184,6 +192,7 @@ class OpenSearchSaveService(
                 }
             }
         } else if (idxName == "person") {
+            // TODO. tmdbPersonService.getAllPeople()이 person이 참가한 content를 pair로 리턴할테니, 그 content도 db에 검색해서 넣도록 수정
             val docs: List<PersonDocument> =
                 tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople())
             coroutineScope {

@@ -125,7 +125,7 @@ class OpenSearchDetailService @Autowired constructor(
                 Gson().fromJson("$firstSeasonSource", ContentDocument::class.java)
             season = firstSeasonDocument.season
         }
-        seasonInfoList.addAll(season)
+        seasonInfoList.addAll(season.map { SeasonDto(it) })
         return seasonInfoList
     }
 
