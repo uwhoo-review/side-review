@@ -30,7 +30,7 @@ class TmdbPersonService @Autowired constructor(
 
         dtoList.addAll(peopleResponse.results)
 
-        for (page in 2..3) {
+        for (page in 2..pages) {
             dtoList.addAll(tmdbClient.findAllPeople("Bearer $accessKey", page).results)
         }
 
