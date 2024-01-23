@@ -118,6 +118,7 @@ const SearchResultContent = ({ content, person, similar, filter, search, sort }:
                           date={v.date}
                           rating={v.rating}
                           launch={false}
+                          season={v.season}
                           onClick={(e) => {
                             e.stopPropagation();
                             navigate(`/detail/${v.id}`);
@@ -250,6 +251,7 @@ const SearchResultContent = ({ content, person, similar, filter, search, sort }:
                       date={v.date}
                       rating={v.rating}
                       launch={false}
+                      season={v.season}
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/detail/${v.id}`);

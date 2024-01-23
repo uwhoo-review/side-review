@@ -8,7 +8,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
-import {RatingDO, SeasonDO} from "@src/interfaces/api.interface";
+import { RatingDO, SeasonDO } from "@src/interfaces/api.interface";
 
 interface ContentCardProps {
   id: string;
@@ -39,6 +39,7 @@ const ContentCard = ({
   rank,
   onClick,
   customCss,
+  season,
   active,
   ...props
 }: ContentCardProps) => {
@@ -74,13 +75,16 @@ const ContentCard = ({
           alt=""
           src={getCardURL({ type: "content", srcId: srcId })}
         />
+        {season && season.now !== 1 && <div css={styled.seasonLabel}>{`시즌 ${season.now}`}</div>}
       </div>
       <div css={styled.description}>
-        <div
-          className={"title"}
-          css={styled.title}
-        >
-          <div className={"title-text"} css={styled.marquee} ref={divRef} data-overflow={isOverflow}>
+        <div className={"title"} css={styled.title}>
+          <div
+            className={"title-text"}
+            css={styled.marquee}
+            ref={divRef}
+            data-overflow={isOverflow}
+          >
             {contentName}
           </div>
         </div>

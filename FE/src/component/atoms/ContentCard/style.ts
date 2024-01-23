@@ -79,6 +79,7 @@ export default {
     transition: 0.1s ease height;
 
     margin-bottom: 10px;
+    position: relative;
     &:hover {
       img {
         transform: scale(1.1);
@@ -119,5 +120,31 @@ export default {
     height: 48px;
     margin-top: 10px;
     position: relative;
+  `,
+  seasonLabel: css`
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+
+    display: flex;
+    width: 46px;
+    height: 22px;
+    padding: 2px 6px;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.6);
+
+    color: #d9dae5;
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+
+    z-index: 1;
   `,
 };

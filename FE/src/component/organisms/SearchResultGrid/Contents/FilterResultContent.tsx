@@ -63,6 +63,7 @@ const FilterResultContents = ({ content, total, filter, search, sort, pagination
                     age={v.age}
                     date={v.year}
                     rating={v.rating}
+                    season={v.season}
                     active={true}
                     launch={false}
                     customCss={styled.card}

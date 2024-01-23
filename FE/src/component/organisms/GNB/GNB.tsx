@@ -112,9 +112,9 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </ClickAwayListener>
             {commonContext.isLogin ? (
               <>
-                <HWIconButton customCss={styled.iconAlarm}>
+                {/*<HWIconButton customCss={styled.iconAlarm}>
                   <IconAlarm width={"20px"} height={"20px"} />
-                </HWIconButton>
+                </HWIconButton>*/}
                 <ProfileBox />
               </>
             ) : (

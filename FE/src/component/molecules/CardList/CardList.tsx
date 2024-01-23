@@ -131,6 +131,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                     date={v.date}
                     rating={v.rating}
                     active={selectedCard ? selectedCard.id === v.id : true}
+                    season={v.season}
                     customCss={styled.card}
                   />
                 </div>
