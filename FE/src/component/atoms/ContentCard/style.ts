@@ -4,7 +4,6 @@ import Color from "@src/common/styles/Color";
 export default {
   wrapper: (active: boolean) => css`
     position: relative;
-    border-radius: 10px;
     opacity: ${active ? 1 : 0.5};
     //width: 216px;
     &:hover {
@@ -74,7 +73,7 @@ export default {
     width: ${active ? "216px" : "196px"};
     height: ${active ? "324px" : "294px"};
 
-    border-radius: 10px;
+    border-radius: 11px;
     overflow: hidden;
     transition: 0.1s ease height;
 
