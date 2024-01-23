@@ -17,7 +17,7 @@ data class ContentDto(
     var poster: String? = null,
     val rating: RatingDto? = null,
     val actors: List<String>? = null,
-    val age: Int? = null,
+    val age: String? = null,
     val season: Season? = null,
     var review: ReviewDTO? = null
 )
