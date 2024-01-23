@@ -19,7 +19,7 @@ data class DetailContentDto(
     val actors: List<Actor>? = null,
     val crew: List<Crew>? = null,
     val directors: List<String>? = null,
-    val age: Int? = null,
+    val age: String? = null,
     val rating : RatingDto,
     var season: Season
 )
