@@ -107,7 +107,8 @@ class OpenSearchDetailService @Autowired constructor(
             ),
             age = if (!document.age.isNullOrBlank()) document.age!!.toString() else "ALL",
             season = makeSeasonInfo(id, seasonList),
-            directors = document.directors
+            directors = document.directors,
+            episodeCnt = document.episodeCount
         )
     }
 

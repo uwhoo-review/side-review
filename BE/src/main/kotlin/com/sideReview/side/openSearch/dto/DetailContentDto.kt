@@ -21,7 +21,8 @@ data class DetailContentDto(
     val directors: List<String>? = null,
     val age: String? = null,
     val rating : RatingDto,
-    var season: Season
+    var season: Season,
+    val episodeCnt: Int ?= 0
 )
 data class Actor(
     val name: String,
