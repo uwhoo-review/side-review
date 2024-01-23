@@ -1,8 +1,8 @@
 package com.sideReview.side.openSearch.dto
 
-import kotlinx.serialization.Serializable
 import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.tmdb.dto.SeasonDto
+import kotlinx.serialization.Serializable
 
 data class DetailContentDto(
     val id: String,
@@ -20,9 +20,14 @@ data class DetailContentDto(
     val crew: List<Crew>? = null,
     val directors: List<String>? = null,
     val age: Int? = null,
-    val rating : RatingDto,
+    val rating: RatingDto,
     var season: Season
-)
+) {
+    fun getYear(): String {
+        return if (date.isNullOrBlank()) "" else date.substring(0, 4)
+    }
+}
+
 data class Actor(
     val name: String,
     val id: String,
@@ -36,6 +41,7 @@ data class Crew(
     val job: String,
     val profilePath: String
 )
+
 @Serializable
 data class Season(
     val now: Int,

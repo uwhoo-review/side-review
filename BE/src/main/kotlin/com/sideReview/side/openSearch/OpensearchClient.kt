@@ -5,7 +5,10 @@ import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
+import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils
+import com.sideReview.side.myPage.dto.FavoriteContentDto
+import com.sideReview.side.myPage.dto.FavoriteContentPageDto
 import com.sideReview.side.openSearch.dto.*
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
@@ -54,7 +57,8 @@ class OpensearchClient(
             val source = response.hits?.hits?.get(0)?.source
             val document = Gson().fromJson("$source", ContentDocument::class.java)
 
-            detailContentDto = openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
+            detailContentDto =
+                openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
         }
         return detailContentDto
     }
@@ -163,6 +167,34 @@ class OpensearchClient(
             content = simpleContentDtoList
         )
     }
+
+    fun getContents(query: String, page: Int, size: Int): FavoriteContentPageDto {
+        // SearchResponse 가져오는 단계
+        val favoriteContentDtoList: MutableList<FavoriteContentDto> = mutableListOf()
+        var total: Int
+        val totalPages: Int
+
+        runBlocking {
+            val response = openSearchGetService.findDocumentByKeyword(query, page, size)
+            total = response.hits?.total?.value?.toInt() ?: 0
+            totalPages = if (total % size == 0) total / size else total / size + 1
+
+            val documentList = MapperUtils.parseToContentDocument(response)
+            // Response 가공 단계
+            for (doc in documentList) {
+                val detailContentDto =
+                    openSearchDetailService.getContentDocumentAsDetailContentDto(doc, null)
+
+                // detail Content dto -> SimpleContent dto
+                favoriteContentDtoList.add(MapperUtils.mapDetailTofavoriteContent(detailContentDto))
+            }
+        }
+        return FavoriteContentPageDto(
+            content = favoriteContentDtoList,
+            pageInfo = PageInfoDto(total, totalPages, page)
+        )
+    }
+
 
     fun defaultQuery(request: ContentRequestDTO): ESQuery {
         val filterList = getFilterFromRequest(request)

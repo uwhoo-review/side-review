@@ -8,6 +8,7 @@ import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.RatingDto
+import com.sideReview.side.myPage.dto.FavoriteContentDto
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.openSearch.dto.DetailContentDto
 import com.sideReview.side.openSearch.dto.SimpleContentDto
@@ -149,7 +150,7 @@ object MapperUtils {
             detail.name,
             detail.platform,
             detail.genre,
-            detail.date?.substring(0, 4),
+            detail.getYear(),
             detail.synopsis,
             if (!detail.trailer.isNullOrEmpty()) detail.trailer[0] else null,
             detail.poster,
@@ -168,7 +169,7 @@ object MapperUtils {
             detail.platform,
             detail.poster,
             detail.rating,
-            detail.date?.substring(0, 4)
+            detail.getYear()
         )
     }
 
@@ -180,8 +181,21 @@ object MapperUtils {
             document.name,
             document.platform,
             document.poster,
-            RatingDto(document.rating?.toFloat(),0,null),
+            RatingDto(document.rating?.toFloat(), 0, null),
             document.firstAirDate
+        )
+    }
+
+    fun mapDetailTofavoriteContent(detailContentDto: DetailContentDto): FavoriteContentDto {
+        return FavoriteContentDto(
+            id = detailContentDto.id,
+            poster = detailContentDto.poster,
+            name = detailContentDto.name,
+            year = detailContentDto.getYear(),
+            director = detailContentDto.directors ?: emptyList(),
+            genre = detailContentDto.genre,
+            country = detailContentDto.originCountry
+            // user 개인의 rating은 외부에서 따로 넣음
         )
     }
 }
