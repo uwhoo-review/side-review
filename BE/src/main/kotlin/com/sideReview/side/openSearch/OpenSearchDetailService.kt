@@ -105,7 +105,7 @@ class OpenSearchDetailService @Autowired constructor(
                 id,
                 userId
             ),
-            age = document.age?.toInt() ?: 0,
+            age = if (!document.age.isNullOrBlank()) document.age!!.toInt() else 0,
             season = makeSeasonInfo(id, seasonList),
             directors = document.directors
         )
