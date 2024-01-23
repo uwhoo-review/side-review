@@ -1,7 +1,6 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.person.PersonService
@@ -67,7 +66,7 @@ class MainContentsController @Autowired constructor(
                     response = if (page < 20) {
                         ResponseEntity.ok(
                             reviewService.fillReview(
-                                lastOneYear.subList(page, 19)
+                                lastOneYear.subList(page, lastOneYear.size.coerceAtMost(19))
                                     .union(sortByPopular.subList(0, 10 + page))
                                     .toList()
                             )
