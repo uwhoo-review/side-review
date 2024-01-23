@@ -15,10 +15,7 @@ import com.sideReview.side.openSearch.dto.SimpleContentDto
 import com.sideReview.side.person.dto.PersonDto
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.entity.UserReview
-import com.sideReview.side.tmdb.dto.ImageResponse
-import com.sideReview.side.tmdb.dto.PersonInfo
-import com.sideReview.side.tmdb.dto.SeasonImageResponse
-import com.sideReview.side.tmdb.dto.TmdbContent
+import com.sideReview.side.tmdb.dto.*
 import java.lang.reflect.Type
 
 object MapperUtils {
@@ -32,6 +29,50 @@ object MapperUtils {
                 platform = null,
                 genre = it.genre_ids,
                 rating = it.vote_average / 2,
+                firstAirDate = it.first_air_date,
+                synopsis = it.overview,
+                trailer = null,
+                photo = null,
+                poster = it.poster_path?.substring(1),
+                avgStarRating = null,
+                popularity = it.popularity,
+                production = null
+            )
+        }.toMutableList()
+    }
+
+    fun mapCastContentToDocument(tvCastInfoList: List<TvCastInfo>) : MutableList<ContentDocument> {
+        return tvCastInfoList.map {
+            ContentDocument(
+                id = it.id.toString(),
+                sortingName = it.name ?: "",
+                name = it.name ?: "",
+                originalName = it.original_name ?: "",
+                platform = null,
+                genre = it.genre_ids,
+                rating = it.vote_average?.div(2),
+                firstAirDate = it.first_air_date,
+                synopsis = it.overview,
+                trailer = null,
+                photo = null,
+                poster = it.poster_path?.substring(1),
+                avgStarRating = null,
+                popularity = it.popularity,
+                production = null
+            )
+        }.toMutableList()
+    }
+
+    fun mapCrewContentToDocument(tvCrewInfoList: List<TvCrewInfo>) : MutableList<ContentDocument> {
+        return tvCrewInfoList.map {
+            ContentDocument(
+                id = it.id.toString(),
+                sortingName = it.name ?: "",
+                name = it.name ?: "",
+                originalName = it.original_name ?: "",
+                platform = null,
+                genre = it.genre_ids,
+                rating = it.vote_average?.div(2),
                 firstAirDate = it.first_air_date,
                 synopsis = it.overview,
                 trailer = null,
