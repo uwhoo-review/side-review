@@ -217,7 +217,7 @@ object MapperUtils {
             document.platform,
             document.poster,
             RatingDto(document.rating?.toFloat(), 0, null),
-            document.firstAirDate?.substring(0,4)
+            document.getYear()
         )
     }
 
