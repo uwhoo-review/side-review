@@ -285,7 +285,8 @@ object MapperUtils {
             rank = defaultDto.rank,
             name = detailDto.name,
             poster = detailDto.poster,
-            year = detailDto.date?.substring(0, 4),
+            year = detailDto.getYear(),
+            rating = detailDto.rating.rating.toString(),
             provider = detailDto.platform ?: emptyList(),
         )
     }
