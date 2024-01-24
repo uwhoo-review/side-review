@@ -1,4 +1,4 @@
-package com.sideReview.side.person.entity
+package com.sideReview.side.names.entity
 
 import javax.persistence.Column
 import javax.persistence.Entity

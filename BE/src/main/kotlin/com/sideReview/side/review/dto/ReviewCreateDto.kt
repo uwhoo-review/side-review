@@ -1,6 +1,6 @@
 package com.sideReview.side.review.dto
 
-data class ReviewCreateDTO(
+data class ReviewCreateDto(
     val dramaId:String,
     val content:String,
     val spoiler:Boolean

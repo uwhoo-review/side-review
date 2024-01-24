@@ -1,10 +1,7 @@
 package com.sideReview.side.controller
 
-import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.openSearch.OpenSearchGetService
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.openSearch.dto.*
-import com.sideReview.side.person.PersonService
 import com.sideReview.side.review.ReviewService
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,7 +14,6 @@ import java.util.*
 @RequestMapping("/contents")
 class MainContentsController @Autowired constructor(
     private val opensearchClient: OpensearchClient,
-    private val personService: PersonService,
     private val reviewService: ReviewService
 ) {
 
@@ -67,7 +63,7 @@ class MainContentsController @Autowired constructor(
                     response = if (page < 20) {
                         ResponseEntity.ok(
                             reviewService.fillReview(
-                                lastOneYear.subList(page, 19)
+                                lastOneYear.subList(page, lastOneYear.size.coerceAtMost(19))
                                     .union(sortByPopular.subList(0, 10 + page))
                                     .toList()
                             )
@@ -119,14 +115,8 @@ class MainContentsController @Autowired constructor(
                     }
 
                     "person" -> {
-                        val matchPerson =
-                            personService.searchMatch(reDup.query, reDup.pagination ?: 0, 12)
                         response = ResponseEntity.ok(
-                            SearchPersonDto(
-                                total = matchPerson.hits?.total?.value?.toInt() ?: 0,
-                                content = MapperUtils.parseToPersonDto(matchPerson)
-
-                            )
+                            opensearchClient.getMatchPeople(reDup)
                         )
                     }
                 }

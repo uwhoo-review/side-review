@@ -4,8 +4,8 @@ import com.sideReview.side.common.document.JobInfo
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.document.RoleInfo
 import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.person.NamesRepository
-import com.sideReview.side.person.entity.Names
+import com.sideReview.side.names.NamesRepository
+import com.sideReview.side.names.entity.Names
 import com.sideReview.side.tmdb.dto.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

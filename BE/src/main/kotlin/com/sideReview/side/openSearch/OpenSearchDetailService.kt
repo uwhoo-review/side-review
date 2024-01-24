@@ -9,7 +9,7 @@ import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.parseSearchResponseToSimpleContentDto
 import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
-import com.sideReview.side.person.dto.PersonDto
+import com.sideReview.side.openSearch.dto.PersonDto
 import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.tmdb.dto.SeasonDto
 import org.slf4j.LoggerFactory

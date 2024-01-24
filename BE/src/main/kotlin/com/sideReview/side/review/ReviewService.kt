@@ -43,7 +43,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
      */
 
     @Transactional
-    fun create(review: ReviewCreateDTO, ip: String) {
+    fun create(review: ReviewCreateDto, ip: String) {
         val uuid = "${UUID.randomUUID()}"
         kotlin.runCatching {
             userReviewRepository.save(
@@ -68,7 +68,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
     }
 
     @Transactional
-    fun evaluate(body: ReviewEvaDTO) {
+    fun evaluate(body: ReviewEvaDto) {
         userReviewRepository.findById(body.reviewId).ifPresent {
             if (body.eval == 0) it.dislike += 1
             else it.like += 1
@@ -120,7 +120,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
 
         return PageReviewDto(
-            ReviewDTO(total,mapUserReviewToReviewDetailDTO(userReviewList)),
+            ReviewDto(total,mapUserReviewToReviewDetailDTO(userReviewList)),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }
@@ -136,11 +136,11 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         targets.map {
             it.review = reviewMap[it.id]?.let { it1 ->
                 if (it1.size > 3)
-                    ReviewDTO(
+                    ReviewDto(
                         3,
                         mapUserReviewToReviewDetailDTO(it1).subList(0, 3)
                     )
-                else ReviewDTO(
+                else ReviewDto(
                     it1.size,
                     mapUserReviewToReviewDetailDTO(it1)
                 )

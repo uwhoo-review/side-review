@@ -3,13 +3,13 @@ package com.sideReview.side.review.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ReviewDTO(
+data class ReviewDto(
     val total: Int,
-    val review: List<ReviewDetailDTO>
+    val review: List<ReviewDetailDto>
 )
 
 @Serializable
-data class ReviewDetailDTO(
+data class ReviewDetailDto(
     val id: String,
     val content: String,
     val date: String,

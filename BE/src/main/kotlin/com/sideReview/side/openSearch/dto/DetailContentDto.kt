@@ -23,7 +23,12 @@ data class DetailContentDto(
     val rating : RatingDto,
     var season: Season,
     val episodeCnt: Int ?= 0
-)
+) {
+    fun getYear(): String {
+        return if (date.isNullOrBlank()) "" else date.substring(0, 4)
+    }
+}
+
 data class Actor(
     val name: String,
     val id: String,

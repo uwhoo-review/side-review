@@ -170,54 +170,64 @@ class OpenSearchSaveService(
             val docs: List<ContentDocument> =
                 tmdbContentService.getMoreInfo(tmdbContentService.getAllContents())
             coroutineScope {
-                val roop = docs.size / 300
-                for (i: Int in 0..roop) {
-                    val roopDocs = docs.subList(i * 300, min((i + 1) * 300, docs.size))
-                    client.bulk(
-                        bulkSize = roopDocs.size,
-                        target = idxName,
-                        callBack = itemCallBack
-                    ) {
-                        roopDocs.forEach { doc ->
-                            index(
-                                source = DEFAULT_JSON.encodeToString(
-                                    ContentDocument.serializer(),
-                                    doc
-                                ),
-                                id = doc.id
-
-                            )
-                        }
-                    }
-                }
+                bulkInsert(docs, "content", itemCallBack, loopContent(docs))
             }
         } else if (idxName == "person") {
-            // TODO. tmdbPersonService.getAllPeople()이 person이 참가한 content를 pair로 리턴할테니, 그 content도 db에 검색해서 넣도록 수정
-            val docs: List<PersonDocument> =
-                tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople())
+            val defaultPersonDocs = tmdbPersonService.getAllPeople()
+            val docs: List<PersonDocument> = tmdbPersonService.getCreditInfo(defaultPersonDocs)
+            val contentDocs = tmdbContentService.getMoreInfo(
+                tmdbContentService.getAllContentsFromPerson(defaultPersonDocs)
+            )
             coroutineScope {
-                val roop = docs.size / 300
-                for (i: Int in 0..roop) {
-                    val roopDocs = docs.subList(i * 300, min((i + 1) * 300, docs.size))
-                    client.bulk(
-                        bulkSize = roopDocs.size,
-                        target = idxName,
-                        callBack = itemCallBack
-                    ) {
-                        roopDocs.forEach { doc ->
-                            index(
-                                source = DEFAULT_JSON.encodeToString(
-                                    PersonDocument.serializer(),
-                                    doc
-                                ),
-                                id = "${doc.id}"
-                            )
-                        }
-                    }
-                }
+                bulkInsert(docs, "person", itemCallBack, loopPerson(docs))
+                bulkInsert(contentDocs, "content", itemCallBack, loopContent(contentDocs))
             }
         }
     }
+
+    private suspend fun bulkInsert(
+        docs: List<Any>,
+        idxName: String,
+        itemCallBack: BulkItemCallBack,
+        block: suspend BulkSession.() -> Unit
+    ) {
+        val loopSize = docs.size / 300
+        for (i: Int in 0..loopSize) {
+            val loopDocs =
+                docs.subList(i * 300, min((i + 1) * 300, docs.size))
+            client.bulk(
+                bulkSize = loopDocs.size,
+                target = idxName,
+                callBack = itemCallBack, block = block
+            )
+        }
+    }
+
+    private fun loopContent(loopDocs: List<ContentDocument>): suspend BulkSession.() -> Unit =
+        {
+            loopDocs.forEach { doc ->
+                index(
+                    source = DEFAULT_JSON.encodeToString(
+                        ContentDocument.serializer(),
+                        doc
+                    ),
+                    id = doc.id
+                )
+            }
+        }
+
+    private fun loopPerson(loopDocs: List<PersonDocument>): suspend BulkSession.() -> Unit =
+        {
+            loopDocs.forEach { doc ->
+                index(
+                    source = DEFAULT_JSON.encodeToString(
+                        PersonDocument.serializer(),
+                        doc
+                    ),
+                    id = "${doc.id}"
+                )
+            }
+        }
 
     // test용 임시 함수
     suspend fun get(idxName: String) {

@@ -1,7 +1,7 @@
 package com.sideReview.side.openSearch.dto
 
 import com.sideReview.side.common.dto.RatingDto
-import com.sideReview.side.review.dto.ReviewDTO
+import com.sideReview.side.review.dto.ReviewDto
 import kotlinx.serialization.Serializable
 
 //@JsonAdapter(ContentDeserializer::class)
@@ -19,7 +19,7 @@ data class ContentDto(
     val actors: List<String>? = null,
     val age: String? = null,
     val season: Season? = null,
-    var review: ReviewDTO? = null
+    var review: ReviewDto? = null
 )
 //
 //class ContentDeserializer : JsonDeserializer<ContentDto> {

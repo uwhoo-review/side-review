@@ -8,8 +8,8 @@ data class FavoritePersonDto(
 )
 
 data class FavoritePersonDetailDto(
-    val id: String,
+    val id: Int,
     val name: String,
-    val profilePath: String,
+    val profilePath: String?,
     val cast: List<String>
 )
