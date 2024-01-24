@@ -14,7 +14,7 @@ data class DetailPersonDto(
 
 data class CastItem(
     val contentName : String,
-    val year : Int? = null,
+    val date : String? = null,
     val contentId : String,
     val platform : List<Int> = emptyList(),
     val role : String,
@@ -23,7 +23,7 @@ data class CastItem(
 
 data class CrewItem(
     val contentName : String,
-    val year : Int? = null,
+    val date : String? = null,
     val contentId : String,
     val platform : List<Int>,
     val job : String,

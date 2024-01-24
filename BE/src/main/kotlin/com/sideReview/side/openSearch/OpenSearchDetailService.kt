@@ -144,7 +144,7 @@ class OpenSearchDetailService @Autowired constructor(
                 roleList.add(
                     CastItem(
                         contentName = content.name,
-                        year = content.date?.toInt(),
+                        date = content.date,
                         contentId = castRole.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",
@@ -165,7 +165,7 @@ class OpenSearchDetailService @Autowired constructor(
                 jobList.add(
                     CrewItem(
                         contentName = content.name,
-                        year = content.date?.toInt(),
+                        date = content.date,
                         contentId = crewJob.contentId,
                         platform = content.platform ?: emptyList(),
                         poster = content.poster ?: "",
