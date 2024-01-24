@@ -203,7 +203,8 @@ object MapperUtils {
             detail.platform,
             detail.poster,
             detail.rating,
-            detail.getYear()
+            detail.getYear(),
+            detail.season
         )
     }
 

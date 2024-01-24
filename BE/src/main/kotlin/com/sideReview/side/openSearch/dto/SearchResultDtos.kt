@@ -23,7 +23,8 @@ data class SimpleContentDto( //content 관련 기본 dto #convention
     val platform: List<Int>?,
     var poster: String? = null,
     val rating: RatingDto,
-    val date: String? = null
+    val date: String? = null,
+    val season: Season? = null
 )
 
 //class SimpleContentDeserializer : JsonDeserializer<SimpleContentDto> {
