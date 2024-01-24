@@ -106,7 +106,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                 {item.age && (
                   <HWChip
                     variant={"text"}
-                    color={"age"}
+                    color={item.age}
                     label={WATCH_RATING_ID_NAME[item.age]}
                     css={styled.chipAge}
                   />

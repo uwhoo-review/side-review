@@ -85,34 +85,37 @@ export default {
           color: #ffc400;
         `;
       }
-      case "age": {
-        return css`
-          background-color: rgba(207, 102, 121, 0.15);
-          color: #cf6679;
-        `;
-      }
+
       case "season": {
         return css`
           background: rgba(255, 255, 255, 0.15);
           color: #c7c8d3;
         `;
       }
-      case "4": {
+      case "19": {
         return css`
-          background-color: rgba(143, 126, 230, 0.1);
-          color: #8f7ee6;
+          background-color: rgba(207, 102, 121, 0.15);
+          color: #cf6679;
         `;
       }
-      case "5": {
+      case "15": {
         return css`
-          background-color: rgba(255, 76, 119, 0.1);
-          color: #ff4c77;
+          background: rgba(115, 200, 115, 0.15);
+          color: #73c873;
         `;
       }
-      case "6": {
+      case "12": {
         return css`
-          background-color: rgba(255, 188, 58, 0.1);
-          color: #ffbc3a;
+          background: rgba(255, 196, 0, 0.15);
+
+          color: #ffc400;
+        `;
+      }
+      case "ALL": {
+        return css`
+          background: rgba(255, 255, 255, 0.15);
+
+          color: #9897a1;
         `;
       }
       case "7": {

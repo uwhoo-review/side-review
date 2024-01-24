@@ -116,7 +116,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     {item.age && (
                       <HWChip
                         variant={"text"}
-                        color={"age"}
+                        color={item.age}
                         label={WATCH_RATING_ID_NAME[item.age]}
                         css={styled.chipAge}
                       />

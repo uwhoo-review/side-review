@@ -149,6 +149,9 @@ export default {
     flex: 0 0 auto;
   `,
   marquee: css`
+    display: flex;
+    align-items: center;
+
     :hover[data-overflow="true"] {
       animation: marquee 5s linear infinite;
       white-space: nowrap;

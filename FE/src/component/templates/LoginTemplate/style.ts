@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 export default {
-  wrapper: (bg: any) => css`
+  wrapper: css`
     transition: 5s ease-in-out all;
     background-position: center;
     background-repeat: no-repeat;
@@ -9,6 +9,35 @@ export default {
     width: 100%;
     height: 100%;
 
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  `,
+  sliderWrapper: (idx: number) => css`
+    transition: 5s ease-in-out all;
+
+    div:nth-of-type(${idx+1}) {
+      visibility: visible;
+      opacity: 1;
+    }
+  `,
+  bgWrapper: (bg: string) => css`
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(${bg});
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    transition: all 3s ease-out;
+    visibility: hidden;
+    opacity: 0;
     &::before {
       content: "";
       position: absolute;

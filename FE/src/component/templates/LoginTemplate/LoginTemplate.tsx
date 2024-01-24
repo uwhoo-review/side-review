@@ -27,14 +27,21 @@ const LoginTemplate = () => {
   useInterval(() => {
     if (bgIdx >= bgArr.length - 1) setBgIdx(0);
     else setBgIdx(bgIdx + 1);
-  }, 1000 * 10);
+  }, 1000 * 5);
 
   return (
     <section
       className="login-template-wrapper"
-      style={{ backgroundImage: `url(${bgArr[bgIdx]})` }}
+      // style={{ backgroundImage: `url(${bgArr[bgIdx]})` }}
       css={styled.wrapper}
     >
+      {/*<div css={styled.bgWrapper(bgArr[bgidx])} />;*/}
+      <div css={styled.sliderWrapper(bgIdx)}>
+        {bgArr.map((v) => {
+          return <div key={v} css={styled.bgWrapper(v)} />;
+        })}
+      </div>
+
       <div css={styled.loginWrapper}>
         <IconUwhoo width={"300px"} height={"48px"} />
         <div css={styled.typo1}>로그인</div>
