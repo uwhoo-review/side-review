@@ -279,12 +279,36 @@ object MapperUtils {
         )
     }
 
+    fun mapDetailToFavoriteContentDto(detailDto : DetailContentDto, defaultDto: FavoriteContentDto): FavoriteContentDto {
+        return FavoriteContentDto(
+            id = defaultDto.id,
+            rank = defaultDto.rank,
+            name = detailDto.name,
+            poster = detailDto.poster,
+            year = detailDto.date?.substring(0, 4),
+            provider = detailDto.platform ?: emptyList(),
+        )
+    }
+
     fun mapFavoriteContentDtoToEntity(dtoList: List<FavoriteContentInputDto>, userInfo: UserInfo): List<UserFavoriteContent>{
         return dtoList.map {
             UserFavoriteContent(
                 contentId = it.contentId,
                 rank = it.rank,
                 userInfo = userInfo
+            )
+        }
+    }
+
+    fun mapFavoriteContentEntityToDto(entityList: List<UserFavoriteContent>) : List<FavoriteContentDto>{
+        return entityList.map {
+            FavoriteContentDto(
+                id = it.contentId,
+                rank = it.rank,
+                name = "",
+                poster = "",
+                year = "",
+                provider = emptyList(),
             )
         }
     }

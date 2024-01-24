@@ -6,6 +6,6 @@ data class FavoriteContentDto(
     val name : String,
     val year : String? = null,
     var rating: String = "-",
-    val provider: List<String>,
+    val provider: List<Int>,
     val rank: Int
 )

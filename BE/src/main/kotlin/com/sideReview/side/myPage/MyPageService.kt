@@ -10,6 +10,7 @@ import com.sideReview.side.myPage.dto.*
 import com.sideReview.side.myPage.repository.UserFavoriteContentRepository
 import com.sideReview.side.myPage.repository.UserFavoritePersonRepository
 import com.sideReview.side.openSearch.OpensearchClient
+import com.sideReview.side.openSearch.dto.Actor
 import com.sideReview.side.review.UserStarRatingRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -74,7 +75,7 @@ class MyPageService(
     fun saveFavoriteContent(
         userId: String,
         favoriteContentDtoList: List<FavoriteContentInputDto>
-    ) {
+    ) : List<FavoriteContentDto>{
         val user = userInfoRepository.getReferenceById(userId)
         userFavoriteContentRepository.saveAll(
             MapperUtils.mapFavoriteContentDtoToEntity(
@@ -82,5 +83,16 @@ class MyPageService(
                 user
             )
         )
+        val defaultDtoList = MapperUtils.mapFavoriteContentEntityToDto(userFavoriteContentRepository.findAllByUserInfo(user))
+        val dtoList : MutableList<FavoriteContentDto> = mutableListOf()
+        defaultDtoList.forEach {
+            dtoList.add(getOneContent(it, userId))
+        }
+        return dtoList
+    }
+
+    fun getOneContent(defaultDto: FavoriteContentDto, userId: String): FavoriteContentDto {
+        val oneContent = opensearchClient.getOneContent(defaultDto.id, userId)
+        return MapperUtils.mapDetailToFavoriteContentDto(oneContent, defaultDto)
     }
 }
