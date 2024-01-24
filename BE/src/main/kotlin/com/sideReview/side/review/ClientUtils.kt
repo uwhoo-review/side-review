@@ -25,9 +25,9 @@ class ClientUtils {
                 ip = request.remoteAddr
             }
 
-            val regex = """[^\d.](?:.*)""".toRegex()
-
-            return ip.replace(regex, "")
+//            val regex = """[^\d.](?:.*)""".toRegex()
+//            return ip.replace(regex, "")
+            return ip
         }
     }
 }
