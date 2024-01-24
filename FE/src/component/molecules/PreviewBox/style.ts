@@ -83,7 +83,7 @@ export default {
     font-weight: 500;
     line-height: 20px;
     border-radius: 6px;
-    border-radius: 6px;
+    margin-right: 6px;
   `,
   flexBetween: css`
     display: flex;

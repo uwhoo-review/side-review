@@ -30,26 +30,30 @@ const InformationBox = ({ item }: any) => {
             <div className="col-full">
               <div css={styled.titleWrapper}>
                 <HWTypography variant={"headlineXL"} family={"Pretendard-Bold"}>
-                  {item.name} : {item.season.list.find((v: any) => v.id === item.id).name || ""}
+                  {item.name}
+                  {item.season.list.length > 1 &&
+                    (" : " + item.season.list.find((v: any) => v.id === item.id).name || "")}
                 </HWTypography>
-                <HWOutlinedSelectBox
-                  width={"100px"}
-                  value={item.id}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    navigate("/detail/" + value);
-                  }}
-                  disablePortal={true}
-                  customCss={styled.selectBox}
-                >
-                  {item.season.list.map((v: any, i: number) => {
-                    return (
-                      <HWOutlinedSelectBox.Item key={v.id} value={v.id}>
-                        {`시즌 ${i + 1}`}
-                      </HWOutlinedSelectBox.Item>
-                    );
-                  })}
-                </HWOutlinedSelectBox>
+                {item.season.list.length > 1 && (
+                  <HWOutlinedSelectBox
+                    width={"100px"}
+                    value={item.id}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      navigate("/detail/" + value);
+                    }}
+                    disablePortal={true}
+                    customCss={styled.selectBox}
+                  >
+                    {item.season.list.map((v: any, i: number) => {
+                      return (
+                        <HWOutlinedSelectBox.Item key={v.id} value={v.id}>
+                          {`시즌 ${i + 1}`}
+                        </HWOutlinedSelectBox.Item>
+                      );
+                    })}
+                  </HWOutlinedSelectBox>
+                )}
               </div>
               <div className="grid margin-top-16">
                 <div className="col-full">
@@ -124,7 +128,7 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    {item.date}
+                    {item.date || "-"}
                   </HWTypography>
                 </div>
                 <div className="col-3">
@@ -141,7 +145,9 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    {item.directors.join(", ")}
+                    {item.directors.length > 1
+                      ? `${item.directors[0]} 외 ${item.directors.length - 1}명`
+                      : item.directors.toString() || "-"}
                   </HWTypography>
                 </div>
               </div>
@@ -162,7 +168,7 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    {item.synopsis}
+                    {item?.synopsis || "-"}
                   </HWTypography>
                 </div>
               </div>

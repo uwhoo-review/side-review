@@ -14,8 +14,7 @@ import {
   GENRE_ID, GENRE_ID_NAME,
   GENRE_NAME,
   PLATFORM_ID, PLATFORM_ID_NAME,
-  PLATFORM_NAME,
-  WATCH_RATING,
+  PLATFORM_NAME
 } from "@src/variables/CommonConstants";
 import { useCommon } from "@src/providers/CommonProvider";
 

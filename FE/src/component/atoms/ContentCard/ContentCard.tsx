@@ -16,7 +16,7 @@ interface ContentCardProps {
   contentName: string;
   platform: number[];
   className?: string;
-  age?: number;
+  age?: string;
   date: string;
   active: boolean;
   launch?: boolean;
@@ -75,7 +75,7 @@ const ContentCard = ({
           alt=""
           src={getCardURL({ type: "content", srcId: srcId })}
         />
-        {season && season.now !== 1 && <div css={styled.seasonLabel}>{`시즌 ${season.now}`}</div>}
+        {season && season.now > 1 && <div css={styled.seasonLabel}>{`시즌 ${season.now}`}</div>}
       </div>
       <div css={styled.description}>
         <div className={"title"} css={styled.title}>

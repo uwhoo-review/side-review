@@ -1,3 +1,5 @@
+import { WATCH_RATING_ID } from "@src/variables/CommonConstants";
+
 export interface ContentDO {
   id: string;
   name: string;
@@ -8,7 +10,7 @@ export interface ContentDO {
   trailer?: string;
   poster?: string;
   rating?: RatingDO;
-  age?: number;
+  age?: (typeof WATCH_RATING_ID)[keyof typeof WATCH_RATING_ID];
   actors?: string[];
   season?: SeasonDO;
   review?: ReviewDO;
@@ -37,4 +39,3 @@ export interface ContentsResDO {
   latest: ContentDO[];
   popular: ContentDO[];
 }
-

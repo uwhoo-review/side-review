@@ -5,7 +5,7 @@ import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import HWToggle from "@src/component/atoms/HWToggle/HWToggle";
 import Color from "@src/common/styles/Color";
-import { IconChevronDoubleDown, IconUpDown } from "@res/index";
+import { IconChevronDoubleDown, IconChevronLeft, IconUpDown } from "@res/index";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
@@ -14,6 +14,7 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Backdrop, Fade, Grow, Modal, Slide, Slider } from "@mui/material";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
+import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 
 const ReviewCardList = ({ total = false, size = 6 }: any) => {
   const navigate = useNavigate();
@@ -73,7 +74,16 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
       <div className={"review-list-wrapper"} css={styled.wrapper}>
         <>
           <WrapperTitle
-            title={"유저 리뷰"}
+            title={
+              <>
+                {total && (
+                  <HWIconButton onClick={() => navigate("..")}>
+                    <IconChevronLeft />
+                  </HWIconButton>
+                )}
+                {"유저 리뷰"}
+              </>
+            }
             subTitle={totalCnt}
             rightWrapper={
               <div>
@@ -83,7 +93,6 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
                       variant={"bodyXL"}
                       family={"Pretendard-SemiBold"}
                       color={Color.dark.primary800}
-                      // onClick={() => setIsReviewModal(true)}
                     >
                       리뷰 전체보기
                     </HWTypography>

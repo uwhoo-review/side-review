@@ -17,7 +17,7 @@ import {
   GENRE_ID_NAME,
   PLATFORM_ID,
   PLATFORM_ID_NAME,
-  WATCH_RATING,
+  WATCH_RATING_ID, WATCH_RATING_ID_NAME, WATCH_RATING_NAME,
 } from "@src/variables/CommonConstants";
 import CustomInputField from "@src/component/atoms/CustomInputField/CustomInputField";
 import HWSlider from "@src/component/atoms/HWSlider/HWSlider";
@@ -159,16 +159,16 @@ const SearchBar = () => {
             renderValue={(values: any) => (
               <div css={styled.multiBox}>
                 {values.map((v: any) => (
-                  <HWChip key={v} label={v} css={styled.chip} />
+                  <HWChip key={v} label={WATCH_RATING_ID_NAME[v]} css={styled.chip} />
                 ))}
               </div>
             )}
             inputRef={filterRef.watchRef}
             fullWidth={true}
           >
-            {Object.entries(WATCH_RATING).map(([key, value]) => (
+            {Object.entries(WATCH_RATING_ID).map(([key, value]) => (
               <HWOutlinedSelectBox.Item key={key} value={value}>
-                {value}
+                {WATCH_RATING_ID_NAME[value]}
               </HWOutlinedSelectBox.Item>
             ))}
           </HWOutlinedSelectBox>

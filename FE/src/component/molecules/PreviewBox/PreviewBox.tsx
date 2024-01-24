@@ -25,7 +25,11 @@ import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
-import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
+import {
+  GENRE_ID_NAME,
+  WATCH_RATING_ID_NAME,
+  WATCH_RATING_NAME,
+} from "@src/variables/CommonConstants";
 import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
 
 interface PreviewBoxProps {
@@ -101,7 +105,22 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     >
                       {item.date}
                     </HWTypography>
-                    <HWChip variant={"text"} color={"age"} label={item.age} css={styled.chipAge} />
+                    {item.season && item.season?.now > 1 && (
+                      <HWChip
+                        variant={"text"}
+                        color={"season"}
+                        label={item.season.now + " 시즌"}
+                        css={styled.chipAge}
+                      />
+                    )}
+                    {item.age && (
+                      <HWChip
+                        variant={"text"}
+                        color={"age"}
+                        label={WATCH_RATING_ID_NAME[item.age]}
+                        css={styled.chipAge}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className={"grid margin-top-16"}>
@@ -212,7 +231,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                         family={"Pretendard"}
                         color={Color.dark.grey500}
                       >
-                        {item.actors?.join(",")}
+                        {item.actors?.join(", ") || "-"}
                       </HWTypography>
                     </div>
                   </div>

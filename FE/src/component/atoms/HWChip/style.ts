@@ -91,6 +91,12 @@ export default {
           color: #cf6679;
         `;
       }
+      case "season": {
+        return css`
+          background: rgba(255, 255, 255, 0.15);
+          color: #c7c8d3;
+        `;
+      }
       case "4": {
         return css`
           background-color: rgba(143, 126, 230, 0.1);
