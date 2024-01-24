@@ -282,7 +282,7 @@ object MapperUtils {
     fun mapFavoriteContentDtoToEntity(dtoList: List<FavoriteContentInputDto>, userInfo: UserInfo): List<UserFavoriteContent>{
         return dtoList.map {
             UserFavoriteContent(
-                contentId = it.id,
+                contentId = it.contentId,
                 rank = it.rank,
                 userInfo = userInfo
             )

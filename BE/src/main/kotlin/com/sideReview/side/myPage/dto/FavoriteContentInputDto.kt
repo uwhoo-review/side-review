@@ -1,6 +1,6 @@
 package com.sideReview.side.myPage.dto
 
 data class FavoriteContentInputDto(
-    val id : String,
+    val contentId : String,
     val rank: Int
 )

@@ -59,14 +59,22 @@ class MyPageService(
         return MapperUtils.mapDetailToFavoritePersonDetail(onePerson)
     }
 
-    fun deleteFavoriteContent(userId: String, contentId: String) {
-        userFavoriteContentRepository.deleteById(UserFavoriteContentIdClass(userId, contentId))
+    fun deleteFavoriteContent(
+        userId: String,
+        contentId: String
+    ) {
+        userFavoriteContentRepository.deleteById(
+            UserFavoriteContentIdClass(
+                userId,
+                contentId
+            )
+        )
     }
 
     fun saveFavoriteContent(
         userId: String,
         favoriteContentDtoList: List<FavoriteContentInputDto>
-    ){
+    ) {
         val user = userInfoRepository.getReferenceById(userId)
         userFavoriteContentRepository.saveAll(
             MapperUtils.mapFavoriteContentDtoToEntity(
