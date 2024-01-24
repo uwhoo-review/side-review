@@ -1,11 +1,13 @@
 package com.sideReview.side.myPage
 
+import com.sideReview.side.common.entity.UserFavoriteContent
+import com.sideReview.side.common.entity.UserFavoriteContentIdClass
 import com.sideReview.side.common.entity.UserFavoritePerson
+import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.myPage.dto.FavoriteContentPageDto
-import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
-import com.sideReview.side.myPage.dto.FavoritePersonDto
+import com.sideReview.side.myPage.dto.*
+import com.sideReview.side.myPage.repository.UserFavoriteContentRepository
 import com.sideReview.side.myPage.repository.UserFavoritePersonRepository
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.review.UserStarRatingRepository
@@ -18,13 +20,14 @@ class MyPageService(
     val userStarRatingRepository: UserStarRatingRepository,
     val userFavoritePersonRepository: UserFavoritePersonRepository,
     val userInfoRepository: UserInfoRepository,
+    val userFavoriteContentRepository: UserFavoriteContentRepository
 ) {
     suspend fun getKeywordContent(
         userId: String,
         keyword: String,
         page: Int,
         size: Int
-    ): FavoriteContentPageDto {
+    ): FavoriteContentSearchPageDto {
         val contents = opensearchClient.getContents(keyword, page, size)
         contents.content.forEach {
             it.rating = userStarRatingRepository.findOneByTargetIdAndWriterId(
@@ -54,5 +57,22 @@ class MyPageService(
     fun getOnePerson(personId: String): FavoritePersonDetailDto {
         val onePerson = opensearchClient.getOnePerson(personId)
         return MapperUtils.mapDetailToFavoritePersonDetail(onePerson)
+    }
+
+    fun deleteFavoriteContent(userId: String, contentId: String) {
+        userFavoriteContentRepository.deleteById(UserFavoriteContentIdClass(userId, contentId))
+    }
+
+    fun saveFavoriteContent(
+        userId: String,
+        favoriteContentDtoList: List<FavoriteContentInputDto>
+    ){
+        val user = userInfoRepository.getReferenceById(userId)
+        userFavoriteContentRepository.saveAll(
+            MapperUtils.mapFavoriteContentDtoToEntity(
+                favoriteContentDtoList,
+                user
+            )
+        )
     }
 }

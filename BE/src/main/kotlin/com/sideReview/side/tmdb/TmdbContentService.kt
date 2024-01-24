@@ -27,18 +27,23 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         val countryList = CountryEnum.getCountryCodes()
 
         countryList.forEach {
-            val tmdbData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it)
-            dtoList.addAll(tmdbData.results)
+            val tmdbPopularData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it, "popularity.desc")
+            val tmdbLatestData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it, "primary_release_date.desc")
+            //popularity.desc or primary_release_date.desc
+
+            dtoList.addAll(tmdbPopularData.results)
+            dtoList.addAll(tmdbLatestData.results)
 
             logger.info("[Discover] $it first: ${dtoList.size}")
 
-            val pages: Int = min(tmdbData.total_pages, 500)
+            val pages: Int = min(tmdbPopularData.total_pages, 500)
             for (page in 2..pages) {
-                dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it).results)
+                dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it, "popularity.desc").results)
+                dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it, "primary_release_date.desc").results)
             }
             logger.info("[Discover] $it final: ${dtoList.size}")
         }
-        return MapperUtils.mapTmdbToDocument(dtoList)
+        return MapperUtils.mapTmdbToDocument(dtoList.distinctBy { it.id })
     }
 
     fun getMoreInfo(docList: MutableList<ContentDocument>): List<ContentDocument> {

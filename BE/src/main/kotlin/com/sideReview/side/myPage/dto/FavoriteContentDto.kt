@@ -5,8 +5,7 @@ data class FavoriteContentDto(
     val poster : String?,
     val name : String,
     val year : String? = null,
-    val director : List<String>,
-    val genre: List<Int>?,
-    val country: List<String>?,
-    var rating: String = "-"
+    var rating: String = "-",
+    val provider: List<String>,
+    val rank: Int
 )

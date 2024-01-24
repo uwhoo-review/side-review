@@ -2,6 +2,8 @@ package com.sideReview.side.controller
 
 import com.sideReview.side.login.NicknameService
 import com.sideReview.side.myPage.MyPageService
+import com.sideReview.side.myPage.dto.FavoriteContentDto
+import com.sideReview.side.myPage.dto.FavoriteContentInputDto
 import kotlinx.coroutines.runBlocking
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -67,5 +69,22 @@ class MyPageController(
             return ResponseEntity.internalServerError().body(it.message)
         }
         return ResponseEntity.ok(person)
+    }
+
+    @PutMapping("/contents")
+    fun saveFavoriteContents(
+        @PathVariable userId: String,
+        @RequestBody contentsList: List<FavoriteContentInputDto>
+    ): ResponseEntity<Any> {
+        println("dd")
+        return ResponseEntity.ok(myPageService.saveFavoriteContent(userId, contentsList))
+    }
+
+    @DeleteMapping("/contents")
+    fun deleteFavoriteContent(
+        @PathVariable userId: String,
+        @RequestParam("contentId") contentId: String
+    ): ResponseEntity<Any> {
+        return ResponseEntity.ok(myPageService.deleteFavoriteContent(userId, contentId))
     }
 }

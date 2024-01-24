@@ -14,14 +14,12 @@ interface TmdbClient {
         @RequestHeader("Authorization") apiKey: String,
         @RequestParam("page") page: Int,
         @RequestParam("with_origin_country") originCountry: String,
+        @RequestParam("sort_by") sortBy: String,               //popularity.desc or primary_release_date.desc
         @RequestParam("include_adult") includeAdult: Boolean = false,
         @RequestParam("include_null_first_air_dates") includeNullFirstAirDates: Boolean = false,
         @RequestParam("language") language: String = "ko-KR",
-        @RequestParam("sort_by") sortBy: String = "popularity.desc", //popularity.desc or primary_release_date.desc
         @RequestParam("watch_region") watchRegion: String = "KR",
-        //@RequestParam("with_networks") withNetworks: Int = 213,
         @RequestParam("first_air_date_year") year: Int = 2022,
-        //@RequestParam("with_original_language") withOriginalLanguage: String = "en"
     ): TmdbResponse
 
     @GetMapping("tv/{id}/watch/providers")

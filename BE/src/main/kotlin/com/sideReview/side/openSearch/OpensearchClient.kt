@@ -4,8 +4,8 @@ import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.myPage.dto.FavoriteContentDto
-import com.sideReview.side.myPage.dto.FavoriteContentPageDto
+import com.sideReview.side.myPage.dto.FavoriteContentSearchDto
+import com.sideReview.side.myPage.dto.FavoriteContentSearchPageDto
 import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.myPage.dto.FavoritePersonDto
 import com.sideReview.side.openSearch.dto.*
@@ -184,9 +184,9 @@ class OpensearchClient(
         )
     }
 
-    fun getContents(query: String, page: Int, size: Int): FavoriteContentPageDto {
+    fun getContents(query: String, page: Int, size: Int): FavoriteContentSearchPageDto {
         // SearchResponse 가져오는 단계
-        val favoriteContentDtoList: MutableList<FavoriteContentDto> = mutableListOf()
+        val favoriteContentDtoList: MutableList<FavoriteContentSearchDto> = mutableListOf()
         var total: Int
         val totalPages: Int
 
@@ -205,7 +205,7 @@ class OpensearchClient(
                 favoriteContentDtoList.add(MapperUtils.mapDetailTofavoriteContent(detailContentDto))
             }
         }
-        return FavoriteContentPageDto(
+        return FavoriteContentSearchPageDto(
             content = favoriteContentDtoList,
             pageInfo = PageInfoDto(total, totalPages, page)
         )

@@ -8,12 +8,17 @@ import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.RatingDto
+import com.sideReview.side.common.entity.UserFavoriteContent
+import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.myPage.dto.FavoriteContentDto
+import com.sideReview.side.myPage.dto.FavoriteContentInputDto
+import com.sideReview.side.myPage.dto.FavoriteContentSearchDto
 import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.tmdb.dto.*
+import org.apache.catalina.User
 import java.lang.reflect.Type
 
 object MapperUtils {
@@ -222,8 +227,8 @@ object MapperUtils {
             )
     }
 
-    fun mapDetailTofavoriteContent(detailContentDto: DetailContentDto): FavoriteContentDto {
-        return FavoriteContentDto(
+    fun mapDetailTofavoriteContent(detailContentDto: DetailContentDto): FavoriteContentSearchDto {
+        return FavoriteContentSearchDto(
             id = detailContentDto.id,
             poster = detailContentDto.poster,
             name = detailContentDto.name,
@@ -272,5 +277,15 @@ object MapperUtils {
             profilePath = dto.profilePath,
             cast = dto.cast?.map { it.contentName } ?: emptyList()
         )
+    }
+
+    fun mapFavoriteContentDtoToEntity(dtoList: List<FavoriteContentInputDto>, userInfo: UserInfo): List<UserFavoriteContent>{
+        return dtoList.map {
+            UserFavoriteContent(
+                contentId = it.id,
+                rank = it.rank,
+                userInfo = userInfo
+            )
+        }
     }
 }

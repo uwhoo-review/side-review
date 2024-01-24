@@ -20,9 +20,9 @@ data class DetailContentDto(
     val crew: List<Crew>? = null,
     val directors: List<String>? = null,
     val age: String? = null,
-    val rating : RatingDto,
+    val rating: RatingDto,
     var season: Season,
-    val episodeCnt: Int ?= 0
+    val episodeCnt: Int? = 0
 ) {
     fun getYear(): String {
         return if (date.isNullOrBlank()) "" else date.substring(0, 4)

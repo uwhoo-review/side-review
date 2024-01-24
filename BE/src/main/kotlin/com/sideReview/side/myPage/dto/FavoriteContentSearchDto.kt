@@ -1,0 +1,12 @@
+package com.sideReview.side.myPage.dto
+
+data class FavoriteContentSearchDto(
+    val id : String,
+    val poster : String?,
+    val name : String,
+    val year : String? = null,
+    val director : List<String>,
+    val genre: List<Int>?,
+    val country: List<String>?,
+    var rating: String = "-"
+)
