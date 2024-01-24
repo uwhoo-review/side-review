@@ -141,16 +141,17 @@ class OpenSearchDetailService @Autowired constructor(
                         castRole.contentId
                     )
                 )
-                roleList.add(
-                    CastItem(
-                        contentName = content.name,
-                        date = content.date,
-                        contentId = castRole.contentId,
-                        platform = content.platform ?: emptyList(),
-                        poster = content.poster ?: "",
-                        role = castRole.role
+                if (content != null)
+                    roleList.add(
+                        CastItem(
+                            contentName = content.name,
+                            date = content.date,
+                            contentId = castRole.contentId,
+                            platform = content.platform ?: emptyList(),
+                            poster = content.poster ?: "",
+                            role = castRole.role
+                        )
                     )
-                )
             }
         }
         if (document.crew != null) {
@@ -161,17 +162,19 @@ class OpenSearchDetailService @Autowired constructor(
                         crewJob.contentId
                     )
                 )
-                if (!job.contains(crewJob.job)) job.add(crewJob.job)
-                jobList.add(
-                    CrewItem(
-                        contentName = content.name,
-                        date = content.date,
-                        contentId = crewJob.contentId,
-                        platform = content.platform ?: emptyList(),
-                        poster = content.poster ?: "",
-                        job = crewJob.job
+                if(content!=null){
+                    if (!job.contains(crewJob.job)) job.add(crewJob.job)
+                    jobList.add(
+                        CrewItem(
+                            contentName = content.name,
+                            date = content.date,
+                            contentId = crewJob.contentId,
+                            platform = content.platform ?: emptyList(),
+                            poster = content.poster ?: "",
+                            job = crewJob.job
+                        )
                     )
-                )
+                }
             }
         }
 

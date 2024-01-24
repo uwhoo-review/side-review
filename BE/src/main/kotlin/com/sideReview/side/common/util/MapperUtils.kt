@@ -208,17 +208,18 @@ object MapperUtils {
         )
     }
 
-    fun parseSearchResponseToSimpleContentDto(response: SearchResponse): SimpleContentDto {
-        val source = response.hits?.hits?.get(0)?.source
-        val document = Gson().fromJson("$source", ContentDocument::class.java)
-        return SimpleContentDto(
-            document.id,
-            document.name,
-            document.platform,
-            document.poster,
-            RatingDto(document.rating?.toFloat(), 0, null),
-            document.getYear()
-        )
+    fun parseSearchResponseToSimpleContentDto(response: SearchResponse): SimpleContentDto? {
+        val document = parseToContentDocument(response)
+        return if (document.isEmpty()) null
+        else
+            SimpleContentDto(
+                document[0].id,
+                document[0].name,
+                document[0].platform,
+                document[0].poster,
+                RatingDto(document[0].rating?.toFloat(), 0, null),
+                document[0].getYear()
+            )
     }
 
     fun mapDetailTofavoriteContent(detailContentDto: DetailContentDto): FavoriteContentDto {
