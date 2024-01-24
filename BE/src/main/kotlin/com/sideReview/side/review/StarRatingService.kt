@@ -52,14 +52,18 @@ class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) 
 
         var rating = tmdbRating ?: userRating ?: 0.0
         if (tmdbRating != null && userRating != null) {
-            rating = ((tmdbRating * tmdbWeight) + (userRating * userWeight)) / (tmdbWeight + userWeight)
+            rating =
+                ((tmdbRating * tmdbWeight) + (userRating * userWeight)) / (tmdbWeight + userWeight)
         }
         return String.format("%.2f", rating).toFloat()
     }
 
-    fun getRating(tmdbRating: Float?, id: String, userId: String): RatingDto {
+    fun getRating(tmdbRating: Float?, id: String, userId: String?): RatingDto {
         val userStarRatingList = userStarRatingRepository.findAllByTargetId(id)
-        val userRating = userStarRatingList.firstOrNull { it.writerId == userId }?.rating ?: 0.0f
+        val userRating =
+            if (userId != null)
+                userStarRatingList.firstOrNull { it.writerId == userId }?.rating ?: 0.0f
+            else 0.0f
         return RatingDto(
             calculateWeightAverage(tmdbRating, id),
             userStarRatingList.size,

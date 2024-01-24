@@ -4,12 +4,10 @@ import com.google.gson.Gson
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
-import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.parseSearchResponseToSimpleContentDto
 import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
-import com.sideReview.side.openSearch.dto.PersonDto
 import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.tmdb.dto.SeasonDto
 import org.slf4j.LoggerFactory
@@ -99,8 +97,7 @@ class OpenSearchDetailService @Autowired constructor(
             poster = document.poster,
             actors = credit.first,
             crew = credit.second,
-            rating = if (userId == null) RatingDto()
-            else starRatingService.getRating(
+            rating = starRatingService.getRating(
                 document.rating?.toFloat(),
                 id,
                 userId
