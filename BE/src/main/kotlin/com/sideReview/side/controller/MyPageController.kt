@@ -1,9 +1,7 @@
 package com.sideReview.side.controller
 
-import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.login.NicknameService
 import com.sideReview.side.myPage.MyPageService
-import com.sideReview.side.openSearch.PersonService
 import kotlinx.coroutines.runBlocking
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*
 class MyPageController(
     val nicknameService: NicknameService,
     val myPageService: MyPageService,
-    val personService: PersonService
 ) {
     @PutMapping
     fun updateNickname(
@@ -64,7 +61,7 @@ class MyPageController(
         kotlin.runCatching {
             myPageService.saveFavoritePerson(userId, personId)
             runBlocking {
-                person = MapperUtils.parseToPersonDto(personService.getPerson(personId))[0]
+                person = myPageService.getOnePerson(personId)
             }
         }.onFailure {
             return ResponseEntity.internalServerError().body(it.message)

@@ -6,6 +6,8 @@ import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.myPage.dto.FavoriteContentDto
 import com.sideReview.side.myPage.dto.FavoriteContentPageDto
+import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
+import com.sideReview.side.myPage.dto.FavoritePersonDto
 import com.sideReview.side.openSearch.dto.*
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
@@ -206,6 +208,28 @@ class OpensearchClient(
         return FavoriteContentPageDto(
             content = favoriteContentDtoList,
             pageInfo = PageInfoDto(total, totalPages, page)
+        )
+    }
+
+    fun getMatchPeople(query: String, page: Int, size: Int): FavoritePersonDto {
+        val people: MutableList<FavoritePersonDetailDto> = mutableListOf()
+        var total: Int
+        var totalPages: Int
+        runBlocking {
+            val response =
+                openSearchGetService.searchMatch(query, (page - 1) * size, size)
+            total = response.hits?.total?.value?.toInt() ?: 0
+            totalPages = if (total % size == 0) total / size else total / size + 1
+
+            val documentList = MapperUtils.parseToPersonDocument(response)
+            for (document in documentList) {
+                val detailPersonDto = openSearchDetailService.getPersonDocument(document)
+                people.add(MapperUtils.mapDetailToFavoritePersonDetail(detailPersonDto))
+            }
+        }
+        return FavoritePersonDto(
+            pageInfo = PageInfoDto(total, totalPages, page),
+            person = people
         )
     }
 

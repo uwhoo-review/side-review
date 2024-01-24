@@ -1,9 +1,7 @@
 package com.sideReview.side.controller
 
-import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.openSearch.dto.*
-import com.sideReview.side.openSearch.PersonService
 import com.sideReview.side.review.ReviewService
 import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,7 +14,6 @@ import java.util.*
 @RequestMapping("/contents")
 class MainContentsController @Autowired constructor(
     private val opensearchClient: OpensearchClient,
-    private val personService: PersonService,
     private val reviewService: ReviewService
 ) {
 

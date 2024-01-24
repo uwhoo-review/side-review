@@ -9,6 +9,7 @@ import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.myPage.dto.FavoriteContentDto
+import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.entity.UserReview
@@ -160,11 +161,6 @@ object MapperUtils {
         return parse(response, collectionType)
     }
 
-    fun parseToSimpleContentDto(response: SearchResponse): List<SimpleContentDto> {
-        val collectionType: Type = object : TypeToken<SimpleContentDto>() {}.type
-        return parse(response, collectionType)
-    }
-
     fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDto> {
         val details = mutableListOf<ReviewDetailDto>()
         for (r in review) {
@@ -265,5 +261,14 @@ object MapperUtils {
                 it.contentId
             )
         }
+    }
+
+    fun mapDetailToFavoritePersonDetail(dto: DetailPersonDto): FavoritePersonDetailDto {
+        return FavoritePersonDetailDto(
+            id = dto.id,
+            name = dto.name,
+            profilePath = dto.profilePath,
+            cast = dto.cast?.map { it.contentName } ?: emptyList()
+        )
     }
 }
