@@ -16,7 +16,7 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
     /*
     * 직접 SearchClient를 통해 OpenSearch에 접근하여 데이터를 가져온다.
     * */
-    suspend fun search(sort: String?, request: ContentRequestDTO?): SearchResponse {
+    suspend fun search(sort: String?, request: ContentRequestDTO): SearchResponse {
         // client 요청 전송
         return client.search(
             "content",
@@ -34,12 +34,11 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
 
     private fun createBlock(
         sort: String?,
-        request: ContentRequestDTO?,
+        request: ContentRequestDTO,
         queryBlock: (request: ContentRequestDTO) -> ESQuery,
-        tab: String = "search"
     ): SearchDSL.() -> Unit = {
         // tab 따라 max 설정
-        when (tab) {
+        when (request.tab) {
             "main" -> resultSize = 20
             "popularity", "new", "sortFilter" -> resultSize = 30
             "search" -> resultSize = 12
@@ -50,16 +49,14 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         parseSort(sort)
 
         // request가 있을 경우 세부 쿼리와 pagination 추가
-        if (request != null) {
-            // filter와 query검색
-            if (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty()) {
-                query = queryBlock(request)
-            }
+        // filter와 query검색
+        if (!request.query.isNullOrBlank() || !request.filter.isNullOrEmpty()) {
+            query = queryBlock(request)
+        }
 
-            // pagination search_after
-            if (request.pagination != null) {
-                from = request.pagination!!
-            }
+        // pagination search_after
+        if (request.pagination != null) {
+            from = request.pagination!!
         }
     }
 
