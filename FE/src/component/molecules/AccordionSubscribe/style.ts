@@ -3,12 +3,19 @@ import { css } from "@emotion/react";
 export default {
   wrapper: css`
 
-    background-color: #252525;
   `,
   subWrapper: css`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 100px;
+    gap: 86px;
+    height: 140px;
+  `,
+  title: css`
+    display: flex;
+    flex-direction: column;
+  `,
+  avatar: css`
+    cursor: pointer;
   `
-};
+}

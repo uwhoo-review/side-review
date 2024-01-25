@@ -8,12 +8,14 @@ import { IconApple, IconLogout, IconMyPage } from "@res/index";
 import { useCommon } from "@src/providers/CommonProvider";
 import { setCookie } from "@src/tools/commonTools";
 import { GOOGLE, UWHOO_LOGIN } from "@src/variables/LoginConstants";
+import {useNavigate} from "react-router-dom";
+import img1 from "@res/temp/img5.png";
 
 const ProfileBox = () => {
   const commonContext = useCommon();
   const [open, setOpen] = useState<boolean>(false);
   const anchorRef = useRef<HTMLButtonElement | null>(null);
-
+  const navigate = useNavigate();
   const handleClose = (e: any) => {
     if (anchorRef.current && anchorRef.current.contains(e.target as HTMLElement)) {
       return;
@@ -24,7 +26,7 @@ const ProfileBox = () => {
   return (
     <div css={styled.wrapper}>
       <HWIconButton onClick={() => setOpen(!open)} ref={anchorRef}>
-        <ProfileImage size={"38px"} src={""} />
+        <ProfileImage size={"38px"} src={img1} />
       </HWIconButton>
       <Popper
         open={open}
@@ -35,14 +37,14 @@ const ProfileBox = () => {
         <ClickAwayListener onClickAway={handleClose}>
           <div css={styled.subWrapper}>
             <div css={styled.top}>
-              <ProfileImage />
+              <ProfileImage size={"60px"} src={img1} />
               <div css={styled.topRight}>
                 <div css={styled.typo1}>날으는스파게티</div>
                 <div css={styled.typo2}>flyingpasta@naver.com</div>
               </div>
             </div>
             <div css={styled.bottom}>
-              <HWButton customCss={styled.btn1}>
+              <HWButton customCss={styled.btn1} onClick={() => navigate("mypage")}>
                 <IconMyPage width={"18px"} height={"18px"} />
                 마이페이지
               </HWButton>

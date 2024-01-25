@@ -131,24 +131,6 @@ const GNB = (props: { children?: React.ReactNode }) => {
           </div>
         </div>
       </header>
-
-      {/*      <Popover
-        open={commonContext.isFilterOpen}
-        onClose={() => commonContext.onHandleFilterOpen(false)}
-        css={styled.popover}
-      >
-        <div
-          className={`search-wrapper ${commonContext.isFilterOpen && "open"}`}
-          css={styled.searchWrapper}
-        >
-          <CenterWrapper>
-            <div css={styled.searchGrid}>
-              <SearchBar />
-            </div>
-          </CenterWrapper>
-        </div>
-      </Popover>*/}
-      {/*<Outlet />*/}
     </>
   );
 };

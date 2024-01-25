@@ -18,9 +18,10 @@ const MyPageProfile = () => {
           setNickName(e.target.value);
         }}
         value={nickName}
+        width={"270px"}
         endAdorment={
           <HWTooltip
-            title={"닉네임 수정 시 작성한 리뷰에 달린\n" + "닉네임도 자동으로 변경됩니다."}
+            title={"닉네임 수정 시 작성한 리뷰에 달린 닉네임도 자동으로 변경됩니다."}
           >
             <span>
               <IconQuestion width={"20px"} height={"20px"} color={"#C7C8D3"} />

@@ -19,9 +19,11 @@ import card5 from "./card/card5.png";
 
 /* ./icon */
 import { ReactComponent as IconAlarm } from "./icon/ic_alarm.svg";
+import { ReactComponent as IconArrowRight } from "./icon/ic_arrow_right.svg";
 import { ReactComponent as IconBlub } from "./icon/ic_blub.svg";
 import { ReactComponent as IconCancel } from "./icon/ic_cancel.svg";
 import { ReactComponent as IconCheck } from "./icon/ic_check.svg";
+import { ReactComponent as IconCheckCircle } from "./icon/ic_check_circle.svg";
 import { ReactComponent as IconCheckboxCheck } from "./icon/ic_checkbox_check.svg";
 import { ReactComponent as IconCheckboxOff } from "./icon/ic_checkbox_off.svg";
 import { ReactComponent as IconCheckboxOn } from "./icon/ic_checkbox_on.svg";
@@ -31,6 +33,10 @@ import { ReactComponent as IconChevronLeft } from "./icon/ic_chevron_left.svg";
 import { ReactComponent as IconChevronRight } from "./icon/ic_chevron_right.svg";
 import { ReactComponent as IconCircleCheck } from "./icon/ic_circle-check.svg";
 import { ReactComponent as IconInit } from "./icon/ic_init.svg";
+
+import { ReactComponent as IconCircleCamera } from "./icon/ic_circle_camera.svg";
+import { ReactComponent as IconCircleReview } from "./icon/ic_circle_review.svg";
+import { ReactComponent as IconCircleStar } from "./icon/ic_circle_star.svg";
 import { ReactComponent as IconLaunch } from "./icon/ic_launch.svg";
 import { ReactComponent as IconLink } from "./icon/ic_link.svg";
 import { ReactComponent as IconLogout } from "./icon/ic_logout.svg";
@@ -45,6 +51,7 @@ import { ReactComponent as IconSettings } from "./icon/ic_settings.svg";
 import { ReactComponent as IconStar } from "./icon/ic_star.svg";
 import { ReactComponent as IconThumbUp } from "./icon/ic_thumb_up.svg";
 import { ReactComponent as IconThumbDown } from "./icon/ic_thumb_down.svg";
+import { ReactComponent as IconToggleCircle } from "./icon/ic_toggle_circle.svg";
 import { ReactComponent as IconUpDown } from "./icon/ic_up_down.svg";
 import { ReactComponent as IconWrite } from "./icon/ic_write.svg";
 
@@ -61,6 +68,8 @@ import { ReactComponent as IconWatcha } from "./logo/ic_watcha.svg";
 import { ReactComponent as IconWavve } from "./logo/ic_wavve.svg";
 
 export {
+  IconCheckCircle,
+  IconToggleCircle,
   card1,
   card2,
   card3,
@@ -95,7 +104,10 @@ export {
   IconAlarm,
   IconQuestion,
   IconCircleCheck,
-
+  IconCircleCamera,
+  IconCircleReview,
+  IconCircleStar,
+  IconArrowRight,
   IconApple,
   IconDisney,
   IconTving,
@@ -106,7 +118,6 @@ export {
   IconGoogle,
   IconKakao,
   IconNaver,
-
   bg01,
   bg02,
   bg03,

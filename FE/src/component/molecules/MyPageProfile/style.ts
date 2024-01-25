@@ -7,6 +7,8 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    padding: 60px 0;
   `,
   profile: css`
     margin-bottom: 10px;
@@ -19,7 +21,7 @@ export default {
     font-weight: 500;
     line-height: 24px; /* 171.429% */
     letter-spacing: 0.15px;
-    
+
     margin-bottom: 30px;
   `,
   textField: css`
