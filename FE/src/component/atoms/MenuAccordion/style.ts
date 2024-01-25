@@ -11,6 +11,9 @@ export default {
       align-items: flex-start;
     }
     .MuiAccordionSummary-content {
+      .Mui-expanded {
+        margin: 0;
+      }
       margin: 0;
     }
     .MuiAccordionSummary-expandIconWrapper {

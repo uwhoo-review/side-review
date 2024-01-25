@@ -138,16 +138,15 @@ export const FILTER_SORT_ID_NAME = {
 };
 
 export const DUMMY_CONTENT = {
-  actors: "김지훈, 나나나, 가가가",
-  age: 19,
-  genre: ["드라마", "액션, 어드벤쳐", "SF, 판타지", "미스터리"],
+  actors: ["1", "2"],
+  age: "19",
+  genre: [1, 2, 3],
   id: "135238",
   name: "경성크리처",
-  platform: ["netflix"],
-  poster: "/kkDpdo3zZJtKYKpF25VQM17ZOWM.jpg",
-  rating: 3.5,
+  platform: [1, 2, 3],
+  poster: "fSFDsj4ch7rZBberDouL7Ucab1F.jpg",
   synopsis:
     "쓸쓸한 어둠이 드리웠던 비극의 시대, 1945년 봄. 생존이 전부였던 두 청춘이 인간의 탐욕으로 탄생한 괴물들과 사투를 벌인다.",
   trailer: "EtaV2rM80D8",
-  year: "2023",
+  date: "2023",
 };

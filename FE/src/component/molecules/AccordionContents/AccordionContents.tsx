@@ -2,6 +2,10 @@ import styled from "./style";
 import MenuAccordion from "@src/component/atoms/MenuAccordion/MenuAccordion";
 import { useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
+import HWButton from "@src/component/atoms/HWButton/HWButton";
+import CardList from "@src/component/molecules/CardList/CardList";
+import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
+import CardSlider from "@src/component/molecules/CardSlider/CardSlider";
 
 const AccordionContents = () => {
   const [open, setOpen] = useState(false);
@@ -23,7 +27,30 @@ const AccordionContents = () => {
       isExpanded={open}
       switchExpanded={() => setOpen(!open)}
     >
-      <div css={styled.subWrapper}></div>
+      <div css={styled.subWrapper}>
+        <div css={styled.contentBox}>
+          <div css={styled.leftBox}>
+            <HWButton>+</HWButton>
+            <HWTypography variant={"bodyXL"} family={"Pretendard-SemiBold"} color={"#C7C8D3"}>
+              인생작 추가
+            </HWTypography>
+          </div>
+          <div css={styled.rightBox}>
+            <CardSlider
+              cardList={[
+                DUMMY_CONTENT,
+                DUMMY_CONTENT,
+                DUMMY_CONTENT,
+                DUMMY_CONTENT,
+                DUMMY_CONTENT,
+                DUMMY_CONTENT,
+                DUMMY_CONTENT,
+                DUMMY_CONTENT,
+              ]}
+            />
+          </div>
+        </div>
+      </div>
     </MenuAccordion>
   );
 };

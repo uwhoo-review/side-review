@@ -18,10 +18,12 @@ const HWAvatar = ({
   classNames = classNames.filter(Boolean);
   return (
     <div css={styled.wrapper}>
-      <div css={styled.toggle(size)}>
-        <IconToggleCircle />
-      </div>
-      <IconCheckCircle css={styled.check} />
+      {active && (
+        <>
+          <IconToggleCircle css={styled.toggle(size)} />
+          <IconCheckCircle css={styled.check} />
+        </>
+      )}
       <div
         className={classNames.join(" ")}
         css={[styled.avatarWrapper(size), customCss]}
