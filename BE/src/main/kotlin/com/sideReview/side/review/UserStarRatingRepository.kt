@@ -12,4 +12,6 @@ interface UserStarRatingRepository : JpaRepository<UserStarRating, Int>{
     fun deleteByTargetIdAndWriterId(contentId: String, writerId: String)
     fun existsByTargetIdAndWriterId(contentId: String, writerId: String) : Boolean
     fun countByTargetId(contentId : String) : Int
+
+    fun findAllByWriterId(writerId: String) : List<UserStarRating>
 }

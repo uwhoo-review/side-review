@@ -6,7 +6,7 @@ import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.parseSearchResponseToSimpleContentDto
-import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
+import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.tmdb.dto.SeasonDto

@@ -10,15 +10,14 @@ import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserInfo
-import com.sideReview.side.myPage.dto.FavoriteContentDto
-import com.sideReview.side.myPage.dto.FavoriteContentInputDto
-import com.sideReview.side.myPage.dto.FavoriteContentSearchDto
-import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
+import com.sideReview.side.mypage.dto.FavoriteContentDto
+import com.sideReview.side.mypage.dto.FavoriteContentInputDto
+import com.sideReview.side.mypage.dto.FavoriteContentSearchDto
+import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.tmdb.dto.*
-import org.apache.catalina.User
 import java.lang.reflect.Type
 
 object MapperUtils {
@@ -312,5 +311,12 @@ object MapperUtils {
                 provider = emptyList(),
             )
         }
+    }
+
+    fun parseStringToList(str : String) : List<Int> {
+        val cleanedString = str.replace("[", "").replace("]", "").replace(" ", "")
+        val intList = cleanedString.split(",").map { it.toInt() }
+
+        return intList
     }
 }

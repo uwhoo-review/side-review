@@ -1,9 +1,8 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.login.NicknameService
-import com.sideReview.side.myPage.MyPageService
-import com.sideReview.side.myPage.dto.FavoriteContentDto
-import com.sideReview.side.myPage.dto.FavoriteContentInputDto
+import com.sideReview.side.mypage.MyPageService
+import com.sideReview.side.mypage.dto.FavoriteContentInputDto
 import kotlinx.coroutines.runBlocking
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,7 +14,13 @@ class MyPageController(
     val nicknameService: NicknameService,
     val myPageService: MyPageService,
 ) {
-    @PutMapping
+    @GetMapping
+    fun getMyPage(@PathVariable userId: String
+    ): ResponseEntity<Any> {
+        return ResponseEntity.ok(myPageService.getMyPage(userId))
+    }
+
+    @PutMapping("/nickname")
     fun updateNickname(
         @PathVariable userId: String,
         @RequestParam name: String
@@ -24,7 +29,7 @@ class MyPageController(
         return ResponseEntity(HttpStatus.OK)
     }
 
-    @GetMapping
+    @GetMapping("/contents")
     fun getContents(
         @PathVariable userId: String,
         @RequestParam keyword: String,
@@ -86,5 +91,21 @@ class MyPageController(
         @RequestParam("contentId") contentId: String
     ): ResponseEntity<Any> {
         return ResponseEntity.ok(myPageService.deleteFavoriteContent(userId, contentId))
+    }
+
+    @PutMapping("/ott")
+    fun saveUserOTT(
+        @PathVariable userId: String,
+        @RequestBody ottList: List<Integer>
+    ): ResponseEntity<Any> {
+        return ResponseEntity.ok(myPageService.saveOTT(userId, ottList))
+    }
+
+    @PutMapping("/genre")
+    fun saveUserGenre(
+        @PathVariable userId: String,
+        @RequestBody genreList: List<Integer>
+    ): ResponseEntity<Any> {
+        return ResponseEntity.ok(myPageService.saveGenre(userId, genreList))
     }
 }

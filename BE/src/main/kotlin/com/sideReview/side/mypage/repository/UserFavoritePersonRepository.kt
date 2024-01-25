@@ -1,4 +1,4 @@
-package com.sideReview.side.myPage.repository
+package com.sideReview.side.mypage.repository
 
 import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.entity.UserFavoritePersonIdClass

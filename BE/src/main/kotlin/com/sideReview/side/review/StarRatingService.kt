@@ -1,6 +1,7 @@
 package com.sideReview.side.review
 
 import com.sideReview.side.common.dto.RatingDto
+import com.sideReview.side.mypage.dto.Rating
 import com.sideReview.side.review.dto.StarRatingCreateDto
 import com.sideReview.side.review.dto.StarRatingUpdateDto
 import com.sideReview.side.review.entity.UserStarRating
@@ -69,5 +70,12 @@ class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) 
             userStarRatingList.size,
             userRating
         )
+    }
+
+    fun getRatingByUserId(userId: String): List<Rating> {
+        val userStarRatingList = userStarRatingRepository.findAllByWriterId(userId)
+        val countMap = userStarRatingList.groupBy { it.rating }.mapValues { it.value.size }
+
+        return countMap.entries.map { Rating(it.key, it.value) }
     }
 }

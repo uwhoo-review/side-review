@@ -4,10 +4,10 @@ import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.myPage.dto.FavoriteContentSearchDto
-import com.sideReview.side.myPage.dto.FavoriteContentSearchPageDto
-import com.sideReview.side.myPage.dto.FavoritePersonDetailDto
-import com.sideReview.side.myPage.dto.FavoritePersonDto
+import com.sideReview.side.mypage.dto.FavoriteContentSearchDto
+import com.sideReview.side.mypage.dto.FavoriteContentSearchPageDto
+import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
+import com.sideReview.side.mypage.dto.FavoritePersonDto
 import com.sideReview.side.openSearch.dto.*
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service

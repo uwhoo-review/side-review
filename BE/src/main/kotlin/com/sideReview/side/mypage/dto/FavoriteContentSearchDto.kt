@@ -1,4 +1,4 @@
-package com.sideReview.side.myPage.dto
+package com.sideReview.side.mypage.dto
 
 data class FavoriteContentSearchDto(
     val id : String,
