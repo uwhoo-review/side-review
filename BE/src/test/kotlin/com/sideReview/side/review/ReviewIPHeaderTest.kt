@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @ActiveProfiles("local")
@@ -22,6 +23,7 @@ class ReviewIPHeaderTest {
     private lateinit var mockMvc: MockMvc
 
     @Test
+    @Transactional
     fun ipTest() {
         // Test에는 안쪽으로 들어갔을 때 header 검사를 할 수 없어서 controller나 filter에 print문을 추가해야 함.
         val body = ReviewCreateDto(
