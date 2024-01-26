@@ -49,7 +49,7 @@ class OpensearchClient(
 //        // Response 가공 단계 > 각자 알아서
 //    }
 
-    fun getOneContent(id: String, userId: String?): DetailContentDto {
+    fun getOneContent(id: String, userId: String): DetailContentDto {
         val detailContentDto: DetailContentDto
         runBlocking {
             val response: SearchResponse = openSearchGetService.findDocumentById("content", id)

@@ -1,6 +1,6 @@
 package com.sideReview.side.controller
 
-import com.sideReview.side.review.ClientUtils
+import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDto
 import com.sideReview.side.review.dto.ReviewEvaDto
@@ -19,7 +19,7 @@ class ReviewController(val reviewService: ReviewService) {
         request: HttpServletRequest
     ): ResponseEntity<Any> {
         reviewService.create(
-            body, ClientUtils.getIp(request)
+            body, ClientUtils.getUserId(request)
         )
         return ResponseEntity(HttpStatus.OK)
     }
@@ -35,13 +35,15 @@ class ReviewController(val reviewService: ReviewService) {
 
         return ResponseEntity(HttpStatus.OK)
     }
+
     @GetMapping("/{id}")
-    fun getAllReviewsById(@PathVariable id : String,
-                          @RequestParam(required = false, defaultValue = "best") sort : String,
-                          @RequestParam(required = false, defaultValue = "0") spoiler : String,
-                          @RequestParam(required = false, defaultValue = "0") page : String,
-                          @RequestParam(required = false, defaultValue = "6") size : String
-    ): ResponseEntity<Any>{
+    fun getAllReviewsById(
+        @PathVariable id: String,
+        @RequestParam(required = false, defaultValue = "best") sort: String,
+        @RequestParam(required = false, defaultValue = "0") spoiler: String,
+        @RequestParam(required = false, defaultValue = "0") page: String,
+        @RequestParam(required = false, defaultValue = "6") size: String
+    ): ResponseEntity<Any> {
         val pageable = PageRequest.of(page.toInt(), size.toInt())
         return ResponseEntity.ok(reviewService.getReviewsByTargetId(id, sort, spoiler, pageable))
     }

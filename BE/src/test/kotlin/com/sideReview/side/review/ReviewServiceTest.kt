@@ -1,4 +1,4 @@
-package com.sideReview.side.reviewCRUD
+package com.sideReview.side.review
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.sideReview.side.review.dto.ReviewCreateDto

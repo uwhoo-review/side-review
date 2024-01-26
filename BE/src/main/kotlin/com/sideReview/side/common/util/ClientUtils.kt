@@ -1,4 +1,4 @@
-package com.sideReview.side.review
+package com.sideReview.side.common.util
 
 import org.slf4j.LoggerFactory
 import javax.servlet.http.HttpServletRequest
@@ -20,7 +20,6 @@ class ClientUtils {
                 ip = request.getHeader("WL-Proxy-Client-IP")
             }
 
-
             if (ip.isNullOrBlank()) {
                 ip = request.remoteAddr
             }
@@ -28,6 +27,10 @@ class ClientUtils {
 //            val regex = """[^\d.](?:.*)""".toRegex()
 //            return ip.replace(regex, "")
             return ip
+        }
+
+        fun getUserId(request: HttpServletRequest): String {
+            return request.getHeader("userId")
         }
     }
 }
