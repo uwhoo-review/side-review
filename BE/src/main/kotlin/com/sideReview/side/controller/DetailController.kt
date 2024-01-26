@@ -17,10 +17,6 @@ class DetailController @Autowired constructor(
         @PathVariable id: String,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
-        val logger = LoggerFactory.getLogger(this::class.java)!!
-        for (headerName in request.headerNames) {
-            logger.info("$headerName : ${request.getHeader(headerName)}")
-        }
         return ResponseEntity.ok(opensearchClient.getOneContent(id, ClientUtils.getIp(request)))
     }
 
