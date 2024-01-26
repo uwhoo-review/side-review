@@ -15,7 +15,6 @@ import java.util.*
 
 @Service
 class ReviewService(val userReviewRepository: UserReviewRepository) {
-    private val logger = LoggerFactory.getLogger(this.javaClass)!!
     /*
     fun get(id: String, sort: String?, spoiler: Boolean): ReviewDTO {
         val reviews: List<UserReview>
@@ -59,6 +58,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
                 )
             )
         }.onFailure {
+            val logger = LoggerFactory.getLogger(this.javaClass)!!
             logger.error("############################################")
             logger.error("########### Error on Review Save ###########")
             logger.error("############################################")
