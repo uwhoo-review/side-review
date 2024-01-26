@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class EvaluatingService(
-    //2:5:3 으로 evaluate
     val userStarRatingRepository: UserStarRatingRepository,
     val userFavoritePersonRepository: UserFavoritePersonRepository,
     val userFavoriteContentRepository: UserFavoriteContentRepository,
@@ -19,17 +18,21 @@ class EvaluatingService(
     val opensearchClient: OpensearchClient
 ) {
     fun getCaptivatingPerson(user: UserInfo) {
+        val ratedContentIdList =
+            userStarRatingRepository.findByWriterIdAndRatingGreaterThan(user.userId, 3.5f).map { it.targetId }
+        val favoritePersonList = userFavoritePersonRepository.findAllByUserInfo(user).map { it.personId }
+        val favoriteContentIdList = userFavoriteContentRepository.findAllByUserInfo(user).map { it.contentId }
+        val contentIdList: List<String> = (ratedContentIdList+favoriteContentIdList).toList()
+        val contentPeoplePair = opensearchClient.sumAllContentsPeople(contentIdList)
 
+        contentPeoplePair.first //actors
+        contentPeoplePair.second //directors
     }
 
     fun getCaptivatingGenre(user: UserInfo): List<Genre> {
         val reviewedContentIdList = userReviewRepository.findByTargetId(user.userId).map { it.targetId }.toList()
         val ratedContentIdList = userStarRatingRepository.findAllByWriterId(user.userId).map { it.targetId }.toList()
-
-        val contentIdList: MutableList<String> = mutableListOf()
-        contentIdList.addAll(ratedContentIdList)
-        contentIdList.addAll(reviewedContentIdList)
-
+        val contentIdList: List<String> = (ratedContentIdList + reviewedContentIdList).toList()
         val frequencyMap = opensearchClient.sumAllContentsGenre(contentIdList).groupingBy { it }.eachCount()
 
         return frequencyMap.entries.sortedByDescending { it.value }.take(5)

@@ -155,11 +155,13 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         }
         return search
     }
+
     suspend fun findAllDocumentById(index: String, idList: List<String>): SearchResponse {
         val search = client.search(index) {
             resultSize = idList.size
             query = bool {
-                must(terms("id", *idList.toTypedArray())) }
+                must(terms("id", *idList.toTypedArray()))
+            }
         }
         return search
     }
@@ -183,6 +185,17 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
                 should(
                     match("cast.contentId", id),
                     match("crew.contentId", id)
+                )
+            }
+        }
+    }
+
+    suspend fun findAllDocumentByContentId(idList: List<String>): SearchResponse {
+        return client.search("person") {
+            query = bool {
+                should(
+                    terms("cast.contentId", *idList.toTypedArray()),
+                    terms("crew.contentId", *idList.toTypedArray())
                 )
             }
         }
