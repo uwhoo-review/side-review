@@ -1,5 +1,6 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.openSearch.OpensearchClient
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,14 +15,13 @@ class DetailController @Autowired constructor(
     @GetMapping("/contents/{id}")
     fun getContentDetail(
         @PathVariable id: String,
-        @RequestHeader(name = "userId", required = false) userId: String,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
         val logger = LoggerFactory.getLogger(this::class.java)!!
         for (headerName in request.headerNames) {
             logger.info("$headerName : ${request.getHeader(headerName)}")
         }
-        return ResponseEntity.ok(opensearchClient.getOneContent(id, userId))
+        return ResponseEntity.ok(opensearchClient.getOneContent(id, ClientUtils.getIp(request)))
     }
 
     @GetMapping("/person/{id}")
