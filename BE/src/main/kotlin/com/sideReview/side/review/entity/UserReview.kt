@@ -15,7 +15,7 @@ class UserReview(
     @Column(name = "TARGET_ID", length = 36, nullable = false)
     var targetId: String,
 
-    @Column(name = "WRITER_ID", length = 15, nullable = false)
+    @Column(name = "WRITER_ID", length = 100, nullable = false)
     var writerId: String,
 
     @Column(name = "LIKE_CNT", nullable = false)
