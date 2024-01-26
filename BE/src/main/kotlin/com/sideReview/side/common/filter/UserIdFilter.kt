@@ -2,6 +2,8 @@ package com.sideReview.side.common.filter
 
 import com.sideReview.side.common.util.ClientUtils
 import org.slf4j.LoggerFactory
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import javax.servlet.Filter
 import javax.servlet.FilterChain
@@ -10,20 +12,25 @@ import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 class UserIdFilter : Filter {
     override fun doFilter(
         request: ServletRequest,
         response: ServletResponse,
         filterChain: FilterChain
     ) {
+        val logger = LoggerFactory.getLogger(this::class.java)!!
+
         val mutableRequest = CustomHttpServletRequest(request as HttpServletRequest)
         kotlin.runCatching {
-            if (mutableRequest.getHeader("userId").isNullOrBlank())
+            if (mutableRequest.getHeader("userId").isNullOrBlank()){
+                logger.info("set Header")
                 mutableRequest.putHeader("userId", ClientUtils.getIp(request))
+                logger.info(mutableRequest.toString())
+            }
 
             filterChain.doFilter(mutableRequest, response);
         }.onFailure {
-            val logger = LoggerFactory.getLogger(this::class.java)!!
             logger.error("UserIdFilter :: check header failed")
             logger.error("user Id : ${mutableRequest.getHeader("userId")}")
             logger.error(it.stackTraceToString())
