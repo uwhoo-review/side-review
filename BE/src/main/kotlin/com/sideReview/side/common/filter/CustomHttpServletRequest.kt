@@ -1,10 +1,12 @@
 package com.sideReview.side.common.filter
 
+import lombok.ToString
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletRequestWrapper
 import kotlin.collections.HashSet
 
+@ToString
 class CustomHttpServletRequest(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
     private val customHeaders: MutableMap<String, String> = mutableMapOf();
     fun putHeader(name: String, value: String?) {
