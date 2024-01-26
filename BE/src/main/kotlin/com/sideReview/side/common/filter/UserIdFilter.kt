@@ -16,8 +16,8 @@ class UserIdFilter : Filter {
         response: ServletResponse,
         filterChain: FilterChain
     ) {
+        val mutableRequest = CustomHttpServletRequest(request as HttpServletRequest)
         kotlin.runCatching {
-            val mutableRequest = CustomHttpServletRequest(request as HttpServletRequest)
             if (mutableRequest.getHeader("userId").isNullOrBlank())
                 mutableRequest.putHeader("userId", ClientUtils.getIp(request))
 
@@ -25,6 +25,7 @@ class UserIdFilter : Filter {
         }.onFailure {
             val logger = LoggerFactory.getLogger(this::class.java)!!
             logger.error("UserIdFilter :: check header failed")
+            logger.error("user Id : ${mutableRequest.getHeader("userId")}")
             logger.error(it.stackTraceToString())
         }
     }
