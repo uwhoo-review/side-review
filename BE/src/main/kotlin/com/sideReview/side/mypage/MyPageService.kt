@@ -122,6 +122,8 @@ class MyPageService(
     fun getMyPage(userId: String): MyPageDto {
         val userReport = userReportRepository.findById(userId).get()
         val user = userInfoRepository.findById(userId).get()
+        val test = evaluatingService.getCaptivatingPerson(user)
+        println(test)
 
         val userInfo = UserInfo(
             id = userId,

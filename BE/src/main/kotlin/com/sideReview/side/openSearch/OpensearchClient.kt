@@ -2,6 +2,7 @@ package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
+import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.FavoriteContentSearchDto
@@ -13,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.persistence.Tuple
 
 @Service
 class OpensearchClient(
@@ -61,16 +63,38 @@ class OpensearchClient(
         return detailContentDto
     }
 
-    fun sumAllContentsGenre(idList: List<String>) : List<Int>{
-        val genreList : MutableList<Int> = mutableListOf()
+    fun sumAllContentsGenre(idList: List<String>): List<Int> {
+        val genreList: MutableList<Int> = mutableListOf()
         runBlocking {
-            val response = openSearchGetService.findAllDocumentById("content",idList)
+            val response = openSearchGetService.findAllDocumentById("content", idList)
             val documentList = MapperUtils.parseToContentDocument(response)
             documentList.forEach {
                 it.genre?.let { it1 -> genreList.addAll(it1) }
             }
         }
         return genreList
+    }
+
+    fun sumAllContentsPeople(idList: List<String>): Pair<List<Pair<Int, String>>, List<Pair<Int, String>>> {
+        val actorList: MutableList<PersonDocument> = mutableListOf()
+        val directorList: MutableList<PersonDocument> = mutableListOf()
+        runBlocking {
+            val response = openSearchGetService.findAllDocumentByContentId(idList)
+            val documentList = MapperUtils.parseToPersonDocument(response)
+
+            documentList.forEach {
+                if (it.cast?.size == 0 && it.crew?.size != 0) {
+                    val jobMap = it.crew?.map { it.job }
+                    if (jobMap!!.contains("Directing") || jobMap!!.contains("Production")) {
+                        directorList.add(it)
+                    }
+                } else actorList.add(it)
+            }
+        }
+        return Pair(
+            actorList.map { Pair(first = it.id, second = it.name) },
+            directorList.map { Pair(first = it.id, second = it.name) }
+        )
     }
 
     fun getOnePerson(id: String): DetailPersonDto {
