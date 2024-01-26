@@ -61,6 +61,18 @@ class OpensearchClient(
         return detailContentDto
     }
 
+    fun sumAllContentsGenre(idList: List<String>) : List<Int>{
+        val genreList : MutableList<Int> = mutableListOf()
+        runBlocking {
+            val response = openSearchGetService.findAllDocumentById("content",idList)
+            val documentList = MapperUtils.parseToContentDocument(response)
+            documentList.forEach {
+                it.genre?.let { it1 -> genreList.addAll(it1) }
+            }
+        }
+        return genreList
+    }
+
     fun getOnePerson(id: String): DetailPersonDto {
         val detailPersonDto: DetailPersonDto
         runBlocking {

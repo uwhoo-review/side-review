@@ -29,10 +29,11 @@ data class Report(
     val ratings: List<Rating>? = emptyList(),
     val director: String? = null,
     val actor: String? = null,
-    val unique: List<UniqueContent>? = emptyList()
+    val unique: List<UniqueRating>? = emptyList(),
+    val genreFrequency: List<Genre>? = emptyList()
 )
 
-data class UniqueContent(
+data class UniqueRating(
     val id : String,
     val name : String,
     val ratingDto: RatingDto
@@ -40,5 +41,10 @@ data class UniqueContent(
 
 data class Rating(
     val rating: Float,
+    val count: Int
+)
+
+data class Genre(
+    val genre: Int,
     val count: Int
 )

@@ -155,6 +155,14 @@ class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
         }
         return search
     }
+    suspend fun findAllDocumentById(index: String, idList: List<String>): SearchResponse {
+        val search = client.search(index) {
+            resultSize = idList.size
+            query = bool {
+                must(terms("id", *idList.toTypedArray())) }
+        }
+        return search
+    }
 
     suspend fun findDocumentByKeyword(keyword: String, page: Int, size: Int): SearchResponse {
         val search = client.search("content") {

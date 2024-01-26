@@ -22,7 +22,8 @@ class MyPageService(
     val userInfoRepository: UserInfoRepository,
     val userFavoriteContentRepository: UserFavoriteContentRepository,
     val userReportRepository: UserReportRepository,
-    val starRatingService: StarRatingService
+    val starRatingService: StarRatingService,
+    val evaluatingService: EvaluatingService
 ) {
     suspend fun getKeywordContent(
         userId: String,
@@ -89,13 +90,15 @@ class MyPageService(
         return getFavoriteContent(user)
     }
 
-    fun saveOTT(userId: String, ottList: List<Integer>){
+    @Transactional
+    fun saveOTT(userId: String, ottList: List<Integer>) {
         val user = userInfoRepository.getReferenceById(userId)
         user.preferOtt = ottList.toString()
         userInfoRepository.save(user)
     }
 
-    fun saveGenre(userId: String, genreList: List<Integer>){
+    @Transactional
+    fun saveGenre(userId: String, genreList: List<Integer>) {
         val user = userInfoRepository.getReferenceById(userId)
         user.preferGenre = genreList.toString()
         userInfoRepository.save(user)
@@ -119,6 +122,7 @@ class MyPageService(
     fun getMyPage(userId: String): MyPageDto {
         val userReport = userReportRepository.findById(userId).get()
         val user = userInfoRepository.findById(userId).get()
+
         val userInfo = UserInfo(
             id = userId,
             profile = "",
@@ -134,7 +138,8 @@ class MyPageService(
             avgRating = userReport.avgRating?.toFloat(),
             maxRating = userReport.maxRating?.toFloat(),
             ratingCount = userReport.ratingCount?.toInt(),
-            ratings = starRatingService.getRatingByUserId(userId)
+            ratings = starRatingService.getRatingByUserId(userId),
+            genreFrequency = evaluatingService.getCaptivatingGenre(user)
         )
         return MyPageDto(
             user = userInfo,
