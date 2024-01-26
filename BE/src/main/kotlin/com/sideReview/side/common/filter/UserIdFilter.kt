@@ -25,7 +25,7 @@ class UserIdFilter : Filter {
         }.onFailure {
             val logger = LoggerFactory.getLogger(this.javaClass)!!
             logger.error("UserIdFilter :: check header failed")
-            it.printStackTrace()
+            logger.error(it.stackTraceToString())
         }
     }
 
