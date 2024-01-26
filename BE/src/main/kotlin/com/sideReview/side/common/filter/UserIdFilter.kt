@@ -23,7 +23,7 @@ class UserIdFilter : Filter {
 
             filterChain.doFilter(mutableRequest, response);
         }.onFailure {
-            val logger = LoggerFactory.getLogger(this.javaClass)!!
+            val logger = LoggerFactory.getLogger(this::class.java)!!
             logger.error("UserIdFilter :: check header failed")
             logger.error(it.stackTraceToString())
         }

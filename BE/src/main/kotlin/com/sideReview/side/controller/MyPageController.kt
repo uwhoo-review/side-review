@@ -96,7 +96,7 @@ class MyPageController(
     @PutMapping("/ott")
     fun saveUserOTT(
         @PathVariable userId: String,
-        @RequestBody ottList: List<Integer>
+        @RequestBody ottList: List<Int>
     ): ResponseEntity<Any> {
         return ResponseEntity.ok(myPageService.saveOTT(userId, ottList))
     }
@@ -104,7 +104,7 @@ class MyPageController(
     @PutMapping("/genre")
     fun saveUserGenre(
         @PathVariable userId: String,
-        @RequestBody genreList: List<Integer>
+        @RequestBody genreList: List<Int>
     ): ResponseEntity<Any> {
         return ResponseEntity.ok(myPageService.saveGenre(userId, genreList))
     }

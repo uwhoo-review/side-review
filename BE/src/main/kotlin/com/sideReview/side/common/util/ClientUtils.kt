@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest
 class ClientUtils {
     companion object {
         fun getIp(request: HttpServletRequest): String {
-            val logger = LoggerFactory.getLogger(this.javaClass)!!
+            val logger = LoggerFactory.getLogger(this::class.java)!!
 
             var ip = request.getHeader("X-FORWARDED-FOR")
 

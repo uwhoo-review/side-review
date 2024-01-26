@@ -23,7 +23,7 @@ class OpenSearchDetailService @Autowired constructor(
     * SearchClient에 직접 접근하지 않고 dto 생성에 정보가 더 필요한 경우
     * openSearchGetService를 통해 정보를 불러온 뒤 dto를 채우는 서비스
     * */
-    private val logger = LoggerFactory.getLogger(this.javaClass)!!
+    private val logger = LoggerFactory.getLogger(this::class.java)!!
 
     suspend fun makeSeasonInfo(id: String, list: List<SeasonDto>): Season {
         var now: Int = 1

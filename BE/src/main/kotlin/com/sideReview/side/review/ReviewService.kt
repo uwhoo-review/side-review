@@ -58,7 +58,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
                 )
             )
         }.onFailure {
-            val logger = LoggerFactory.getLogger(this.javaClass)!!
+            val logger = LoggerFactory.getLogger(this::class.java)!!
             logger.error("############################################")
             logger.error("########### Error on Review Save ###########")
             logger.error("############################################")

@@ -21,7 +21,7 @@ class TmdbPersonService @Autowired constructor(
 ) {
     @Value("\${api.tmdb.key}")
     lateinit var accessKey: String
-    private val logger = LoggerFactory.getLogger(this.javaClass)!!
+    private val logger = LoggerFactory.getLogger(this::class.java)!!
     fun getAllPeople(): List<PersonDocument> {
         val peopleResponse: PeopleResponse = tmdbClient.findAllPeople("Bearer $accessKey", 1)
         //val pages: Int = peopleResponse.total_pages

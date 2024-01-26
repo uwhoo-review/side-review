@@ -20,7 +20,7 @@ import kotlin.math.min
 class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClient) {
     @Value("\${api.tmdb.key}")
     lateinit var accessKey: String
-    private val logger = LoggerFactory.getLogger(this.javaClass)!!
+    private val logger = LoggerFactory.getLogger(this::class.java)!!
 
     fun getAllContents(): MutableList<ContentDocument> {
         val dtoList: MutableList<TmdbContent> = mutableListOf()
@@ -95,7 +95,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 seasonDocList.addAll(getSeasonContents(id, detailResponse))
                 doc.episodeCount = detailResponse.seasons?.get(0)?.episode_count
                 doc.production = Product(detailResponse.production_companies?.map { it.name },
-                    detailResponse.origin_country?.map { CountryEnum.getNameByCode(it) })
+                    detailResponse.origin_country.map { CountryEnum.getNameByCode(it) })
             } catch (e: Exception) {
                 logger.info("An error occurred during detail processing - $id")
             }

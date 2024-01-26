@@ -91,14 +91,14 @@ class MyPageService(
     }
 
     @Transactional
-    fun saveOTT(userId: String, ottList: List<Integer>) {
+    fun saveOTT(userId: String, ottList: List<Int>) {
         val user = userInfoRepository.getReferenceById(userId)
         user.preferOtt = ottList.toString()
         userInfoRepository.save(user)
     }
 
     @Transactional
-    fun saveGenre(userId: String, genreList: List<Integer>) {
+    fun saveGenre(userId: String, genreList: List<Int>) {
         val user = userInfoRepository.getReferenceById(userId)
         user.preferGenre = genreList.toString()
         userInfoRepository.save(user)
