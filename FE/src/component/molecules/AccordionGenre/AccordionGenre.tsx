@@ -40,7 +40,6 @@ const AccordionGenre = () => {
       isExpanded={open}
       switchExpanded={() => setOpen(!open)}
       customCss={styled.accordion}
-
     >
       <div css={styled.subWrapper}>
         <div css={styled.contentBox}>
@@ -56,7 +55,7 @@ const AccordionGenre = () => {
                     const idx = genre.indexOf(v);
                     idx === -1
                       ? setGenre((prev) => [...genre, v])
-                      : setGenre((prev) => [...genre.filter(g => g !== v)]);
+                      : setGenre((prev) => [...genre.filter((g) => g !== v)]);
                   }}
                   customCss={styled.toggle}
                 >
@@ -70,7 +69,17 @@ const AccordionGenre = () => {
               .sort((a, b) => a - b)
               .slice(8)
               .map((v: any) => (
-                <HWToggleButton key={v} checked={genre.includes(v)} customCss={styled.toggle}>
+                <HWToggleButton
+                  key={v}
+                  checked={genre.includes(v)}
+                  onClick={() => {
+                    const idx = genre.indexOf(v);
+                    idx === -1
+                      ? setGenre((prev) => [...genre, v])
+                      : setGenre((prev) => [...genre.filter((g) => g !== v)]);
+                  }}
+                  customCss={styled.toggle}
+                >
                   {genre.includes(v) && <IconCheck color={"#B6B2EA"} />}
                   {GENRE_ID_NAME[v]}
                 </HWToggleButton>

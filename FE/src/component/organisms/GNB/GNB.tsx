@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import SearchBar from "@src/component/molecules/SearchBar/SearchBar";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useCommon } from "@src/providers/CommonProvider";
-import { Box, ClickAwayListener } from "@mui/material";
+import { Box, ClickAwayListener, Tab, Tabs } from "@mui/material";
 import ProfileBox from "@src/component/molecules/ProfileBox/ProfileBox";
 
 const GNB = (props: { children?: React.ReactNode }) => {
@@ -19,28 +19,14 @@ const GNB = (props: { children?: React.ReactNode }) => {
   const path = pathname.split("/")[1];
   const [scrollTop, setScrollTop] = useState<boolean>(true);
   const [open, setOpen] = useState(commonContext.isFilterOpen);
-  /*  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (e.target) {
-        const target = e.target;
-        console.log(target, searchEl.current);
-        if (
-          commonContext.isFilterOpen &&
-          !searchEl.current?.contains(target) &&
-          !iconEl.current?.contains(target)
-        )
-          commonContext.onHandleFilterOpen(false);
-      }
-    };
+  const [pathVal, setPathVal] = useState("");
 
-    window.addEventListener("click", handleClickOutside);
-    return () => {
-      window.removeEventListener("click", handleClickOutside);
-    };
-  }, [commonContext.isFilterOpen]);*/
+  console.log(pathname);
 
   useEffect(() => {
     // const scrollDiv = document.querySelector("#root");
+    // setPathVal(pathname.split("/")[1]);
+
     const handleShowButton = () => {
       (window.scrollY || 0) === 0 ? setScrollTop(true) : setScrollTop(false);
     };
@@ -68,18 +54,38 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </div>
           </div>
           <div css={styled.centerGroups}>
-            <NavLink to={"/"} className={({ isActive }) => (isActive ? "active" : "")}>
-              <button>Home</button>
-            </NavLink>
-            <NavLink to={"/popular"}>
-              <button>인기</button>
-            </NavLink>
-            <NavLink to={"/recently"}>
-              <button>최신</button>
-            </NavLink>
-            <NavLink to={"/upcoming"}>
-              <button>공개</button>
-            </NavLink>
+            <Box sx={{ width: "100%" }}>
+              <Tabs value={path} css={styled.tabs}>
+                <Tab
+                  label={"Home"}
+                  value={""}
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                />
+                <Tab
+                  label={"인기"}
+                  value={"popular"}
+                  onClick={() => {
+                    navigate("/popular");
+                  }}
+                />
+                <Tab
+                  label={"최신"}
+                  value={"recently"}
+                  onClick={() => {
+                    navigate("/recently");
+                  }}
+                />
+                <Tab
+                  label={"공개"}
+                  value={"upcoming"}
+                  onClick={() => {
+                    navigate("/upcoming");
+                  }}
+                />
+              </Tabs>
+            </Box>
           </div>
           <div css={styled.rightGroups}>
             <ClickAwayListener

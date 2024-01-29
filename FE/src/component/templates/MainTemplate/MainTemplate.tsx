@@ -15,10 +15,6 @@ const MainTemplate = () => {
     refetchOnWindowFocus: false,
   });
 
-  useEffect(() => {
-    console.log(data);
-  }, [status]);
-
   return (
     <>
       {status === "pending" && <LoadingGrid />}

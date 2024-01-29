@@ -31,7 +31,29 @@ export default {
     height: 19px;
     cursor: pointer;
   `,
-  leftGroups: css`
+  leftGroups: css``,
+  tabs: css`
+    .MuiTabs-flexContainer {
+      gap: 80px;
+    }
+    .MuiTab-root {
+      color: #fff;
+      font-family: Pretendard;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px;
+      opacity: 0.6;
+      &.Mui-selected {
+        opacity: 1;
+        font-weight: 600;
+      }
+    }
+    .MuiTabs-indicator {
+      height: 4px;
+      border-radius: 4px;
+      background-color: #6d6ada;
+    }
   `,
   centerGroups: css`
     display: flex;
