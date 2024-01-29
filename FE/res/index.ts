@@ -42,6 +42,8 @@ import { ReactComponent as IconLink } from "./icon/ic_link.svg";
 import { ReactComponent as IconLogout } from "./icon/ic_logout.svg";
 import { ReactComponent as IconMyPage } from "./icon/ic_mypage.svg";
 import { ReactComponent as IconPlay } from "./icon/ic_play.svg";
+import { ReactComponent as IconPlus } from "./icon/ic_plus.svg";
+import { ReactComponent as IconPlusBtn } from "./icon/ic_plus_btn.svg";
 import { ReactComponent as IconPopcorn } from "./icon/ic_popcorn.svg";
 import { ReactComponent as IconQuestion } from "./icon/ic_question.svg";
 import { ReactComponent as IconRating } from "./icon/ic_rating.svg";
@@ -68,6 +70,8 @@ import { ReactComponent as IconWatcha } from "./logo/ic_watcha.svg";
 import { ReactComponent as IconWavve } from "./logo/ic_wavve.svg";
 
 export {
+  IconPlus,
+  IconPlusBtn,
   IconCheckCircle,
   IconToggleCircle,
   card1,

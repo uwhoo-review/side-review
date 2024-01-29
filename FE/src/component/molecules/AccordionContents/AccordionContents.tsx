@@ -6,6 +6,8 @@ import HWButton from "@src/component/atoms/HWButton/HWButton";
 import CardList from "@src/component/molecules/CardList/CardList";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
 import CardSlider from "@src/component/molecules/CardSlider/CardSlider";
+import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
+import {IconApple, IconPlusBtn} from "@res/index";
 
 const AccordionContents = () => {
   const [open, setOpen] = useState(false);
@@ -26,11 +28,13 @@ const AccordionContents = () => {
       }
       isExpanded={open}
       switchExpanded={() => setOpen(!open)}
+      customCss={styled.accordion}
+
     >
       <div css={styled.subWrapper}>
         <div css={styled.contentBox}>
           <div css={styled.leftBox}>
-            <HWButton>+</HWButton>
+            <IconPlusBtn cursor={"pointer"} />
             <HWTypography variant={"bodyXL"} family={"Pretendard-SemiBold"} color={"#C7C8D3"}>
               인생작 추가
             </HWTypography>

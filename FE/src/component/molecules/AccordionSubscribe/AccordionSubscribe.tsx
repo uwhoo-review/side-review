@@ -33,6 +33,7 @@ const AccordionSubscribe = () => {
       }
       isExpanded={open}
       switchExpanded={() => setOpen(!open)}
+      customCss={styled.accordion}
     >
       <div css={styled.subWrapper}>
         {Object.values(PlatformConstants).map((v: any) => (

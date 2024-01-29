@@ -2,14 +2,19 @@ import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { useEffect, useState } from "react";
 import styled from "./style";
+import PersonCardVertical from "@src/component/atoms/PersonCardVertical/PersonCardVertical";
+import {useNavigate} from "react-router-dom";
 
-const CardSlider = ({ cardList }: any) => {
+const CardSliderPerson = ({ cardList }: any) => {
+  const navigate = useNavigate();
+
   const TOTAL_LIST = cardList.length;
   const MOVE = 1;
-  const TOTAL_PAGE = TOTAL_LIST <= 5 ? 1 : Math.ceil((TOTAL_LIST - 5) / MOVE) + 1;
+  const TOTAL_PAGE = TOTAL_LIST <= 9 ? 1 : Math.ceil((TOTAL_LIST - 9) / MOVE) + 1;
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [firstIdx, setFirstIdx] = useState(1);
-  const [lastIdx, setLastIdx] = useState(5);
+  const [lastIdx, setLastIdx] = useState(9);
   const [translateX, setTranslateX] = useState(0);
 
   const onPrevHandler = () => {
@@ -43,7 +48,7 @@ const CardSlider = ({ cardList }: any) => {
   };
 
   useEffect(() => {
-    const x = (firstIdx - 1) * (-196 - 20);
+    const x = (firstIdx - 1) * (-102 - 30);
     setTranslateX(x);
   }, [firstIdx]);
 
@@ -59,18 +64,17 @@ const CardSlider = ({ cardList }: any) => {
         {cardList.map((v: any, i: number) => {
           return (
             <div className={"content-slide"} key={v.id}>
-              <ContentCard
+              <PersonCardVertical
                 id={v.id}
-                className={`image-card`}
-                srcId={v.poster || ""}
-                contentName={v.name}
-                platform={v.platform}
-                age={v.age}
-                date={v.date}
-                rating={v.rating}
-                active={false}
-                season={v.season}
+                name={v.name}
+                subName={v?.role || v?.job}
+                srcId={v.profilePath}
+                className={"image-card"}
+                key={i}
                 customCss={styled.card}
+                onClick={() => {
+                  navigate(`/person/${v.id}`);
+                }}
               />
             </div>
           );
@@ -86,4 +90,4 @@ const CardSlider = ({ cardList }: any) => {
   );
 };
 
-export default CardSlider;
+export default CardSliderPerson;

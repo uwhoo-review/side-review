@@ -15,7 +15,7 @@ export default {
           display: ${currentPage === 1 ? "none" : "flex"};
         }
         &.right {
-          display: ${currentPage >= lastPage ? "none" : "flex"};
+          display: ${currentPage === lastPage ? "none" : "flex"};
         }
       }
     }
@@ -30,10 +30,10 @@ export default {
     display: flex;
     align-items: center;
     width: 100%;
-    min-height: 382px;
+    min-height: 186px;
     transition: 0.5s ease transform;
     transform: translateX(${translateX}px);
-    gap: ${active ? "40px" : "20px"};
+    gap: 30px;
     .content-slide {
     }
   `,

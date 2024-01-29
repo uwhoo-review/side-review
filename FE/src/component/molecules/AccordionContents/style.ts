@@ -1,6 +1,11 @@
 import { css } from "@emotion/react";
 
 export default {
+  accordion: css`
+    margin-bottom: 70px;
+    &.Mui-expanded {
+      margin-bottom: 70px;
+    }  `,
   wrapper: css``,
   title: css`
     display: flex;
@@ -21,8 +26,8 @@ export default {
     overflow: hidden;
   `,
   leftBox: css`
-    //width: 230px;
-    flex: 1 0;
+    width: 230px;
+    flex: 0 0 230px;
     height: 100%;
 
     display: flex;
@@ -34,7 +39,7 @@ export default {
   rightBox: css`
     width: calc(100% - 230px);
     //width: 1276px;
-    flex: 0 0;
+    flex: 1 0;
     //overflow: hidden;
   `,
   typo1: css`

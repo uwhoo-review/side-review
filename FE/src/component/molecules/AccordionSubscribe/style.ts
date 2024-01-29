@@ -1,6 +1,12 @@
 import { css } from "@emotion/react";
 
 export default {
+  accordion: css`
+    margin-bottom: 70px;
+    &.Mui-expanded {
+      margin-bottom: 70px;
+    }
+  `,
   wrapper: css`
 
   `,

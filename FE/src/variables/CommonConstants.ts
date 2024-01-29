@@ -102,7 +102,7 @@ export const GENRE_NAME = {
   TALK: "토크",
   WAR_POLITICS: "전쟁, 정치",
   WESTERN: "서부",
-} as const;
+};
 
 export const GENRE_ID_NAME = {
   [GENRE_ID.ACTION_ADVENTURE]: [GENRE_NAME.ACTION_ADVENTURE],
@@ -121,7 +121,7 @@ export const GENRE_ID_NAME = {
   [GENRE_ID.TALK]: [GENRE_NAME.TALK],
   [GENRE_ID.WAR_POLITICS]: [GENRE_NAME.WAR_POLITICS],
   [GENRE_ID.WESTERN]: [GENRE_NAME.WESTERN],
-} as const;
+};
 
 export const FILTER_SORT_ID = {
   FAVORITE_SORT: "popularity",
@@ -149,4 +149,12 @@ export const DUMMY_CONTENT = {
     "쓸쓸한 어둠이 드리웠던 비극의 시대, 1945년 봄. 생존이 전부였던 두 청춘이 인간의 탐욕으로 탄생한 괴물들과 사투를 벌인다.",
   trailer: "EtaV2rM80D8",
   date: "2023",
+};
+
+export const DUMMY_PERSON = {
+  cast: [],
+  crew: [],
+  id: 114843,
+  name: "클레어 반 더 붐",
+  profilePath: "1CXZLmtimJksArEZ5afDIH6prwW.jpg",
 };
