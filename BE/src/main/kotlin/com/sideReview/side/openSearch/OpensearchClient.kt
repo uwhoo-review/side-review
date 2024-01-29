@@ -75,26 +75,22 @@ class OpensearchClient(
         return genreList
     }
 
+    fun sumAllPeople(idList: List<String>): Pair<List<Pair<Int, String>>, List<Pair<Int, String>>> {
+        val documentList : MutableList<PersonDocument> = mutableListOf()
+        runBlocking {
+            val response = openSearchGetService.findAllDocumentById("person", idList)
+            documentList.addAll(MapperUtils.parseToPersonDocument(response))
+        }
+        return parseDirectorAndActor(documentList)
+    }
+
     fun sumAllContentsPeople(idList: List<String>): Pair<List<Pair<Int, String>>, List<Pair<Int, String>>> {
-        val actorList: MutableList<PersonDocument> = mutableListOf()
-        val directorList: MutableList<PersonDocument> = mutableListOf()
+        val documentList : MutableList<PersonDocument> = mutableListOf()
         runBlocking {
             val response = openSearchGetService.findAllDocumentByContentId(idList)
-            val documentList = MapperUtils.parseToPersonDocument(response)
-
-            documentList.forEach {
-                if (it.cast?.size == 0 && it.crew?.size != 0) {
-                    val jobMap = it.crew?.map { it.job }
-                    if (jobMap!!.contains("Directing") || jobMap!!.contains("Production")) {
-                        directorList.add(it)
-                    }
-                } else actorList.add(it)
-            }
+            documentList.addAll(MapperUtils.parseToPersonDocument(response))
         }
-        return Pair(
-            actorList.map { Pair(first = it.id, second = it.name) },
-            directorList.map { Pair(first = it.id, second = it.name) }
-        )
+        return parseDirectorAndActor(documentList)
     }
 
     fun getOnePerson(id: String): DetailPersonDto {
@@ -320,6 +316,25 @@ class OpensearchClient(
             }
         }
         return filterList
+    }
+
+    private fun parseDirectorAndActor(documentList: List<PersonDocument>): Pair<List<Pair<Int, String>>, List<Pair<Int, String>>> {
+        val actorList: MutableList<PersonDocument> = mutableListOf()
+        val directorList: MutableList<PersonDocument> = mutableListOf()
+
+        documentList.forEach {
+            if (it.cast?.size == 0 && it.crew?.size != 0) {
+                val jobMap = it.crew?.map { it.job }
+                if (jobMap!!.contains("Directing") || jobMap!!.contains("Production")) {
+                    directorList.add(it)
+                }
+            } else actorList.add(it)
+        }
+
+        return Pair(
+            actorList.map { Pair(first = it.id, second = it.name) },
+            directorList.map { Pair(first = it.id, second = it.name) }
+        )
     }
 
     fun Calendar.addDate(addFun: Int?, addParam: Int?): String {

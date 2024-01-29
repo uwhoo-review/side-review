@@ -122,8 +122,8 @@ class MyPageService(
     fun getMyPage(userId: String): MyPageDto {
         val userReport = userReportRepository.findById(userId).get()
         val user = userInfoRepository.findById(userId).get()
-        val test = evaluatingService.getCaptivatingPerson(user)
-        println(test)
+        val captivatingPair = evaluatingService.getCaptivatingPerson(user)
+        println(captivatingPair)
 
         val userInfo = UserInfo(
             id = userId,
@@ -141,7 +141,15 @@ class MyPageService(
             maxRating = userReport.maxRating?.toFloat(),
             ratingCount = userReport.ratingCount?.toInt(),
             ratings = starRatingService.getRatingByUserId(userId),
-            genreFrequency = evaluatingService.getCaptivatingGenre(user)
+            genreFrequency = evaluatingService.getCaptivatingGenre(user),
+            actor = if (captivatingPair.first != null) Person(
+                id = captivatingPair.first!!.first,
+                name = captivatingPair.first!!.second
+            ) else null,
+            director = if (captivatingPair.second != null) Person(
+                id = captivatingPair.second!!.first,
+                name = captivatingPair.second!!.second
+            ) else null
         )
         return MyPageDto(
             user = userInfo,

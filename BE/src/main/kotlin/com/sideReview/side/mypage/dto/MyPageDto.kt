@@ -27,8 +27,8 @@ data class Report(
     val maxRating: Float? = null,
     val ratingCount: Int? = 0,
     val ratings: List<Rating>? = emptyList(),
-    val director: String? = null,
-    val actor: String? = null,
+    val director: Person? = null,
+    val actor: Person? = null,
     val unique: List<UniqueRating>? = emptyList(),
     val genreFrequency: List<Genre>? = emptyList()
 )
@@ -47,4 +47,9 @@ data class Rating(
 data class Genre(
     val genre: Int,
     val count: Int
+)
+
+data class Person(
+    val id: Int,
+    val name: String
 )

@@ -17,16 +17,26 @@ class EvaluatingService(
     val userReviewRepository: UserReviewRepository,
     val opensearchClient: OpensearchClient
 ) {
-    fun getCaptivatingPerson(user: UserInfo) {
-        val ratedContentIdList =
-            userStarRatingRepository.findByWriterIdAndRatingGreaterThan(user.userId, 3.5f).map { it.targetId }
-        val favoritePersonList = userFavoritePersonRepository.findAllByUserInfo(user).map { it.personId }
-        val favoriteContentIdList = userFavoriteContentRepository.findAllByUserInfo(user).map { it.contentId }
-        val contentIdList: List<String> = (ratedContentIdList+favoriteContentIdList).toList()
-        val contentPeoplePair = opensearchClient.sumAllContentsPeople(contentIdList)
+    fun getCaptivatingPerson(user: UserInfo): Pair<Pair<Int, String>?, Pair<Int, String>?> {
+        val ratedContentList = userStarRatingRepository.findAllByWriterId(user.userId)
+        val contentPeoplePair = opensearchClient.sumAllContentsPeople(ratedContentList.map { it.targetId })
 
-        contentPeoplePair.first //actors
-        contentPeoplePair.second //directors
+        val actorFrequencyMap = contentPeoplePair.first.groupingBy { it }.eachCount()
+        val directorFrequencyMap = contentPeoplePair.second.groupingBy { it }.eachCount()
+
+        val maxActorCnt = actorFrequencyMap.values.maxOrNull()
+        val maxDirectorCnt = directorFrequencyMap.values.maxOrNull()
+
+        var maxActor: Pair<Int, String>? = null
+        var maxDirector: Pair<Int, String>? = null
+
+        if(maxActorCnt != null){
+            maxActor = actorFrequencyMap.filterValues { it == maxActorCnt }.keys.toList().random()
+        }
+        if(maxDirectorCnt != null){
+            maxDirector = directorFrequencyMap.filterValues { it == maxDirectorCnt }.keys.toList().random()
+        }
+        return Pair(maxActor, maxDirector)
     }
 
     fun getCaptivatingGenre(user: UserInfo): List<Genre> {
