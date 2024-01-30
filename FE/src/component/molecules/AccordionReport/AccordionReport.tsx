@@ -5,6 +5,8 @@ import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Divider from "@src/component/atoms/Divider/Divider";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
+import BarChartApex from "@src/component/atoms/BarChartApex/BarChartApex";
+import DonutChartApex from "@src/component/atoms/DonutChartApex/DonutChartApex";
 
 const AccordionReport = () => {
   const [open, setOpen] = useState(true);
@@ -29,14 +31,16 @@ const AccordionReport = () => {
         <div css={styled.contentBox}>
           <div css={[styled.box, styled.box1]}>
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
-              별점 비율
+              ⭐ 별점 비율
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
-            <div></div>
+            <div>
+              <DonutChartApex />
+            </div>
           </div>
           <div css={[styled.box, styled.box2]}>
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
-              제일 많이 준 별점
+              🌟 제일 많이 준 별점
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
             <div>
@@ -47,7 +51,7 @@ const AccordionReport = () => {
           </div>
           <div css={[styled.box, styled.box3]}>
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
-              별점을 남긴 작품
+              🎞️ 이만큼 평가했어요!
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
             <div>
@@ -58,7 +62,7 @@ const AccordionReport = () => {
           </div>
           <div css={[styled.box, styled.box4]}>
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
-              선호하는 감독
+              🤠 내 무의식 Pick! 감독
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
             <div>
@@ -69,7 +73,7 @@ const AccordionReport = () => {
           </div>
           <div css={[styled.box, styled.box5]}>
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
-              선호하는 배우
+              😎 알게 모르게 끌리는 배우
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
             <div>
@@ -80,14 +84,16 @@ const AccordionReport = () => {
           </div>
           <div css={[styled.box, styled.box6]}>
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
-              많이 본 장르
+              📊 많이 본 장르
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
-            <div></div>
+            <div>
+              <BarChartApex />
+            </div>
           </div>
           <div css={[styled.box, styled.box7]}>
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
-              독특한 평가를 남긴 작품
+              🫢 웨이드님이 독특한 평가를 남긴 작품
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
             <div css={styled.flex}>
