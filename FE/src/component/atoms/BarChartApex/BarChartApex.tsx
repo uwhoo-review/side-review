@@ -11,7 +11,10 @@ const BarChartApex = () => {
     ],
     options: {
       chart: {},
-      colors: ["#795DFF", "#9A85FF", "#B8A9FF", "#D2C9FF", "#E5E0FF"],
+      fill: {
+        colors: ["#795DFF", "#9A85FF", "#B8A9FF", "#D2C9FF", "#E5E0FF"],
+        opacity: 1,
+      },
       plotOptions: {
         bar: {
           columnWidth: "50%",
