@@ -3,11 +3,31 @@ import Chart from "react-apexcharts";
 
 const BarChartApex = () => {
   const [data, setData] = useState({
-    options: {
-      chart: {
-        id: "basic-bar",
+    series: [
+      {
+        name: "장르",
+        data: [75, 40, 45, 50, 10],
       },
-      colors: ["rgba(121, 93, 255, 1)", "rgba(121, 93, 255, 0.9)", "rgba(121, 93, 255, 0.8)"],
+    ],
+    options: {
+      chart: {},
+      colors: ["#795DFF", "#9A85FF", "#B8A9FF", "#D2C9FF", "#E5E0FF"],
+      plotOptions: {
+        bar: {
+          columnWidth: "50%",
+          barHeight: "100%",
+          distributed: true,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false,
+        labels: {
+          colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
+        },
+      },
       xaxis: {
         categories: ["액션", "코미디", "로맨스", "판타지", "다큐멘터리"],
         labels: {
@@ -21,12 +41,6 @@ const BarChartApex = () => {
         },
       },
     },
-    series: [
-      {
-        name: "장르",
-        data: [75, 40, 45, 50, 10],
-      },
-    ],
   });
 
   useEffect(() => {}, [data]);
