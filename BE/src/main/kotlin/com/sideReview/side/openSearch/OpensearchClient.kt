@@ -10,6 +10,7 @@ import com.sideReview.side.mypage.dto.FavoriteContentSearchPageDto
 import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.mypage.dto.FavoritePersonDto
 import com.sideReview.side.openSearch.dto.*
+import com.sideReview.side.review.entity.UserStarRating
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 import java.text.SimpleDateFormat
@@ -75,7 +76,8 @@ class OpensearchClient(
         return genreList
     }
 
-    fun sumAllPeople(idList: List<String>): Pair<List<Pair<Int, String>>, List<Pair<Int, String>>> {
+    /*
+    fun sumAllPeopleWithRating(idList: List<String>): Pair<List<Triple<Int, String, Float>>, List<Triple<Int, String, Float>>> {
         val documentList : MutableList<PersonDocument> = mutableListOf()
         runBlocking {
             val response = openSearchGetService.findAllDocumentById("person", idList)
@@ -84,13 +86,17 @@ class OpensearchClient(
         return parseDirectorAndActor(documentList)
     }
 
-    fun sumAllContentsPeople(idList: List<String>): Pair<List<Pair<Int, String>>, List<Pair<Int, String>>> {
-        val documentList : MutableList<PersonDocument> = mutableListOf()
+     */
+
+    fun sumAllContentsPeople(ratedContentList: List<UserStarRating>
+    ): Pair<List<Triple<Int, String, Float>>, List<Triple<Int, String, Float>>>  {
+        val documentList: MutableList<PersonDocument> = mutableListOf()
+        val idRatingMap = ratedContentList.associateBy({ it.targetId }, { it.rating })
         runBlocking {
-            val response = openSearchGetService.findAllDocumentByContentId(idList)
+            val response = openSearchGetService.findAllDocumentByContentId(ratedContentList.map { it.targetId })
             documentList.addAll(MapperUtils.parseToPersonDocument(response))
         }
-        return parseDirectorAndActor(documentList)
+        return parseDirectorAndActor(documentList, idRatingMap)
     }
 
     fun getOnePerson(id: String): DetailPersonDto {
@@ -318,23 +324,37 @@ class OpensearchClient(
         return filterList
     }
 
-    private fun parseDirectorAndActor(documentList: List<PersonDocument>): Pair<List<Pair<Int, String>>, List<Pair<Int, String>>> {
-        val actorList: MutableList<PersonDocument> = mutableListOf()
-        val directorList: MutableList<PersonDocument> = mutableListOf()
+    private fun parseDirectorAndActor(
+        documentList: List<PersonDocument>, idRatingMap: Map<String, Float>
+    ): Pair<List<Triple<Int, String, Float>>, List<Triple<Int, String, Float>>> {
+        val actorList: MutableList<Triple<Int, String, Float>> = mutableListOf()
+        val directorList: MutableList<Triple<Int, String, Float>> = mutableListOf()
 
         documentList.forEach {
+            val personId = it.id
+            val name = it.name
             if (it.cast?.size == 0 && it.crew?.size != 0) {
                 val jobMap = it.crew?.map { it.job }
                 if (jobMap!!.contains("Directing") || jobMap!!.contains("Production")) {
-                    directorList.add(it)
+                    val contentIdList = it.crew!!.map { it.contentId }
+                    for (i: Int in 0..contentIdList.size) {
+                        val contentId = contentIdList[i]
+                        if (idRatingMap.containsKey(contentId))
+                            directorList.add(Triple(personId, name, idRatingMap[contentId]!!))
+                    }
                 }
-            } else actorList.add(it)
+            } else {
+                val contentIdList = it.cast!!.map { it.contentId }
+                for (element in contentIdList) {
+                    if (idRatingMap.containsKey(element)){
+                        val triple = Triple(first = personId, second = name, third =  idRatingMap[element]!!)
+                        actorList.add(triple)
+                        print(triple)
+                    }
+                }
+            }
         }
-
-        return Pair(
-            actorList.map { Pair(first = it.id, second = it.name) },
-            directorList.map { Pair(first = it.id, second = it.name) }
-        )
+        return Pair(first = actorList, second = directorList)
     }
 
     fun Calendar.addDate(addFun: Int?, addParam: Int?): String {
