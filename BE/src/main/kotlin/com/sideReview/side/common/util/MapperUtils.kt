@@ -313,6 +313,17 @@ object MapperUtils {
         }
     }
 
+    fun mapPersonDocumentToFavoriteDetailDto(documentList: List<PersonDocument>) :List<FavoritePersonDetailDto>{
+        return documentList.map {
+            FavoritePersonDetailDto(
+                id = it.id,
+                name = it.name,
+                profilePath = it.profilePath,
+                cast = emptyList()
+            )
+        }
+    }
+
     fun parseStringToList(str : String) : List<Int> {
         val cleanedString = str.replace("[", "").replace("]", "").replace(" ", "")
         val intList = cleanedString.split(",").map { it.toInt() }

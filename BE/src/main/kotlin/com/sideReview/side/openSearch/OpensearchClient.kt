@@ -108,6 +108,15 @@ class OpensearchClient(
         return detailPersonDto
     }
 
+    fun getAllPeople(idList: List<String>): List<PersonDocument> {
+        val documentList: MutableList<PersonDocument> = mutableListOf()
+        runBlocking {
+            val response = openSearchGetService.findAllDocumentById("person", idList)
+            documentList.addAll(MapperUtils.parseToPersonDocument(response))
+        }
+        return documentList
+    }
+
     fun getContents(request: ContentRequestDTO): List<ContentDto> {
         // SearchResponse 가져오는 단계
         if (request.tab == "main" && request.sort == "popularity") {

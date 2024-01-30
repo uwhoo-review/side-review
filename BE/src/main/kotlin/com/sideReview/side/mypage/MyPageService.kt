@@ -114,6 +114,12 @@ class MyPageService(
         return dtoList
     }
 
+    fun getFavoritePeople(user: com.sideReview.side.common.entity.UserInfo): List<FavoritePersonDetailDto> {
+        val favoritePeopleIdList = userFavoritePersonRepository.findAllByUserInfo(user).map { it.personId }
+        val docList = opensearchClient.getAllPeople(favoritePeopleIdList)
+        return MapperUtils.mapPersonDocumentToFavoriteDetailDto(docList)
+    }
+
     fun getOneContent(defaultDto: FavoriteContentDto, userId: String): FavoriteContentDto {
         val oneContent = opensearchClient.getOneContent(defaultDto.id, userId)
         return MapperUtils.mapDetailToFavoriteContentDto(oneContent, defaultDto)
@@ -132,13 +138,13 @@ class MyPageService(
             email = ""
         )
         val favorite = Favorite(
-            person = emptyList(),
+            person = getFavoritePeople(user),
             contents = getFavoriteContent(user),
             genre = if (user.preferGenre != null) MapperUtils.parseStringToList(user.preferGenre!!) else emptyList()
         )
         val report = Report(
-            avgRating = userReport.avgRating?.toFloat(),
-            maxRating = userReport.maxRating?.toFloat(),
+            avgRating = String.format("%.2f", userReport.avgRating).toFloat(),
+            maxRating = userReport.maxRating,
             ratingCount = userReport.ratingCount?.toInt(),
             ratings = starRatingService.getRatingByUserId(userId),
             genreFrequency = evaluatingService.getCaptivatingGenre(user),

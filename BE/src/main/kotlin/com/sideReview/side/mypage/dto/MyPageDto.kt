@@ -15,7 +15,7 @@ data class UserInfo(
 )
 
 data class Favorite(
-    val person: List<FavoritePersonDto>,
+    val person: List<FavoritePersonDetailDto>,
     val contents: List<FavoriteContentDto>,
     val genre: List<Int>? = emptyList()
 )
