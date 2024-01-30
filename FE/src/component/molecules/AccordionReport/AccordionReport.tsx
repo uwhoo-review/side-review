@@ -7,6 +7,8 @@ import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
 import BarChartApex from "@src/component/atoms/BarChartApex/BarChartApex";
 import DonutChartApex from "@src/component/atoms/DonutChartApex/DonutChartApex";
+import {IconArrowRight} from "@res/index";
+import ContentCardSec from "@src/component/atoms/ContentCardSec/ContentCardSec";
 
 const AccordionReport = () => {
   const [open, setOpen] = useState(true);
@@ -70,6 +72,12 @@ const AccordionReport = () => {
                 감독핑
               </HWTypography>
             </div>
+            <div css={styled.moreBtn}>
+              <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#B6B2EA"}>
+                이 감독의 작품 더보기
+              </HWTypography>
+              <IconArrowRight />
+            </div>
           </div>
           <div css={[styled.box, styled.box5]}>
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
@@ -80,6 +88,12 @@ const AccordionReport = () => {
               <HWTypography variant={"headlineXL"} family={"Pretendard"} color={"#ffffff"}>
                 배우핑
               </HWTypography>
+            </div>
+            <div css={styled.moreBtn}>
+              <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#B6B2EA"}>
+                이 배우의 작품 더보기
+              </HWTypography>
+              <IconArrowRight />
             </div>
           </div>
           <div css={[styled.box, styled.box6]}>
@@ -92,12 +106,17 @@ const AccordionReport = () => {
             </div>
           </div>
           <div css={[styled.box, styled.box7]}>
-            <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
-              🫢 웨이드님이 독특한 평가를 남긴 작품
-            </HWTypography>
+            <span>
+              <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#6D6ADA"}>
+                😎 웨이드
+              </HWTypography>
+              <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"} color={"#F9F9FD"}>
+                님이 독특한 평가를 남긴 작품
+              </HWTypography>
+            </span>
             <Divider direction={"h"} length={"100%"} />
             <div css={styled.flex}>
-              <ContentCard
+              <ContentCardSec
                 id={DUMMY_CONTENT.id}
                 srcId={DUMMY_CONTENT.poster}
                 contentName={DUMMY_CONTENT.name}
@@ -105,7 +124,7 @@ const AccordionReport = () => {
                 date={DUMMY_CONTENT.date}
                 active={true}
               />
-              <ContentCard
+              <ContentCardSec
                 id={DUMMY_CONTENT.id}
                 srcId={DUMMY_CONTENT.poster}
                 contentName={DUMMY_CONTENT.name}
@@ -113,7 +132,7 @@ const AccordionReport = () => {
                 date={DUMMY_CONTENT.date}
                 active={true}
               />
-              <ContentCard
+              <ContentCardSec
                 id={DUMMY_CONTENT.id}
                 srcId={DUMMY_CONTENT.poster}
                 contentName={DUMMY_CONTENT.name}

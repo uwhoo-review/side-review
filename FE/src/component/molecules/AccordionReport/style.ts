@@ -35,6 +35,7 @@ export default {
     padding: 20px;
 
     gap: 10px;
+    position: relative;
   `,
   box1: css`
     grid-column: 1 / 2;
@@ -69,4 +70,14 @@ export default {
     justify-content: space-around;
     align-items: center;
   `,
+  moreBtn: css`
+    position: absolute;
+    right: 16px;
+    bottom: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  `
 };
