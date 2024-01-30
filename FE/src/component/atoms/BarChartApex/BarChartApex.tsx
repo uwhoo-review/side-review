@@ -7,26 +7,30 @@ const BarChartApex = () => {
       chart: {
         id: "basic-bar",
       },
+      colors: ["rgba(121, 93, 255, 1)", "rgba(121, 93, 255, 0.9)", "rgba(121, 93, 255, 0.8)"],
       xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+        categories: ["액션", "코미디", "로맨스", "판타지", "다큐멘터리"],
+        labels: {
+          style: {
+            colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
+            fontSize: "12px",
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontWeight: 400,
+            cssClass: "apexcharts-xaxis-label",
+          },
+        },
       },
     },
     series: [
       {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
+        name: "장르",
+        data: [75, 40, 45, 50, 10],
       },
     ],
   });
 
-  /*  const svgRef = useRef<HTMLDivElement | null>(null);
-    function chartRender(svg: any) {}*/
+  useEffect(() => {}, [data]);
 
-  useEffect(() => {
-
-  }, [data]);
-
-  // return <div ref={svgRef}></div>;
   return <Chart options={data.options} type={"bar"} series={data.series}></Chart>;
 };
 
