@@ -2,27 +2,29 @@ package com.sideReview.side.mypage
 
 import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.mypage.dto.Genre
-import com.sideReview.side.mypage.repository.UserFavoriteContentRepository
-import com.sideReview.side.mypage.repository.UserFavoritePersonRepository
-import com.sideReview.side.mypage.repository.UserReportRepository
+import com.sideReview.side.mypage.dto.UniqueRating
 import com.sideReview.side.openSearch.OpensearchClient
+import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.review.UserReviewRepository
 import com.sideReview.side.review.UserStarRatingRepository
 import org.springframework.stereotype.Service
+import kotlin.math.abs
 
 @Service
 class EvaluatingService(
     val userStarRatingRepository: UserStarRatingRepository,
-    val userReportRepository: UserReportRepository,
     val userReviewRepository: UserReviewRepository,
-    val opensearchClient: OpensearchClient
+    val opensearchClient: OpensearchClient,
+    val starRatingService: StarRatingService
 ) {
     fun getCaptivatingPerson(user: UserInfo): Pair<Pair<Int, String>?, Pair<Int, String>?> {
         val ratedContentList = userStarRatingRepository.findAllByWriterId(user.userId)
         val contentPeoplePair = opensearchClient.sumAllContentsPeople(ratedContentList)
 
-        val captivatingActor = if(contentPeoplePair.first != null) findCaptivatingPerson(contentPeoplePair.first) else null
-        val captivatingDirector = if(contentPeoplePair.second != null) findCaptivatingPerson(contentPeoplePair.second) else null
+        val captivatingActor =
+            if (contentPeoplePair.first != null) findCaptivatingPerson(contentPeoplePair.first) else null
+        val captivatingDirector =
+            if (contentPeoplePair.second != null) findCaptivatingPerson(contentPeoplePair.second) else null
 
         return Pair(captivatingActor, captivatingDirector)
     }
@@ -37,9 +39,39 @@ class EvaluatingService(
             .map { Genre(genre = it.key, count = it.value) }
     }
 
-    fun getUniqueRating(user: UserInfo) {
-        val userRatingList = userStarRatingRepository.findAllByWriterId(user.userId)
+    fun getUniqueRating(user: UserInfo): List<UniqueRating> {
+        val ratedContentList = userStarRatingRepository.findAllByWriterId(user.userId)
+        val ratedContentDocList = opensearchClient.getAllContents(ratedContentList.map { it.targetId })
+        val avgRatingMap: MutableMap<String, Float> = mutableMapOf()
+        val userRatingMap: Map<String, Float> = ratedContentList.associate { it.targetId to it.rating }
 
+        ratedContentDocList.forEach {
+            val avgRating = starRatingService.getRating(it.rating?.toFloat(), it.id, user.userId).rating
+            avgRatingMap[it.id] = avgRating!!
+        }
+
+        val uniqueRatingList =
+            avgRatingMap.entries.sortedByDescending { abs(it.value - userRatingMap[it.key]!!) }.take(3)
+                .map {
+                    UniqueRating(
+                        id = it.key,
+                        name = "",
+                        poster = "",
+                        rating = it.value,
+                        userRating = userRatingMap[it.key]!!
+                    )
+                }.toMutableList()
+
+        uniqueRatingList.forEach {
+            if (abs(it.rating - it.userRating) > 1.5f) {
+                val contentId = it.id
+                val document = ratedContentDocList.find { it.id == contentId }
+                it.name = document!!.name
+                it.poster = document.poster ?: ""
+            }
+        }
+        uniqueRatingList.removeIf { entry -> entry.name == "" }
+        return uniqueRatingList
     }
 
     private fun findCaptivatingPerson(personTripleList: List<Triple<Int, String, Float>>): Pair<Int, String>? {

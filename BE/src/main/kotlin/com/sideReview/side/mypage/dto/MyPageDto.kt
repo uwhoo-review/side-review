@@ -1,7 +1,5 @@
 package com.sideReview.side.mypage.dto
 
-import com.sideReview.side.common.dto.RatingDto
-
 data class MyPageDto(
     val user: UserInfo,
     val ott: List<Int>,
@@ -10,7 +8,7 @@ data class MyPageDto(
 )
 
 data class UserInfo(
-    val id : String,
+    val id: String,
     val profile: String? = "",
     val nickname: String,
     val email: String
@@ -34,9 +32,11 @@ data class Report(
 )
 
 data class UniqueRating(
-    val id : String,
-    val name : String,
-    val ratingDto: RatingDto
+    val id: String,
+    var name: String,
+    var poster: String,
+    val rating: Float,
+    val userRating: Float,
 )
 
 data class Rating(

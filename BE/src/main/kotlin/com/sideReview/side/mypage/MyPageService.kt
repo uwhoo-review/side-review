@@ -123,7 +123,7 @@ class MyPageService(
         val userReport = userReportRepository.findById(userId).get()
         val user = userInfoRepository.findById(userId).get()
         val captivatingPair = evaluatingService.getCaptivatingPerson(user)
-        println(captivatingPair)
+        val unique = evaluatingService.getUniqueRating(user)
 
         val userInfo = UserInfo(
             id = userId,
@@ -149,7 +149,8 @@ class MyPageService(
             director = if (captivatingPair.second != null) Person(
                 id = captivatingPair.second!!.first,
                 name = captivatingPair.second!!.second
-            ) else null
+            ) else null,
+            unique = unique
         )
         return MyPageDto(
             user = userInfo,

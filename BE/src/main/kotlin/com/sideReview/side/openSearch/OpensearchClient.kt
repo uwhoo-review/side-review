@@ -2,6 +2,7 @@ package com.sideReview.side.openSearch
 
 import com.jillesvangurp.ktsearch.SearchResponse
 import com.jillesvangurp.searchdsls.querydsl.*
+import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils
@@ -63,6 +64,14 @@ class OpensearchClient(
         }
         return detailContentDto
     }
+    fun getAllContents(idList: List<String>): List<ContentDocument> {
+        val documentList: MutableList<ContentDocument> = mutableListOf()
+        runBlocking {
+            val response = openSearchGetService.findAllDocumentById("content", idList)
+            documentList.addAll(MapperUtils.parseToContentDocument(response))
+        }
+        return documentList
+    }
 
     fun sumAllContentsGenre(idList: List<String>): List<Int> {
         val genreList: MutableList<Int> = mutableListOf()
@@ -75,18 +84,6 @@ class OpensearchClient(
         }
         return genreList
     }
-
-    /*
-    fun sumAllPeopleWithRating(idList: List<String>): Pair<List<Triple<Int, String, Float>>, List<Triple<Int, String, Float>>> {
-        val documentList : MutableList<PersonDocument> = mutableListOf()
-        runBlocking {
-            val response = openSearchGetService.findAllDocumentById("person", idList)
-            documentList.addAll(MapperUtils.parseToPersonDocument(response))
-        }
-        return parseDirectorAndActor(documentList)
-    }
-
-     */
 
     fun sumAllContentsPeople(ratedContentList: List<UserStarRating>
     ): Pair<List<Triple<Int, String, Float>>, List<Triple<Int, String, Float>>>  {
