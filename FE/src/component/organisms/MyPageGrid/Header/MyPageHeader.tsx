@@ -9,7 +9,6 @@ import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 const MyPageHeader = () => {
   return (
     <div className={"mypage-header-wrapper"} css={styled.wrapper}>
-      <MyPageGNB />
       <CenterWrapper>
         <div css={styled.subWrapper}>
           <MyPageProfile />

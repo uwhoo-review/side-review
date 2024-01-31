@@ -21,8 +21,6 @@ const GNB = (props: { children?: React.ReactNode }) => {
   const [open, setOpen] = useState(commonContext.isFilterOpen);
   const [pathVal, setPathVal] = useState("");
 
-  console.log(pathname);
-
   useEffect(() => {
     // const scrollDiv = document.querySelector("#root");
     // setPathVal(pathname.split("/")[1]);

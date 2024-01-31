@@ -45,4 +45,30 @@ export default {
   typo1: css`
     color: #6d6ada;
   `,
+  modalWrapper: css`
+    .MuiDialog-paper {
+      background-color: #252525;
+    }
+  `,
+  modalContentBox: css`
+    display: flex;
+    flex-direction: column;
+  `,
+  box2: css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `,
+  box3: css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  `,
+  footer: css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `
 };

@@ -1,14 +1,8 @@
 import InformationBox from "@src/component/molecules/InformationBox/InformationBox";
 import BoxList from "@src/component/molecules/BoxList/BoxList";
-import img1 from "@res/temp/img1.png";
-import img2 from "@res/temp/img2.png";
-import img3 from "@res/temp/img3.png";
-import img4 from "@res/temp/img4.png";
-import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import PersonCardList from "@src/component/molecules/PersonCardList/PersonCardList";
 import RatingDetailBox from "@src/component/molecules/RatingDetailBox/RatingDetailBox";
 import ReviewCardList from "@src/component/molecules/ReviewCardList/ReviewCardList";
-import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { useEffect, useState } from "react";
 import styled from "./style";
@@ -16,8 +10,6 @@ import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
 import PhotoCard from "@src/component/atoms/PhotoCard/PhotoCard";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
-
-interface DetailGridProps {}
 
 const DetailGrid = ({ data }: any) => {
   const [dialog, setDialog] = useState<any>(null);
