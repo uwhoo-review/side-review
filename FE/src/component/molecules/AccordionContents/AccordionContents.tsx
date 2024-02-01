@@ -7,12 +7,13 @@ import CardList from "@src/component/molecules/CardList/CardList";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
 import CardSlider from "@src/component/molecules/CardSlider/CardSlider";
 import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
-import { IconApple, IconPlusBtn } from "@res/index";
+import { IconApple, IconCancel, IconPlusBtn, IconSearch } from "@res/index";
 import HWDialog from "@src/component/atoms/HWDialog";
 import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
 import ContentCard3rd from "@src/component/atoms/ContentCard3rd/ContentCard3rd";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import person1 from "@res/temp/person1.png";
+import { isNullOrEmpty } from "@src/tools/commonTools";
 
 const AccordionContents = () => {
   const [open, setOpen] = useState(false);
@@ -73,7 +74,15 @@ const AccordionContents = () => {
         <HWDialog.Content>
           <div css={styled.modalContentBox}>
             <div>
-              <HWTextField fullWidth={true} />
+              <HWTextField
+                fullWidth={true}
+                startAdorment={<IconSearch />}
+                endAdorment={
+                  <HWIconButton>
+                    <IconCancel />
+                  </HWIconButton>
+                }
+              />
             </div>
             <div css={styled.box2}>
               <HWTypography variant={"bodyXS"} color={"#9897A1"}>
