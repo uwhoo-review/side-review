@@ -1,12 +1,10 @@
 package com.sideReview.side.review
 
 import com.sideReview.side.common.dto.PageInfoDto
+import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDTO
 import com.sideReview.side.openSearch.dto.ContentDto
-import com.sideReview.side.review.dto.PageReviewDto
-import com.sideReview.side.review.dto.ReviewCreateDto
-import com.sideReview.side.review.dto.ReviewDto
-import com.sideReview.side.review.dto.ReviewEvaDto
+import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.review.exception.ReviewGetAllSortException
 import com.sideReview.side.review.exception.ReviewGetAllSpoilerException
@@ -22,7 +20,7 @@ import java.util.*
 @Service
 class ReviewService(
     val userReviewRepository: UserReviewRepository,
-    val userInfoRepository: UserReviewRepository
+    val userInfoRepository: UserInfoRepository
 ) {
 
     @Transactional
@@ -181,9 +179,10 @@ class ReviewService(
         val userReview: Page<UserReview> = getUserReviewFunc()
         val totalPages = userReview.totalPages
         val totalElements = userReview.totalElements.toInt()
+        val reviewDetailDtoList = mapUserReviewToReviewDetailDTO(userReview.content)
 
         return PageReviewDto(
-            ReviewDto(total, mapUserReviewToReviewDetailDTO(userReview.content)),
+            ReviewDto(total, fillUserInReview(reviewDetailDtoList)),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }
@@ -198,17 +197,32 @@ class ReviewService(
         reviews.map { reviewMap[it.targetId]?.add(it) }
         targets.map {
             it.review = reviewMap[it.id]?.let { it1 ->
-                if (it1.size > 3)
+                if (it1.size > 3) {
+                    val reviewDetailSubList = mapUserReviewToReviewDetailDTO(it1).subList(0, 3)
                     ReviewDto(
                         3,
-                        mapUserReviewToReviewDetailDTO(it1).subList(0, 3)
+                        fillUserInReview(reviewDetailSubList)
                     )
-                else ReviewDto(
-                    it1.size,
-                    mapUserReviewToReviewDetailDTO(it1)
-                )
+                } else {
+                    val reviewDetailList = mapUserReviewToReviewDetailDTO(it1)
+                    ReviewDto(
+                        it1.size,
+                        fillUserInReview(reviewDetailList)
+                    )
+                }
             }
         }
         return targets
+    }
+
+    fun fillUserInReview(reviewsByTargetId: List<ReviewDetailDto>): List<ReviewDetailDto> {
+        for (review in reviewsByTargetId) {
+            if (review.user.type == "1") {
+                val user = userInfoRepository.findById(review.user.id).get()
+                review.user.nickname = user.nickname
+                review.user.profile = user.profile
+            }
+        }
+        return reviewsByTargetId
     }
 }

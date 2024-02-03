@@ -15,6 +15,9 @@ data class UserInfo(
     @Column(name = "nickname", length = 10)
     var nickname: String,
 
+    @Column(name = "profile", length = 50)
+    var profile: String,
+
     @Column(name = "prefer_ott", length = 100)
     var preferOtt: String?,
 

@@ -8,6 +8,7 @@ import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.RatingDto
+import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.mypage.dto.FavoriteContentDto
@@ -128,7 +129,7 @@ object MapperUtils {
     }
 
     private fun <T> parse(response: SearchResponse, collectionType: Type): List<T> {
-        val mutableList: MutableList<T> = mutableListOf();
+        val mutableList: MutableList<T> = mutableListOf()
         val hits = response.hits
         if (hits != null) {
             for (data in hits.hits) {
@@ -171,7 +172,12 @@ object MapperUtils {
             details.add(
                 ReviewDetailDto(
                     id = r.reviewId,
-                    userId = r.writerId,
+                    user = UserInfoDto(
+                        r.writerId,
+                        "",
+                        "",
+                        r.userType
+                    ),
                     content = r.content,
                     date = "${r.create}",
                     like = r.like,
@@ -250,7 +256,7 @@ object MapperUtils {
         )
     }
 
-    private fun mapCastItemToRole(cast: List<CastItem>?): List<PersonRoleDto>? {
+    private fun mapCastItemToRole(cast: List<CastItem>?): List<PersonRoleDto> {
         if (cast.isNullOrEmpty()) return emptyList()
         return cast.map {
             PersonRoleDto(
@@ -260,7 +266,7 @@ object MapperUtils {
         }
     }
 
-    private fun mapCrewItemToJob(crew: List<CrewItem>?): List<PersonJobDto>? {
+    private fun mapCrewItemToJob(crew: List<CrewItem>?): List<PersonJobDto> {
         if (crew.isNullOrEmpty()) return emptyList()
         return crew.map {
             PersonJobDto(
@@ -279,7 +285,10 @@ object MapperUtils {
         )
     }
 
-    fun mapDetailToFavoriteContentDto(detailDto : DetailContentDto, defaultDto: FavoriteContentDto): FavoriteContentDto {
+    fun mapDetailToFavoriteContentDto(
+        detailDto: DetailContentDto,
+        defaultDto: FavoriteContentDto
+    ): FavoriteContentDto {
         return FavoriteContentDto(
             id = defaultDto.id,
             rank = defaultDto.rank,
@@ -291,7 +300,10 @@ object MapperUtils {
         )
     }
 
-    fun mapFavoriteContentDtoToEntity(dtoList: List<FavoriteContentInputDto>, userInfo: UserInfo): List<UserFavoriteContent>{
+    fun mapFavoriteContentDtoToEntity(
+        dtoList: List<FavoriteContentInputDto>,
+        userInfo: UserInfo
+    ): List<UserFavoriteContent> {
         return dtoList.map {
             UserFavoriteContent(
                 contentId = it.contentId,
@@ -301,7 +313,7 @@ object MapperUtils {
         }
     }
 
-    fun mapFavoriteContentEntityToDto(entityList: List<UserFavoriteContent>) : List<FavoriteContentDto>{
+    fun mapFavoriteContentEntityToDto(entityList: List<UserFavoriteContent>): List<FavoriteContentDto> {
         return entityList.map {
             FavoriteContentDto(
                 id = it.contentId,
@@ -314,7 +326,7 @@ object MapperUtils {
         }
     }
 
-    fun mapPersonDocumentToFavoriteDetailDto(documentList: List<PersonDocument>) :List<FavoritePersonDetailDto>{
+    fun mapPersonDocumentToFavoriteDetailDto(documentList: List<PersonDocument>): List<FavoritePersonDetailDto> {
         return documentList.map {
             FavoritePersonDetailDto(
                 id = it.id,
@@ -325,7 +337,7 @@ object MapperUtils {
         }
     }
 
-    fun parseStringToList(str : String) : List<Int> {
+    fun parseStringToList(str: String): List<Int> {
         val cleanedString = str.replace("[", "").replace("]", "").replace(" ", "")
         val intList = cleanedString.split(",").map { it.toInt() }
 
