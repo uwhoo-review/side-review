@@ -19,6 +19,17 @@ interface UserReviewRepository : JpaRepository<UserReview, String> {
     fun findAllByTargetIdInAndSpoilerIsOrderByLikeDescDislikeAsc(ids: List<String>, spoiler: String): List<UserReview>
     fun findAllByTargetIdOrderByLikeDescDislikeAsc(id: String, pageable: Pageable): Page<UserReview>
     fun findAllByTargetIdOrderByCreateDesc(id: String, pageable: Pageable): Page<UserReview>
-    fun findAllByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(id: String, spoiler: String, pageable: Pageable): Page<UserReview>
-    fun findAllByTargetIdAndSpoilerIsOrderByCreateDesc(id: String, spoiler: String, pageable: Pageable): Page<UserReview>
+    fun findAllByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(
+        id: String,
+        spoiler: String,
+        pageable: Pageable
+    ): Page<UserReview>
+
+    fun findAllByTargetIdAndSpoilerIsOrderByCreateDesc(
+        id: String,
+        spoiler: String,
+        pageable: Pageable
+    ): Page<UserReview>
+
+    fun findAllByWriterId(id: String): List<UserReview>
 }

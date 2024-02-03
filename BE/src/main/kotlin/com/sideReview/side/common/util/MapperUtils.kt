@@ -7,15 +7,17 @@ import com.sideReview.side.common.constant.GenreEnum
 import com.sideReview.side.common.constant.ProviderEnum
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
-import com.sideReview.side.openSearch.dto.ContentDto
-import com.sideReview.side.openSearch.dto.SimpleContentDto
-import com.sideReview.side.person.dto.PersonDto
-import com.sideReview.side.review.dto.ReviewDetailDTO
+import com.sideReview.side.common.dto.RatingDto
+import com.sideReview.side.common.entity.UserFavoriteContent
+import com.sideReview.side.common.entity.UserInfo
+import com.sideReview.side.mypage.dto.FavoriteContentDto
+import com.sideReview.side.mypage.dto.FavoriteContentInputDto
+import com.sideReview.side.mypage.dto.FavoriteContentSearchDto
+import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
+import com.sideReview.side.openSearch.dto.*
+import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.entity.UserReview
-import com.sideReview.side.tmdb.dto.ImageResponse
-import com.sideReview.side.tmdb.dto.PersonInfo
-import com.sideReview.side.tmdb.dto.SeasonImageResponse
-import com.sideReview.side.tmdb.dto.TmdbContent
+import com.sideReview.side.tmdb.dto.*
 import java.lang.reflect.Type
 
 object MapperUtils {
@@ -29,6 +31,50 @@ object MapperUtils {
                 platform = null,
                 genre = it.genre_ids,
                 rating = it.vote_average / 2,
+                firstAirDate = it.first_air_date,
+                synopsis = it.overview,
+                trailer = null,
+                photo = null,
+                poster = it.poster_path?.substring(1),
+                avgStarRating = null,
+                popularity = it.popularity,
+                production = null
+            )
+        }.toMutableList()
+    }
+
+    fun mapCastContentToDocument(tvCastInfoList: List<TvCastInfo>): MutableList<ContentDocument> {
+        return tvCastInfoList.map {
+            ContentDocument(
+                id = it.id.toString(),
+                sortingName = it.name ?: "",
+                name = it.name ?: "",
+                originalName = it.original_name ?: "",
+                platform = null,
+                genre = it.genre_ids,
+                rating = it.vote_average?.div(2),
+                firstAirDate = it.first_air_date,
+                synopsis = it.overview,
+                trailer = null,
+                photo = null,
+                poster = it.poster_path?.substring(1),
+                avgStarRating = null,
+                popularity = it.popularity,
+                production = null
+            )
+        }.toMutableList()
+    }
+
+    fun mapCrewContentToDocument(tvCrewInfoList: List<TvCrewInfo>): MutableList<ContentDocument> {
+        return tvCrewInfoList.map {
+            ContentDocument(
+                id = it.id.toString(),
+                sortingName = it.name ?: "",
+                name = it.name ?: "",
+                originalName = it.original_name ?: "",
+                platform = null,
+                genre = it.genre_ids,
+                rating = it.vote_average?.div(2),
                 firstAirDate = it.first_air_date,
                 synopsis = it.overview,
                 trailer = null,
@@ -119,16 +165,11 @@ object MapperUtils {
         return parse(response, collectionType)
     }
 
-    fun parseToSimpleContentDto(response: SearchResponse): List<SimpleContentDto> {
-        val collectionType: Type = object : TypeToken<SimpleContentDto>() {}.type
-        return parse(response, collectionType)
-    }
-
-    fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDTO> {
-        val details = mutableListOf<ReviewDetailDTO>()
+    fun mapUserReviewToReviewDetailDTO(review: List<UserReview>): List<ReviewDetailDto> {
+        val details = mutableListOf<ReviewDetailDto>()
         for (r in review) {
             details.add(
-                ReviewDetailDTO(
+                ReviewDetailDto(
                     id = r.reviewId,
                     content = r.content,
                     date = "${r.create}",
@@ -141,4 +182,152 @@ object MapperUtils {
         return details
     }
 
+    fun mapDetailToContent(detail: DetailContentDto): ContentDto {
+        return ContentDto(
+            detail.id,
+            detail.name,
+            detail.platform,
+            detail.genre,
+            detail.getYear(),
+            detail.synopsis,
+            if (!detail.trailer.isNullOrEmpty()) detail.trailer[0] else null,
+            detail.poster,
+            detail.rating,
+            if (!detail.actors.isNullOrEmpty()) detail.actors.map { it.name } else null,
+            detail.age,
+            detail.season,
+            null // TODO. Review 추가
+        )
+    }
+
+    fun mapDetailToSimpleContent(detail: DetailContentDto): SimpleContentDto {
+        return SimpleContentDto(
+            detail.id,
+            detail.name,
+            detail.platform,
+            detail.poster,
+            detail.rating,
+            detail.getYear(),
+            detail.season
+        )
+    }
+
+    fun parseSearchResponseToSimpleContentDto(response: SearchResponse): SimpleContentDto? {
+        val document = parseToContentDocument(response)
+        return if (document.isEmpty()) null
+        else
+            SimpleContentDto(
+                document[0].id,
+                document[0].name,
+                document[0].platform,
+                document[0].poster,
+                RatingDto(document[0].rating?.toFloat(), 0, null),
+                document[0].getYear()
+            )
+    }
+
+    fun mapDetailTofavoriteContent(detailContentDto: DetailContentDto): FavoriteContentSearchDto {
+        return FavoriteContentSearchDto(
+            id = detailContentDto.id,
+            poster = detailContentDto.poster,
+            name = detailContentDto.name,
+            year = detailContentDto.getYear(),
+            director = detailContentDto.directors ?: emptyList(),
+            genre = detailContentDto.genre,
+            country = detailContentDto.originCountry
+            // user 개인의 rating은 외부에서 따로 넣음
+        )
+    }
+
+    fun mapDetailToPerson(dto: DetailPersonDto): PersonDto {
+        return PersonDto(
+            id = dto.id,
+            name = dto.name,
+            profilePath = dto.profilePath,
+            cast = mapCastItemToRole(dto.cast),
+            crew = mapCrewItemToJob(dto.crew)
+        )
+    }
+
+    private fun mapCastItemToRole(cast: List<CastItem>?): List<PersonRoleDto>? {
+        if (cast.isNullOrEmpty()) return emptyList()
+        return cast.map {
+            PersonRoleDto(
+                it.role,
+                it.contentId
+            )
+        }
+    }
+
+    private fun mapCrewItemToJob(crew: List<CrewItem>?): List<PersonJobDto>? {
+        if (crew.isNullOrEmpty()) return emptyList()
+        return crew.map {
+            PersonJobDto(
+                it.job,
+                it.contentId
+            )
+        }
+    }
+
+    fun mapDetailToFavoritePersonDetail(dto: DetailPersonDto): FavoritePersonDetailDto {
+        return FavoritePersonDetailDto(
+            id = dto.id,
+            name = dto.name,
+            profilePath = dto.profilePath,
+            cast = dto.cast?.map { it.contentName } ?: emptyList()
+        )
+    }
+
+    fun mapDetailToFavoriteContentDto(detailDto : DetailContentDto, defaultDto: FavoriteContentDto): FavoriteContentDto {
+        return FavoriteContentDto(
+            id = defaultDto.id,
+            rank = defaultDto.rank,
+            name = detailDto.name,
+            poster = detailDto.poster,
+            year = detailDto.getYear(),
+            rating = detailDto.rating.rating.toString(),
+            provider = detailDto.platform ?: emptyList(),
+        )
+    }
+
+    fun mapFavoriteContentDtoToEntity(dtoList: List<FavoriteContentInputDto>, userInfo: UserInfo): List<UserFavoriteContent>{
+        return dtoList.map {
+            UserFavoriteContent(
+                contentId = it.contentId,
+                rank = it.rank,
+                userInfo = userInfo
+            )
+        }
+    }
+
+    fun mapFavoriteContentEntityToDto(entityList: List<UserFavoriteContent>) : List<FavoriteContentDto>{
+        return entityList.map {
+            FavoriteContentDto(
+                id = it.contentId,
+                rank = it.rank,
+                name = "",
+                poster = "",
+                year = "",
+                provider = emptyList(),
+            )
+        }
+    }
+
+    fun mapPersonDocumentToFavoriteDetailDto(documentList: List<PersonDocument>) :List<FavoritePersonDetailDto>{
+        return documentList.map {
+            FavoritePersonDetailDto(
+                id = it.id,
+                name = it.name,
+                profilePath = it.profilePath,
+                cast = emptyList()
+            )
+        }
+    }
+
+    fun parseStringToList(str : String) : List<Int> {
+        val cleanedString = str.replace("[", "").replace("]", "").replace(" ", "")
+        val intList = cleanedString.split(",").map { it.toInt() }
+
+        return intList
+    }
 }

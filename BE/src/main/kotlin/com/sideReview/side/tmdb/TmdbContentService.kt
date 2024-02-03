@@ -2,6 +2,7 @@ package com.sideReview.side.tmdb
 
 import com.sideReview.side.common.constant.CountryEnum
 import com.sideReview.side.common.document.ContentDocument
+import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.document.Product
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.mapProviderStringToCode
@@ -19,25 +20,30 @@ import kotlin.math.min
 class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClient) {
     @Value("\${api.tmdb.key}")
     lateinit var accessKey: String
-    private val logger = LoggerFactory.getLogger(this.javaClass)!!
+    private val logger = LoggerFactory.getLogger(this::class.java)!!
 
     fun getAllContents(): MutableList<ContentDocument> {
         val dtoList: MutableList<TmdbContent> = mutableListOf()
         val countryList = CountryEnum.getCountryCodes()
 
         countryList.forEach {
-            val tmdbData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it)
-            dtoList.addAll(tmdbData.results)
+            val tmdbPopularData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it, "popularity.desc")
+            val tmdbLatestData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it, "primary_release_date.desc")
+            //popularity.desc or primary_release_date.desc
+
+            dtoList.addAll(tmdbPopularData.results)
+            dtoList.addAll(tmdbLatestData.results)
 
             logger.info("[Discover] $it first: ${dtoList.size}")
 
-            val pages: Int = min(tmdbData.total_pages, 500)
+            val pages: Int = min(tmdbPopularData.total_pages, 500)
             for (page in 2..pages) {
-                dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it).results)
+                dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it, "popularity.desc").results)
+                dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it, "primary_release_date.desc").results)
             }
             logger.info("[Discover] $it final: ${dtoList.size}")
         }
-        return MapperUtils.mapTmdbToDocument(dtoList)
+        return MapperUtils.mapTmdbToDocument(dtoList.distinctBy { it.id })
     }
 
     fun getMoreInfo(docList: MutableList<ContentDocument>): List<ContentDocument> {
@@ -51,7 +57,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 val providersResponse: WatchProvidersResponse =
                     tmdbClient.findOneProvider("Bearer $accessKey", id)
                 doc.platform = filterPlatformList(providersResponse)
-                if(doc.platform!!.isEmpty()){
+                if (doc.platform!!.isEmpty()) {
                     docList.removeAt(i)
                     logger.info("no provider : ${doc.name}")
                     continue
@@ -75,15 +81,31 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             }
 
             try {
+                val contentRatingResponse: ContentRatingResponse =
+                    tmdbClient.findOneAge("Bearer $accessKey", id)
+                doc.age = filterAge(contentRatingResponse);
+            } catch (e: Exception) {
+                logger.info("An error occurred during age processing - $id")
+            }
+
+            try {
                 val detailResponse: DetailResponse =
                     tmdbClient.findOneContent("Bearer $accessKey", id)
                 doc.season = filterDetail(detailResponse)
                 seasonDocList.addAll(getSeasonContents(id, detailResponse))
                 doc.episodeCount = detailResponse.seasons?.get(0)?.episode_count
                 doc.production = Product(detailResponse.production_companies?.map { it.name },
-                    detailResponse.origin_country?.map { CountryEnum.getNameByCode(it) })
+                    detailResponse.origin_country.map { CountryEnum.getNameByCode(it) })
             } catch (e: Exception) {
                 logger.info("An error occurred during detail processing - $id")
+            }
+
+            try {
+                val creditResponse: CreditResponse =
+                    tmdbClient.findOneSeasonCredit("Bearer $accessKey", id, 1)
+                doc.directors = filterDirectors(creditResponse)
+            } catch (e: Exception) {
+                logger.info("An error occurred during director processing - $id")
             }
         }
         seasonDocList.addAll(docList)
@@ -99,6 +121,7 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
             val trailer: MutableList<String> = mutableListOf()
             val provider: MutableList<Int> = mutableListOf()
             val image: MutableList<String> = mutableListOf()
+            val directors: MutableList<String> = mutableListOf()
 
             try {
                 val videoResponse: VideoResponse =
@@ -125,6 +148,14 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                 logger.info("An error occurred during season image processing - $id - $season")
             }
 
+            try {
+                val creditResponse: CreditResponse =
+                    tmdbClient.findOneSeasonCredit("Bearer $accessKey", id, 1)
+                directors.addAll(filterDirectors(creditResponse))
+            } catch (e: Exception) {
+                logger.info("An error occurred during director processing - $id")
+            }
+
             docList.add(
                 ContentDocument(
                     id = id + "_" + "$season",
@@ -144,10 +175,28 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
                     season = emptyList(),
                     popularity = null,
                     episodeCount = seasonInfo?.episode_count,
+                    directors = directors
                 )
             )
         }
 
+        return docList
+    }
+
+    fun getAllContentsFromPerson(personDocList: List<PersonDocument>): MutableList<ContentDocument> {
+        val docList: MutableList<ContentDocument> = mutableListOf()
+        personDocList.forEach {
+            val id = it.id
+            try {
+                val response: TvCreditResponse = tmdbClient.findPersonTvCredits("Bearer $accessKey", id.toString())
+                if (response.cast?.size!! > 0)
+                    docList.addAll(MapperUtils.mapCastContentToDocument(response.cast))
+                if (response.crew?.size!! > 0)
+                    docList.addAll(MapperUtils.mapCrewContentToDocument(response.crew))
+            } catch (e: Exception) {
+                logger.info("An error occurred during person tv credit processing - $id")
+            }
+        }
         return docList
     }
 
@@ -189,11 +238,37 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
         return photoList
     }
 
-    private fun filterDetail(detailResponse: DetailResponse): List<String> {
-        val seasonList: MutableList<String> = mutableListOf()
-        for (i in 2..detailResponse.number_of_seasons!!)
-            seasonList.add("${detailResponse.id}_$i")
+    private fun filterDetail(detailResponse: DetailResponse): List<com.sideReview.side.common.document.Season> {
+        val seasonInfoList: MutableList<com.sideReview.side.common.document.Season> =
+            mutableListOf()
+        for (i in 1..detailResponse.number_of_seasons!!) {
+            var seasonName = ""
+            var seasonId = ""
+            detailResponse.seasons?.forEach {
+                if (it.season_number == i) seasonName = it.name ?: ""
+            }
 
-        return seasonList
+            if (i == 1) seasonId = detailResponse.id.toString()
+            else seasonId = "${detailResponse.id}_$i"
+
+            seasonInfoList.add(com.sideReview.side.common.document.Season(seasonId, seasonName))
+        }
+        return seasonInfoList
+    }
+
+    private fun filterAge(contentRatingResponse: ContentRatingResponse): String {
+        contentRatingResponse.results.forEach {
+            if (it.iso_3166_1 == "KR") return it.rating
+        }
+        return ""
+    }
+
+    private fun filterDirectors(creditResponse: CreditResponse): List<String> {
+        val directors: MutableList<String> = mutableListOf()
+        creditResponse.crew?.forEach {
+            if (it.department == "Directing" || it.department == "Production")
+                directors.add(it.name ?: "")
+        }
+        return directors
     }
 }

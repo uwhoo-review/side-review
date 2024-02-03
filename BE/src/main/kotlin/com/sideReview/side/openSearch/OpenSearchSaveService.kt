@@ -50,7 +50,12 @@ class OpenSearchSaveService(
                     number<Float>(ContentDocument::avgStarRating)
                     number<Double>(ContentDocument::popularity)
                     number<Int>(ContentDocument::episodeCount)
-                    text(ContentDocument::season)
+                    objField(ContentDocument::season) {
+                        text(Season::name) {
+                            analyzer = "nori"
+                        }
+                        keyword(Season::id)
+                    }
                     objField(ContentDocument::production) {
                         text(Product::company) {
                             analyzer = "nori"
@@ -59,6 +64,9 @@ class OpenSearchSaveService(
                             analyzer = "nori"
                         }
                     }
+                    text(ContentDocument::directors)
+                    keyword(ContentDocument::age)
+                    text(ContentDocument::originalName)
                 }
             }
         }.onFailure {
@@ -162,53 +170,64 @@ class OpenSearchSaveService(
             val docs: List<ContentDocument> =
                 tmdbContentService.getMoreInfo(tmdbContentService.getAllContents())
             coroutineScope {
-                val roop = docs.size / 300
-                for (i: Int in 0..roop) {
-                    val roopDocs = docs.subList(i * 300, min((i + 1) * 300, docs.size))
-                    client.bulk(
-                        bulkSize = roopDocs.size,
-                        target = idxName,
-                        callBack = itemCallBack
-                    ) {
-                        roopDocs.forEach { doc ->
-                            index(
-                                source = DEFAULT_JSON.encodeToString(
-                                    ContentDocument.serializer(),
-                                    doc
-                                ),
-                                id = doc.id
-
-                            )
-                        }
-                    }
-                }
+                bulkInsert(docs, "content", itemCallBack, loopContent(docs))
             }
         } else if (idxName == "person") {
-            val docs: List<PersonDocument> =
-                tmdbPersonService.getCreditInfo(tmdbPersonService.getAllPeople())
+            val defaultPersonDocs = tmdbPersonService.getAllPeople()
+            val docs: List<PersonDocument> = tmdbPersonService.getCreditInfo(defaultPersonDocs)
+            val contentDocs = tmdbContentService.getMoreInfo(
+                tmdbContentService.getAllContentsFromPerson(defaultPersonDocs)
+            )
             coroutineScope {
-                val roop = docs.size / 300
-                for (i: Int in 0..roop) {
-                    val roopDocs = docs.subList(i * 300, min((i + 1) * 300, docs.size))
-                    client.bulk(
-                        bulkSize = roopDocs.size,
-                        target = idxName,
-                        callBack = itemCallBack
-                    ) {
-                        roopDocs.forEach { doc ->
-                            index(
-                                source = DEFAULT_JSON.encodeToString(
-                                    PersonDocument.serializer(),
-                                    doc
-                                ),
-                                id = "${doc.id}"
-                            )
-                        }
-                    }
-                }
+                bulkInsert(docs, "person", itemCallBack, loopPerson(docs))
+                bulkInsert(contentDocs, "content", itemCallBack, loopContent(contentDocs))
             }
         }
     }
+
+    private suspend fun bulkInsert(
+        docs: List<Any>,
+        idxName: String,
+        itemCallBack: BulkItemCallBack,
+        block: suspend BulkSession.() -> Unit
+    ) {
+        val loopSize = docs.size / 300
+        for (i: Int in 0..loopSize) {
+            val loopDocs =
+                docs.subList(i * 300, min((i + 1) * 300, docs.size))
+            client.bulk(
+                bulkSize = loopDocs.size,
+                target = idxName,
+                callBack = itemCallBack, block = block
+            )
+        }
+    }
+
+    private fun loopContent(loopDocs: List<ContentDocument>): suspend BulkSession.() -> Unit =
+        {
+            loopDocs.forEach { doc ->
+                index(
+                    source = DEFAULT_JSON.encodeToString(
+                        ContentDocument.serializer(),
+                        doc
+                    ),
+                    id = doc.id
+                )
+            }
+        }
+
+    private fun loopPerson(loopDocs: List<PersonDocument>): suspend BulkSession.() -> Unit =
+        {
+            loopDocs.forEach { doc ->
+                index(
+                    source = DEFAULT_JSON.encodeToString(
+                        PersonDocument.serializer(),
+                        doc
+                    ),
+                    id = "${doc.id}"
+                )
+            }
+        }
 
     // test용 임시 함수
     suspend fun get(idxName: String) {

@@ -16,10 +16,10 @@ data class UserInfo(
     var nickname: String,
 
     @Column(name = "prefer_ott", length = 100)
-    val preferOtt: String?,
+    var preferOtt: String?,
 
     @Column(name = "prefer_genre", length = 100)
-    val preferGenre: String?,
+    var preferGenre: String?,
 
     @OneToMany(mappedBy = "userInfo", cascade = [CascadeType.ALL])
     val favoriteContent: List<UserFavoriteContent>?,

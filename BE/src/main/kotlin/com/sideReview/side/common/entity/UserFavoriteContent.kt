@@ -21,7 +21,7 @@ data class UserFavoriteContent(
     val rank: Int,
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val userInfo: UserInfo
 )

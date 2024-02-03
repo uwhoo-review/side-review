@@ -13,15 +13,13 @@ interface TmdbClient {
     fun findAllTvShows(
         @RequestHeader("Authorization") apiKey: String,
         @RequestParam("page") page: Int,
-        @RequestParam("with_origin_country") originCountry : String,
+        @RequestParam("with_origin_country") originCountry: String,
+        @RequestParam("sort_by") sortBy: String,               //popularity.desc or primary_release_date.desc
         @RequestParam("include_adult") includeAdult: Boolean = false,
         @RequestParam("include_null_first_air_dates") includeNullFirstAirDates: Boolean = false,
         @RequestParam("language") language: String = "ko-KR",
-        @RequestParam("sort_by") sortBy: String = "popularity.desc", //popularity.desc or primary_release_date.desc
         @RequestParam("watch_region") watchRegion: String = "KR",
-        //@RequestParam("with_networks") withNetworks: Int = 213,
-        @RequestParam("first_air_date_year") year : Int = 2022,
-        //@RequestParam("with_original_language") withOriginalLanguage: String = "en"
+        @RequestParam("first_air_date_year") year: Int = 2022,
     ): TmdbResponse
 
     @GetMapping("tv/{id}/watch/providers")
@@ -93,5 +91,17 @@ interface TmdbClient {
     fun findOnePerson(
         @RequestHeader("Authorization") apiKey: String,
         @PathVariable(name = "id", required = true) tmdbId: Int
-    ) : PeopleDetailResponse
+    ): PeopleDetailResponse
+
+    @GetMapping("tv/{id}/content_ratings")
+    fun findOneAge(
+        @RequestHeader("Authorization") apiKey: String,
+        @PathVariable(name = "id", required = true) tmdbId: String
+    ): ContentRatingResponse
+
+    @GetMapping("person/{id}/tv_credits?language=ko-KR")
+    fun findPersonTvCredits(
+        @RequestHeader("Authorization") apiKey: String,
+        @PathVariable(name = "id", required = true) tmdbId: String
+    ): TvCreditResponse
 }

@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles
 @SpringBootTest
 @ActiveProfiles("local")
 class LibraryTest {
-    private val logger = LoggerFactory.getLogger(this.javaClass)!!
+    private val logger = LoggerFactory.getLogger(this::class.java)!!
 
     @Test
     fun clientCreate() {

@@ -4,8 +4,8 @@ import com.sideReview.side.common.document.JobInfo
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.document.RoleInfo
 import com.sideReview.side.common.util.MapperUtils
-import com.sideReview.side.person.NamesRepository
-import com.sideReview.side.person.entity.Names
+import com.sideReview.side.names.NamesRepository
+import com.sideReview.side.names.entity.Names
 import com.sideReview.side.tmdb.dto.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,16 +14,18 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClient,
-                                               private val tmdbContentService: TmdbContentService,
-                                               private val namesRepository: NamesRepository) {
+class TmdbPersonService @Autowired constructor(
+    private val tmdbClient: TmdbClient,
+    private val tmdbContentService: TmdbContentService,
+    private val namesRepository: NamesRepository
+) {
     @Value("\${api.tmdb.key}")
     lateinit var accessKey: String
-    private val logger = LoggerFactory.getLogger(this.javaClass)!!
+    private val logger = LoggerFactory.getLogger(this::class.java)!!
     fun getAllPeople(): List<PersonDocument> {
         val peopleResponse: PeopleResponse = tmdbClient.findAllPeople("Bearer $accessKey", 1)
         //val pages: Int = peopleResponse.total_pages
-        val pages: Int = 4
+        val pages: Int = 500
         var dtoList: MutableList<PersonInfo> = mutableListOf()
 
         dtoList.addAll(peopleResponse.results)
@@ -34,7 +36,7 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
 
         dtoList.forEach {
             val koreanName = convertIdToKorean(it.id)
-            if(koreanName != null && koreanName != "")
+            if (koreanName != null && koreanName != "")
                 it.name = convertIdToKorean(it.id) ?: it.name
         }
 
@@ -84,12 +86,14 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
                 namesRepository.save(
                     Names(
                         personResponse.id, filterKorean(personResponse.also_known_as), personResponse.name
-                ))
+                    )
+                )
             } catch (e: Exception) {
                 logger.info("An error occurred during person dictionary processing - $it.id")
             }
         }
     }
+
     private fun filterKorean(strings: List<String>): String {
         val koreanRegex = "[가-힣]".toRegex()
         var koreanName = ""
@@ -120,14 +124,15 @@ class TmdbPersonService @Autowired constructor(private val tmdbClient: TmdbClien
         }
         return CreditDto(roleList, jobList)
     }
-    private fun convertIdToKorean(id: Int) : String? {
+
+    private fun convertIdToKorean(id: Int): String? {
         var name: String? = null
         var englishName: String? = null
-        try{
+        try {
             val entity = namesRepository.findById(id).get()
             name = entity.koreanName
             englishName = entity.englishName
-        }catch(e :Exception){
+        } catch (e: Exception) {
             logger.info("No Such person - $id")
         }
         return name ?: englishName

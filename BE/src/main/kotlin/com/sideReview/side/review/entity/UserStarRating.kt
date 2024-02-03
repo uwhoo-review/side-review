@@ -14,7 +14,7 @@ data class UserStarRating(
     @Column(name = "target_id", length = 36, nullable = false)
     val targetId: String,
 
-    @Column(name = "writer_id", length = 15, nullable = false)
+    @Column(name = "writer_id", length = 100, nullable = false)
     val writerId: String,
 
     @Column(name = "rating", nullable = false)
