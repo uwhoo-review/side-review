@@ -32,5 +32,15 @@ class ClientUtils {
         fun getUserId(request: HttpServletRequest): String {
             return request.getHeader("userId")
         }
+
+        fun getUserType(userId:String): String{
+            if(userId.contains(".")) return "2"
+            else return "1"
+        }
+
+        fun getUserType(request: HttpServletRequest): String {
+            val userId = getUserId(request)
+            return getUserType(userId)
+        }
     }
 }

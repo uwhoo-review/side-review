@@ -1,6 +1,8 @@
 package com.sideReview.side.review.entity
 
 import org.hibernate.annotations.ColumnDefault
+import org.hibernate.annotations.Comment
+import org.springframework.context.annotation.Description
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDate
 import javax.persistence.*
@@ -17,6 +19,11 @@ class UserReview(
 
     @Column(name = "WRITER_ID", length = 100, nullable = false)
     var writerId: String,
+
+    @Column(name = "USER_TYPE", length = 1, nullable = false)
+    @Comment("1:user, 2:public")
+    @ColumnDefault("2")
+    var userType: String,
 
     @Column(name = "LIKE_CNT", nullable = false)
     @ColumnDefault("0")

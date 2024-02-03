@@ -8,6 +8,9 @@ import com.sideReview.side.review.dto.ReviewCreateDto
 import com.sideReview.side.review.dto.ReviewDto
 import com.sideReview.side.review.dto.ReviewEvaDto
 import com.sideReview.side.review.entity.UserReview
+import com.sideReview.side.review.exception.ReviewGetAllSortException
+import com.sideReview.side.review.exception.ReviewGetAllSpoilerException
+import com.sideReview.side.review.exception.ReviewGetAllTypeException
 import com.sideReview.side.review.exception.ReviewUpdateException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -23,7 +26,7 @@ class ReviewService(
 ) {
 
     @Transactional
-    fun createOrUpdate(review: ReviewCreateDto, userId: String) {
+    fun createOrUpdate(review: ReviewCreateDto, userId: String, userType: String) {
         val uuid = "${UUID.randomUUID()}"
         // review id와 userId가 있다면 수정
         if (review.reviewId != null) {
@@ -40,6 +43,7 @@ class ReviewService(
                     reviewId = uuid,
                     targetId = review.dramaId,
                     writerId = userId,
+                    userType = userType,
                     like = 0,
                     dislike = 0,
                     spoiler = if (review.spoiler) "1" else "0",
@@ -62,48 +66,124 @@ class ReviewService(
         id: String,
         sort: String,
         spoiler: String,
-        pageable: PageRequest
+        type: String,
+        pageable: PageRequest,
+        userId: String
     ): PageReviewDto {
-        val userReviewList = mutableListOf<UserReview>()
-        val totalReviewPage =
-            userReviewRepository.findAllByTargetIdOrderByLikeDescDislikeAsc(id, pageable)
-        val total = totalReviewPage.totalElements.toInt()
-        var totalPages = totalReviewPage.totalPages
-        var totalElements = totalReviewPage.totalElements.toInt()
 
-        if (spoiler == "0") {
-            var unSpoUserReviewPage: Page<UserReview>
-            if (sort == "best") {
-                unSpoUserReviewPage =
-                    userReviewRepository.findAllByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(
-                        id,
-                        spoiler,
-                        pageable
-                    )
-            } else {//latest
-                unSpoUserReviewPage =
-                    userReviewRepository.findAllByTargetIdAndSpoilerIsOrderByCreateDesc(
-                        id,
-                        spoiler,
-                        pageable
-                    )
+        val spoilerInt = spoiler.toIntOrNull()
+        val getUserReviewFunc: () -> Page<UserReview> = {
+            when (spoilerInt) {
+                0 -> {
+                    when (sort) {
+                        "best" -> {
+                            when (type) {
+                                "0" -> userReviewRepository.findAllByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(
+                                    id,
+                                    spoiler,
+                                    pageable
+                                )
+
+                                "1", "2" -> userReviewRepository.findAllByTargetIdAndUserTypeAndSpoilerIsOrderByLikeDescDislikeAsc(
+                                    id,
+                                    type,
+                                    spoiler,
+                                    pageable
+                                )
+
+                                else -> {
+                                    throw ReviewGetAllTypeException()
+                                }
+                            }
+                        }
+
+                        "latest" -> {
+                            when (type) {
+                                "0" -> userReviewRepository.findAllByTargetIdAndSpoilerIsOrderByCreateDesc(
+                                    id,
+                                    spoiler,
+                                    pageable
+                                )
+
+                                "1", "2" -> userReviewRepository.findAllByTargetIdAndUserTypeAndSpoilerIsOrderByCreateDesc(
+                                    id,
+                                    type,
+                                    spoiler,
+                                    pageable
+                                )
+
+                                else -> {
+                                    throw ReviewGetAllTypeException()
+                                }
+                            }
+                        }
+
+                        else -> {
+                            throw ReviewGetAllSortException()
+                        }
+                    }
+                }
+
+                1 -> {
+                    when (sort) {
+                        "best" -> {
+                            when (type) {
+                                "0" -> userReviewRepository.findAllByTargetIdOrderByLikeDescDislikeAsc(
+                                    id,
+                                    pageable
+                                )
+
+                                "1", "2" -> userReviewRepository.findAllByTargetIdAndUserTypeAndOrderByLikeDescDislikeAsc(
+                                    id,
+                                    type,
+                                    pageable
+                                )
+
+                                else -> {
+                                    throw ReviewGetAllTypeException()
+                                }
+                            }
+                        }
+
+                        "latest" -> {
+                            when (type) {
+                                "0" -> userReviewRepository.findAllByTargetIdOrderByCreateDesc(
+                                    id,
+                                    pageable
+                                )
+
+                                "1", "2" -> userReviewRepository.findAllByTargetIdAndUserTypeOrderByCreateDesc(
+                                    id,
+                                    type,
+                                    pageable
+                                )
+
+                                else -> {
+                                    throw ReviewGetAllTypeException()
+                                }
+                            }
+                        }
+
+                        else -> {
+                            throw ReviewGetAllSortException()
+                        }
+                    }
+                }
+
+                else -> {
+                    throw ReviewGetAllSpoilerException()
+                }
             }
-            userReviewList.addAll(unSpoUserReviewPage.content)
-            totalPages = unSpoUserReviewPage.totalPages
-            totalElements = unSpoUserReviewPage.totalElements.toInt()
-        } else {
-            var userReviewPage: Page<UserReview>
-            if (sort == "best") {
-                userReviewPage = totalReviewPage
-            } else {//latest
-                userReviewPage =
-                    userReviewRepository.findAllByTargetIdOrderByCreateDesc(id, pageable)
-            }
-            userReviewList.addAll(userReviewPage.content)
         }
 
+        val total = userReviewRepository.countAllByTargetId(id)
+
+        val userReview: Page<UserReview> = getUserReviewFunc()
+        val totalPages = userReview.totalPages
+        val totalElements = userReview.totalElements.toInt()
+
         return PageReviewDto(
-            ReviewDto(total, mapUserReviewToReviewDetailDTO(userReviewList)),
+            ReviewDto(total, mapUserReviewToReviewDetailDTO(userReview.content)),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }

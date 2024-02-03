@@ -4,6 +4,8 @@ import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDto
 import com.sideReview.side.review.dto.ReviewEvaDto
+import com.sideReview.side.review.exception.ReviewGetAllSortException
+import com.sideReview.side.review.exception.ReviewGetAllTypeException
 import com.sideReview.side.review.exception.ReviewUpdateException
 import io.ktor.util.logging.*
 import org.slf4j.LoggerFactory
@@ -25,7 +27,7 @@ class ReviewController(val reviewService: ReviewService) {
     ): ResponseEntity<Any> {
         try {
             reviewService.createOrUpdate(
-                body, ClientUtils.getUserId(request)
+                body, ClientUtils.getUserId(request), ClientUtils.getUserType(request)
             )
             return ResponseEntity(HttpStatus.OK)
         } catch (e: ReviewUpdateException) {
@@ -60,13 +62,34 @@ class ReviewController(val reviewService: ReviewService) {
 
     @GetMapping("/{id}")
     fun getAllReviewsById(
-        @PathVariable id: String,
+        @PathVariable contentId: String,
         @RequestParam(required = false, defaultValue = "best") sort: String,
         @RequestParam(required = false, defaultValue = "0") spoiler: String,
         @RequestParam(required = false, defaultValue = "0") page: String,
-        @RequestParam(required = false, defaultValue = "6") size: String
+        @RequestParam(required = false, defaultValue = "6") size: String,
+        @RequestParam(required = false, defaultValue = "0") type: String,
+        request: HttpServletRequest
     ): ResponseEntity<Any> {
+        val userId = ClientUtils.getUserId(request)
         val pageable = PageRequest.of(page.toInt(), size.toInt())
-        return ResponseEntity.ok(reviewService.getReviewsByTargetId(id, sort, spoiler, pageable))
+        try {
+            return ResponseEntity.ok(
+                reviewService.getReviewsByTargetId(
+                    contentId,
+                    sort,
+                    spoiler,
+                    type,
+                    pageable,
+                    userId
+                )
+            )
+        } catch (e: Exception) {
+            when (e) {
+                is ReviewGetAllSortException, is ReviewGetAllTypeException, is ReviewGetAllTypeException ->
+                    return ResponseEntity.badRequest().build()
+
+                else -> return ResponseEntity.internalServerError().build()
+            }
+        }
     }
 }

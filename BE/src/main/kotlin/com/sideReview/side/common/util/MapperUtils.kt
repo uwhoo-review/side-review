@@ -171,6 +171,7 @@ object MapperUtils {
             details.add(
                 ReviewDetailDto(
                     id = r.reviewId,
+                    userId = r.writerId,
                     content = r.content,
                     date = "${r.create}",
                     like = r.like,
