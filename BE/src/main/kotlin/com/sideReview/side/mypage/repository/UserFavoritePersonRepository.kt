@@ -1,6 +1,5 @@
 package com.sideReview.side.mypage.repository
 
-import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.entity.UserFavoritePersonIdClass
 import com.sideReview.side.common.entity.UserInfo
