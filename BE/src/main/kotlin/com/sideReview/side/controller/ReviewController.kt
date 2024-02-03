@@ -36,7 +36,7 @@ class ReviewController(val reviewService: ReviewService) {
             logger.error("############################################")
             logger.error(e.message)
             logger.error("${e.stackTrace}")
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.badRequest().body(e.message)
 
         } catch (e: Exception) {
             logger.error("############################################")
@@ -44,7 +44,7 @@ class ReviewController(val reviewService: ReviewService) {
             logger.error("############################################")
             logger.error(e.message)
             logger.error("${e.stackTrace}")
-            return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity.internalServerError().body(e.message)
         }
     }
 
