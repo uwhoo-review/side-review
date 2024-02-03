@@ -50,4 +50,6 @@ interface UserReviewRepository : JpaRepository<UserReview, String> {
         type: String,
         pageable: PageRequest
     ): Page<UserReview>
+
+    fun existsByTargetIdAndWriterId(targetId: String, writerId: String): Boolean
 }

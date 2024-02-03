@@ -6,7 +6,8 @@ import com.sideReview.side.review.dto.ReviewCreateDto
 import com.sideReview.side.review.dto.ReviewEvaDto
 import com.sideReview.side.review.exception.ReviewGetAllSortException
 import com.sideReview.side.review.exception.ReviewGetAllTypeException
-import com.sideReview.side.review.exception.ReviewUpdateException
+import com.sideReview.side.review.exception.ReviewSaveDuplicateException
+import com.sideReview.side.review.exception.ReviewUpdateUserInvalidException
 import io.ktor.util.logging.*
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
@@ -30,21 +31,15 @@ class ReviewController(val reviewService: ReviewService) {
                 body, ClientUtils.getUserId(request), ClientUtils.getUserType(request)
             )
             return ResponseEntity(HttpStatus.OK)
-        } catch (e: ReviewUpdateException) {
-            logger.error("############################################")
-            logger.error("########### Error on Review Save ###########")
-            logger.error("############################################")
-            logger.error(e.message)
-            logger.error("${e.stackTrace}")
-            return ResponseEntity.badRequest().body(e.message)
-
         } catch (e: Exception) {
-            logger.error("############################################")
-            logger.error("########### Error on Review Save ###########")
-            logger.error("############################################")
             logger.error(e.message)
             logger.error("${e.stackTrace}")
-            return ResponseEntity.internalServerError().body(e.message)
+            when (e) {
+                is ReviewUpdateUserInvalidException, is ReviewSaveDuplicateException ->
+                    return ResponseEntity.badRequest().body(e.message)
+
+                else -> return ResponseEntity.internalServerError().body(e.message)
+            }
         }
     }
 

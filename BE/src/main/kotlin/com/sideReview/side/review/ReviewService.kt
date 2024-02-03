@@ -6,10 +6,7 @@ import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDT
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserReview
-import com.sideReview.side.review.exception.ReviewGetAllSortException
-import com.sideReview.side.review.exception.ReviewGetAllSpoilerException
-import com.sideReview.side.review.exception.ReviewGetAllTypeException
-import com.sideReview.side.review.exception.ReviewUpdateException
+import com.sideReview.side.review.exception.*
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -33,9 +30,14 @@ class ReviewService(
                 rev.content = review.content
                 rev.spoiler = if (review.spoiler) "1" else "0"
             } else {
-                throw ReviewUpdateException("Cannot Update Review. User Id does not match with Writer Id.")
+                throw ReviewUpdateUserInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
             }
         } else {
+            if (userReviewRepository.existsByTargetIdAndWriterId(
+                    review.dramaId,
+                    userId
+                )
+            ) throw ReviewSaveDuplicateException("Review already exists. Cannot write multiple reviews")
             userReviewRepository.save(
                 UserReview(
                     reviewId = uuid,
