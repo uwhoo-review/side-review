@@ -62,7 +62,7 @@ class ReviewController(val reviewService: ReviewService) {
 
     @GetMapping("/{id}")
     fun getAllReviewsById(
-        @PathVariable contentId: String,
+        @PathVariable id: String,
         @RequestParam(required = false, defaultValue = "best") sort: String,
         @RequestParam(required = false, defaultValue = "0") spoiler: String,
         @RequestParam(required = false, defaultValue = "0") page: String,
@@ -75,7 +75,7 @@ class ReviewController(val reviewService: ReviewService) {
         try {
             return ResponseEntity.ok(
                 reviewService.getReviewsByTargetId(
-                    contentId,
+                    id,
                     sort,
                     spoiler,
                     type,
