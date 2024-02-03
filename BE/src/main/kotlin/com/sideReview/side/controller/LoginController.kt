@@ -1,6 +1,5 @@
 package com.sideReview.side.controller
 
-import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.login.LoginService
 import com.sideReview.side.login.google.GoogleClientAuth
 import com.sideReview.side.login.google.GoogleClientProfile
@@ -12,8 +11,6 @@ import com.sideReview.side.login.naver.NaverClientAuth
 import com.sideReview.side.login.naver.NaverClientProfile
 import com.sideReview.side.login.naver.dto.NaverProfileDetail
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -29,19 +26,6 @@ class LoginController(
     val kakaoClient: KakaoClient,
     val loginService: LoginService
 ) {
-    @GetMapping("/test")
-    fun testLogin(
-        userInfo: OAuth2User
-    ): String? { //세션 정보 받아오기 (DI 의존성 주입)
-
-        //방법 1
-        println("/test/login =============================")
-
-        //방법 2
-        println("userDetails:" + userInfo.attributes["userInfo"])
-        return "세션 정보 확인"
-    }
-
     @GetMapping("/naver")
     fun getNaverProfile(
         @RequestParam code: String,

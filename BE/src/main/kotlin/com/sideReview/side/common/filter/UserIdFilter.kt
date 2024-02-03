@@ -22,14 +22,14 @@ class UserIdFilter : Filter {
         val logger = LoggerFactory.getLogger(this::class.java)!!
 
         val mutableRequest = CustomHttpServletRequest(request as HttpServletRequest)
-//        kotlin.runCatching {
-//            if (mutableRequest.getHeader("userId").isNullOrBlank()) {
-//                mutableRequest.putHeader("userId", ClientUtils.getIp(request))
-//            }
+        kotlin.runCatching {
+            if (mutableRequest.getHeader("userId").isNullOrBlank()) {
+                mutableRequest.putHeader("userId", ClientUtils.getIp(request))
+            }
             filterChain.doFilter(mutableRequest, response);
-//        }.onFailure {
-//            logger.error("user Id : ${mutableRequest.getHeader("userId")}")
-//        }
+        }.onFailure {
+            logger.error("user Id : ${mutableRequest.getHeader("userId")}")
+        }
     }
 
 }
