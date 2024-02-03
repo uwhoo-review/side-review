@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) {
     @Transactional
-    fun saveStarRating(dto: StarRatingCreateDto, ip: String) {
-        if (!userStarRatingRepository.existsByTargetIdAndWriterId(dto.contentId, ip)) {
+    fun saveStarRating(dto: StarRatingCreateDto, userId: String) {
+        if (!userStarRatingRepository.existsByTargetIdAndWriterId(dto.contentId, userId)) {
             userStarRatingRepository.save(
                 UserStarRating(
                     targetId = dto.contentId,
-                    writerId = ip,
+                    writerId = userId,
                     rating = dto.rating
                 )
             )
@@ -27,20 +27,20 @@ class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) 
     }
 
     @Transactional
-    fun editStarRating(dto: StarRatingUpdateDto, ip: String) {
+    fun editStarRating(dto: StarRatingUpdateDto, userId: String) {
         userStarRatingRepository.save(
             UserStarRating(
                 id = dto.ratingId,
                 targetId = dto.contentId,
-                writerId = ip,
+                writerId = userId,
                 rating = dto.rating
             )
         )
     }
 
     @Transactional
-    fun deleteStartRating(id: String, ip: String) {
-        userStarRatingRepository.deleteByTargetIdAndWriterId(id, ip)
+    fun deleteStartRating(id: String, userId: String) {
+        userStarRatingRepository.deleteByTargetIdAndWriterId(id, userId)
     }
 
     private fun calculateWeightAverage(tmdbRating: Float?, id: String): Float {

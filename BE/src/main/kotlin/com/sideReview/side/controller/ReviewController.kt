@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest
 class ReviewController(val reviewService: ReviewService) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
 
-    @PostMapping("")
+    @PutMapping("")
     fun createOrUpdate(
         @RequestBody body: ReviewCreateDto,
         request: HttpServletRequest
