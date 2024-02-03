@@ -31,7 +31,6 @@ spring:
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             client-name: kakao
             client-authentication-method: POST
-            authorization-grant-type: authorization_code
             scope:
               - id
               - email
