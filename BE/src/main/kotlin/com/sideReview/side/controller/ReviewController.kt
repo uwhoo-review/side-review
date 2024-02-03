@@ -4,6 +4,9 @@ import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDto
 import com.sideReview.side.review.dto.ReviewEvaDto
+import com.sideReview.side.review.exception.ReviewUpdateException
+import io.ktor.util.logging.*
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,15 +16,34 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("/review")
 class ReviewController(val reviewService: ReviewService) {
+    val logger = LoggerFactory.getLogger(this::class.java)!!
+
     @PostMapping("")
-    fun create(
+    fun createOrUpdate(
         @RequestBody body: ReviewCreateDto,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
-        reviewService.create(
-            body, ClientUtils.getUserId(request)
-        )
-        return ResponseEntity(HttpStatus.OK)
+        try {
+            reviewService.createOrUpdate(
+                body, ClientUtils.getUserId(request)
+            )
+            return ResponseEntity(HttpStatus.OK)
+        } catch (e: ReviewUpdateException) {
+            logger.error("############################################")
+            logger.error("########### Error on Review Save ###########")
+            logger.error("############################################")
+            logger.error(e.message)
+            logger.error("${e.stackTrace}")
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+
+        } catch (e: Exception) {
+            logger.error("############################################")
+            logger.error("########### Error on Review Save ###########")
+            logger.error("############################################")
+            logger.error(e.message)
+            logger.error("${e.stackTrace}")
+            return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 
     @PutMapping("")

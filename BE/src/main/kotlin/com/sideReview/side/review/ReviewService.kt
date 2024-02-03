@@ -3,9 +3,12 @@ package com.sideReview.side.review
 import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDTO
 import com.sideReview.side.openSearch.dto.ContentDto
-import com.sideReview.side.review.dto.*
+import com.sideReview.side.review.dto.PageReviewDto
+import com.sideReview.side.review.dto.ReviewCreateDto
+import com.sideReview.side.review.dto.ReviewDto
+import com.sideReview.side.review.dto.ReviewEvaDto
 import com.sideReview.side.review.entity.UserReview
-import org.slf4j.LoggerFactory
+import com.sideReview.side.review.exception.ReviewUpdateException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -14,42 +17,29 @@ import java.time.LocalDate
 import java.util.*
 
 @Service
-class ReviewService(val userReviewRepository: UserReviewRepository) {
-    /*
-    fun get(id: String, sort: String?, spoiler: Boolean): ReviewDTO {
-        val reviews: List<UserReview>
-        if (spoiler) {
-            reviews = if (!sort.isNullOrBlank()) {
-                if (sort == "best")
-                    userReviewRepository.findByTargetIdOrderByLikeDescDislikeAsc(
-                        id
-                    )
-                else userReviewRepository.findByTargetIdOrderByCreate(id)
-            } else userReviewRepository.findByTargetId(id)
-        } else {
-            reviews = if (!sort.isNullOrBlank()) {
-                if (sort == "best")
-                    userReviewRepository.findByTargetIdAndSpoilerIsOrderByLikeDescDislikeAsc(
-                        id, "0"
-                    )
-                else userReviewRepository.findByTargetIdAndSpoilerIsOrderByCreate(id, "0")
-            } else
-                userReviewRepository.findByTargetIdAndSpoilerIs(id, "0")
-        }
-
-        return ReviewDTO(reviews.size, mapUserReviewToReviewDetailDTO(reviews))
-    }
-     */
+class ReviewService(
+    val userReviewRepository: UserReviewRepository,
+    val userInfoRepository: UserReviewRepository
+) {
 
     @Transactional
-    fun create(review: ReviewCreateDto, ip: String) {
+    fun createOrUpdate(review: ReviewCreateDto, userId: String) {
         val uuid = "${UUID.randomUUID()}"
-        kotlin.runCatching {
+        // review id와 userId가 있다면 수정
+        if (review.reviewId != null) {
+            val rev = userReviewRepository.findById(review.reviewId).get()
+            if (userInfoRepository.existsById(userId) && rev.writerId == userId) {
+                rev.content = review.content
+                rev.spoiler = if (review.spoiler) "1" else "0"
+            } else {
+                throw ReviewUpdateException("Cannot Update Review. User Id does not match with Writer Id.")
+            }
+        } else {
             userReviewRepository.save(
                 UserReview(
                     reviewId = uuid,
                     targetId = review.dramaId,
-                    writerId = ip,
+                    writerId = userId,
                     like = 0,
                     dislike = 0,
                     spoiler = if (review.spoiler) "1" else "0",
@@ -57,13 +47,6 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
                     content = review.content
                 )
             )
-        }.onFailure {
-            val logger = LoggerFactory.getLogger(this::class.java)!!
-            logger.error("############################################")
-            logger.error("########### Error on Review Save ###########")
-            logger.error("############################################")
-            logger.error(it.message)
-            logger.error("${it.stackTrace}")
         }
     }
 
@@ -120,7 +103,7 @@ class ReviewService(val userReviewRepository: UserReviewRepository) {
         }
 
         return PageReviewDto(
-            ReviewDto(total,mapUserReviewToReviewDetailDTO(userReviewList)),
+            ReviewDto(total, mapUserReviewToReviewDetailDTO(userReviewList)),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }
