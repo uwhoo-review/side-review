@@ -47,6 +47,7 @@ export default {
       &.Mui-selected {
         opacity: 1;
         font-weight: 600;
+        color: #fff;
       }
     }
     .MuiTabs-indicator {

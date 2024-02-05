@@ -39,10 +39,12 @@ export function getYYYYMMDDFormat(date: Date, option?: string, isTime?: boolean)
   if (isTime) {
     if (option === "slash") return `${year}/${monthStr}/${dayStr} ${hourStr}:${minStr}`;
     else if (option === "hyphen") return `${year}-${monthStr}-${dayStr} ${hourStr}:${minStr}`;
+    else if (option === "comma") return `${year}.${monthStr}.${dayStr} ${hourStr}:${minStr}`;
     else return `${year}${monthStr}${dayStr}${hourStr}${minStr}`;
   } else {
     if (option === "slash") return `${year}/${monthStr}/${dayStr}`;
     else if (option === "hyphen") return `${year}-${monthStr}-${dayStr}`;
+    else if (option === "comma") return `${year}.${monthStr}.${dayStr}`;
     else return `${year}${monthStr}${dayStr}`;
   }
 }

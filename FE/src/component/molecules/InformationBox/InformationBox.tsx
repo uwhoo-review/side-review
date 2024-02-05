@@ -9,7 +9,7 @@ import Color from "@src/common/styles/Color";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import Divider from "@src/component/atoms/Divider/Divider";
 import { useState } from "react";
-import { getCardURL } from "@src/tools/commonTools";
+import {getCardURL, getYYYYMMDDFormat} from "@src/tools/commonTools";
 import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import HWOutlinedSelectBox from "@src/component/atoms/HWOutlinedSelectBox";
@@ -128,7 +128,7 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    {item.date || "-"}
+                    {getYYYYMMDDFormat(new Date(item.date),"comma") || "-"}
                   </HWTypography>
                 </div>
                 <div className="col-3">

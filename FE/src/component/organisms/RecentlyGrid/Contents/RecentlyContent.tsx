@@ -40,12 +40,12 @@ const RecentlyContent = ({ data }: any) => {
         <div css={styled.header}>
           <div css={styled.headline}>
             <HWTypography variant={"headlineM"} family={"Pretendard-SemiBold"}>
-              UWHOO 최신 작품
+              최신 공개 작품
             </HWTypography>
           </div>
           <div css={styled.subHeadline}>
             <HWTypography variant={"headlineXS"} family={"Pretendard"}>
-              💡
+              🍿 최신 공개 작품을 가장 먼저 확인해 보세요
             </HWTypography>
           </div>
         </div>

@@ -37,12 +37,12 @@ const UpcomingContent = ({ data }: any) => {
         <div css={styled.header}>
           <div css={styled.headline}>
             <HWTypography variant={"headlineM"} family={"Pretendard-SemiBold"}>
-              UWHOO 공개 예정 작품
+              공개 예정 기대작
             </HWTypography>
           </div>
           <div css={styled.subHeadline}>
             <HWTypography variant={"headlineXS"} family={"Pretendard"}>
-              💡
+              🔍 곧 공개되는 기대작 정보를 미리 확인해 보세요
             </HWTypography>
           </div>
         </div>

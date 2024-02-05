@@ -42,6 +42,11 @@ const SearchBar = () => {
     onHandleFilterOpen(false);
   };
 
+  useEffect(() => {
+    if(isFilterOpen) filterRef.searchRef.current.focus();
+  },[isFilterOpen])
+
+
   return (
     <div css={styled.wrapper}>
       <div css={styled.box}>
@@ -63,7 +68,7 @@ const SearchBar = () => {
                 </HWIconButton>
               )
             }
-            placeholder={"제목, 인물 검색"}
+            placeholder={"제목, 인물을 검색하세요."}
             fullWidth={true}
             value={filterState.search}
             onChange={(e) => onHandleFilter({ search: e.target.value })}
@@ -211,6 +216,7 @@ const SearchBar = () => {
                   width={"122px"}
                   maxLength={4}
                   type={"text"}
+                  placeholder={"YYYY"}
                   onChange={(e) => {
                     return onHandleFilter({
                       date: [Number(e.target.value) || null, filterState.date[1]],
@@ -223,6 +229,7 @@ const SearchBar = () => {
                   width={"122px"}
                   maxLength={4}
                   type={"text"}
+                  placeholder={"YYYY"}
                   onChange={(e) => {
                     return onHandleFilter({
                       date: [filterState.date[0], Number(e.target.value) || null],

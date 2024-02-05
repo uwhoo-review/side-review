@@ -76,7 +76,7 @@ const GNB = (props: { children?: React.ReactNode }) => {
                   }}
                 />
                 <Tab
-                  label={"공개"}
+                  label={"공개 예정"}
                   value={"upcoming"}
                   onClick={() => {
                     navigate("/upcoming");
