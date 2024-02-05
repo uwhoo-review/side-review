@@ -37,6 +37,7 @@ class LoginService(val userInfoRepository: UserInfoRepository, val nicknameServi
                 id,
                 type,
                 name,
+                "",
                 null,
                 null,
                 null,

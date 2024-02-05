@@ -36,6 +36,7 @@ class ReviewServiceTest {
         val mapper: ObjectMapper = ObjectMapper()
         val dto: ReviewCreateDto = ReviewCreateDto(
             dramaId = "109958",
+            reviewId = "109958",
             content = "aaaaaa",
             spoiler = false
         )

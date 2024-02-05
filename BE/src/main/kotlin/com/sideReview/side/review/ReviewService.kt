@@ -133,7 +133,7 @@ class ReviewService(
                                     pageable
                                 )
 
-                                "1", "2" -> userReviewRepository.findAllByTargetIdAndUserTypeAndOrderByLikeDescDislikeAsc(
+                                "1", "2" -> userReviewRepository.findAllByTargetIdAndUserTypeOrderByLikeDescDislikeAsc(
                                     id,
                                     type,
                                     pageable

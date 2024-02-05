@@ -39,7 +39,7 @@ interface UserReviewRepository : JpaRepository<UserReview, String> {
         id: String, type: String, spoiler: String, pageable: PageRequest
     ): Page<UserReview>
 
-    fun findAllByTargetIdAndUserTypeAndOrderByLikeDescDislikeAsc(
+    fun findAllByTargetIdAndUserTypeOrderByLikeDescDislikeAsc(
         id: String,
         type: String,
         pageable: PageRequest

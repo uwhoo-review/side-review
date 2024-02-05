@@ -27,7 +27,8 @@ class ReviewIPHeaderTest {
     fun ipTest() {
         // Test에는 안쪽으로 들어갔을 때 header 검사를 할 수 없어서 controller나 filter에 print문을 추가해야 함.
         val body = ReviewCreateDto(
-            "dramaIdTest",
+            "reviewID test",
+            "dramaID test",
             "review content",
             spoiler = false
         )
