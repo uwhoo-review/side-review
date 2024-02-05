@@ -33,9 +33,9 @@ class ClientUtils {
             return request.getHeader("userId")
         }
 
-        fun getUserType(userId:String): String{
-            if(userId.contains(".")) return "2"
-            else return "1"
+        private fun getUserType(userId:String): String{
+            return if(userId.contains(".") || userId.contains(":")) "2"
+            else "1"
         }
 
         fun getUserType(request: HttpServletRequest): String {
