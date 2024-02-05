@@ -3,11 +3,7 @@ package com.sideReview.side.controller
 import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDto
-import com.sideReview.side.review.dto.ReviewEvaDto
-import com.sideReview.side.review.exception.ReviewGetAllSortException
-import com.sideReview.side.review.exception.ReviewGetAllTypeException
-import com.sideReview.side.review.exception.ReviewSaveDuplicateException
-import com.sideReview.side.review.exception.ReviewUpdateUserInvalidException
+import com.sideReview.side.review.exception.*
 import io.ktor.util.logging.*
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
@@ -33,27 +29,32 @@ class ReviewController(val reviewService: ReviewService) {
             return ResponseEntity(HttpStatus.OK)
         } catch (e: Exception) {
             logger.error(e.message)
-            logger.error("${e.stackTrace}")
-            when (e) {
-                is ReviewUpdateUserInvalidException, is ReviewSaveDuplicateException ->
-                    return ResponseEntity.badRequest().body(e.message)
+            logger.error(e.stackTraceToString())
+            return when (e) {
+                is ReviewUpdateUserInvalidException -> {
+                    logger.error("UserId : ${ClientUtils.getUserId(request)}")
+                    ResponseEntity.badRequest().body(e.message)
+                }
 
-                else -> return ResponseEntity.internalServerError().body(e.message)
+                is ReviewSaveDuplicateException, is ReviewGetIdInvalidException ->
+                    ResponseEntity.badRequest().body(e.message)
+
+                else -> ResponseEntity.internalServerError().body(e.message)
             }
         }
     }
 
-    @PutMapping("")
-    fun evaluate(@RequestBody body: ReviewEvaDto): ResponseEntity<Any> {
-        if (body.eval != 0 && body.eval != 1) return ResponseEntity(HttpStatus.BAD_REQUEST)
-        runCatching {
-            reviewService.evaluate(body)
-        }.onFailure {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-
-        return ResponseEntity(HttpStatus.OK)
-    }
+//    @PutMapping("")
+//    fun evaluate(@RequestBody body: ReviewEvaDto): ResponseEntity<Any> {
+//        if (body.eval != 0 && body.eval != 1) return ResponseEntity(HttpStatus.BAD_REQUEST)
+//        runCatching {
+//            reviewService.evaluate(body)
+//        }.onFailure {
+//            return ResponseEntity(HttpStatus.BAD_REQUEST)
+//        }
+//
+//        return ResponseEntity(HttpStatus.OK)
+//    }
 
     @GetMapping("/{id}")
     fun getAllReviewsById(

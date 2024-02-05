@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class ReviewService(
@@ -25,12 +26,21 @@ class ReviewService(
         val uuid = "${UUID.randomUUID()}"
         // review id와 userId가 있다면 수정
         if (review.reviewId != null) {
-            val rev = userReviewRepository.findById(review.reviewId).get()
-            if (userInfoRepository.existsById(userId) && rev.writerId == userId) {
-                rev.content = review.content
-                rev.spoiler = if (review.spoiler) "1" else "0"
+            if (userInfoRepository.existsById(userId)) {
+                val revOpt: Optional<UserReview> = userReviewRepository.findById(review.reviewId)
+                revOpt.getOrNull()?.let { rev ->
+                    {
+                        if (rev.writerId == userId) {
+                            rev.content = review.content
+                            rev.spoiler = if (review.spoiler) "1" else "0"
+                        } else {
+                            throw ReviewUpdateUserInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
+                        }
+                    }
+                } ?: throw ReviewGetIdInvalidException()
+
             } else {
-                throw ReviewUpdateUserInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
+                throw ReviewUpdateUserInvalidException("Cannot Update Review. User Id not found.")
             }
         } else {
             if (userReviewRepository.existsByTargetIdAndWriterId(
