@@ -16,7 +16,6 @@ import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.persistence.Tuple
 
 @Service
 class OpensearchClient(
@@ -64,6 +63,7 @@ class OpensearchClient(
         }
         return detailContentDto
     }
+
     fun getAllContents(idList: List<String>): List<ContentDocument> {
         val documentList: MutableList<ContentDocument> = mutableListOf()
         runBlocking {
@@ -85,12 +85,14 @@ class OpensearchClient(
         return genreList
     }
 
-    fun sumAllContentsPeople(ratedContentList: List<UserStarRating>
-    ): Pair<List<Triple<Int, String, Float>>, List<Triple<Int, String, Float>>>  {
+    fun sumAllContentsPeople(
+        ratedContentList: List<UserStarRating>
+    ): Pair<List<Triple<Int, String, Float>>, List<Triple<Int, String, Float>>> {
         val documentList: MutableList<PersonDocument> = mutableListOf()
         val idRatingMap = ratedContentList.associateBy({ it.targetId }, { it.rating })
         runBlocking {
-            val response = openSearchGetService.findAllDocumentByContentId(ratedContentList.map { it.targetId })
+            val response =
+                openSearchGetService.findAllDocumentByContentId(ratedContentList.map { it.targetId })
             documentList.addAll(MapperUtils.parseToPersonDocument(response))
         }
         return parseDirectorAndActor(documentList, idRatingMap)
@@ -138,8 +140,20 @@ class OpensearchClient(
                 ContentRequestFilterDetail(
                     "date",
                     listOf(
-                        Calendar.getInstance().addDate(null, null),
+                        Calendar.getInstance().addDate(Calendar.DATE, 1),
                         ""
+                    )
+                )
+            )
+        } else if (request.tab == "new") {
+            // 오늘 날짜 이전만 가져오도록 filter 추가
+            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
+            request.filter!!.add(
+                ContentRequestFilterDetail(
+                    "date",
+                    listOf(
+                        "",
+                        Calendar.getInstance().addDate(null, null)
                     )
                 )
             )
@@ -320,9 +334,10 @@ class OpensearchClient(
                     var t = filterDetail.type
                     if (filterDetail.type == "date") t = "firstAirDate"
                     filterList.add(RangeQuery(t) {
-                        if (!filterDetail.value[0].isNullOrBlank()) gte = filterDetail.value[0]!!
-                        if (filterDetail.value.size > 2 && !filterDetail.value[1].isNullOrBlank()) lte =
-                            filterDetail.value[1]!!
+                        if (!filterDetail.value[0].isNullOrBlank())
+                            gte = filterDetail.value[0]!!
+                        if (filterDetail.value.size == 2 && !filterDetail.value[1].isNullOrBlank())
+                            lte = filterDetail.value[1]!!
                     })
                 }
             }
@@ -352,8 +367,9 @@ class OpensearchClient(
             } else {
                 val contentIdList = it.cast!!.map { it.contentId }
                 for (element in contentIdList) {
-                    if (idRatingMap.containsKey(element)){
-                        val triple = Triple(first = personId, second = name, third =  idRatingMap[element]!!)
+                    if (idRatingMap.containsKey(element)) {
+                        val triple =
+                            Triple(first = personId, second = name, third = idRatingMap[element]!!)
                         actorList.add(triple)
                         print(triple)
                     }
