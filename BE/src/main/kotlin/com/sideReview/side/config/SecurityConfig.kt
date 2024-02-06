@@ -44,15 +44,16 @@ open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl) {
     open fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf().disable()
+            .cors()
+            .and()
+            .formLogin().disable()
             .authorizeRequests()
             .antMatchers("/user/**").authenticated()
             .anyRequest().permitAll()
-            .and()
-            .cors()
 
             .and()
             .oauth2Login()
-//            .defaultSuccessUrl("/")
+            .defaultSuccessUrl("/")
             .userInfoEndpoint()
             .userService(oauth2UserService)
         return http.build()
