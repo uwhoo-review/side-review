@@ -123,6 +123,7 @@ class UserInfoBuilder {
             userId = id,
             loginType = loginType,
             nickname = name,
+            profile = "",
             preferOtt = null,
             preferGenre = null,
             favoriteContent = null,
