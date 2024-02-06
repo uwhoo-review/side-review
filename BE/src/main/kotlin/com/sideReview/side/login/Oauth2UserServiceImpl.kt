@@ -25,8 +25,10 @@ class Oauth2UserServiceImpl(val userInfoRepository: UserInfoRepository) :
         val registrationId: String = userRequest.clientRegistration.registrationId
         val userNameAttributeName: String =
             userRequest.clientRegistration.providerDetails.userInfoEndpoint.userNameAttributeName
+        logger.info("########## 로그인 로직 체크용 로그 attributes ############")
         val attributes =
             OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.attributes)
+        logger.info(attributes.toString())
         val user: UserInfo = saveOrPass(attributes)
         oAuth2User.attributes["userInfo"] = user
         logger.info("########## 로그인 로직 체크용 로그 ############")
