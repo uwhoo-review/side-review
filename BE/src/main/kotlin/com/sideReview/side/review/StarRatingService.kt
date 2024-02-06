@@ -1,6 +1,7 @@
 package com.sideReview.side.review
 
 import com.sideReview.side.common.dto.RatingDto
+import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.mypage.dto.Rating
 import com.sideReview.side.review.dto.StarRatingCreateDto
 import com.sideReview.side.review.dto.StarRatingUpdateDto
@@ -9,7 +10,10 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) {
+class StarRatingService(
+    val userStarRatingRepository: UserStarRatingRepository,
+    val userInfoRepository: UserInfoRepository
+) {
     @Transactional
     fun saveStarRating(dto: StarRatingCreateDto, userId: String) {
         if (!userStarRatingRepository.existsByTargetIdAndWriterId(dto.contentId, userId)) {
@@ -28,14 +32,17 @@ class StarRatingService(val userStarRatingRepository: UserStarRatingRepository) 
 
     @Transactional
     fun editStarRating(dto: StarRatingUpdateDto, userId: String) {
-        userStarRatingRepository.save(
-            UserStarRating(
-                id = dto.ratingId,
-                targetId = dto.contentId,
-                writerId = userId,
-                rating = dto.rating
+        if (userInfoRepository.existsById(userId)) {
+            userStarRatingRepository.save(
+                UserStarRating(
+                    id = dto.ratingId,
+                    targetId = dto.contentId,
+                    writerId = userId,
+                    rating = dto.rating
+                )
             )
-        )
+        }
+        else throw Exception("Cannot update star rating. User Id not found.")
     }
 
     @Transactional
