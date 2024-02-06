@@ -78,9 +78,9 @@ const Login = () => {
           <IconKakao width={"23px"} height={"23px"} />
           <HWTypography variant={"bodyXL"}>테스트</HWTypography>
         </HWButton>
-        <a href={"/oauth2/authorization/naver"}>네이버</a>
-        <a href={"/oauth2/authorization/google"}>구굴</a>
-        <a href={"/oauth2/authorization/kakao"}>카카오</a>
+        <a href={"https://uwhoo-review.site/api/oauth2/authorization/naver"}>네이버</a>
+        <a href={"https://uwhoo-review.site/api/oauth2/authorization/google"}>구굴</a>
+        <a href={"https://uwhoo-review.site/api/oauth2/authorization/kakao"}>카카오</a>
       </div>
     </div>
   );
