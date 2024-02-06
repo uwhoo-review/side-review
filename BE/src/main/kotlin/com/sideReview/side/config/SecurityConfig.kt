@@ -52,7 +52,7 @@ open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl) {
 
             .and()
             .oauth2Login()
-            .defaultSuccessUrl("/")
+//            .defaultSuccessUrl("/")
             .userInfoEndpoint()
             .userService(oauth2UserService)
         return http.build()
