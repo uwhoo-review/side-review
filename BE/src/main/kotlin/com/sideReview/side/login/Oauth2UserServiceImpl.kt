@@ -18,6 +18,7 @@ class Oauth2UserServiceImpl(val userInfoRepository: UserInfoRepository) :
 
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
         // 사용자 정보를 가져오는 로직을 여기에 구현
+        logger.info("login load user function 실행")
         // 예시: GitHub에서 사용자 정보를 가져올 때
         val oAuth2User = super.loadUser(userRequest)
 
