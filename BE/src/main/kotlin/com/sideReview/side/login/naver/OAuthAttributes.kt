@@ -2,6 +2,7 @@ package com.sideReview.side.login.naver
 
 import com.sideReview.side.common.entity.UserInfo
 import lombok.Getter
+import org.slf4j.LoggerFactory
 import javax.security.auth.login.LoginException
 
 
@@ -40,6 +41,9 @@ class OAuthAttributes(
             registrationType: String
         ): OAuthAttributes {
             val response = attributes["response"] as Map<*, *>
+            val logger = LoggerFactory.getLogger(this::class.java)!!
+            logger.info(attributes.keys.toString())
+            logger.info(attributes.values.toString())
             return OAuthAttributesBuilder()
                 .id(response["id"] as String)
                 .name(response["name"] as String)
@@ -54,6 +58,9 @@ class OAuthAttributes(
             attributes: Map<String, Any>,
             registrationType: String
         ): OAuthAttributes {
+            val logger = LoggerFactory.getLogger(this::class.java)!!
+            logger.info(attributes.keys.toString())
+            logger.info(attributes.values.toString())
             return OAuthAttributesBuilder()
                 .id(attributes["id"] as String)
                 .name(attributes["name"] as String)
@@ -69,6 +76,9 @@ class OAuthAttributes(
             registrationType: String
 
         ): OAuthAttributes {
+            val logger = LoggerFactory.getLogger(this::class.java)!!
+            logger.info(attributes.keys.toString())
+            logger.info(attributes.values.toString())
             return OAuthAttributesBuilder()
                 .id(attributes["id"] as String)
                 .name(attributes["name"] as String)
