@@ -58,12 +58,13 @@ class OAuthAttributes(
             attributes: Map<String, Any>,
             registrationType: String
         ): OAuthAttributes {
+            val response = attributes["response"] as Map<*, *>
             val logger = LoggerFactory.getLogger(this::class.java)!!
             logger.info(attributes.keys.toString())
             logger.info(attributes.values.toString())
             return OAuthAttributesBuilder()
-                .id(attributes["id"] as String)
-                .name(attributes["name"] as String)
+                .id(response["id"] as String)
+                .name(response["name"] as String)
                 .loginType(registrationType)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)

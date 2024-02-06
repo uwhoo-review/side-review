@@ -22,10 +22,7 @@ spring:
             redirect-uri: "https://uwhoo-review.site"
             client-secret: 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
             scope:
-              - id
               - email
-              - name
-              - picture
               - profile
           kakao:
             client-id: 5226f263acf8306b81d4c11afbb2afc2
@@ -34,8 +31,8 @@ spring:
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             scope:
-              - id
-              - email
+              - account_email
+              - profile_image
               - profile_nickname
           naver:
             client-id: 8B0WOI_5YTPZcSr_9haJ
