@@ -28,18 +28,29 @@ class TmdbContentService @Autowired constructor(private val tmdbClient: TmdbClie
 
         countryList.forEach {
             val tmdbPopularData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it, "popularity.desc")
-            val tmdbLatestData: TmdbResponse = tmdbClient.findAllTvShows("Bearer $accessKey", 1, it, "primary_release_date.desc")
-            //popularity.desc or primary_release_date.desc
-
             dtoList.addAll(tmdbPopularData.results)
-            dtoList.addAll(tmdbLatestData.results)
+
+            if (tmdbPopularData.total_pages > 500) {
+                val tmdbLatestData: TmdbResponse =
+                    tmdbClient.findAllTvShows("Bearer $accessKey", 1, it, "first_air_date.desc")
+                dtoList.addAll(tmdbLatestData.results)
+            }
 
             logger.info("[Discover] $it first: ${dtoList.size}")
 
             val pages: Int = min(tmdbPopularData.total_pages, 500)
             for (page in 2..pages) {
                 dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it, "popularity.desc").results)
-                dtoList.addAll(tmdbClient.findAllTvShows("Bearer $accessKey", page, it, "primary_release_date.desc").results)
+                if (pages > 500) {
+                    dtoList.addAll(
+                        tmdbClient.findAllTvShows(
+                            "Bearer $accessKey",
+                            page,
+                            it,
+                            "first_air_date.desc"
+                        ).results
+                    )
+                }
             }
             logger.info("[Discover] $it final: ${dtoList.size}")
         }
