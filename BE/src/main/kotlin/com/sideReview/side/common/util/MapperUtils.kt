@@ -281,7 +281,8 @@ object MapperUtils {
             id = dto.id,
             name = dto.name,
             profilePath = dto.profilePath,
-            cast = dto.cast?.map { it.contentName } ?: emptyList()
+            cast = dto.cast?.map { it.contentName } ?: emptyList(),
+            job = emptyList()
         )
     }
 
@@ -328,11 +329,20 @@ object MapperUtils {
 
     fun mapPersonDocumentToFavoriteDetailDto(documentList: List<PersonDocument>): List<FavoritePersonDetailDto> {
         return documentList.map {
+            val jobList : MutableList<String> = mutableListOf()
+            if(it.cast != null) jobList.add("Acting")
+            if(it.crew != null) {
+                for(i in 0..it.crew!!.size){
+                    if(!jobList.contains(it.crew!![i].job)) jobList.add(it.crew!![i].job)
+                }
+            }
+
             FavoritePersonDetailDto(
                 id = it.id,
                 name = it.name,
                 profilePath = it.profilePath,
-                cast = emptyList()
+                cast = emptyList(),
+                job = jobList
             )
         }
     }

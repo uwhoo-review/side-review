@@ -11,5 +11,6 @@ data class FavoritePersonDetailDto(
     val id: Int,
     val name: String,
     val profilePath: String?,
-    val cast: List<String>
+    val cast: List<String>,
+    val job: List<String>
 )

@@ -205,7 +205,8 @@ class OpenSearchDetailService @Autowired constructor(
                     person.id,
                     person.name,
                     person.profilePath,
-                    content.toList()
+                    content.toList(),
+                    emptyList()
                 )
             )
         }
