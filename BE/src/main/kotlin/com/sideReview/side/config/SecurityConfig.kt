@@ -1,5 +1,6 @@
 package com.sideReview.side.config
 
+import com.sideReview.side.login.Oauth2UserServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -11,18 +12,22 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
-open class SecurityConfig {
+open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl) {
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
 
         configuration.allowedOriginPatterns = listOf(
-            "https://uwhoo-review.site", "https://localhost",
-            "https://www.uwhoo-review.site", "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
+            "https://uwhoo-review.site",
+            "https://localhost",
+            "https://www.uwhoo-review.site",
+            "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
         )
         configuration.allowedOrigins = listOf(
-            "https://uwhoo-review.site", "https://localhost",
-            "https://www.uwhoo-review.site", "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
+            "https://uwhoo-review.site",
+            "https://localhost",
+            "https://www.uwhoo-review.site",
+            "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
         )
 
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
@@ -38,22 +43,19 @@ open class SecurityConfig {
     @Bean
     open fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
+            .csrf().disable()
             .authorizeRequests()
-            .antMatchers("**").permitAll()
-            .anyRequest().authenticated()
+            .antMatchers("/user/**").authenticated()
+            .anyRequest().permitAll()
             .and()
             .cors()
+
             .and()
-            .csrf().disable()
+            .oauth2Login()
+            .loginPage("/login")
+            .defaultSuccessUrl("/")
+            .userInfoEndpoint()
+            .userService(oauth2UserService)
         return http.build()
     }
-//    override fun configure(http: HttpSecurity) {
-//        http
-//            .authorizeRequests()
-//            .antMatchers("**").permitAll()
-//            .anyRequest().authenticated()
-//            .and()
-//            .cors().disable()
-//            .csrf().disable()
-//    }
 }
