@@ -19,6 +19,12 @@ class Oauth2UserServiceImpl(val userInfoRepository: UserInfoRepository) :
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
         // 사용자 정보를 가져오는 로직을 여기에 구현
         logger.info("login load user function 실행")
+        logger.info(userRequest.additionalParameters.keys.toString())
+        logger.info(userRequest.additionalParameters.values.toString())
+        logger.info(
+            userRequest.clientRegistration.providerDetails.userInfoEndpoint
+                .userNameAttributeName
+        )
         // 예시: GitHub에서 사용자 정보를 가져올 때
         val oAuth2User = super.loadUser(userRequest)
 
@@ -32,7 +38,12 @@ class Oauth2UserServiceImpl(val userInfoRepository: UserInfoRepository) :
         val user: UserInfo = saveOrPass(attributes)
 //        oAuth2User.attributes["userInfo"] = user
         logger.info("########## 로그인 로직 체크용 로그 ############")
-        logger.info(user.toString())
+        logger.info(user.userId)
+        logger.info(user.loginType)
+        logger.info(user.nickname)
+        logger.info(user.profile)
+        logger.info(user.preferOtt)
+        logger.info(user.preferGenre)
         logger.info(oAuth2User.attributes.keys.toString())
         logger.info(oAuth2User.attributes.values.toString())
         return oAuth2User

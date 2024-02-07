@@ -48,6 +48,7 @@ spring:
         provider:
           google:
             user-info-uri: https://www.googleapis.com/userinfo/v2/me
+            user-name-attribute: id
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
             token-uri: https://kauth.kakao.com/oauth/token

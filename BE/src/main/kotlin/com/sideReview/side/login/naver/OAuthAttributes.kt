@@ -13,6 +13,7 @@ class OAuthAttributes(
     private val loginType: String,
     val id: String,
     val name: String,
+    val profile: String
 ) {
     companion object {
         fun of(
@@ -40,14 +41,16 @@ class OAuthAttributes(
             attributes: Map<String, Any>,
             registrationType: String
         ): OAuthAttributes {
-            val response = attributes["response"] as Map<*, *>
             val logger = LoggerFactory.getLogger(this::class.java)!!
             logger.info(attributes.keys.toString())
             logger.info(attributes.values.toString())
+            val response = attributes["properties"] as Map<*, *>
+
             return OAuthAttributesBuilder()
-                .id(response["id"] as String)
-                .name(response["name"] as String)
+                .id((attributes["id"] as Long).toString())
+                .name(response["nickname"] as String)
                 .loginType(registrationType)
+                .profile(response["thumbnail_image"] as String)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build()
@@ -58,14 +61,20 @@ class OAuthAttributes(
             attributes: Map<String, Any>,
             registrationType: String
         ): OAuthAttributes {
-            val response = attributes["response"] as Map<*, *>
             val logger = LoggerFactory.getLogger(this::class.java)!!
             logger.info(attributes.keys.toString())
             logger.info(attributes.values.toString())
+            val response = attributes["response"] as Map<*, *>
+
             return OAuthAttributesBuilder()
                 .id(response["id"] as String)
-                .name(response["name"] as String)
+                .name(
+                    if (response.keys.contains("nickname") && response["nickname"] != null)
+                        response["nickname"] as String
+                    else response["name"] as String
+                )
                 .loginType(registrationType)
+                .profile(response["profile_image"] as String)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build()
@@ -84,6 +93,7 @@ class OAuthAttributes(
                 .id(attributes["id"] as String)
                 .name(attributes["name"] as String)
                 .loginType(registrationType)
+                .profile(attributes["picture"] as String)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build()
@@ -105,6 +115,7 @@ class OAuthAttributesBuilder {
     private var id: String = ""
     private var name: String = ""
     private var loginType: String = ""
+    private var profile: String = ""
 
     fun attributes(attributes: Map<String, Any>) = apply { this.attributes = attributes }
     fun nameAttributeKey(nameAttributeKey: String) =
@@ -113,8 +124,9 @@ class OAuthAttributesBuilder {
     fun id(id: String) = apply { this.id = id }
     fun name(name: String) = apply { this.name = name }
     fun loginType(loginType: String) = apply { this.loginType = loginType }
+    fun profile(profile: String) = apply { this.profile = profile }
     fun build(): OAuthAttributes {
-        return OAuthAttributes(attributes, nameAttributeKey, loginType, id, name)
+        return OAuthAttributes(attributes, nameAttributeKey, loginType, id, name, profile)
     }
 }
 
@@ -122,11 +134,13 @@ class UserInfoBuilder {
     private var id: String = ""
     private var name: String = ""
     private var loginType: String = ""
+    private var profile: String = ""
 //    private var role: Role = Role.GUEST
 
     fun id(id: String) = apply { this.id = id }
     fun name(name: String) = apply { this.name = name }
     fun loginType(loginType: String) = apply { this.loginType = loginType }
+    fun profile(profile: String) = apply { this.profile = profile }
 //    fun role(role: Role) = apply { this.role = role }
 
     fun build(): UserInfo {
@@ -134,7 +148,7 @@ class UserInfoBuilder {
             userId = id,
             loginType = loginType,
             nickname = name,
-            profile = "",
+            profile = profile,
             preferOtt = null,
             preferGenre = null,
             favoriteContent = null,
