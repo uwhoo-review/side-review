@@ -1,5 +1,6 @@
 package com.sideReview.side.config
 
+import com.sideReview.side.login.AuthSuccessHandler
 import com.sideReview.side.login.Oauth2UserServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,7 +13,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
-open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl) {
+open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl, val authSuccessHandler: AuthSuccessHandler) {
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
@@ -53,9 +54,10 @@ open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl) {
 
             .and()
             .oauth2Login()
-            .defaultSuccessUrl("/")
             .userInfoEndpoint()
             .userService(oauth2UserService)
+            .and()
+            .successHandler(authSuccessHandler)
         return http.build()
     }
 }

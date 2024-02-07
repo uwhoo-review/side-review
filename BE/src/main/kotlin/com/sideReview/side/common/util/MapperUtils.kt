@@ -329,11 +329,11 @@ object MapperUtils {
 
     fun mapPersonDocumentToFavoriteDetailDto(documentList: List<PersonDocument>): List<FavoritePersonDetailDto> {
         return documentList.map {
-            val jobList : MutableList<String> = mutableListOf()
-            if(it.cast != null) jobList.add("Acting")
-            if(it.crew != null) {
-                for(i in 0..it.crew!!.size){
-                    if(!jobList.contains(it.crew!![i].job)) jobList.add(it.crew!![i].job)
+            val jobList: MutableList<String> = mutableListOf()
+            if (it.cast != null) jobList.add("Acting")
+            if (it.crew != null) {
+                for (i in 0..it.crew!!.size) {
+                    if (!jobList.contains(it.crew!![i].job)) jobList.add(it.crew!![i].job)
                 }
             }
 
@@ -352,5 +352,14 @@ object MapperUtils {
         val intList = cleanedString.split(",").map { it.toInt() }
 
         return intList
+    }
+
+    fun mapUserInfoToLoginResponseDto(user: UserInfo): UserInfoDto {
+        return UserInfoDto(
+            id = user.userId,
+            nickname = user.nickname,
+            profile = user.profile,
+            type = user.loginType
+        )
     }
 }

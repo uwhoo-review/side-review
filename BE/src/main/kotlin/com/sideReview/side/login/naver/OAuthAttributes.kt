@@ -12,7 +12,7 @@ class OAuthAttributes(
     private val nameAttributeKey: String,
     private val loginType: String,
     val id: String,
-    val name: String,
+    var name: String,
     val profile: String
 ) {
     companion object {
@@ -71,7 +71,8 @@ class OAuthAttributes(
                 .name(
                     if (response.keys.contains("nickname") && response["nickname"] != null)
                         response["nickname"] as String
-                    else response["name"] as String
+                    else ""
+//                        response["name"] as String
                 )
                 .loginType(registrationType)
                 .profile(response["profile_image"] as String)
@@ -91,7 +92,8 @@ class OAuthAttributes(
             logger.info(attributes.values.toString())
             return OAuthAttributesBuilder()
                 .id(attributes["id"] as String)
-                .name(attributes["name"] as String)
+                .name("")
+//                .name(attributes["name"] as String)
                 .loginType(registrationType)
                 .profile(attributes["picture"] as String)
                 .attributes(attributes)
@@ -105,6 +107,7 @@ class OAuthAttributes(
             .id(id)
             .name(name)
             .loginType(loginType)
+            .profile(profile)
             .build()
     }
 }
