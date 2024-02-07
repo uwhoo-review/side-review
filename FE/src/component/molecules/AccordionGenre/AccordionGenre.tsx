@@ -8,7 +8,7 @@ import { IconCheck } from "@res/index";
 import HWDialog from "@src/component/atoms/HWDialog";
 
 const AccordionGenre = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const [genre, setGenre] = useState([80, 99, 18, 10751, 10762, 9648, 10763]);
   const props = (v: number) => {

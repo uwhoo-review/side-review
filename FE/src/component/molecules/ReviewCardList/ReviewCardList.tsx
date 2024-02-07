@@ -15,6 +15,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Backdrop, Fade, Grow, Modal, Slide, Slider } from "@mui/material";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
+import HWToggleButtonGroup from "@src/component/atoms/HWToggleButtonGroup/HWToggleButtonGroup";
+import HWToggleButton from "@src/component/atoms/HWToggleButton/HWToggleButton";
 
 const ReviewCardList = ({ total = false, size = 6 }: any) => {
   const navigate = useNavigate();
@@ -31,6 +33,17 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
   const [isSpoiler, setIsSpoiler] = useState(0);
   const [sort, setSort] = useState("best");
   const [isReviewModal, setIsReviewModal] = useState(false);
+
+  const [toggle1, setToggle1] = useState<string>("all");
+
+  const props1 = (value: string) => {
+    return {
+      checked: toggle1 === value,
+      onClick: () => {
+        setToggle1(value);
+      },
+    };
+  };
 
   const { status, data, error } = useQuery({
     queryKey: ["list", "review", id, sort, isSpoiler, page, size],
@@ -84,7 +97,7 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
                 {"유저 리뷰"}
               </>
             }
-            subTitle={totalCnt}
+            subTitle={totalCnt + " reviews"}
             rightWrapper={
               <div>
                 {!total && (
@@ -127,6 +140,13 @@ const ReviewCardList = ({ total = false, size = 6 }: any) => {
                 {sort === "latest" && "베스트 리뷰순"}
               </HWTypography>
             </div>
+          </div>
+          <div css={styled.toggleGroup}>
+            <HWToggleButtonGroup>
+              <HWToggleButton {...props1("all")}>전체</HWToggleButton>
+              <HWToggleButton {...props1("user")}>UWHOO 유저리뷰</HWToggleButton>
+              <HWToggleButton {...props1("anonymous")}>익명리뷰</HWToggleButton>
+            </HWToggleButtonGroup>
           </div>
           {status === "success" && reviewList.length === 0 && (
             <div css={styled.emptyWrapper}>

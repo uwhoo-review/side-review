@@ -7,7 +7,14 @@ import CardList from "@src/component/molecules/CardList/CardList";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
 import CardSlider from "@src/component/molecules/CardSlider/CardSlider";
 import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
-import { IconApple, IconCancel, IconPlusBtn, IconSearch } from "@res/index";
+import {
+  IconApple,
+  IconCancel,
+  IconChevronLeft,
+  IconChevronRight,
+  IconPlusBtn,
+  IconSearch,
+} from "@res/index";
 import HWDialog from "@src/component/atoms/HWDialog";
 import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
 import ContentCard3rd from "@src/component/atoms/ContentCard3rd/ContentCard3rd";
@@ -16,8 +23,11 @@ import person1 from "@res/temp/person1.png";
 import { isNullOrEmpty } from "@src/tools/commonTools";
 
 const AccordionContents = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+  const [isSearch, setIsSearch] = useState(true);
+  const [searchList, setSearchList] = useState([]);
 
   return (
     <>
@@ -73,34 +83,73 @@ const AccordionContents = () => {
         <HWDialog.Title onClose={() => setIsModalOpen(false)}>인생작 검색</HWDialog.Title>
         <HWDialog.Content>
           <div css={styled.modalContentBox}>
-            <div>
+            <div css={styled.box1}>
               <HWTextField
                 fullWidth={true}
-                startAdorment={<IconSearch />}
+                startAdorment={<IconSearch width={"20px"} height={"20px"} color={"#fff"} />}
+                value={searchVal}
+                onChange={(e) => setSearchVal(e.target.value)}
+                placeholder={"작품의 제목을 검색해 주세요."}
                 endAdorment={
-                  <HWIconButton>
-                    <IconCancel />
-                  </HWIconButton>
+                  !isNullOrEmpty(searchVal) && (
+                    <HWIconButton>
+                      <IconCancel />
+                    </HWIconButton>
+                  )
                 }
               />
             </div>
-            <div css={styled.box2}>
-              <HWTypography variant={"bodyXS"} color={"#9897A1"}>
-                제목
-              </HWTypography>
-              <HWTypography variant={"bodyXS"} color={"#9897A1"}>
-                내 별점
-              </HWTypography>
-            </div>
-            <div css={styled.box3}>
-              <ContentCard3rd src={person1} />
-            </div>
+            {isSearch && (
+              <>
+                <div css={styled.box2}>
+                  <HWTypography variant={"bodyXS"} color={"#9897A1"}>
+                    제목
+                  </HWTypography>
+                  <HWTypography variant={"bodyXS"} color={"#9897A1"}>
+                    내 별점
+                  </HWTypography>
+                </div>
+                {searchList.length === 0 ? (
+                  <div css={styled.emptyBox}>
+                    <HWTypography
+                      variant={"bodyL"}
+                      family={"Pretendard-SemiBold"}
+                      color={"#C7C8D3"}
+                    >
+                      검색 결과가 없습니다.
+                    </HWTypography>
+                    <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
+                      검색하신 `{searchVal}` 작품을 찾을 수 없습니다.
+                    </HWTypography>
+                    <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
+                      다른 검색어를 입력해보세요.
+                    </HWTypography>
+                  </div>
+                ) : (
+                  <div css={styled.box3}>
+                    <ContentCard3rd src={person1} />
+                    <ContentCard3rd src={person1} />
+                    <ContentCard3rd src={person1} />
+                    <ContentCard3rd src={person1} />
+                  </div>
+                )}
+                <footer css={styled.footer}>
+                  <div css={styled.arrowBtn}>
+                    <IconChevronLeft />
+                  </div>
+                  <div>
+                    <HWTypography variant={"bodyXS"} color={"#84838D"}>
+                      Page {1} of 10
+                    </HWTypography>
+                  </div>
+                  <div css={styled.arrowBtn}>
+                    <IconChevronRight />
+                  </div>
+                </footer>
+              </>
+            )}
           </div>
-          <footer css={styled.footer}>
-            <HWIconButton>&lt;</HWIconButton>
-            <div>Page * of *</div>
-            <HWIconButton>&gt;</HWIconButton>
-          </footer>
+
         </HWDialog.Content>
       </HWDialog>
     </>

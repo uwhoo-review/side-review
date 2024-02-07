@@ -5,6 +5,7 @@ import { IconArrowRight, IconCircleCamera, IconCircleReview, IconCircleStar } fr
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import MyPageGNB from "@src/component/organisms/GNB/MyPageGNB";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
+import MyFootPrints from "@src/component/molecules/MyFootPrints/MyFootPrints";
 
 const MyPageHeader = () => {
   return (
@@ -39,6 +40,7 @@ const MyPageHeader = () => {
                 <IconArrowRight />
               </>
             }
+            modalChildren={<MyFootPrints toggle={"content"} />}
           />
           <MyPageInfo
             topText={
@@ -67,6 +69,7 @@ const MyPageHeader = () => {
                 <IconArrowRight />
               </>
             }
+            modalChildren={<MyFootPrints toggle={"review"} />}
           />
           <MyPageInfo
             topText={
@@ -95,6 +98,12 @@ const MyPageHeader = () => {
                 <IconArrowRight />
               </>
             }
+            onClick={() => {
+              const target = document.querySelector(".accordion-report-wrapper");
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
           />
         </div>
       </CenterWrapper>

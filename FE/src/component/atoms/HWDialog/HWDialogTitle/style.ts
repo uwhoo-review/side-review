@@ -8,9 +8,9 @@ export const root = css`
   font-size: 18px;
   line-height: 32px;
   color: #fff;
-  padding: 30px 56px 20px 24px;
   word-break: break-all;
   min-height: 24px;
+  padding: 0;
 `;
 
 export const escapeButton = css`

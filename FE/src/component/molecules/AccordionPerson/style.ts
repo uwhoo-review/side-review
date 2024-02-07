@@ -5,18 +5,15 @@ export default {
     margin-bottom: 70px;
     &.Mui-expanded {
       margin-bottom: 70px;
-    }  `,
-  wrapper: css`
-
-  `,  title: css`
+    }
+  `,
+  wrapper: css``,
+  title: css`
     display: flex;
     flex-direction: column;
   `,
   subWrapper: css`
     margin-top: 30px;
-  `,
-  typo1: css`
-    color: #6d6ada;
   `,
   contentBox: css`
     width: 100%;
@@ -46,4 +43,57 @@ export default {
     flex: 1 0;
     //overflow: hidden;
   `,
-}
+  typo1: css`
+    color: #6d6ada;
+  `,
+  modalWrapper: css`
+    .MuiDialog-paper {
+      background-color: #252525;
+
+    }
+  `,
+  modalContentBox: css`
+    display: flex;
+    flex-direction: column;
+  `,
+  box1: css`
+    margin-top: 20px;
+  `,
+  box2: css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  `,
+  box3: css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+  `,
+  footer: css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
+  emptyBox: css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    background-color: #1e1e1e;
+    height: 226px;
+    border-radius: 8px;
+    margin-top: 8px;
+
+  `,
+  iconBtn: css`
+    height: 34px;
+    width: 24px;
+    background-color: #00000080;
+  `
+};

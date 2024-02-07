@@ -5,7 +5,8 @@ export default {
     margin-bottom: 70px;
     &.Mui-expanded {
       margin-bottom: 70px;
-    }  `,
+    }
+  `,
   wrapper: css``,
   title: css`
     display: flex;
@@ -54,21 +55,62 @@ export default {
     display: flex;
     flex-direction: column;
   `,
+  box1: css`
+    margin-top: 20px;
+  `,
   box2: css`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 20px;
   `,
   box3: css`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    gap: 4px;
+    margin-top: 8px;
   `,
   footer: css`
     display: flex;
     justify-content: center;
     align-items: center;
-  `
+    
+    gap: 42px;
+    margin-top: 20px;
+  `,
+  emptyBox: css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    background-color: #1e1e1e;
+    height: 226px;
+    border-radius: 8px;
+    margin-top: 8px;
+  `,
+  iconBtn: css`
+    height: 34px;
+    width: 24px;
+    background-color: #00000080;
+  `,
+  arrowBtn: css`
+    width: 24px;
+    height: 34px;
+    border-radius: 8px;
+    background-color: #00000099;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+    &:hover {
+      background-color: #000000CC;
+
+    }
+  `,
 };

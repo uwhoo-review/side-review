@@ -27,5 +27,23 @@ export default {
     align-items: center;
     gap: 8px;
     color: #b6b2ea;
+    cursor: pointer;
+  `,
+  modal: css`
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    color: #fff;
+    .MuiBackdrop-root {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  `,
+  modalWrapper: css`
+    width: 100%;
+    height: calc(100% - 300px);
+    background-color: #121212;
+    padding-top: 70px;
+    overflow: auto;
+    border-radius: 15px;
   `,
 };

@@ -9,6 +9,15 @@ export default {
     width: 100%;
     height: 70px;
     gap: 16px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    border: 1px solid transparent;
+
+    &:hover {
+      background-color: #121212;
+      border: 1px solid #6d6ada;
+      box-shadow: 0px 0px 0px 3px #5354dab2;
+    }
   `,
   box1: css`
     flex: 0 0 46px;

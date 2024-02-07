@@ -7,13 +7,14 @@ import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
 import BarChartApex from "@src/component/atoms/BarChartApex/BarChartApex";
 import DonutChartApex from "@src/component/atoms/DonutChartApex/DonutChartApex";
-import {IconArrowRight} from "@res/index";
+import { IconArrowRight } from "@res/index";
 import ContentCardSec from "@src/component/atoms/ContentCardSec/ContentCardSec";
 
 const AccordionReport = () => {
   const [open, setOpen] = useState(true);
   return (
     <MenuAccordion
+      className={"accordion-report-wrapper"}
       title={
         <div css={styled.title}>
           <HWTypography variant={"headlineS"} family={"Pretendard-SemiBold"} color={"#ffffff"}>

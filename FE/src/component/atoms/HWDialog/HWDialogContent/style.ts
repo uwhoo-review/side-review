@@ -23,6 +23,6 @@ export const root = css`
   }
 
   &.MuiDialogContent-root {
-    padding: 0px 24px;
+    padding: 0;
   }
 `;

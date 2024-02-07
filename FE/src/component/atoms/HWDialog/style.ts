@@ -15,5 +15,6 @@ export const root = (width?: string, height?: string) => css`
     height: ${height};
     max-width: unset;
     background-color: transparent;
+    padding: 24px;
   }
 `;

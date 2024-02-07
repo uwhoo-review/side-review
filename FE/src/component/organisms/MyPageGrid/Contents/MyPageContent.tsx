@@ -5,8 +5,10 @@ import AccordionPerson from "@src/component/molecules/AccordionPerson/AccordionP
 import AccordionGenre from "@src/component/molecules/AccordionGenre/AccordionGenre";
 import AccordionReport from "@src/component/molecules/AccordionReport/AccordionReport";
 import styled from "./style";
+import {useRef} from "react";
 
 const MyPageContent = () => {
+
   return (
     <div className={"mypage-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>

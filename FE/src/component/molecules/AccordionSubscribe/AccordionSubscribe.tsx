@@ -9,7 +9,7 @@ import { PlatformConstants } from "@src/variables/PlatformConstants";
 
 const AccordionSubscribe = () => {
   const PLATFORM_LIST = [PLATFORM_NAME.NETFLIX, PLATFORM_NAME.WATCHA];
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [subscribe, setSubscribe] = useState({
     [PLATFORM_NAME.NETFLIX]: false,
     [PLATFORM_NAME.WATCHA]: false,

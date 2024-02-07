@@ -34,9 +34,16 @@ export const UWAxios = {
       const res = await axiosBaseInstance.post<any>(`review`, data);
       return res.data;
     },
-    async getReview(id: string, sort: string, spoiler: boolean, page: number, size: number) {
+    async getReview(
+      id: string,
+      sort: string,
+      spoiler: boolean,
+      page: number,
+      size: number,
+      type?: string
+    ) {
       const res = await axiosBaseInstance.get<any>(
-        `review/${id}?sort=${sort}&spoiler=${spoiler}&page=${page}&size=${size}`
+        `review/${id}?sort=${sort}&spoiler=${spoiler}&page=${page}&size=${size}&type=${type || 0}`
       );
       return res.data;
     },
@@ -80,6 +87,48 @@ export const UWAxios = {
     },
     async putStart(id: string, data: any) {
       const res = await axiosBaseInstance.put<any>(`star/${id}`, data);
+      return res.data;
+    },
+  },
+  user: {
+    async getMypage(userId: string) {
+      const res = await axiosBaseInstance.get<any>(`user/${userId}`);
+      return res.data;
+    },
+    async putNickName(userId: string, nickName: string) {
+      const res = await axiosBaseInstance.put<any>(`user/${userId}?name=${nickName}`);
+      return res.data;
+    },
+    async getMyContents(userId: string, keyword: string, page: number, size: number) {
+      const res = await axiosBaseInstance.get<any>(
+        `user/${userId}/contents?keyword=${keyword}&page=${page}&size=${size}`
+      );
+      return res.data;
+    },
+    async getMyPerson(userId: string, keyword: string, page: number, size: number) {
+      const res = await axiosBaseInstance.get<any>(
+        `user/${userId}/person?keyword=${keyword}&page=${page}&size=${size}`
+      );
+      return res.data;
+    },
+    async putMyPerson(userId: string, personId: string) {
+      const res = await axiosBaseInstance.put<any>(`user/${userId}/person?personId=${personId}`);
+      return res.data;
+    },
+    async putMyContents(userId: string, data: any) {
+      const res = await axiosBaseInstance.put<any>(`user/${userId}`, data);
+      return res.data;
+    },
+    async deleteMyContents(userId: string, contentId: string) {
+      const res = await axiosBaseInstance.delete<any>(`user/${userId}/contents?contentId=${contentId}`);
+      return res.data;
+    },
+    async putMyOtt(userId: string, data: any) {
+      const res = await axiosBaseInstance.put<any>(`user/${userId}/ott`, data);
+      return res.data;
+    },
+    async putMyGenre(userId: string, data: any) {
+      const res = await axiosBaseInstance.put<any>(`user/${userId}/genre`, data);
       return res.data;
     },
   },
