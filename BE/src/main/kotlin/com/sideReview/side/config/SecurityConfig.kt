@@ -1,6 +1,8 @@
 package com.sideReview.side.config
 
+import com.sideReview.side.login.AuthFailHandler
 import com.sideReview.side.login.AuthSuccessHandler
+import com.sideReview.side.login.LogoutSuccessHandler
 import com.sideReview.side.login.Oauth2UserServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,7 +15,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
-open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl, val authSuccessHandler: AuthSuccessHandler) {
+open class SecurityConfig(
+    val oauth2UserService: Oauth2UserServiceImpl,
+    val authSuccessHandler: AuthSuccessHandler,
+    val authFailHandler: AuthFailHandler,
+    val logoutSuccessHandler: LogoutSuccessHandler
+) {
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
@@ -58,6 +65,11 @@ open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl, val auth
             .userService(oauth2UserService)
             .and()
             .successHandler(authSuccessHandler)
+            .failureHandler(authFailHandler)
+            .and()
+            .logout()
+            .logoutSuccessHandler(logoutSuccessHandler)
+            .permitAll()
         return http.build()
     }
 }
