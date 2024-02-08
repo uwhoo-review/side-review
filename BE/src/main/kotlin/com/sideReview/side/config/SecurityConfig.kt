@@ -57,6 +57,8 @@ open class SecurityConfig(
             .formLogin().disable()
             .authorizeRequests()
 //            .antMatchers("/user/**", "/star/**", "/review/**").authenticated()
+//            .access("isAuthenticated() or permitAll()")
+//            .antMatchers("/user/**", "/star/**", "/review/**").authenticated()
             .anyRequest().permitAll()
 
             .and()
