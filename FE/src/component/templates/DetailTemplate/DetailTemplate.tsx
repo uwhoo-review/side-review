@@ -1,5 +1,5 @@
 import styled from "./style";
-import DetailGrid from "@src/component/organisms/DetailGrid/Contents/DetailGrid";
+import DetailContent from "@src/component/organisms/DetailGrid/Contents/DetailContent";
 import BoxList from "@src/component/molecules/BoxList/BoxList";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
@@ -25,7 +25,7 @@ const DetailTemplate = () => {
       {status === "pending" && <LoadingGrid />}
       {status === "success" && (
         <section className="detail-template-wrapper" css={styled.wrapper}>
-          <DetailGrid data={data} />
+          <DetailContent data={data} />
         </section>
       )}
     </>

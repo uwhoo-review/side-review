@@ -1,15 +1,15 @@
-import ReviewCardList from "@src/component/molecules/ReviewCardList/ReviewCardList";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import styled from "./style";
+import ReviewCardTotalList from "@src/component/molecules/ReviewCardTotalList/ReviewCardTotalList";
 
-const ReviewTotalGrid = () => {
+const ReviewTotalContent = () => {
   return (
     <div className="contents-review-wrapper" css={styled.reviewWrapper}>
       <CenterWrapper>
-        <ReviewCardList total={true} size={10} />
+        <ReviewCardTotalList size={10} />
       </CenterWrapper>
     </div>
   );
 };
 
-export default ReviewTotalGrid;
+export default ReviewTotalContent;

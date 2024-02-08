@@ -1,7 +1,12 @@
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "./style";
+import { useDrop } from "react-dnd";
+
+function switchValues(arr: any, index1: any, index2: any) {
+  [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
+}
 
 const CardSlider = ({ cardList }: any) => {
   const TOTAL_LIST = cardList.length;
@@ -11,6 +16,7 @@ const CardSlider = ({ cardList }: any) => {
   const [firstIdx, setFirstIdx] = useState(1);
   const [lastIdx, setLastIdx] = useState(5);
   const [translateX, setTranslateX] = useState(0);
+  const [cards, setCards] = useState(cardList);
 
   const onPrevHandler = () => {
     if (currentPage === 1) {
@@ -42,6 +48,41 @@ const CardSlider = ({ cardList }: any) => {
     }
   };
 
+  const findCard = useCallback(
+    (id: string) => {
+      const card = cards.find((v: any) => `${v.id}` === id.toString()) as any;
+      return {
+        ...card,
+        index: cards.indexOf(card),
+      };
+    },
+    [cards]
+  );
+
+  const moveCard = useCallback(
+    (fromId: string, toId: string) => {
+      console.log(fromId, toId);
+      console.log(findCard(fromId), findCard(toId));
+      const fromCard = findCard(fromId);
+      const toCard = findCard(toId);
+      switchValues(cards, fromCard.index, toCard.index);
+      console.log(cards);
+      setCards([...cards]);
+
+      /*    setCards((prevCards: any[]) =>
+        update(prevCards, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, prevCards[dragIndex] as any],
+          ],
+        }),
+    )*/
+    },
+    [findCard, cards]
+  );
+
+  const [, drop] = useDrop(() => ({ accept: "CARD" }));
+
   useEffect(() => {
     const x = (firstIdx - 1) * (-196 - 20);
     setTranslateX(x);
@@ -56,9 +97,9 @@ const CardSlider = ({ cardList }: any) => {
         onClick={onPrevHandler}
       />
       <div className={"image-card-list"} css={styled.cardWrapper(translateX, false)}>
-        {cardList.map((v: any, i: number) => {
+        {cards.map((v: any, i: number) => {
           return (
-            <div className={"content-slide"} key={v.id}>
+            <div className={"content-slide"} key={v.id} ref={drop}>
               <ContentCard
                 id={v.id}
                 className={`image-card`}
@@ -71,6 +112,9 @@ const CardSlider = ({ cardList }: any) => {
                 active={false}
                 season={v.season}
                 customCss={styled.card}
+                moveCard={moveCard}
+                findCard={findCard}
+                rank={i + 1}
               />
             </div>
           );

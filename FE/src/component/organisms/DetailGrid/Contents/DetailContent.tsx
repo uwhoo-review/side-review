@@ -11,7 +11,7 @@ import PhotoCard from "@src/component/atoms/PhotoCard/PhotoCard";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
 
-const DetailGrid = ({ data }: any) => {
+const DetailContent = ({ data }: any) => {
   const [dialog, setDialog] = useState<any>(null);
   const [trailerList, setTrailerList] = useState<any>([]);
   const [photoList, setphotoList] = useState<any>([]);
@@ -77,4 +77,4 @@ const DetailGrid = ({ data }: any) => {
   );
 };
 
-export default DetailGrid;
+export default DetailContent;

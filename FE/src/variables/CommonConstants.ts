@@ -141,12 +141,54 @@ export const DUMMY_CONTENT = {
   actors: ["1", "2"],
   age: "19",
   genre: [1, 2, 3],
-  id: "135238",
-  name: "경성크리처",
+  id: "1",
+  name: "1",
   platform: [1, 2, 3],
   poster: "fSFDsj4ch7rZBberDouL7Ucab1F.jpg",
   synopsis:
     "쓸쓸한 어둠이 드리웠던 비극의 시대, 1945년 봄. 생존이 전부였던 두 청춘이 인간의 탐욕으로 탄생한 괴물들과 사투를 벌인다.",
+  trailer: "EtaV2rM80D8",
+  date: "2023",
+};
+
+export const DUMMY_CONTENT2 = {
+  actors: ["1", "2"],
+  age: "19",
+  genre: [1, 2, 3],
+  id: "2",
+  name: "2",
+  platform: [1, 2, 3],
+  poster: "tKUTpdyg0wGfIYplIAfkN6hDbRw.jpg",
+  synopsis:
+      "쓸쓸한 어둠이 드리웠던 비극의 시대, 1945년 봄. 생존이 전부였던 두 청춘이 인간의 탐욕으로 탄생한 괴물들과 사투를 벌인다.",
+  trailer: "EtaV2rM80D8",
+  date: "2023",
+};
+
+export const DUMMY_CONTENT3 = {
+  actors: ["1", "2"],
+  age: "19",
+  genre: [1, 2, 3],
+  id: "3",
+  name: "3",
+  platform: [1, 2, 3],
+  poster: "nc7PyyFvxlZRoVfepghycxYAHPM.jpg",
+  synopsis:
+      "쓸쓸한 어둠이 드리웠던 비극의 시대, 1945년 봄. 생존이 전부였던 두 청춘이 인간의 탐욕으로 탄생한 괴물들과 사투를 벌인다.",
+  trailer: "EtaV2rM80D8",
+  date: "2023",
+};
+
+export const DUMMY_CONTENT4 = {
+  actors: ["1", "2"],
+  age: "19",
+  genre: [1, 2, 3],
+  id: "4",
+  name: "4",
+  platform: [1, 2, 3],
+  poster: "q8pNUabN9eV4to3vm2jG7aWVXp2.jpg",
+  synopsis:
+      "쓸쓸한 어둠이 드리웠던 비극의 시대, 1945년 봄. 생존이 전부였던 두 청춘이 인간의 탐욕으로 탄생한 괴물들과 사투를 벌인다.",
   trailer: "EtaV2rM80D8",
   date: "2023",
 };

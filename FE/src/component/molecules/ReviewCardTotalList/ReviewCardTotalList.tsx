@@ -1,24 +1,19 @@
 import styled from "./style";
-import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import ReviewCard from "@src/component/atoms/ReviewCard/ReviewCard";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
-import HWButton from "@src/component/atoms/HWButton/HWButton";
 import HWToggle from "@src/component/atoms/HWToggle/HWToggle";
 import Color from "@src/common/styles/Color";
 import { IconChevronDoubleDown, IconChevronLeft, IconUpDown } from "@res/index";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
 import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Backdrop, Fade, Grow, Modal, Slide, Slider } from "@mui/material";
-import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import HWToggleButtonGroup from "@src/component/atoms/HWToggleButtonGroup/HWToggleButtonGroup";
 import HWToggleButton from "@src/component/atoms/HWToggleButton/HWToggleButton";
 
-const ReviewCardList = ({ size = 6 }: any) => {
+const ReviewCardTotalList = ({ size = 6 }: any) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -32,7 +27,17 @@ const ReviewCardList = ({ size = 6 }: any) => {
   const [page, setPage] = useState(0);
   const [isSpoiler, setIsSpoiler] = useState(0);
   const [sort, setSort] = useState("best");
-  const [isReviewModal, setIsReviewModal] = useState(false);
+
+  const [toggle1, setToggle1] = useState<string>("all");
+
+  const props1 = (value: string) => {
+    return {
+      checked: toggle1 === value,
+      onClick: () => {
+        setToggle1(value);
+      },
+    };
+  };
 
   const { status, data, error } = useQuery({
     queryKey: ["list", "review", id, sort, isSpoiler, page, size],
@@ -76,23 +81,18 @@ const ReviewCardList = ({ size = 6 }: any) => {
       <div className={"review-list-wrapper"} css={styled.wrapper}>
         <>
           <WrapperTitle
-            title={<>{"유저 리뷰"}</>}
-            subTitle={totalCnt + " reviews"}
-            rightWrapper={
-              <div>
+            title={
+              <>
                 {
-                  <HWButton variant={"lowest"} onClick={() => navigate("review-total")}>
-                    <HWTypography
-                      variant={"bodyXL"}
-                      family={"Pretendard-SemiBold"}
-                      color={Color.dark.primary800}
-                    >
-                      리뷰 전체보기
-                    </HWTypography>
-                  </HWButton>
+                  <HWIconButton onClick={() => navigate("..")}>
+                    <IconChevronLeft />
+                  </HWIconButton>
                 }
-              </div>
+                {"유저 리뷰"}
+              </>
             }
+            subTitle={totalCnt + " reviews"}
+            rightWrapper={<></>}
           />
           <div css={styled.filterWrapper}>
             <div>
@@ -121,6 +121,13 @@ const ReviewCardList = ({ size = 6 }: any) => {
               </HWTypography>
             </div>
           </div>
+          <div css={styled.toggleGroup}>
+            <HWToggleButtonGroup>
+              <HWToggleButton {...props1("all")}>전체</HWToggleButton>
+              <HWToggleButton {...props1("user")}>UWHOO 유저리뷰</HWToggleButton>
+              <HWToggleButton {...props1("anonymous")}>익명리뷰</HWToggleButton>
+            </HWToggleButtonGroup>
+          </div>
           {status === "success" && reviewList.length === 0 && (
             <div css={styled.emptyWrapper}>
               <HWTypography
@@ -133,51 +140,58 @@ const ReviewCardList = ({ size = 6 }: any) => {
             </div>
           )}
           {status === "success" && reviewList.length !== 0 && (
-            <div css={styled.contentWrapper}>
-              {reviewList.map((v: any, i: number) => {
-                return (
-                  <ReviewCard
-                    key={v.id}
-                    id={id}
-                    reviewId={v.id}
-                    dislike={v.dislike}
-                    like={v.like}
-                    date={v.date}
-                    best={true}
-                    spoiler={v.spoiler}
-                    footer={true}
-                    width={"452px"}
-                    height={"280px"}
-                    useModal={true}
+            <>
+              <div css={styled.contentTotalWrapper}>
+                {reviewList.map((v: any, i: number) => {
+                  return (
+                    <ReviewCard
+                      key={v.id}
+                      id={id}
+                      reviewId={v.id}
+                      dislike={v.dislike}
+                      like={v.like}
+                      date={v.date}
+                      best={true}
+                      spoiler={v.spoiler}
+                      footer={true}
+                      width={"100%"}
+                      height={"280px"}
+                    >
+                      {v.contents}
+                    </ReviewCard>
+                  );
+                })}
+              </div>
+              {pageInfo.totalElements > reviewList.length && (
+                <div
+                  css={styled.plusBtn}
+                  onClick={() => {
+                    const v = {
+                      id,
+                      sort,
+                      isSpoiler,
+                      page: page + 1,
+                      size,
+                    };
+                    mutation.mutate(v);
+                  }}
+                >
+                  <HWTypography
+                    variant={"headlineXXS"}
+                    family={"Pretendard-SemiBold"}
+                    color={Color.dark.primary800}
                   >
-                    {v.content}
-                  </ReviewCard>
-                );
-              })}
-            </div>
+                    더보기
+                  </HWTypography>
+                  <IconChevronDoubleDown color={"#fff"} />
+                </div>
+              )}
+            </>
           )}
         </>
       </div>
-      {
-        <Modal
-          open={isReviewModal}
-          onClose={() => setIsReviewModal(false)}
-          css={styled.modal}
-          closeAfterTransition
-        >
-          <Slide in={isReviewModal} direction={"up"} style={{ borderTop: "1ps solid transparent" }}>
-            <div css={[styled.modalWrapper]}>
-              <CenterWrapper>
-                <ReviewCardList total={true} size={10} />
-              </CenterWrapper>
-            </div>
-          </Slide>
-        </Modal>
-      }
-
-      {/*)}*/}
     </>
   );
 };
 
-export default ReviewCardList;
+export default ReviewCardTotalList;

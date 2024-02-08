@@ -4,7 +4,7 @@ import { useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import CardList from "@src/component/molecules/CardList/CardList";
-import { DUMMY_CONTENT } from "@src/variables/CommonConstants";
+import {DUMMY_CONTENT, DUMMY_CONTENT2, DUMMY_CONTENT3, DUMMY_CONTENT4} from "@src/variables/CommonConstants";
 import CardSlider from "@src/component/molecules/CardSlider/CardSlider";
 import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
 import {
@@ -61,13 +61,9 @@ const AccordionContents = () => {
               <CardSlider
                 cardList={[
                   DUMMY_CONTENT,
-                  DUMMY_CONTENT,
-                  DUMMY_CONTENT,
-                  DUMMY_CONTENT,
-                  DUMMY_CONTENT,
-                  DUMMY_CONTENT,
-                  DUMMY_CONTENT,
-                  DUMMY_CONTENT,
+                  DUMMY_CONTENT2,
+                  DUMMY_CONTENT3,
+                  DUMMY_CONTENT4,
                 ]}
               />
             </div>

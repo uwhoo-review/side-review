@@ -42,12 +42,6 @@ const DonutChartApex = () => {
     },
   });
 
-  /*  const svgRef = useRef<HTMLDivElement | null>(null);
-  function chartRender(svg: any) {}*/
-
-  useEffect(() => {
-    console.log(charRef.current);
-  }, [data]);
 
   // return <div ref={svgRef}></div>;
   return <Chart ref={charRef} options={data.options} type={"donut"} series={data.series}></Chart>;

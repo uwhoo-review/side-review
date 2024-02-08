@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import { RatingDO, SeasonDO } from "@src/interfaces/api.interface";
+import { useDrag, useDrop, XYCoord } from "react-dnd";
 
 interface ContentCardProps {
   id: string;
@@ -24,6 +25,8 @@ interface ContentCardProps {
   rating?: RatingDO;
   season?: SeasonDO;
   onClick?: (e: React.MouseEvent) => void;
+  moveCard?: (dragId: string, hoverId: string) => void;
+  findCard?: any;
   customCss?: SerializedStyles;
 }
 const ContentCard = ({
@@ -41,11 +44,14 @@ const ContentCard = ({
   customCss,
   season,
   active,
+  moveCard,
+  findCard,
   ...props
 }: ContentCardProps) => {
   const navigate = useNavigate();
   const divRef = useRef<any>(null);
   const [isOverflow, setIsOverflow] = useState<boolean>(false);
+
   let classNames = [];
   classNames.push(
     "content-card-wrapper",
@@ -54,21 +60,66 @@ const ContentCard = ({
   );
   classNames = classNames.filter(Boolean);
 
+  const [{ isOver }, drop] = useDrop(
+    {
+      accept: "CARD",
+      collect: (monitor: any) => ({
+        isOver: monitor.isOver({ shallow: true }),
+      }),
+      hover({ id: draggedId }: any) {
+        if (draggedId !== id) {
+        }
+      },
+      drop({ id: draggedId }: any) {
+        if (draggedId !== id) {
+          const { index: dragIdx } = findCard(draggedId);
+          const { index: overIdx } = findCard(id);
+          moveCard && moveCard(draggedId, id);
+        }
+      },
+    },
+    [moveCard, findCard]
+  );
+
+  const [{ isDragging }, drag] = useDrag(
+    {
+      type: "CARD",
+      item: { id },
+      collect: (monitor: any) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      end: (item, monitor) => {
+        // const { id: droppedId } = item;
+        // const didDrop = monitor.didDrop();
+        // console.log(didDrop, id, originalCard.id);
+        // if (!didDrop) {
+        //   // moveCard && moveCard(dropIdx, originalIndex);
+        // }
+      },
+    },
+    [id, moveCard]
+  );
+
   useEffect(() => {
     if (divRef.current) {
       if (divRef.current?.clientWidth < divRef.current?.scrollWidth) setIsOverflow(true);
     }
   }, []);
 
+  const opacity = isDragging ? 0 : 1;
   return (
     <div
       className={classNames.join(" ")}
       css={[styled.wrapper(active), customCss]}
+      style={{ opacity }}
       onClick={onClick}
+      ref={(node) => {
+        drag(drop(node));
+      }}
       {...props}
     >
-      <div className={`card-box`} css={styled.imgWrapper(active)}>
-        {rank && <div css={styled.rank}>{rank}</div>}
+      <div className={`card-box`} css={styled.imgWrapper(active, isOver)}>
+        {rank && rank < 100 && <div css={styled.rank}>{rank}</div>}
         <DefaultImage
           width="100%"
           height="100%"

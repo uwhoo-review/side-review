@@ -17,32 +17,41 @@ import NaverRedirect from "@src/component/organisms/LoginGrid/Redirect/NaverRedi
 import KakaoRedirect from "@src/component/organisms/LoginGrid/Redirect/KakaoRedirect";
 import GoogleRedirect from "@src/component/organisms/LoginGrid/Redirect/GoogleRedirect";
 import MyPage from "@src/pages/MyPage/MyPage";
+import Redirect from "@src/component/organisms/LoginGrid/Redirect/Redirect";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 
 const App = () => (
   <CommonProvider>
     <AxiosInterceptor>
       {/*<div className={"scroll-area none-draggable"}>*/}
-      <Routes>
-        <Route path={"/"} element={<CommonTemplate />}>
-          <Route index element={<MainPage />} />
-          <Route path={"login"} element={<LoginPage />} />
-          <Route path={"login/naver"} element={<NaverRedirect />} />
-          <Route path={"login/kakao"} element={<KakaoRedirect />} />
-          <Route path={"login/google"} element={<GoogleRedirect />} />
-          <Route path={"popular"} element={<PopularPage />} />
-          <Route path={"recently"} element={<RecentlyPage />} />
-          <Route path={"upcoming"} element={<UpcomingPage />} />
-          <Route path={"person/:id"} element={<PersonPage />} />
-          <Route path={"detail/:id"}>
-            <Route index element={<DetailPage />} />
-            <Route path={"review-total"} element={<ReviewPage />} />
+      <DndProvider backend={HTML5Backend}>
+        <Routes>
+          <Route path={"/"} element={<CommonTemplate />}>
+            <Route index element={<MainPage />} />
+            <Route path={"login"}>
+              <Route index element={<LoginPage />} />
+              <Route path={"naver"} element={<NaverRedirect />} />
+              <Route path={"kakao"} element={<KakaoRedirect />} />
+              <Route path={"google"} element={<GoogleRedirect />} />
+              <Route path={"redirect"} element={<Redirect />} />
+            </Route>
+
+            <Route path={"popular"} element={<PopularPage />} />
+            <Route path={"recently"} element={<RecentlyPage />} />
+            <Route path={"upcoming"} element={<UpcomingPage />} />
+            <Route path={"person/:id"} element={<PersonPage />} />
+            <Route path={"detail/:id"}>
+              <Route index element={<DetailPage />} />
+              <Route path={"review-total"} element={<ReviewPage />} />
+            </Route>
+            <Route path={"search"}>
+              <Route path={"*"} index element={<SearchResultPage />} />
+            </Route>
+            <Route path={"mypage"} element={<MyPage />} />
           </Route>
-          <Route path={"search"}>
-            <Route path={"*"} index element={<SearchResultPage />} />
-          </Route>
-          <Route path={"mypage"} element={<MyPage />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </DndProvider>
     </AxiosInterceptor>
   </CommonProvider>
 );
