@@ -1,7 +1,9 @@
 package com.sideReview.side.common.util
 
+import com.sideReview.side.common.dto.UserInfoDto
 import org.slf4j.LoggerFactory
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpSession
 
 class ClientUtils {
     companion object {
@@ -30,11 +32,16 @@ class ClientUtils {
         }
 
         fun getUserId(request: HttpServletRequest): String {
-            return request.getHeader("userId")
+            return if (request.session != null) {
+                val session: HttpSession = request.session
+                (session.getAttribute("user") as UserInfoDto).id
+            } else {
+                request.getHeader("userId")
+            }
         }
 
-        private fun getUserType(userId:String): String{
-            return if(userId.contains(".") || userId.contains(":")) "2"
+        private fun getUserType(userId: String): String {
+            return if (userId.contains(".") || userId.contains(":")) "2"
             else "1"
         }
 

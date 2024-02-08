@@ -1,6 +1,8 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.util.ClientUtils
+import com.sideReview.side.login.LoginUser
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDto
 import com.sideReview.side.review.exception.*
@@ -20,8 +22,11 @@ class ReviewController(val reviewService: ReviewService) {
     @PutMapping("")
     fun createOrUpdate(
         @RequestBody body: ReviewCreateDto,
+        @LoginUser(required = false) user: UserInfoDto?,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
+        logger.info("SSSSSSSSSSSSSSSS")
+        logger.info(user.toString())
         try {
             reviewService.createOrUpdate(
                 body, ClientUtils.getUserId(request), ClientUtils.getUserType(request)
@@ -64,9 +69,12 @@ class ReviewController(val reviewService: ReviewService) {
         @RequestParam(required = false, defaultValue = "0") page: String,
         @RequestParam(required = false, defaultValue = "6") size: String,
         @RequestParam(required = false, defaultValue = "0") type: String,
-        request: HttpServletRequest
+        @LoginUser(required = false) user: UserInfoDto?
+
+//        request: HttpServletRequest
     ): ResponseEntity<Any> {
-        val userId = ClientUtils.getUserId(request)
+//        val userId = ClientUtils.getUserId(request)
+        val userId = user?.id
         val pageable = PageRequest.of(page.toInt(), size.toInt())
         try {
             return ResponseEntity.ok(
@@ -76,7 +84,7 @@ class ReviewController(val reviewService: ReviewService) {
                     spoiler,
                     type,
                     pageable,
-                    userId
+                    userId ?: ""
                 )
             )
         } catch (e: Exception) {

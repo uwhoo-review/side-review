@@ -8,7 +8,10 @@ import com.sideReview.side.login.naver.dto.NaverProfileResponse
 import org.springframework.stereotype.Service
 
 @Service
-class LoginService(val userInfoRepository: UserInfoRepository, val nicknameService: NicknameService) {
+class LoginService(
+    val userInfoRepository: UserInfoRepository,
+    val nicknameService: NicknameService
+) {
     fun saveUser(type: String, response: Any) {
         var id: String = ""
         var name: String = ""
@@ -44,5 +47,9 @@ class LoginService(val userInfoRepository: UserInfoRepository, val nicknameServi
                 null
             )
         )
+    }
+
+    fun authenticateUser(id: String, type: String): Boolean {
+        return userInfoRepository.existsByUserIdAndLoginType(id, type)
     }
 }

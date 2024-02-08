@@ -1,9 +1,11 @@
 package com.sideReview.side.common.entity
 
+import org.hibernate.annotations.DynamicUpdate
 import javax.persistence.*
 
 @Entity
 @Table(name = "user_info", catalog = "meta")
+@DynamicUpdate
 data class UserInfo(
 
     @Id @Column(name = "user_id", length = 50, nullable = false)
@@ -15,7 +17,7 @@ data class UserInfo(
     @Column(name = "nickname", length = 10)
     var nickname: String,
 
-    @Column(name = "profile", length = 50)
+    @Column(name = "profile", length = 100)
     var profile: String,
 
     @Column(name = "prefer_ott", length = 100)

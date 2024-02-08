@@ -84,8 +84,8 @@ tasks.getByName<Jar>("jar") {
 }
 
 // spring jpa 지연 로딩을 위한 auto open 설정. 필요없다면 주석.
-//allOpen {
-//    annotation("javax.persistence.Entity")
-//    annotation("javax.persistence.Embeddable")
-//    annotation("javax.persistence.MappedSuperclass")
-//}
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.Embeddable")
+    annotation("javax.persistence.MappedSuperclass")
+}
