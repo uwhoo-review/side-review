@@ -49,7 +49,7 @@ open class SecurityConfig(val oauth2UserService: Oauth2UserServiceImpl, val auth
             .and()
             .formLogin().disable()
             .authorizeRequests()
-            .antMatchers("/**").authenticated()
+            .antMatchers("/user/**", "/star/**", "/review/**").authenticated()
             .anyRequest().permitAll()
 
             .and()
