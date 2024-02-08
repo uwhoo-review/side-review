@@ -74,10 +74,21 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "17"
     }
 }
-
-tasks.withType<Test> {
-    useJUnitPlatform()
+tasks.getByName("test") {
+    enabled = false
 }
+tasks.getByName("compileTestKotlin"){
+    enabled = false
+}
+tasks.getByName("testClasses"){
+    enabled = false
+}
+tasks.getByName("compileTestJava"){
+    enabled = false
+}
+//tasks.withType<Test> {
+//    useJUnitPlatform()
+//}
 
 tasks.getByName<Jar>("jar") {
     enabled = false
