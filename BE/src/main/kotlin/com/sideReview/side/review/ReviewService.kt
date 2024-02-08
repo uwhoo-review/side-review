@@ -237,4 +237,17 @@ class ReviewService(
         }
         return reviewsByTargetId
     }
+
+    fun gerReviewsByWriterId(userId: String, pageable: PageRequest): PageReviewDto{
+        val total = userReviewRepository.countAllByWriterId(userId)
+        val userReview = userReviewRepository.findAllByWriterId(userId, pageable)
+        val reviewDetailDtoList = mapUserReviewToReviewDetailDTO(userReview.content)
+        val totalPages = userReview.totalPages
+        val totalElements = userReview.totalElements.toInt()
+
+        return PageReviewDto(
+            ReviewDto(total, fillUserInReview(reviewDetailDtoList)),
+            PageInfoDto(totalElements, totalPages, pageable.pageNumber)
+        )
+    }
 }

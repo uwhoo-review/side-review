@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface UserReviewRepository : JpaRepository<UserReview, String> {
     fun findByTargetId(id: String): List<UserReview>
     fun countAllByTargetId(id: String): Int
-
+    fun countAllByWriterId(id: String): Int
     fun findByTargetIdAndSpoilerIsOrderByCreate(id: String, spoiler: String): List<UserReview>
     fun findAllByTargetIdInAndSpoilerIsOrderByLikeDescDislikeAsc(
         ids: List<String>,
@@ -30,7 +30,7 @@ interface UserReviewRepository : JpaRepository<UserReview, String> {
         pageable: Pageable
     ): Page<UserReview>
 
-    fun findAllByWriterId(id: String): List<UserReview>
+    fun findAllByWriterId(id: String, pageable: Pageable): Page<UserReview>
     fun findAllByTargetIdAndUserTypeAndSpoilerIsOrderByLikeDescDislikeAsc(
         id: String, userType: String, spoiler: String, pageable: Pageable
     ): Page<UserReview>
