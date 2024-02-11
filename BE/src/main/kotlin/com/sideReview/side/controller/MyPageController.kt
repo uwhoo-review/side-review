@@ -1,56 +1,67 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.dto.UserInfoDto
+import com.sideReview.side.login.LoginUser
 import com.sideReview.side.login.NicknameService
 import com.sideReview.side.mypage.MyPageService
 import com.sideReview.side.mypage.dto.FavoriteContentInputDto
 import kotlinx.coroutines.runBlocking
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/user/{userId}")
+@RequestMapping("/user")
 class MyPageController(
         val nicknameService: NicknameService,
         val myPageService: MyPageService,
 ) {
+    val logger = LoggerFactory.getLogger(this::class.java)!!
     @GetMapping
-    fun getMyPage(@PathVariable userId: String
+    fun getMyPage(@LoginUser(required = false) user: UserInfoDto
     ): ResponseEntity<Any> {
-        return ResponseEntity.ok(myPageService.getMyPage(userId))
+        logger.info(user.toString())
+        return ResponseEntity.ok(myPageService.getMyPage(user.id))
     }
 
     @PutMapping("/nickname")
     fun updateNickname(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestParam name: String
     ): ResponseEntity<Any> {
-        nicknameService.editNickname(userId, name)
+        logger.info(user.toString())
+
+        nicknameService.editNickname(user.id, name)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @GetMapping("/contents")
     fun getContents(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestParam keyword: String,
         @RequestParam size: Int,
         @RequestParam page: Int
     ): ResponseEntity<Any> {
+        logger.info(user.toString())
+
         var response: ResponseEntity<Any>
         runBlocking {
             response =
-                ResponseEntity.ok(myPageService.getKeywordContent(userId, keyword, page, size))
+                ResponseEntity.ok(myPageService.getKeywordContent(user.id, keyword, page, size))
         }
         return response
     }
 
     @GetMapping("/person")
     fun searchFavoritePerson(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestParam keyword: String,
         @RequestParam size: Int,
         @RequestParam page: Int
     ): ResponseEntity<Any> {
+        logger.info(user.toString())
+
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         runBlocking {
             response =
@@ -61,12 +72,14 @@ class MyPageController(
 
     @PutMapping("/person")
     fun saveFavoritePerson(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestParam personId: String,
     ): ResponseEntity<Any> {
+        logger.info(user.toString())
+
         var person: Any? = null
         kotlin.runCatching {
-            myPageService.saveFavoritePerson(userId, personId)
+            myPageService.saveFavoritePerson(user.id, personId)
             runBlocking {
                 person = myPageService.getOnePerson(personId)
             }
@@ -78,11 +91,13 @@ class MyPageController(
 
     @DeleteMapping("/person")
     fun deleteFavoritePerson(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestParam personId: String,
     ): ResponseEntity<Any> {
+        logger.info(user.toString())
+
         kotlin.runCatching {
-            myPageService.deleteFavoritePerson(userId, personId)
+            myPageService.deleteFavoritePerson(user.id, personId)
         }.onFailure {
             return ResponseEntity.internalServerError().body(it.message)
         }
@@ -91,34 +106,42 @@ class MyPageController(
 
     @PutMapping("/contents")
     fun saveFavoriteContents(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestBody contentsList: List<FavoriteContentInputDto>
     ): ResponseEntity<Any> {
+        logger.info(user.toString())
+
         println("dd")
-        return ResponseEntity.ok(myPageService.saveFavoriteContent(userId, contentsList))
+        return ResponseEntity.ok(myPageService.saveFavoriteContent(user.id, contentsList))
     }
 
     @DeleteMapping("/contents")
     fun deleteFavoriteContent(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestParam("contentId") contentId: String
     ): ResponseEntity<Any> {
-        return ResponseEntity.ok(myPageService.deleteFavoriteContent(userId, contentId))
+        logger.info(user.toString())
+
+        return ResponseEntity.ok(myPageService.deleteFavoriteContent(user.id, contentId))
     }
 
     @PutMapping("/ott")
     fun saveUserOTT(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestBody ottList: List<Int>
     ): ResponseEntity<Any> {
-        return ResponseEntity.ok(myPageService.saveOTT(userId, ottList))
+        logger.info(user.toString())
+
+        return ResponseEntity.ok(myPageService.saveOTT(user.id, ottList))
     }
 
     @PutMapping("/genre")
     fun saveUserGenre(
-        @PathVariable userId: String,
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestBody genreList: List<Int>
     ): ResponseEntity<Any> {
-        return ResponseEntity.ok(myPageService.saveGenre(userId, genreList))
+        logger.info(user.toString())
+
+        return ResponseEntity.ok(myPageService.saveGenre(user.id, genreList))
     }
 }
