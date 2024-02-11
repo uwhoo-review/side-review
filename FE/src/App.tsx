@@ -36,7 +36,6 @@ const App = () => (
               <Route path={"google"} element={<GoogleRedirect />} />
               <Route path={"redirect"} element={<Redirect />} />
             </Route>
-
             <Route path={"popular"} element={<PopularPage />} />
             <Route path={"recently"} element={<RecentlyPage />} />
             <Route path={"upcoming"} element={<UpcomingPage />} />

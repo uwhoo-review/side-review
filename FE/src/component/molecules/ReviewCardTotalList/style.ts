@@ -30,6 +30,8 @@ export default {
     gap: 30px;
   `,
   emptyWrapper: css`
+    margin-top: 20px;
+
     height: 314px;
     display: flex;
     justify-content: center;

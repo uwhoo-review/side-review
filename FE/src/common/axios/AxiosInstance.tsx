@@ -6,6 +6,7 @@ export const axiosBaseInstance = axios.create({
   // baseURL: "https://15.164.189.220:443",
   baseURL: "https://uwhoo-review.site/api",
   headers: {
+    userId: null,
     // Authorization:
     //   "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0OWJjZmNhOWZkNWY0NGQyMjZhYzgzMTU5NzZhY2ZkYyIsInN1YiI6IjY1MWUzMmE0M2QzNTU3MDExY2ZmZThhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-uufjYqYRvt2OC66c1euvWmZdEOGy-gGvmRoQ1fP2AA",
   },

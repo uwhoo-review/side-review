@@ -1,6 +1,6 @@
 import styled from "./style";
 import MenuAccordion from "@src/component/atoms/MenuAccordion/MenuAccordion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import { IconCancel, IconChevronLeft, IconChevronRight, IconPlusBtn, IconSearch } from "@res/index";
 import CardSlider from "@src/component/molecules/CardSlider/CardSlider";
@@ -9,16 +9,40 @@ import CardSliderPerson from "@src/component/molecules/CardSliderPerson/CardSlid
 import HWDialog from "@src/component/atoms/HWDialog";
 import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
-import { isNullOrEmpty } from "@src/tools/commonTools";
+import { getCardURL, isNullOrEmpty } from "@src/tools/commonTools";
 import ContentCard3rd from "@src/component/atoms/ContentCard3rd/ContentCard3rd";
 import person1 from "@res/temp/person1.png";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
+import { CONTENTS_TABS } from "@src/variables/APIConstants";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 
 const AccordionPerson = () => {
+  const PAGE_SIZE = 10;
   const [open, setOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
+  const [page, setPage] = useState(1);
   const [isSearch, setIsSearch] = useState(false);
-  const [searchList, setSearchList] = useState([]);
+
+  const userId = "PwoRK3jACUc2LairkizG5J8M9zmpUaZ6k0Dk0DOSO1A";
+
+  const usePersonData = useQuery({
+    queryKey: ["mypage", "search", "person", page, PAGE_SIZE],
+    queryFn: async ({ queryKey }: any) => {
+      return await UWAxios.user.getMyPerson(userId, searchVal, page, PAGE_SIZE);
+    },
+    refetchOnWindowFocus: false,
+    enabled: isSearch,
+  });
+
+  useEffect(() => {
+    if (isModalOpen) {
+      setIsSearch(false);
+      setSearchVal("");
+    }
+  }, [isModalOpen]);
+
 
   return (
     <>
@@ -85,6 +109,12 @@ const AccordionPerson = () => {
                 value={searchVal}
                 placeholder={"인물을 검색해 주세요."}
                 onChange={(e) => setSearchVal(e.target.value)}
+                onKeyDown={(e) => {
+                  if (!isNullOrEmpty(searchVal) && e.key === "Enter") {
+                    setIsSearch(true);
+                    usePersonData.refetch();
+                  }
+                }}
                 endAdorment={
                   !isNullOrEmpty(searchVal) && (
                     <HWIconButton>
@@ -98,13 +128,10 @@ const AccordionPerson = () => {
               <>
                 <div css={styled.box2}>
                   <HWTypography variant={"bodyXS"} color={"#9897A1"}>
-                    제목
-                  </HWTypography>
-                  <HWTypography variant={"bodyXS"} color={"#9897A1"}>
-                    내 별점
+                    인물
                   </HWTypography>
                 </div>
-                {searchList.length === 0 ? (
+                {usePersonData.data?.pageInfo.totalElements === 0 ? (
                   <div css={styled.emptyBox}>
                     <HWTypography
                       variant={"bodyL"}
@@ -122,22 +149,40 @@ const AccordionPerson = () => {
                   </div>
                 ) : (
                   <div css={styled.box3}>
-                    <ContentCard3rd src={person1} />
-                    <ContentCard3rd src={person1} />
-                    <ContentCard3rd src={person1} />
-                    <ContentCard3rd src={person1} />
+                    {usePersonData.data?.person.map((v: any) => {
+                      return (
+                        <ContentCard3rd
+                          key={v.id}
+                          src={getCardURL({ type: "content", srcId: v.profilePath })}
+                          id={v.id}
+                          title={v.name}
+                        />
+                      );
+                    })}
                   </div>
                 )}
                 <footer css={styled.footer}>
-                  <HWIconButton>
+                  <HWIconButton
+                    disabled={usePersonData.data?.pageInfo.page === 1}
+                    onClick={() => {
+                      setPage(page - 1);
+                    }}
+                  >
                     <IconChevronLeft />
                   </HWIconButton>
                   <div>
                     <HWTypography variant={"bodyXS"} color={"#84838D"}>
-                      Page {1} of 10
+                      Page {usePersonData.data?.pageInfo.page} of {usePersonData.data?.pageInfo.totalPages}
                     </HWTypography>
                   </div>
-                  <HWIconButton>
+                  <HWIconButton
+                    disabled={
+                      usePersonData.data?.pageInfo.page === usePersonData.data?.pageInfo.totalPages
+                    }
+                    onClick={() => {
+                      setPage(page + 1);
+                    }}
+                  >
                     <IconChevronRight />
                   </HWIconButton>
                 </footer>

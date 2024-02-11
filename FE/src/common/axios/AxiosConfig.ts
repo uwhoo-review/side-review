@@ -31,7 +31,7 @@ export const UWAxios = {
   },
   review: {
     async createReview(data: createReviewAPI) {
-      const res = await axiosBaseInstance.post<any>(`review`, data);
+      const res = await axiosBaseInstance.put<any>(`review`, data);
       return res.data;
     },
     async getReview(

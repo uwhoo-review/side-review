@@ -28,7 +28,7 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
   const [isSpoiler, setIsSpoiler] = useState(0);
   const [sort, setSort] = useState("best");
 
-  const [toggle1, setToggle1] = useState<string>("all");
+  const [toggle1, setToggle1] = useState<string>("0");
 
   const props1 = (value: string) => {
     return {
@@ -39,15 +39,19 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
     };
   };
 
+  console.log(reviewList)
+
+
   const { status, data, error } = useQuery({
-    queryKey: ["list", "review", id, sort, isSpoiler, page, size],
+    queryKey: ["list", "review", id, sort, isSpoiler, page, size, toggle1],
     queryFn: async ({ queryKey }) => {
       return await UWAxios.review.getReview(
         queryKey[2],
         queryKey[3],
         queryKey[4],
         queryKey[5],
-        queryKey[6]
+        queryKey[6],
+        queryKey[7]
       );
     },
     refetchOnWindowFocus: false,
@@ -123,9 +127,9 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
           </div>
           <div css={styled.toggleGroup}>
             <HWToggleButtonGroup>
-              <HWToggleButton {...props1("all")}>전체</HWToggleButton>
-              <HWToggleButton {...props1("user")}>UWHOO 유저리뷰</HWToggleButton>
-              <HWToggleButton {...props1("anonymous")}>익명리뷰</HWToggleButton>
+              <HWToggleButton {...props1("0")}>전체</HWToggleButton>
+              <HWToggleButton {...props1("1")}>UWHOO 유저리뷰</HWToggleButton>
+              <HWToggleButton {...props1("2")}>익명리뷰</HWToggleButton>
             </HWToggleButtonGroup>
           </div>
           {status === "success" && reviewList.length === 0 && (
@@ -151,13 +155,13 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
                       dislike={v.dislike}
                       like={v.like}
                       date={v.date}
-                      best={true}
+                      best={i < 7}
                       spoiler={v.spoiler}
                       footer={true}
                       width={"100%"}
                       height={"280px"}
                     >
-                      {v.contents}
+                      {v.content}
                     </ReviewCard>
                   );
                 })}

@@ -36,7 +36,7 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
         <div>
           <HWChip label={item.name} color={"best"} customCss={styled.chip} />
           <HWChip
-            label={new Date(item.firstAirDate).getFullYear()}
+            label={new Date(item.date).getFullYear()}
             color={"best"}
             customCss={styled.chip}
           />

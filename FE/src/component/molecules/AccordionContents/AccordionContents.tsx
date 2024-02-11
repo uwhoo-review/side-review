@@ -1,10 +1,16 @@
 import styled from "./style";
 import MenuAccordion from "@src/component/atoms/MenuAccordion/MenuAccordion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import CardList from "@src/component/molecules/CardList/CardList";
-import {DUMMY_CONTENT, DUMMY_CONTENT2, DUMMY_CONTENT3, DUMMY_CONTENT4} from "@src/variables/CommonConstants";
+import {
+  DUMMY_CONTENT,
+  DUMMY_CONTENT2,
+  DUMMY_CONTENT3,
+  DUMMY_CONTENT4,
+  GENRE_ID_NAME,
+} from "@src/variables/CommonConstants";
 import CardSlider from "@src/component/molecules/CardSlider/CardSlider";
 import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
 import {
@@ -20,14 +26,35 @@ import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
 import ContentCard3rd from "@src/component/atoms/ContentCard3rd/ContentCard3rd";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import person1 from "@res/temp/person1.png";
-import { isNullOrEmpty } from "@src/tools/commonTools";
+import { getCardURL, isNullOrEmpty } from "@src/tools/commonTools";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
+import { useQuery } from "@tanstack/react-query";
 
 const AccordionContents = () => {
+  const PAGE_SIZE = 10;
+  const userId = "PwoRK3jACUc2LairkizG5J8M9zmpUaZ6k0Dk0DOSO1A";
+
   const [open, setOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
+  const [page, setPage] = useState(1);
   const [isSearch, setIsSearch] = useState(true);
-  const [searchList, setSearchList] = useState([]);
+
+  const useContentData = useQuery({
+    queryKey: ["mypage", "search", "person", page, PAGE_SIZE],
+    queryFn: async ({ queryKey }: any) => {
+      return await UWAxios.user.getMyContents(userId, searchVal, page, PAGE_SIZE);
+    },
+    refetchOnWindowFocus: false,
+    enabled: isSearch,
+  });
+
+  useEffect(() => {
+    if (isModalOpen) {
+      setIsSearch(false);
+      setSearchVal("");
+    }
+  }, [isModalOpen]);
 
   return (
     <>
@@ -59,12 +86,7 @@ const AccordionContents = () => {
             </div>
             <div css={styled.rightBox}>
               <CardSlider
-                cardList={[
-                  DUMMY_CONTENT,
-                  DUMMY_CONTENT2,
-                  DUMMY_CONTENT3,
-                  DUMMY_CONTENT4,
-                ]}
+                cardList={[DUMMY_CONTENT, DUMMY_CONTENT2, DUMMY_CONTENT3, DUMMY_CONTENT4]}
               />
             </div>
           </div>
@@ -85,6 +107,12 @@ const AccordionContents = () => {
                 startAdorment={<IconSearch width={"20px"} height={"20px"} color={"#fff"} />}
                 value={searchVal}
                 onChange={(e) => setSearchVal(e.target.value)}
+                onKeyDown={(e) => {
+                  if (!isNullOrEmpty(searchVal) && e.key === "Enter") {
+                    setIsSearch(true);
+                    useContentData.refetch();
+                  }
+                }}
                 placeholder={"작품의 제목을 검색해 주세요."}
                 endAdorment={
                   !isNullOrEmpty(searchVal) && (
@@ -105,7 +133,7 @@ const AccordionContents = () => {
                     내 별점
                   </HWTypography>
                 </div>
-                {searchList.length === 0 ? (
+                {useContentData.data?.pageInfo.totalElements === 0 ? (
                   <div css={styled.emptyBox}>
                     <HWTypography
                       variant={"bodyL"}
@@ -123,29 +151,56 @@ const AccordionContents = () => {
                   </div>
                 ) : (
                   <div css={styled.box3}>
-                    <ContentCard3rd src={person1} />
-                    <ContentCard3rd src={person1} />
-                    <ContentCard3rd src={person1} />
-                    <ContentCard3rd src={person1} />
+                    {useContentData.data?.content.map((v: any) => {
+                      const sub = [];
+                      sub.push(v.year);
+                      v.director[0] && sub.push(v.director[0]);
+                      v.country[0] && sub.push(v.country[0]);
+                      v.genre.forEach((genre: any) => sub.push(GENRE_ID_NAME[genre]));
+
+                      return (
+                        <ContentCard3rd
+                          key={v.id}
+                          src={getCardURL({ type: "content", srcId: v.poster })}
+                          id={v.id}
+                          title={v.name}
+                          subTitle={sub.join(" ∙ ")}
+                          rating={v.rating}
+                        />
+                      );
+                    })}
                   </div>
                 )}
                 <footer css={styled.footer}>
-                  <div css={styled.arrowBtn}>
+                  <HWIconButton
+                    disabled={useContentData.data?.pageInfo.page === 1}
+                    onClick={() => {
+                      setPage(page - 1);
+                    }}
+                  >
                     <IconChevronLeft />
-                  </div>
+                  </HWIconButton>
                   <div>
                     <HWTypography variant={"bodyXS"} color={"#84838D"}>
-                      Page {1} of 10
+                      Page {useContentData.data?.pageInfo.page} of{" "}
+                      {useContentData.data?.pageInfo.totalPages}
                     </HWTypography>
                   </div>
-                  <div css={styled.arrowBtn}>
+                  <HWIconButton
+                    disabled={
+                      useContentData.data?.pageInfo.page ===
+                      useContentData.data?.pageInfo.totalPages
+                    }
+                    onClick={() => {
+                      setPage(page + 1);
+                    }}
+                  >
                     <IconChevronRight />
-                  </div>
+                  </HWIconButton>
                 </footer>
               </>
             )}
           </div>
-
         </HWDialog.Content>
       </HWDialog>
     </>

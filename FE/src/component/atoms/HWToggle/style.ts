@@ -14,15 +14,15 @@ export const root = css`
     width: 20px;
     height: 20px;
   }
-  
+
   .MuiSwitch-switchBase {
     padding: 2px;
-    
+
     .MuiSwitch-input {
       left: 0;
       width: 100%;
     }
-    
+
     &.Mui-checked {
       & + .MuiSwitch-track {
         background-color: #6d6ada;
@@ -53,4 +53,28 @@ export const form = css`
   width: fit-content;
   margin: 0;
   gap: 10px;
+  .MuiSwitch-root {
+    .Mui-disabled {
+      color: #84838d;
+      opacity: 0.4;
+      .MuiSwitch-thumb {
+        background-color: #fff;
+      }
+      .MuiSwitch-track {
+        background-color: #84838d;
+      }
+    }
+  }
+  .MuiTypography-root {
+    span{
+      color: #F9F9FD;
+    }
+  }
+  .MuiTypography-root.Mui-disabled {
+    opacity: 1;
+      span {
+        color: #84838D;
+      }
+    }
+  }
 `;

@@ -25,6 +25,7 @@ interface ReviewCardProps {
   footer?: boolean;
   date?: string;
   line?: number;
+  user?: any;
   useModal?: boolean;
   onClick?: () => void;
 }

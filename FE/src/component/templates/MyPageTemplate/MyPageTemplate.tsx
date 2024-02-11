@@ -12,16 +12,17 @@ const MyPageTemplate = () => {
   const { status, data, error } = useQuery({
     queryKey: ["user", userInfo.userId],
     queryFn: async () => {
-      const res = userInfo.userId && (await UWAxios.user.getMypage(userInfo.userId));
+      const res = userInfo.userId && (await UWAxios.user.getMypage("59.8.169.4"));
       return res;
     },
     refetchOnWindowFocus: false,
   });
 
+
   return (
     <>
       {status === "pending" && <LoadingGrid />}
-      {status === "success" && (
+      {(
         <section className={"mypage-template-wrapper"} css={styled.wrapper}>
           <MyPageHeader />
           <MyPageContent />
