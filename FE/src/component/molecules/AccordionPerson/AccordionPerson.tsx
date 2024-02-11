@@ -16,6 +16,7 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
+import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 
 const AccordionPerson = () => {
   const PAGE_SIZE = 10;
@@ -42,7 +43,6 @@ const AccordionPerson = () => {
       setSearchVal("");
     }
   }, [isModalOpen]);
-
 
   return (
     <>
@@ -112,6 +112,7 @@ const AccordionPerson = () => {
                 onKeyDown={(e) => {
                   if (!isNullOrEmpty(searchVal) && e.key === "Enter") {
                     setIsSearch(true);
+                    setPage(1);
                     usePersonData.refetch();
                   }
                 }}
@@ -131,36 +132,42 @@ const AccordionPerson = () => {
                     인물
                   </HWTypography>
                 </div>
-                {usePersonData.data?.pageInfo.totalElements === 0 ? (
-                  <div css={styled.emptyBox}>
-                    <HWTypography
-                      variant={"bodyL"}
-                      family={"Pretendard-SemiBold"}
-                      color={"#C7C8D3"}
-                    >
-                      검색 결과가 없습니다.
-                    </HWTypography>
-                    <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
-                      검색하신 `{searchVal}` 작품을 찾을 수 없습니다.
-                    </HWTypography>
-                    <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
-                      다른 검색어를 입력해보세요.
-                    </HWTypography>
-                  </div>
-                ) : (
-                  <div css={styled.box3}>
-                    {usePersonData.data?.person.map((v: any) => {
-                      return (
-                        <ContentCard3rd
-                          key={v.id}
-                          src={getCardURL({ type: "content", srcId: v.profilePath })}
-                          id={v.id}
-                          title={v.name}
-                        />
-                      );
-                    })}
+                {usePersonData.status === "pending" && (
+                  <div css={styled.loadingBox}>
+                    <LoadingDot />
                   </div>
                 )}
+                {usePersonData.status === "success" &&
+                  (usePersonData.data?.pageInfo.totalElements === 0 ? (
+                    <div css={styled.emptyBox}>
+                      <HWTypography
+                        variant={"bodyL"}
+                        family={"Pretendard-SemiBold"}
+                        color={"#C7C8D3"}
+                      >
+                        검색 결과가 없습니다.
+                      </HWTypography>
+                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
+                        검색하신 `{searchVal}` 작품을 찾을 수 없습니다.
+                      </HWTypography>
+                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
+                        다른 검색어를 입력해보세요.
+                      </HWTypography>
+                    </div>
+                  ) : (
+                    <div css={styled.box3}>
+                      {usePersonData.data?.person.map((v: any) => {
+                        return (
+                          <ContentCard3rd
+                            key={v.id}
+                            src={getCardURL({ type: "content", srcId: v.profilePath })}
+                            id={v.id}
+                            title={v.name}
+                          />
+                        );
+                      })}
+                    </div>
+                  ))}
                 <footer css={styled.footer}>
                   <HWIconButton
                     disabled={usePersonData.data?.pageInfo.page === 1}
@@ -172,7 +179,8 @@ const AccordionPerson = () => {
                   </HWIconButton>
                   <div>
                     <HWTypography variant={"bodyXS"} color={"#84838D"}>
-                      Page {usePersonData.data?.pageInfo.page} of {usePersonData.data?.pageInfo.totalPages}
+                      Page {usePersonData.data?.pageInfo.page} of{" "}
+                      {usePersonData.data?.pageInfo.totalPages}
                     </HWTypography>
                   </div>
                   <HWIconButton

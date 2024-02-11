@@ -29,6 +29,7 @@ import person1 from "@res/temp/person1.png";
 import { getCardURL, isNullOrEmpty } from "@src/tools/commonTools";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useQuery } from "@tanstack/react-query";
+import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 
 const AccordionContents = () => {
   const PAGE_SIZE = 10;
@@ -41,7 +42,7 @@ const AccordionContents = () => {
   const [isSearch, setIsSearch] = useState(true);
 
   const useContentData = useQuery({
-    queryKey: ["mypage", "search", "person", page, PAGE_SIZE],
+    queryKey: ["mypage", "search", "content", page, PAGE_SIZE],
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.user.getMyContents(userId, searchVal, page, PAGE_SIZE);
     },
@@ -110,6 +111,7 @@ const AccordionContents = () => {
                 onKeyDown={(e) => {
                   if (!isNullOrEmpty(searchVal) && e.key === "Enter") {
                     setIsSearch(true);
+                    setPage(1);
                     useContentData.refetch();
                   }
                 }}
@@ -133,44 +135,50 @@ const AccordionContents = () => {
                     내 별점
                   </HWTypography>
                 </div>
-                {useContentData.data?.pageInfo.totalElements === 0 ? (
-                  <div css={styled.emptyBox}>
-                    <HWTypography
-                      variant={"bodyL"}
-                      family={"Pretendard-SemiBold"}
-                      color={"#C7C8D3"}
-                    >
-                      검색 결과가 없습니다.
-                    </HWTypography>
-                    <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
-                      검색하신 `{searchVal}` 작품을 찾을 수 없습니다.
-                    </HWTypography>
-                    <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
-                      다른 검색어를 입력해보세요.
-                    </HWTypography>
-                  </div>
-                ) : (
-                  <div css={styled.box3}>
-                    {useContentData.data?.content.map((v: any) => {
-                      const sub = [];
-                      sub.push(v.year);
-                      v.director[0] && sub.push(v.director[0]);
-                      v.country[0] && sub.push(v.country[0]);
-                      v.genre.forEach((genre: any) => sub.push(GENRE_ID_NAME[genre]));
-
-                      return (
-                        <ContentCard3rd
-                          key={v.id}
-                          src={getCardURL({ type: "content", srcId: v.poster })}
-                          id={v.id}
-                          title={v.name}
-                          subTitle={sub.join(" ∙ ")}
-                          rating={v.rating}
-                        />
-                      );
-                    })}
+                {useContentData.status === "pending" && (
+                  <div css={styled.loadingBox}>
+                    <LoadingDot />
                   </div>
                 )}
+                {useContentData.status === "success" &&
+                  (useContentData.data?.pageInfo.totalElements === 0 ? (
+                    <div css={styled.emptyBox}>
+                      <HWTypography
+                        variant={"bodyL"}
+                        family={"Pretendard-SemiBold"}
+                        color={"#C7C8D3"}
+                      >
+                        검색 결과가 없습니다.
+                      </HWTypography>
+                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
+                        검색하신 `{searchVal}` 작품을 찾을 수 없습니다.
+                      </HWTypography>
+                      <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
+                        다른 검색어를 입력해보세요.
+                      </HWTypography>
+                    </div>
+                  ) : (
+                    <div css={styled.box3}>
+                      {useContentData.data?.content.map((v: any) => {
+                        const sub = [];
+                        sub.push(v.year);
+                        v.director[0] && sub.push(v.director[0]);
+                        v.country[0] && sub.push(v.country[0]);
+                        v.genre.forEach((genre: any) => sub.push(GENRE_ID_NAME[genre]));
+
+                        return (
+                          <ContentCard3rd
+                            key={v.id}
+                            src={getCardURL({ type: "content", srcId: v.poster })}
+                            id={v.id}
+                            title={v.name}
+                            subTitle={sub.join(" ∙ ")}
+                            rating={v.rating}
+                          />
+                        );
+                      })}
+                    </div>
+                  ))}
                 <footer css={styled.footer}>
                   <HWIconButton
                     disabled={useContentData.data?.pageInfo.page === 1}

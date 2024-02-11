@@ -7,6 +7,7 @@ const HWAvatar = ({
   children,
   active = false,
   customCss,
+  onClick,
   ...props
 }: any) => {
   let classNames = [];
@@ -17,7 +18,7 @@ const HWAvatar = ({
   );
   classNames = classNames.filter(Boolean);
   return (
-    <div css={styled.wrapper}>
+    <div css={[styled.wrapper, customCss]} onClick={onClick}>
       {active && (
         <>
           <IconToggleCircle css={styled.toggle(size)} />
@@ -26,7 +27,7 @@ const HWAvatar = ({
       )}
       <div
         className={classNames.join(" ")}
-        css={[styled.avatarWrapper(size), customCss]}
+        css={[styled.avatarWrapper(size)]}
         {...props}
       >
         {children}

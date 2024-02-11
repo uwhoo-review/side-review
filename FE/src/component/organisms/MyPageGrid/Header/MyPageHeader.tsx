@@ -1,7 +1,7 @@
 import styled from "./style";
 import MyPageProfile from "@src/component/molecules/MyPageProfile/MyPageProfile";
 import MyPageInfo from "@src/component/molecules/MyPageInfo/MyPageInfo";
-import { IconArrowRight, IconCircleCamera, IconCircleReview, IconCircleStar } from "@res/index";
+import {IconArrowRight, IconCircleCamera, IconCircleReview, IconCircleStar, IconSearch2} from "@res/index";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import MyPageGNB from "@src/component/organisms/GNB/MyPageGNB";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
@@ -95,7 +95,7 @@ const MyPageHeader = () => {
                 <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
                   유후 리포트 바로가기
                 </HWTypography>
-                <IconArrowRight />
+                <IconSearch2 />
               </>
             }
             onClick={() => {

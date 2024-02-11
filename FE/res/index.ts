@@ -49,6 +49,7 @@ import { ReactComponent as IconQuestion } from "./icon/ic_question.svg";
 import { ReactComponent as IconRating } from "./icon/ic_rating.svg";
 import { ReactComponent as IconRatingEmpty } from "./icon/ic_rating_emtpy.svg";
 import { ReactComponent as IconSearch } from "./icon/ic_search.svg";
+import { ReactComponent as IconSearch2 } from "./icon/ic_search2.svg";
 import { ReactComponent as IconSettings } from "./icon/ic_settings.svg";
 import { ReactComponent as IconStar } from "./icon/ic_star.svg";
 import { ReactComponent as IconThumbUp } from "./icon/ic_thumb_up.svg";
@@ -95,6 +96,7 @@ export {
   IconRating,
   IconRatingEmpty,
   IconSearch,
+  IconSearch2,
   IconSettings,
   IconStar,
   IconThumbUp,

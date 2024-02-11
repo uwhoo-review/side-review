@@ -73,6 +73,12 @@ export default {
     gap: 4px;
     margin-top: 8px;
   `,
+  loadingBox: css`
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
   footer: css`
     display: flex;
     justify-content: center;

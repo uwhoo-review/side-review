@@ -33,4 +33,10 @@ export default {
       color: #f9f9fd;
     }
   `,
+  textFieldWrapper: css`
+    display: flex;
+    //justify-content: center;
+    align-items: center;
+    gap: 14px;
+  `
 };
