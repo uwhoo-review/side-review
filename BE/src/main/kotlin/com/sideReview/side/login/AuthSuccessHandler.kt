@@ -18,7 +18,7 @@ class AuthSuccessHandler : AuthenticationSuccessHandler {
         val principal = authentication.principal as CustomOAuth2User
         val userInfoDto =
             MapperUtils.mapUserInfoToLoginResponseDto(principal.attributes["user"] as UserInfo)
-        val targetUrl = request.requestURI.split("/")[0]
+        val targetUrl = request.requestURL.split("/api/login/")[0]
         response.addHeader("userId", userInfoDto.id)
         response.sendRedirect("${targetUrl}/login/redirect")
     }
