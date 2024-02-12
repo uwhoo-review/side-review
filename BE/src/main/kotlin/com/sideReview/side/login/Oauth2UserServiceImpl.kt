@@ -46,7 +46,8 @@ class Oauth2UserServiceImpl(
         val user: UserInfo = saveOrUpdate(attributes)
 
         httpSession.setAttribute("user", UserInfoDto(user))
-
+        val timeoutInSeconds = 60 * 60 * 24     // 만료 24시간
+        httpSession.maxInactiveInterval = timeoutInSeconds
         customOAuth2User.setAttributes("user", user)
 
         return customOAuth2User
