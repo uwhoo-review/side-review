@@ -19,14 +19,14 @@ spring:
         registration:
           google:
             client-id: 866692341598-2ng40irpued2c75s4vnt3cnrljc8oh9k.apps.googleusercontent.com
-            redirect-uri: {baseUrl}/api/login/oauth2/code/google
+            redirect-uri: https://uwhoo-review.site/api/login/oauth2/code/google
             client-secret: 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
             scope:
               - email
               - profile
           kakao:
             client-id: 5226f263acf8306b81d4c11afbb2afc2
-            redirect-uri: {baseUrl}/api/login/oauth2/code/kakao
+            redirect-uri: https://uwhoo-review.site/api/login/oauth2/code/kakao
             client-name: kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
@@ -38,7 +38,7 @@ spring:
             client-id: 8B0WOI_5YTPZcSr_9haJ
             client-secret: eo89L4YJJw
             client-name: naver
-            redirect-uri: {baseUrl}/api/login/oauth2/code/naver
+            redirect-uri: https://uwhoo-review.site/api/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             scope:
               - id
