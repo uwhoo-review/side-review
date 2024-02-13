@@ -1,4 +1,4 @@
-package com.sideReview.side.login.naver
+package com.sideReview.side.login.oauth2
 
 import com.sideReview.side.common.entity.UserInfo
 import lombok.Getter

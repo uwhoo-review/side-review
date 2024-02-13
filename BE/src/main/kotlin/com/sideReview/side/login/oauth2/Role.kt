@@ -1,4 +1,4 @@
-package com.sideReview.side.login
+package com.sideReview.side.login.oauth2
 
 enum class Role(val key: String, val title: String) {
     GUEST("GUEST", "비로그인 사용자"),

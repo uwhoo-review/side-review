@@ -1,4 +1,4 @@
-package com.sideReview.side.login
+package com.sideReview.side.login.oauth2
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.oauth2.core.user.OAuth2User

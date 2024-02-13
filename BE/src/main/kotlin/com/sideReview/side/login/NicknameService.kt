@@ -8,7 +8,7 @@ import java.util.*
 
 @Service
 class NicknameService(private val userInfoRepository: UserInfoRepository) {
-    fun makeNickname(type: Int): String? {
+    fun makeNickname(type: Int): String {
         val nounPath = "/home/ubuntu/app/BE/src/main/resources/username_noun.csv"
         val adjectivePath = "/home/ubuntu/app/BE/src/main/resources/username_adjective.csv"
         while (true) {

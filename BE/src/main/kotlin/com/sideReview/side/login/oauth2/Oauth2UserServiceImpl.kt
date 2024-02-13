@@ -1,9 +1,9 @@
-package com.sideReview.side.login
+package com.sideReview.side.login.oauth2
 
 import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.common.repository.UserInfoRepository
-import com.sideReview.side.login.naver.OAuthAttributes
+import com.sideReview.side.login.NicknameService
 import org.slf4j.LoggerFactory
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest

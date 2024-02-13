@@ -1,4 +1,4 @@
-package com.sideReview.side.login
+package com.sideReview.side.login.oauth2
 
 import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.common.util.MapperUtils

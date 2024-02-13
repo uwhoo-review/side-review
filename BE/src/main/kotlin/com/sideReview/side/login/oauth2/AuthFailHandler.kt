@@ -1,4 +1,4 @@
-package com.sideReview.side.login
+package com.sideReview.side.login.oauth2
 
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler

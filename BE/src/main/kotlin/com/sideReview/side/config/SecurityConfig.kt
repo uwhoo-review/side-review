@@ -1,12 +1,11 @@
 package com.sideReview.side.config
 
-import com.sideReview.side.login.AuthFailHandler
-import com.sideReview.side.login.AuthSuccessHandler
+import com.sideReview.side.login.oauth2.AuthFailHandler
+import com.sideReview.side.login.oauth2.AuthSuccessHandler
 import com.sideReview.side.login.LogoutSuccessHandler
-import com.sideReview.side.login.Oauth2UserServiceImpl
+import com.sideReview.side.login.oauth2.Oauth2UserServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -58,24 +57,24 @@ open class SecurityConfig(
             .and()
             .formLogin().disable()
             .authorizeRequests()
-            .antMatchers("/user/**").authenticated()
-            .antMatchers(HttpMethod.DELETE, "/star/**").authenticated()
-            .antMatchers(HttpMethod.PUT, "/star/**").authenticated()
+//            .antMatchers("/user/**").authenticated()
+//            .antMatchers(HttpMethod.DELETE, "/star/**").authenticated()
+//            .antMatchers(HttpMethod.PUT, "/star/**").authenticated()
 //            .access("isAuthenticated() or permitAll()")
 //            .antMatchers("/user/**", "/star/**", "/review/**").authenticated()
             .anyRequest().permitAll()
 
-            .and()
-            .oauth2Login()
-            .userInfoEndpoint()
-            .userService(oauth2UserService)
-            .and()
-            .successHandler(authSuccessHandler)
-            .failureHandler(authFailHandler)
-            .and()
-            .logout()
-            .logoutSuccessHandler(logoutSuccessHandler)
-            .permitAll()
+//            .and()
+//            .oauth2Login()
+//            .userInfoEndpoint()
+//            .userService(oauth2UserService)
+//            .and()
+//            .successHandler(authSuccessHandler)
+//            .failureHandler(authFailHandler)
+//            .and()
+//            .logout()
+//            .logoutSuccessHandler(logoutSuccessHandler)
+//            .permitAll()
             .and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         return http.build()

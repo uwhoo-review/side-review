@@ -12,41 +12,55 @@ class LoginService(
     val userInfoRepository: UserInfoRepository,
     val nicknameService: NicknameService
 ) {
-    fun saveUser(type: String, response: Any) {
+    fun saveUser(type: String, response: Any): UserInfo {
         var id: String = ""
         var name: String = ""
+        var profile: String = ""
         when (type) {
             "naver" -> {
                 val dto = response as NaverProfileResponse
                 id = dto.response.id
-                name = nicknameService.makeNickname(0) ?: " "
+                name =
+                    if (dto.response.nickname.isNullOrBlank()) nicknameService.makeNickname(0) else dto.response.nickname
+                profile = dto.response.profile_image
             }
 
             "google" -> {
                 val dto = response as GoogleProfileResponse
                 id = dto.id
-                name = nicknameService.makeNickname(2) ?: " "
+                name = if (dto.name.isNullOrBlank()) nicknameService.makeNickname(2) else dto.name
+                profile = dto.picture
             }
 
             "kakao" -> {
                 val dto = response as KakaoProfileResponse
                 id = "${dto.id}"
-                name = nicknameService.makeNickname(1) ?: " "
+                name =
+                    if (dto.kakao_account.profile.nickname.isNullOrBlank())
+                        nicknameService.makeNickname(1)
+                    else dto.kakao_account.profile.nickname
+                profile = if (dto.kakao_account.profile.thumbnail_image_url.isNullOrBlank()) ""
+                else dto.kakao_account.profile.thumbnail_image_url
             }
         }
-
-        userInfoRepository.save(
-            UserInfo(
-                id,
-                type,
-                name,
-                "",
-                null,
-                null,
-                null,
-                null
+        val user = userInfoRepository.findById(id)
+        return if (user.isPresent) {
+            if (user.get().nickname != name) user.get().nickname = name
+            if (user.get().profile != profile) user.get().profile = profile
+            user.get()
+        } else
+            userInfoRepository.save(
+                UserInfo(
+                    id,
+                    type,
+                    name,
+                    profile,
+                    null,
+                    null,
+                    null,
+                    null
+                )
             )
-        )
     }
 
     fun authenticateUser(id: String, type: String): Boolean {
