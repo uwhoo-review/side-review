@@ -20,7 +20,8 @@ class AuthSuccessHandler : AuthenticationSuccessHandler {
         val principal = authentication.principal as CustomOAuth2User
         val userInfoDto =
             MapperUtils.mapUserInfoToLoginResponseDto(principal.attributes["user"] as UserInfo)
-//        val targetUrl = request.requestURL.split("/api/login/")[0]
+        val targetUrl = request.requestURL.split("/api/")[0]
+
         val logger = LoggerFactory.getLogger(this::class.java)!!
 
         logger.info(request.headerNames.toString())
@@ -28,9 +29,9 @@ class AuthSuccessHandler : AuthenticationSuccessHandler {
             logger.info("${name}:${request.getHeader(name)}")
 
 
-        var targetUrl = request.getHeader("host")
-        if (targetUrl.contains("localhost")) targetUrl = "http://$targetUrl"
-        else targetUrl = "https://$targetUrl"
+//        var targetUrl = request.getHeader("host")
+//        if (targetUrl.contains("localhost")) targetUrl = "http://$targetUrl"
+//        else targetUrl = "https://$targetUrl"
         val cookies: Array<Cookie>? = request.cookies
         var sessionId: String = ""
 
