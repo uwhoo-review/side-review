@@ -7,6 +7,7 @@ import { useCommon } from "@src/providers/CommonProvider";
 import { getCookie } from "@src/tools/commonTools";
 import { GOOGLE, KAKAO, NAVER, UWHOO_LOGIN } from "@src/variables/LoginConstants";
 import SpeechBubble from "@src/component/atoms/SpeechBubble/SpeechBubble";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
 
 const Login = () => {
   const NAVER_URI = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NAVER_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NAVER_CALLBACK_URL}&state=${process.env.NAVER_STATE}`;
@@ -73,11 +74,16 @@ const Login = () => {
           className={"login-btn"}
           variant={"lower"}
           css={styled.kakaoBtn}
-          onClick={() => (window.location.href = "/oauth2/authorization/naver")}
+          // onClick={() => (window.location.href = "/oauth2/authorization/naver")}
+          onClick={async () => {
+            window.location.href = "api/oauth2/authorization/naver";
+            // onClick={() => (window.location.href = "/oauth2/authorization/naver")}
+          }}
         >
           <IconKakao width={"23px"} height={"23px"} />
           <HWTypography variant={"bodyXL"}>테스트</HWTypography>
         </HWButton>
+        {/*<}>네이버</a>*/}
         <a href={"https://uwhoo-review.site/api/oauth2/authorization/naver"}>네이버</a>
         <a href={"https://uwhoo-review.site/api/oauth2/authorization/google"}>구굴</a>
         <a href={"https://uwhoo-review.site/api/oauth2/authorization/kakao"}>카카오</a>

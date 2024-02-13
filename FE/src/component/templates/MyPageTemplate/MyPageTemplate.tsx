@@ -9,19 +9,19 @@ import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 const MyPageTemplate = () => {
   const { userInfo } = useCommon();
 
-  const { status, data, error } = useQuery({
+/*  const { status, data, error } = useQuery({
     queryKey: ["user", userInfo.userId],
     queryFn: async () => {
       const res = userInfo.userId && (await UWAxios.user.getMypage("59.8.169.4"));
       return res;
     },
     refetchOnWindowFocus: false,
-  });
+  });*/
 
 
   return (
     <>
-      {status === "pending" && <LoadingGrid />}
+      {/*{status === "pending" && <LoadingGrid />}*/}
       {(
         <section className={"mypage-template-wrapper"} css={styled.wrapper}>
           <MyPageHeader />

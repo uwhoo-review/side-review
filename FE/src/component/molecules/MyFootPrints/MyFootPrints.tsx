@@ -10,7 +10,7 @@ import { VirtuosoGrid } from "react-virtuoso";
 import { useNavigate } from "react-router-dom";
 import styled from "./style";
 
-const MyFootPrints = ({ toggle = "content", data }: any) => {
+const MyFootPrints = ({ toggle = "content", data = [] }: any) => {
   const [toggle1, setToggle1] = useState<string>(toggle);
   const [resultContent, setResultContent] = useState<any>(data);
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const MyFootPrints = ({ toggle = "content", data }: any) => {
   };
 
   return (
-    <div>
+    <div css={styled.wrapper}>
       <HWTypography variant={"headlineM"} family={"Pretendard-SemiBold"}>
         UWHOO 발자취
       </HWTypography>

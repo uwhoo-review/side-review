@@ -71,6 +71,10 @@ export const UWAxios = {
       const res = await axiosBaseInstance.get<any>(`login/google?code=${code}&uri=${uri}`);
       return res.data;
     },
+    async getTestToken() {
+      const res = await axiosBaseInstance.get<any>(`oauth2/authorization/naver`);
+      return res.data;
+    },
   },
   star: {
     async postStart(id: string, data: any) {

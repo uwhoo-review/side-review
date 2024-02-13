@@ -28,7 +28,7 @@ const AccordionPerson = () => {
 
   const userId = "PwoRK3jACUc2LairkizG5J8M9zmpUaZ6k0Dk0DOSO1A";
 
-  const usePersonData = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["mypage", "search", "person", page, PAGE_SIZE],
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.user.getMyPerson(userId, searchVal, page, PAGE_SIZE);
@@ -113,7 +113,7 @@ const AccordionPerson = () => {
                   if (!isNullOrEmpty(searchVal) && e.key === "Enter") {
                     setIsSearch(true);
                     setPage(1);
-                    usePersonData.refetch();
+                    refetch();
                   }
                 }}
                 endAdorment={
@@ -132,13 +132,13 @@ const AccordionPerson = () => {
                     인물
                   </HWTypography>
                 </div>
-                {usePersonData.status === "pending" && (
+                {isLoading && (
                   <div css={styled.loadingBox}>
                     <LoadingDot />
                   </div>
                 )}
-                {usePersonData.status === "success" &&
-                  (usePersonData.data?.pageInfo.totalElements === 0 ? (
+                {data &&
+                  (data?.pageInfo?.totalElements === 0 ? (
                     <div css={styled.emptyBox}>
                       <HWTypography
                         variant={"bodyL"}
@@ -156,7 +156,7 @@ const AccordionPerson = () => {
                     </div>
                   ) : (
                     <div css={styled.box3}>
-                      {usePersonData.data?.person.map((v: any) => {
+                      {data?.person.map((v: any) => {
                         return (
                           <ContentCard3rd
                             key={v.id}
@@ -170,7 +170,7 @@ const AccordionPerson = () => {
                   ))}
                 <footer css={styled.footer}>
                   <HWIconButton
-                    disabled={usePersonData.data?.pageInfo.page === 1}
+                    disabled={data?.pageInfo.page === 1}
                     onClick={() => {
                       setPage(page - 1);
                     }}
@@ -179,14 +179,11 @@ const AccordionPerson = () => {
                   </HWIconButton>
                   <div>
                     <HWTypography variant={"bodyXS"} color={"#84838D"}>
-                      Page {usePersonData.data?.pageInfo.page} of{" "}
-                      {usePersonData.data?.pageInfo.totalPages}
+                      Page {data?.pageInfo.page} of {data?.pageInfo.totalPages}
                     </HWTypography>
                   </div>
                   <HWIconButton
-                    disabled={
-                      usePersonData.data?.pageInfo.page === usePersonData.data?.pageInfo.totalPages
-                    }
+                    disabled={data?.pageInfo.page === data?.pageInfo.totalPages}
                     onClick={() => {
                       setPage(page + 1);
                     }}

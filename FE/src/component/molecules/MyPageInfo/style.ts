@@ -29,21 +29,43 @@ export default {
     color: #b6b2ea;
     cursor: pointer;
   `,
-  modal: css`
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    color: #fff;
-    .MuiBackdrop-root {
-      background-color: rgba(0, 0, 0, 0.2);
-    }
+  modal: (size: number) => css`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: ${size}px;
+    background-color: #232323;
+    border: 1px solid #333333;
+    z-index: 15;
+    //display: flex;
+    //justify-content: center;
+    //align-items: flex-end;
+    //color: #fff;
+    user-select: none;
+    //.MuiBackdrop-root {
+    //  background-color: rgba(0, 0, 0, 0.2);
+    //}
   `,
   modalWrapper: css`
     width: 100%;
-    height: calc(100% - 300px);
-    background-color: #121212;
-    padding-top: 70px;
+    height: 100%;
+
     overflow: auto;
     border-radius: 15px;
+  `,
+  heightHandler: css`
+    --width: 140px;
+    width: var(--width);
+
+    position: absolute;
+    top: 16px;
+    left: calc(50% - (var(--width) / 2));
+
+    height: 8px;
+    border-radius: 10px;
+    background-color: yellow;
+
+    cursor: pointer;
   `,
 };

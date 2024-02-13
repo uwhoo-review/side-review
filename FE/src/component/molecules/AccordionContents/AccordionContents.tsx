@@ -39,15 +39,15 @@ const AccordionContents = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [page, setPage] = useState(1);
-  const [isSearch, setIsSearch] = useState(true);
+  const [isSearch, setIsSearch] = useState(false);
 
-  const useContentData = useQuery({
+  const {data , isLoading, error, refetch} = useQuery({
     queryKey: ["mypage", "search", "content", page, PAGE_SIZE],
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.user.getMyContents(userId, searchVal, page, PAGE_SIZE);
     },
     refetchOnWindowFocus: false,
-    enabled: isSearch,
+    enabled: isModalOpen && isSearch,
   });
 
   useEffect(() => {
@@ -112,7 +112,7 @@ const AccordionContents = () => {
                   if (!isNullOrEmpty(searchVal) && e.key === "Enter") {
                     setIsSearch(true);
                     setPage(1);
-                    useContentData.refetch();
+                    refetch();
                   }
                 }}
                 placeholder={"작품의 제목을 검색해 주세요."}
@@ -135,13 +135,13 @@ const AccordionContents = () => {
                     내 별점
                   </HWTypography>
                 </div>
-                {useContentData.status === "pending" && (
+                {isLoading && (
                   <div css={styled.loadingBox}>
                     <LoadingDot />
                   </div>
                 )}
-                {useContentData.status === "success" &&
-                  (useContentData.data?.pageInfo.totalElements === 0 ? (
+                {data &&
+                  (data?.pageInfo?.totalElements === 0 ? (
                     <div css={styled.emptyBox}>
                       <HWTypography
                         variant={"bodyL"}
@@ -159,7 +159,7 @@ const AccordionContents = () => {
                     </div>
                   ) : (
                     <div css={styled.box3}>
-                      {useContentData.data?.content.map((v: any) => {
+                      {data?.content.map((v: any) => {
                         const sub = [];
                         sub.push(v.year);
                         v.director[0] && sub.push(v.director[0]);
@@ -181,7 +181,7 @@ const AccordionContents = () => {
                   ))}
                 <footer css={styled.footer}>
                   <HWIconButton
-                    disabled={useContentData.data?.pageInfo.page === 1}
+                    disabled={data?.pageInfo.page === 1}
                     onClick={() => {
                       setPage(page - 1);
                     }}
@@ -190,14 +190,14 @@ const AccordionContents = () => {
                   </HWIconButton>
                   <div>
                     <HWTypography variant={"bodyXS"} color={"#84838D"}>
-                      Page {useContentData.data?.pageInfo.page} of{" "}
-                      {useContentData.data?.pageInfo.totalPages}
+                      Page {data?.pageInfo.page} of{" "}
+                      {data?.pageInfo.totalPages}
                     </HWTypography>
                   </div>
                   <HWIconButton
                     disabled={
-                      useContentData.data?.pageInfo.page ===
-                      useContentData.data?.pageInfo.totalPages
+                      data?.pageInfo.page ===
+                      data?.pageInfo.totalPages
                     }
                     onClick={() => {
                       setPage(page + 1);
