@@ -71,6 +71,8 @@ server:
     key-alias: spring
   servlet:
     context-path: /api
+    session:
+      timeout: 24h
 
 logging:
   config: classpath:logback-product.xml
