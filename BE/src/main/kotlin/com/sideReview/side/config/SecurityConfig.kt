@@ -6,6 +6,7 @@ import com.sideReview.side.login.LogoutSuccessHandler
 import com.sideReview.side.login.Oauth2UserServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
@@ -57,6 +58,8 @@ open class SecurityConfig(
             .formLogin().disable()
             .authorizeRequests()
             .antMatchers("/user/**").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/star/**").authenticated()
+            .antMatchers(HttpMethod.PUT, "/star/**").authenticated()
 //            .access("isAuthenticated() or permitAll()")
 //            .antMatchers("/user/**", "/star/**", "/review/**").authenticated()
             .anyRequest().permitAll()

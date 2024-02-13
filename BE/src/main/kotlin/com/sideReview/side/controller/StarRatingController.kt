@@ -1,6 +1,8 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.util.ClientUtils
+import com.sideReview.side.login.LoginUser
 import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.review.dto.StarRatingCreateDto
 import com.sideReview.side.review.dto.StarRatingUpdateDto
@@ -26,21 +28,21 @@ class StarRatingController(val starRatingService: StarRatingService) {
     fun update(
         @PathVariable id: String,
         @RequestBody dto: StarRatingUpdateDto,
-        request: HttpServletRequest
+        @LoginUser(required = false) user: UserInfoDto
     ): ResponseEntity<Any> {
-        starRatingService.editStarRating(dto, ClientUtils.getUserId(request))
+        starRatingService.editStarRating(dto, user.id)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @DeleteMapping
     fun delete(
         @PathVariable id: String,
-        request: HttpServletRequest
+        @LoginUser(required = false) user: UserInfoDto
     ): ResponseEntity<Any> {
         return ResponseEntity.ok(
             starRatingService.deleteStartRating(
                 id,
-                ClientUtils.getUserId(request)
+                user.id
             )
         )
     }
