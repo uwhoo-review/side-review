@@ -22,10 +22,16 @@ class AuthSuccessHandler : AuthenticationSuccessHandler {
         val principal = authentication.principal as CustomOAuth2User
         val userInfoDto =
             MapperUtils.mapUserInfoToLoginResponseDto(principal.attributes["user"] as UserInfo)
+        logger.info("BABABA")
+        logger.info("principal attribute uri : ${principal.attributes["uri"].toString()}")
 
-        logger.info(principal.attributes["uri"].toString())
+        var targetUrl = request.getParameter("redirect_uri")
 
-        val targetUrl = principal.attributes["uri"].toString().split("/api/")[0]
+        logger.info("targetUrl-${targetUrl}")
+        if (targetUrl.isNullOrBlank()) targetUrl =
+            principal.attributes["uri"].toString().split("/api/")[0]
+        logger.info("targetUrl-${targetUrl}")
+//        val targetUrl = principal.attributes["uri"].toString().split("/api/")[0]
 
 
 //        for (name in request.headerNames)
