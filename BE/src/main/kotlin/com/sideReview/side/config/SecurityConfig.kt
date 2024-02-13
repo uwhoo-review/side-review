@@ -74,7 +74,7 @@ open class SecurityConfig(
             .failureHandler(authFailHandler)
             .and()
             .logout()
-            .logoutSuccessHandler(logoutSuccessHandler)
+//            .logoutSuccessHandler(logoutSuccessHandler)
             .permitAll()
             .and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
