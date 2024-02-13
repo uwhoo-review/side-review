@@ -2,6 +2,7 @@ package com.sideReview.side.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.sideReview.side.common.dto.UserInfoDto
+import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.login.LoginService
 import com.sideReview.side.login.google.GoogleClientAuth
 import com.sideReview.side.login.google.GoogleClientProfile
@@ -50,13 +51,7 @@ class LoginController(
         val auth = naverClientAuth.getAuth(code, state).access_token
         val profile = naverClientProfile.getProfile("Bearer $auth")
         val saveUser = loginService.saveUser("naver", profile)
-        val userInfoDto = UserInfoDto(saveUser)
-        val httpSession = request.getSession(true)
-        httpSession.setAttribute("user", userInfoDto)
-        val obj: MutableMap<String, Any> = HashMap<String, Any>()
-        obj["userInfoDto"] = userInfoDto
-        obj["sessionId"] = httpSession.id
-        return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
+        return toResponseEntity(saveUser, request)
     }
 
     @GetMapping("/login/google")
@@ -64,7 +59,7 @@ class LoginController(
         @RequestParam code: String,
         @RequestParam uri: String,
         request: HttpServletRequest,
-    ): ResponseEntity<UserInfoDto> {
+    ): ResponseEntity<String> {
         val auth = googleClientAuth.getAuth(
             GoogleRequest(
                 code = code, redirect_uri = uri
@@ -72,10 +67,7 @@ class LoginController(
         )
         val profile = googleClientProfile.getProfile(auth.access_token)
         val saveUser = loginService.saveUser("google", profile)
-        val userInfoDto = UserInfoDto(saveUser)
-        val httpSession = request.getSession(true)
-        httpSession.setAttribute("user", userInfoDto)
-        return ResponseEntity.ok(userInfoDto)
+        return toResponseEntity(saveUser, request)
     }
 
     @GetMapping("/login/kakao")
@@ -89,13 +81,19 @@ class LoginController(
             "${auth.token_type} ${auth.access_token}"
         )
         val saveUser = loginService.saveUser("kakao", profile)
+        return toResponseEntity(saveUser, request)
+    }
+
+    private fun toResponseEntity(
+        saveUser: UserInfo,
+        request: HttpServletRequest
+    ): ResponseEntity<String> {
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
         val obj: MutableMap<String, Any> = HashMap<String, Any>()
         obj["userInfoDto"] = userInfoDto
         obj["sessionId"] = httpSession.id
-
         return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
     }
 }
