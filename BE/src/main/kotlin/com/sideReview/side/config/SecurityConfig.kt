@@ -75,8 +75,8 @@ open class SecurityConfig(
 //            .logout()
 //            .logoutSuccessHandler(logoutSuccessHandler)
 //            .permitAll()
-            .and().sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+//            .and().sessionManagement()
+//            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         return http.build()
     }
 }
