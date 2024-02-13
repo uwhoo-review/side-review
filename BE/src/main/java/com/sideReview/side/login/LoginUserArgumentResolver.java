@@ -1,6 +1,7 @@
 package com.sideReview.side.login;
 
 import com.sideReview.side.common.dto.UserInfoDto;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     /*
      * Intellij 버그로 kotlin에서 java class 접근이 불가능해 부득이하게 java class를 사용함.
      * */
-    private final HttpSession httpSession;
+//    private final HttpSession httpSession;
     private final LoginService loginService;
 
     @Override
@@ -32,7 +33,12 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     public Object resolveArgument(@NotNull MethodParameter parameter,
         ModelAndViewContainer mavContainer,
         @NotNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        UserInfoDto user = (UserInfoDto) httpSession.getAttribute("user");
+        HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
+
+        assert servletRequest != null;
+        HttpSession session = servletRequest.getSession();
+
+        UserInfoDto user = (UserInfoDto) session.getAttribute("user");
         if (user == null) {
             return null;
         }
