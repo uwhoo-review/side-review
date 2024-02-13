@@ -6,6 +6,7 @@ import com.sideReview.side.mypage.dto.Rating
 import com.sideReview.side.review.dto.StarRatingCreateDto
 import com.sideReview.side.review.dto.StarRatingUpdateDto
 import com.sideReview.side.review.entity.UserStarRating
+import com.sideReview.side.review.exception.StarRatingSaveDuplicateException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -26,7 +27,7 @@ class StarRatingService(
             )
         } else {
             // TODO : exception handling
-            throw Exception("Duplicated star rating request")
+            throw StarRatingSaveDuplicateException("Duplicated star rating request")
         }
     }
 

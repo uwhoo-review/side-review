@@ -6,6 +6,7 @@ import com.sideReview.side.login.LoginUser
 import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.review.dto.StarRatingCreateDto
 import com.sideReview.side.review.dto.StarRatingUpdateDto
+import com.sideReview.side.review.exception.StarRatingSaveDuplicateException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -21,7 +22,11 @@ class StarRatingController(val starRatingService: StarRatingService) {
         @LoginUser(required = false) user: UserInfoDto?,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
-        starRatingService.saveStarRating(dto, ClientUtils.getUserId(request, user))
+        try{
+            starRatingService.saveStarRating(dto, ClientUtils.getUserId(request, user))
+        }catch (e: StarRatingSaveDuplicateException){
+            return ResponseEntity.badRequest().body(e.message)
+        }
         return ResponseEntity(HttpStatus.OK)
     }
 
