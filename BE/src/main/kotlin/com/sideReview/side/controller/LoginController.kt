@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @RestController
 class LoginController(
@@ -44,7 +46,8 @@ class LoginController(
     fun getNaverProfile(
         @RequestParam code: String,
         @RequestParam state: String,
-        request: HttpServletRequest
+        request: HttpServletRequest,
+        response: HttpServletResponse
     ): ResponseEntity<UserInfoDto> {
         val auth = naverClientAuth.getAuth(code, state).access_token
         val profile = naverClientProfile.getProfile("Bearer $auth")
@@ -52,6 +55,7 @@ class LoginController(
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
+        response.addCookie(Cookie("JSESSIONID", httpSession.id))
         return ResponseEntity.ok(userInfoDto)
     }
 
@@ -59,7 +63,8 @@ class LoginController(
     fun getGoogleProfile(
         @RequestParam code: String,
         @RequestParam uri: String,
-        request: HttpServletRequest
+        request: HttpServletRequest,
+        response: HttpServletResponse
     ): ResponseEntity<UserInfoDto> {
         val auth = googleClientAuth.getAuth(
             GoogleRequest(
@@ -71,6 +76,7 @@ class LoginController(
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
+        response.addCookie(Cookie("JSESSIONID", httpSession.id))
         return ResponseEntity.ok(userInfoDto)
     }
 
@@ -78,7 +84,8 @@ class LoginController(
     fun getKakaoProfile(
         @RequestParam code: String,
         @RequestParam uri: String,
-        request: HttpServletRequest
+        request: HttpServletRequest,
+        response: HttpServletResponse
     ): ResponseEntity<UserInfoDto> {
         val auth = kakaoClient.getAuth(uri, code)
         val profile = kakaoClient.getProfile(
@@ -88,6 +95,7 @@ class LoginController(
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
+        response.addCookie(Cookie("JSESSIONID", httpSession.id))
         return ResponseEntity.ok(userInfoDto)
     }
 }
