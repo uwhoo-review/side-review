@@ -17,16 +17,19 @@ class AuthSuccessHandler : AuthenticationSuccessHandler {
         response: HttpServletResponse,
         authentication: Authentication
     ) {
+        val logger = LoggerFactory.getLogger(this::class.java)!!
+
         val principal = authentication.principal as CustomOAuth2User
         val userInfoDto =
             MapperUtils.mapUserInfoToLoginResponseDto(principal.attributes["user"] as UserInfo)
-        val targetUrl = request.requestURL.split("/api/")[0]
 
-        val logger = LoggerFactory.getLogger(this::class.java)!!
+        logger.info(principal.attributes["uri"].toString())
 
-        logger.info(request.headerNames.toString())
-        for (name in request.headerNames)
-            logger.info("${name}:${request.getHeader(name)}")
+        val targetUrl = principal.attributes["uri"].toString().split("/api/")[0]
+
+
+//        for (name in request.headerNames)
+//            logger.info("${name}:${request.getHeader(name)}")
 
 
 //        var targetUrl = request.getHeader("host")
