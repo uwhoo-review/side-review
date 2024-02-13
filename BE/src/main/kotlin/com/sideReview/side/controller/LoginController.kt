@@ -53,8 +53,8 @@ class LoginController(
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
-        val obj: MutableMap<String, String> = HashMap<String, String>()
-        obj["userInfoDto"] = userInfoDto.toString()
+        val obj: MutableMap<String, Any> = HashMap<String, Any>()
+        obj["userInfoDto"] = userInfoDto
         obj["sessionId"] = httpSession.id
         return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
     }
@@ -92,8 +92,8 @@ class LoginController(
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
-        val obj: MutableMap<String, String> = HashMap<String, String>()
-        obj["userInfoDto"] = userInfoDto.toString()
+        val obj: MutableMap<String, Any> = HashMap<String, Any>()
+        obj["userInfoDto"] = userInfoDto
         obj["sessionId"] = httpSession.id
 
         return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
