@@ -32,7 +32,7 @@ class ClientUtils {
         }
 
         fun getUserId(request: HttpServletRequest): String {
-            return if (request.session != null) {
+            return if (request.session != null && request.session.getAttribute("user") != null) {
                 val session: HttpSession = request.session
                 (session.getAttribute("user") as UserInfoDto).id
             } else {
