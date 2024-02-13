@@ -1,5 +1,6 @@
 package com.sideReview.side.controller
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.login.LoginService
 import com.sideReview.side.login.google.GoogleClientAuth
@@ -13,9 +14,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 @RestController
 class LoginController(
@@ -47,16 +46,17 @@ class LoginController(
         @RequestParam code: String,
         @RequestParam state: String,
         request: HttpServletRequest,
-        response: HttpServletResponse
-    ): ResponseEntity<UserInfoDto> {
+    ): ResponseEntity<String> {
         val auth = naverClientAuth.getAuth(code, state).access_token
         val profile = naverClientProfile.getProfile("Bearer $auth")
         val saveUser = loginService.saveUser("naver", profile)
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
-        response.addCookie(Cookie("JSESSIONID", httpSession.id))
-        return ResponseEntity.ok(userInfoDto)
+        val obj: MutableMap<String, String> = HashMap<String, String>()
+        obj["userInfoDto"] = userInfoDto.toString()
+        obj["sessionId"] = httpSession.id
+        return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
     }
 
     @GetMapping("/login/google")
@@ -64,7 +64,6 @@ class LoginController(
         @RequestParam code: String,
         @RequestParam uri: String,
         request: HttpServletRequest,
-        response: HttpServletResponse
     ): ResponseEntity<UserInfoDto> {
         val auth = googleClientAuth.getAuth(
             GoogleRequest(
@@ -76,7 +75,6 @@ class LoginController(
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
-        response.addCookie(Cookie("JSESSIONID", httpSession.id))
         return ResponseEntity.ok(userInfoDto)
     }
 
@@ -85,8 +83,7 @@ class LoginController(
         @RequestParam code: String,
         @RequestParam uri: String,
         request: HttpServletRequest,
-        response: HttpServletResponse
-    ): ResponseEntity<UserInfoDto> {
+    ): ResponseEntity<String> {
         val auth = kakaoClient.getAuth(uri, code)
         val profile = kakaoClient.getProfile(
             "${auth.token_type} ${auth.access_token}"
@@ -95,7 +92,10 @@ class LoginController(
         val userInfoDto = UserInfoDto(saveUser)
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
-        response.addCookie(Cookie("JSESSIONID", httpSession.id))
-        return ResponseEntity.ok(userInfoDto)
+        val obj: MutableMap<String, String> = HashMap<String, String>()
+        obj["userInfoDto"] = userInfoDto.toString()
+        obj["sessionId"] = httpSession.id
+
+        return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
     }
 }

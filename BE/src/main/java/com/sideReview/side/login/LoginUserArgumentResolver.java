@@ -36,14 +36,17 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
 
         assert servletRequest != null;
-        HttpSession session = servletRequest.getSession();
-
-        UserInfoDto user = (UserInfoDto) session.getAttribute("user");
-        if (user == null) {
-            return null;
-        }
-        if (loginService.authenticateUser(user.getId(), user.getType())) {
-            return user;
+        HttpSession session = servletRequest.getSession(false);
+        if (session != null) {
+            UserInfoDto user = (UserInfoDto) session.getAttribute("user");
+            if (user == null) {
+                return null;
+            }
+            if (loginService.authenticateUser(user.getId(), user.getType())) {
+                return user;
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
