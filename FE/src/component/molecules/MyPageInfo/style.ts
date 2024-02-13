@@ -29,20 +29,48 @@ export default {
     color: #b6b2ea;
     cursor: pointer;
   `,
-  modal: (size: number) => css`
+  modal: (size: number, isModal: boolean) => css`
+    @keyframes slideIn {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0%);
+      }
+    }
+    @keyframes slideOut {
+      from {
+        transform: translateY(0%);
+      }
+      to {
+        transform: translateY(100%);
+      }
+    }
+
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: ${size}px;
+    //transition: height 0.1s linear;
     background-color: #232323;
     border: 1px solid #333333;
     z-index: 15;
+    user-select: none;
+
+    &.openAnimation {
+      animation: slideIn 0.5s forwards;
+    }
+
+    &.closeAnimation {
+      animation: slideOut 0.5s forwards;
+    }
+
+    height: ${size}px;
+
     //display: flex;
     //justify-content: center;
     //align-items: flex-end;
     //color: #fff;
-    user-select: none;
     //.MuiBackdrop-root {
     //  background-color: rgba(0, 0, 0, 0.2);
     //}

@@ -6,9 +6,8 @@ import MyFootPrints from "@src/component/molecules/MyFootPrints/MyFootPrints";
 
 const MyPageInfo = ({ topText, middleText, bottomText, modalChildren, onClick }: any) => {
   const [isModal, setIsModal] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+  const [animation, setAnimation] = useState("");
   const [modalHeight, setModalHeight] = useState(750); // 초기 모달 높이
-  const [startY, setStartY] = useState(0); // 드래그 시작 Y 위치
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -17,7 +16,8 @@ const MyPageInfo = ({ topText, middleText, bottomText, modalChildren, onClick }:
       const deltaY = moveEvent.clientY - downEvent.clientY;
       const height = modalHeight - deltaY;
       if (height < 200) {
-        setIsModal(false);
+        setAnimation("closeAnimation");
+        setTimeout(() => setIsModal(false), 500);
       } else if (height > 900) {
         return;
       } else {
@@ -32,10 +32,6 @@ const MyPageInfo = ({ topText, middleText, bottomText, modalChildren, onClick }:
     document.addEventListener("mouseup", mouseUpHandler, { once: true });
   };
 
-  useEffect(() => {
-    if (isModal) setModalHeight(750);
-  }, [isModal]);
-
   return (
     <div css={styled.wrapper}>
       <div css={styled.typo1}>{topText}</div>
@@ -44,26 +40,28 @@ const MyPageInfo = ({ topText, middleText, bottomText, modalChildren, onClick }:
         css={styled.typo3}
         onClick={() => {
           onClick && onClick();
-          modalChildren && setIsModal(true);
+          if (modalChildren) {
+            setAnimation("openAnimation");
+            setModalHeight(750);
+            setIsModal(true);
+          }
         }}
       >
         {bottomText}
       </div>
       {modalChildren && isModal && (
-        <Slide in={isModal} direction={"up"}>
-          <div
-            // open={isModal}
-            // onClose={() => setIsModal(false)}
-            css={styled.modal(modalHeight)}
-            // disableScrollLock={true}
-            // closeAfterTransition
-          >
-            <div css={[styled.modalWrapper]} ref={modalRef}>
-              <div css={styled.heightHandler} onMouseDown={startResize} />
-              <CenterWrapper>{modalChildren}</CenterWrapper>
-            </div>
+        <div
+          css={styled.modal(modalHeight, isModal)}
+
+          className={animation}
+        >
+          {/*<Slide in={isModal} direction={"up"}>*/}
+          <div css={[styled.modalWrapper]} ref={modalRef}>
+            <div css={styled.heightHandler} onMouseDown={startResize} />
+            <CenterWrapper>{modalChildren}</CenterWrapper>
           </div>
-        </Slide>
+          {/*</Slide>*/}
+        </div>
       )}
     </div>
   );
