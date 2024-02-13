@@ -29,7 +29,7 @@ class ReviewController(val reviewService: ReviewService) {
         logger.info(user.toString())
         try {
             reviewService.createOrUpdate(
-                body, ClientUtils.getUserId(request), ClientUtils.getUserType(request)
+                body, ClientUtils.getUserId(request, user), ClientUtils.getUserType(request, user)
             )
             return ResponseEntity(HttpStatus.OK)
         } catch (e: Exception) {
@@ -37,7 +37,7 @@ class ReviewController(val reviewService: ReviewService) {
             logger.error(e.stackTraceToString())
             return when (e) {
                 is ReviewUpdateUserInvalidException -> {
-                    logger.error("UserId : ${ClientUtils.getUserId(request)}")
+                    logger.error("UserId : ${ClientUtils.getUserId(request, user)}")
                     ResponseEntity.badRequest().body(e.message)
                 }
 
@@ -96,6 +96,7 @@ class ReviewController(val reviewService: ReviewService) {
             }
         }
     }
+
     @GetMapping("/user/{userId}")
     fun getAllReviewsByWriterId(
         @RequestParam(required = false, defaultValue = "0") page: String,

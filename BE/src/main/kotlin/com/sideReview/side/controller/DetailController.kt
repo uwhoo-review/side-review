@@ -1,8 +1,9 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.util.ClientUtils
+import com.sideReview.side.login.LoginUser
 import com.sideReview.side.openSearch.OpensearchClient
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,9 +16,15 @@ class DetailController @Autowired constructor(
     @GetMapping("/contents/{id}")
     fun getContentDetail(
         @PathVariable id: String,
-        request: HttpServletRequest
+        request: HttpServletRequest,
+        @LoginUser(required = false) user: UserInfoDto?
     ): ResponseEntity<Any> {
-        return ResponseEntity.ok(opensearchClient.getOneContent(id, ClientUtils.getIp(request)))
+        return ResponseEntity.ok(
+            opensearchClient.getOneContent(
+                id,
+                ClientUtils.getUserId(request, user)
+            )
+        )
     }
 
     @GetMapping("/person/{id}")

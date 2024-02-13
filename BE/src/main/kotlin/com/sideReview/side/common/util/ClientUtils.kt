@@ -3,7 +3,6 @@ package com.sideReview.side.common.util
 import com.sideReview.side.common.dto.UserInfoDto
 import org.slf4j.LoggerFactory
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpSession
 
 class ClientUtils {
     companion object {
@@ -32,15 +31,19 @@ class ClientUtils {
         }
 
         fun getUserId(request: HttpServletRequest): String {
-            return if (request.session != null && request.session.getAttribute("user") != null) {
-                val session: HttpSession = request.session
-                (session.getAttribute("user") as UserInfoDto).id
-            } else {
+            return if (request.getHeader("userId") != null) {
                 request.getHeader("userId")
+            } else {
+                getIp(request)
             }
         }
 
+        fun getUserId(request: HttpServletRequest, user: UserInfoDto?): String {
+            return user?.id ?: getUserId(request)
+        }
+
         private fun getUserType(userId: String): String {
+            //1:로그인 유저, 2:public
             return if (userId.contains(".") || userId.contains(":")) "2"
             else "1"
         }
@@ -48,6 +51,11 @@ class ClientUtils {
         fun getUserType(request: HttpServletRequest): String {
             val userId = getUserId(request)
             return getUserType(userId)
+        }
+
+        fun getUserType(request: HttpServletRequest, user: UserInfoDto?): String {
+            return if (user != null) "1"
+            else getUserType(request)
         }
     }
 }

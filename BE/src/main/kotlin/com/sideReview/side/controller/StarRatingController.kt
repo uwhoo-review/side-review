@@ -18,9 +18,10 @@ class StarRatingController(val starRatingService: StarRatingService) {
     fun create(
         @PathVariable id: String,
         @RequestBody dto: StarRatingCreateDto,
+        @LoginUser(required = false) user: UserInfoDto?,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
-        starRatingService.saveStarRating(dto, ClientUtils.getUserId(request))
+        starRatingService.saveStarRating(dto, ClientUtils.getUserId(request, user))
         return ResponseEntity(HttpStatus.OK)
     }
 
