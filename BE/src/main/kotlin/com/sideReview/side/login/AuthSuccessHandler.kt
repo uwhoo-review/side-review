@@ -58,6 +58,6 @@ class AuthSuccessHandler : AuthenticationSuccessHandler {
         val cookie = Cookie("JSESSIONID", sessionId)
         response.addCookie(cookie)
         response.addHeader("userId", userInfoDto.id)
-        response.sendRedirect("${targetUrl}/login/redirect?id=${sessionId}")
+//        response.sendRedirect("${targetUrl}/login/redirect?id=${sessionId}")
     }
 }
