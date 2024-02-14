@@ -8,6 +8,8 @@ import com.sideReview.side.login.google.dto.GoogleProfileResponse
 import com.sideReview.side.login.kakao.dto.KakaoProfileResponse
 import com.sideReview.side.login.naver.dto.NaverProfileResponse
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpHeaders
+import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -118,10 +120,15 @@ class LoginService(
 
 
         // 쿠키 생성 및 설정
-        val cookie = Cookie("sessionId", httpSession.id)
-        cookie.maxAge = 3600 // 쿠키의 만료 시간 설정 (초 단위)
-        cookie.path = "/" // 쿠키의 유효 경로 설정
-        response.addCookie(cookie)
+        val sessionCookie = ResponseCookie
+            .from("JSESSIONID", httpSession.id)
+            .maxAge(3600)
+            .httpOnly(true)
+            .secure(true) // HTTPS에서만 전송하도록 설정
+            .sameSite("None") // SameSite 설정
+            .path("/")
+            .build()
+        response.addHeader(HttpHeaders.SET_COOKIE, sessionCookie.toString())
 
         val logAuth = SecurityContextHolder.getContext().authentication
         if (logAuth != null && logAuth.principal is UserInfoDto) {
