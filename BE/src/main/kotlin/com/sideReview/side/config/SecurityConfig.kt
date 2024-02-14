@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.session.web.http.CookieSerializer
+import org.springframework.session.web.http.DefaultCookieSerializer
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -88,5 +90,13 @@ open class SecurityConfig(
     @Bean
     fun sessionRegistry(): SessionRegistry? {
         return SessionRegistryImpl()
+    }
+
+    @Bean
+    fun cookieSerializer(): CookieSerializer {
+        val serializer = DefaultCookieSerializer()
+        serializer.setSameSite("None") // SameSite 설정
+        serializer.setUseSecureCookie(false) // HTTPS에서만 전송하도록 설정
+        return serializer
     }
 }
