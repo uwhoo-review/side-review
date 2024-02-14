@@ -19,6 +19,8 @@ class LogoutSuccessHandler : LogoutSuccessHandler {
         val targetUrl = request.requestURL.split("/api/")[0]
 
         logger.info("logout hander : $targetUrl")
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         response.sendRedirect("$targetUrl/redirect")
     }
 }
