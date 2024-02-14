@@ -7,6 +7,7 @@ import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.login.google.dto.GoogleProfileResponse
 import com.sideReview.side.login.kakao.dto.KakaoProfileResponse
 import com.sideReview.side.login.naver.dto.NaverProfileResponse
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -25,6 +26,7 @@ class LoginService(
     val nicknameService: NicknameService,
     val sessionRegistry: SessionRegistry
 ) {
+    val logger = LoggerFactory.getLogger(this::class.java)!!
     fun saveUser(type: String, response: Any): UserInfo {
         var id: String = ""
         var name: String = ""
@@ -95,6 +97,7 @@ class LoginService(
                     val sessions = sessionRegistry.getAllSessions(principal, false)
                     for (sessionInformation in sessions) {
                         // 각 세션에 대한 작업 수행
+                        logger.info("동일 유저 이전 session 삭제 : ${sessionInformation.sessionId}")
                         sessionInformation.expireNow()
                     }
                 }
@@ -109,6 +112,14 @@ class LoginService(
 
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
+
+        val logAuth = SecurityContextHolder.getContext().authentication
+        if (logAuth != null && logAuth.principal is UserInfoDto) {
+            val logInfo = logAuth.principal as UserInfoDto
+            // 이제 userInfoDto를 사용할 수 있음
+            logger.info("session principal에 저장 : $logInfo")
+        }
+
         val obj: MutableMap<String, Any> = HashMap<String, Any>()
         obj["userInfoDto"] = userInfoDto
         obj["sessionId"] = httpSession.id
