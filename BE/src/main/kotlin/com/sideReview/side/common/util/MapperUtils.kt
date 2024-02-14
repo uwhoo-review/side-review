@@ -94,6 +94,7 @@ object MapperUtils {
                 id = it.id,
                 sortingName = it.name,
                 name = it.name,
+                originalName = it.original_name?: it.name,
                 profilePath = it.profile_path?.substring(1),
                 popularity = it.popularity,
                 cast = null,

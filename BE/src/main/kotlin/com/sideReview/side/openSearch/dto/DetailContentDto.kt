@@ -11,7 +11,7 @@ data class DetailContentDto(
     val originCountry: List<String>? = null,
     val platform: List<Int>?,
     val genre: List<Int>?,
-    val date: String? = null,
+    val date: String? = "",
     val synopsis: String?,
     val trailer: List<String>? = null,
     val photo: List<String>? = null,
@@ -19,7 +19,7 @@ data class DetailContentDto(
     val actors: List<Actor>? = null,
     val crew: List<Crew>? = null,
     val directors: List<String>? = null,
-    val age: String? = null,
+    val age: String? = "",
     val rating: RatingDto,
     var season: Season,
     val episodeCnt: Int? = 0

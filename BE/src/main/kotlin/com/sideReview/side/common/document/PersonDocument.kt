@@ -7,6 +7,7 @@ data class PersonDocument(
     val id : Int,
     val sortingName : String,
     val name : String,
+    val originalName : String,
     val profilePath : String?,
     val popularity : Float?,
     var cast : List<RoleInfo>?,

@@ -90,7 +90,7 @@ class OpenSearchDetailService @Autowired constructor(
             originCountry = document.production?.country ?: emptyList(),
             platform = document.platform,
             genre = document.genre,
-            date = document.firstAirDate,
+            date = document.firstAirDate ?: "",
             synopsis = document.synopsis,
             trailer = document.trailer,
             photo = document.photo,
