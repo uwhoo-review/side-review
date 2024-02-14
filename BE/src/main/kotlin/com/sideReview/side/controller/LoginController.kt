@@ -26,21 +26,6 @@ class LoginController(
     val kakaoClient: KakaoClient,
     val loginService: LoginService
 ) {
-    @GetMapping("/logout")
-    fun logout(
-        request: HttpServletRequest
-    ): ResponseEntity<Any> {
-        return try {
-            request.session?.invalidate()
-            ResponseEntity.ok("Successfully logout.")
-        } catch (e: Exception) {
-            val logger = LoggerFactory.getLogger(this::class.java)!!
-            logger.error(e.message)
-            logger.error(e.stackTraceToString())
-            ResponseEntity.internalServerError()
-                .body("Internal Server Error : logout failed.")
-        }
-    }
 
     @GetMapping("/login/naver")
     fun getNaverProfile(
@@ -51,7 +36,7 @@ class LoginController(
         val auth = naverClientAuth.getAuth(code, state).access_token
         val profile = naverClientProfile.getProfile("Bearer $auth")
         val saveUser = loginService.saveUser("naver", profile)
-        return toResponseEntity(saveUser, request)
+        return loginService.createOrUpdateSession(saveUser, request)
     }
 
     @GetMapping("/login/google")
@@ -67,7 +52,7 @@ class LoginController(
         )
         val profile = googleClientProfile.getProfile(auth.access_token)
         val saveUser = loginService.saveUser("google", profile)
-        return toResponseEntity(saveUser, request)
+        return loginService.createOrUpdateSession(saveUser, request)
     }
 
     @GetMapping("/login/kakao")
@@ -81,19 +66,7 @@ class LoginController(
             "${auth.token_type} ${auth.access_token}"
         )
         val saveUser = loginService.saveUser("kakao", profile)
-        return toResponseEntity(saveUser, request)
+        return loginService.createOrUpdateSession(saveUser, request)
     }
 
-    private fun toResponseEntity(
-        saveUser: UserInfo,
-        request: HttpServletRequest
-    ): ResponseEntity<String> {
-        val userInfoDto = UserInfoDto(saveUser)
-        val httpSession = request.getSession(true)
-        httpSession.setAttribute("user", userInfoDto)
-        val obj: MutableMap<String, Any> = HashMap<String, Any>()
-        obj["userInfoDto"] = userInfoDto
-        obj["sessionId"] = httpSession.id
-        return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
-    }
 }

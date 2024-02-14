@@ -1,16 +1,29 @@
 package com.sideReview.side.login
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.login.google.dto.GoogleProfileResponse
 import com.sideReview.side.login.kakao.dto.KakaoProfileResponse
 import com.sideReview.side.login.naver.dto.NaverProfileResponse
+import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.session.SessionRegistry
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
+import javax.servlet.http.HttpServletRequest
+
 
 @Service
 class LoginService(
     val userInfoRepository: UserInfoRepository,
-    val nicknameService: NicknameService
+    val nicknameService: NicknameService,
+    val sessionRegistry: SessionRegistry
 ) {
     fun saveUser(type: String, response: Any): UserInfo {
         var id: String = ""
@@ -65,5 +78,40 @@ class LoginService(
 
     fun authenticateUser(id: String, type: String): Boolean {
         return userInfoRepository.existsByUserIdAndLoginType(id, type)
+    }
+
+    fun createOrUpdateSession(
+        saveUser: UserInfo,
+        request: HttpServletRequest
+    ): ResponseEntity<String> {
+        val userInfoDto = UserInfoDto(saveUser)
+
+        // 기존 세션 중 동일한 유저 정보를 가지고 있는 세션이 있으면 삭제
+        val principals = sessionRegistry.allPrincipals
+        for (principal in principals) {
+            if (principal is UserDetails) {
+                val userDetails: UserDetails = principal as UserDetails
+                if (userDetails.username.equals(userInfoDto.id)) {
+                    val sessions = sessionRegistry.getAllSessions(principal, false)
+                    for (sessionInformation in sessions) {
+                        // 각 세션에 대한 작업 수행
+                        sessionInformation.expireNow()
+                    }
+                }
+            }
+        }
+
+        // 새 세션 만들어서 리턴
+        val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority("ROLE_USER"))
+        val authentication: Authentication =
+            UsernamePasswordAuthenticationToken(userInfoDto, null, authorities)
+        SecurityContextHolder.getContext().authentication = authentication
+
+        val httpSession = request.getSession(true)
+        httpSession.setAttribute("user", userInfoDto)
+        val obj: MutableMap<String, Any> = HashMap<String, Any>()
+        obj["userInfoDto"] = userInfoDto
+        obj["sessionId"] = httpSession.id
+        return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
     }
 }

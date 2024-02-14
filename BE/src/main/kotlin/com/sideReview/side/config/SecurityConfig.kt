@@ -1,26 +1,29 @@
 package com.sideReview.side.config
 
+import com.sideReview.side.login.LogoutSuccessHandler
 import com.sideReview.side.login.oauth2.AuthFailHandler
 import com.sideReview.side.login.oauth2.AuthSuccessHandler
-import com.sideReview.side.login.LogoutSuccessHandler
 import com.sideReview.side.login.oauth2.Oauth2UserServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.session.SessionRegistry
+import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+
 @Configuration
 @EnableWebSecurity
 open class SecurityConfig(
-    val oauth2UserService: Oauth2UserServiceImpl,
-    val authSuccessHandler: AuthSuccessHandler,
-    val authFailHandler: AuthFailHandler,
-    val logoutSuccessHandler: LogoutSuccessHandler
+//    val oauth2UserService: Oauth2UserServiceImpl,
+//    val authSuccessHandler: AuthSuccessHandler,
+//    val authFailHandler: AuthFailHandler,
+//    val logoutSuccessHandler: LogoutSuccessHandler
 ) {
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource {
@@ -57,11 +60,10 @@ open class SecurityConfig(
             .and()
             .formLogin().disable()
             .authorizeRequests()
-//            .antMatchers("/user/**").authenticated()
-//            .antMatchers(HttpMethod.DELETE, "/star/**").authenticated()
-//            .antMatchers(HttpMethod.PUT, "/star/**").authenticated()
+            .antMatchers("/user/**").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/star/**").authenticated()
+            .antMatchers(HttpMethod.PUT, "/star/**").authenticated()
 //            .access("isAuthenticated() or permitAll()")
-//            .antMatchers("/user/**", "/star/**", "/review/**").authenticated()
             .anyRequest().permitAll()
 
 //            .and()
@@ -71,12 +73,21 @@ open class SecurityConfig(
 //            .and()
 //            .successHandler(authSuccessHandler)
 //            .failureHandler(authFailHandler)
-//            .and()
-//            .logout()
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .clearAuthentication(true)
 //            .logoutSuccessHandler(logoutSuccessHandler)
 //            .permitAll()
 //            .and().sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
         return http.build()
+    }
+
+    @Bean
+    fun sessionRegistry(): SessionRegistry? {
+        return SessionRegistryImpl()
     }
 }
