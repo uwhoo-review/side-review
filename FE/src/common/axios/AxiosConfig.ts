@@ -13,7 +13,9 @@ export const UWAxios = {
   },
   contents: {
     async getContents(data: any) {
-      const res = await axiosBaseInstance.post<ContentsResDO>(`contents`, data);
+      console.log("api")
+
+      const res = await axiosBaseInstance.post<ContentsResDO>(`contents`, data );
       return res.data;
     },
     async getContentsDetail(id: string) {
@@ -75,6 +77,10 @@ export const UWAxios = {
       const res = await axiosBaseInstance.get<any>(`oauth2/authorization/naver`);
       return res.data;
     },
+    async logout() {
+      const res = await axiosBaseInstance.get<any>(`logout`);
+      return res.data;
+    },
   },
   star: {
     async postStart(id: string, data: any) {
@@ -95,8 +101,8 @@ export const UWAxios = {
     },
   },
   user: {
-    async getMypage(userId: string) {
-      const res = await axiosBaseInstance.get<any>(`user/${userId}`);
+    async getMypage() {
+      const res = await axiosBaseInstance.get<any>(`user`);
       return res.data;
     },
     async putNickName(userId: string, nickName: string) {
@@ -124,7 +130,9 @@ export const UWAxios = {
       return res.data;
     },
     async deleteMyContents(userId: string, contentId: string) {
-      const res = await axiosBaseInstance.delete<any>(`user/${userId}/contents?contentId=${contentId}`);
+      const res = await axiosBaseInstance.delete<any>(
+        `user/${userId}/contents?contentId=${contentId}`
+      );
       return res.data;
     },
     async putMyOtt(userId: string, data: any) {

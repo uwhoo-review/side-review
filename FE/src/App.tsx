@@ -34,8 +34,8 @@ const App = () => (
               <Route path={"naver"} element={<NaverRedirect />} />
               <Route path={"kakao"} element={<KakaoRedirect />} />
               <Route path={"google"} element={<GoogleRedirect />} />
-              <Route path={"redirect"} element={<Redirect />} />
             </Route>
+            <Route path={"redirect"} element={<Redirect />} />
             <Route path={"popular"} element={<PopularPage />} />
             <Route path={"recently"} element={<RecentlyPage />} />
             <Route path={"upcoming"} element={<UpcomingPage />} />

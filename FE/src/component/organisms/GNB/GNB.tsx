@@ -22,9 +22,6 @@ const GNB = (props: { children?: React.ReactNode }) => {
   const [pathVal, setPathVal] = useState("");
 
   useEffect(() => {
-    // const scrollDiv = document.querySelector("#root");
-    // setPathVal(pathname.split("/")[1]);
-
     const handleShowButton = () => {
       (window.scrollY || 0) === 0 ? setScrollTop(true) : setScrollTop(false);
     };
@@ -116,9 +113,6 @@ const GNB = (props: { children?: React.ReactNode }) => {
             </ClickAwayListener>
             {commonContext.isLogin ? (
               <>
-                {/*<HWIconButton customCss={styled.iconAlarm}>
-                  <IconAlarm width={"20px"} height={"20px"} />
-                </HWIconButton>*/}
                 <ProfileBox />
               </>
             ) : (

@@ -39,3 +39,4 @@ export interface ContentsResDO {
   latest: ContentDO[];
   popular: ContentDO[];
 }
+

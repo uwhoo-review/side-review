@@ -1,29 +1,29 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
+import { useCommon } from "@src/providers/CommonProvider";
+import { UWHOO_LOGIN } from "@src/variables/LoginConstants";
+import {setCookie} from "@src/tools/commonTools";
 
 export const axiosBaseInstance = axios.create({
-  // baseURL: "https://api.themoviedb.org/3",
-  // baseURL: "https://15.164.189.220:443",
   baseURL: "https://uwhoo-review.site/api",
+  withCredentials: true,
   headers: {
-    userId: null,
     mode: process.env.MODE,
-    // Authorization:
-    //   "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0OWJjZmNhOWZkNWY0NGQyMjZhYzgzMTU5NzZhY2ZkYyIsInN1YiI6IjY1MWUzMmE0M2QzNTU3MDExY2ZmZThhYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-uufjYqYRvt2OC66c1euvWmZdEOGy-gGvmRoQ1fP2AA",
   },
-});
-
-export const axiosAuthInstance = axios.create({
-  baseURL: "",
-  headers: {},
 });
 
 const AxiosInterceptor = ({ children }: any) => {
   const [isRender, setIsRender] = useState(false);
+  const commonContext = useCommon();
 
   useEffect(() => {
     const requestInterceptor = axiosBaseInstance.interceptors.request.use(
       async (config) => {
+        console.log("re", commonContext.loginSession)
+       if (config.headers) {
+          // const sessionId = commonContext.loginSession;
+          // // if (sessionId) config.headers.Cookie = `JSESSIONID=${sessionId}`;
+        }
         return config;
       },
       (error) => {
@@ -70,7 +70,7 @@ const AxiosInterceptor = ({ children }: any) => {
       axiosBaseInstance.interceptors.request.eject(requestInterceptor);
       axiosBaseInstance.interceptors.response.eject(responseInterceptor);
     };
-  }, []);
+  }, [commonContext.loginSession]);
 
   useEffect(() => {
     setIsRender(true);

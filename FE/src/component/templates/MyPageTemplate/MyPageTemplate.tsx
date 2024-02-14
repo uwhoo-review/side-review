@@ -9,14 +9,15 @@ import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 const MyPageTemplate = () => {
   const { userInfo } = useCommon();
 
-/*  const { status, data, error } = useQuery({
-    queryKey: ["user", userInfo.userId],
+  console.log(userInfo)
+  const { status, data, error } = useQuery({
+    queryKey: ["user", userInfo.id],
     queryFn: async () => {
-      const res = userInfo.userId && (await UWAxios.user.getMypage("59.8.169.4"));
+      const res = userInfo.id && (await UWAxios.user.getMypage());
       return res;
     },
     refetchOnWindowFocus: false,
-  });*/
+  });
 
 
   return (

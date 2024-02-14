@@ -9,45 +9,43 @@ const GoogleRedirect = () => {
   const code = new URL(window.location.href).searchParams.get("code") || ""; // 현재 URL에서 코드만 추출
   const state = new URL(window.location.href).searchParams.get("state") || ""; // 현재 URL에서 코드만 추출
   const navigate = useNavigate();
-  const { onHandleUserInfo, onHandleLogin } = useCommon();
+  const { onHandleUserInfo, onHandleLogin, onHandleLoginSession } = useCommon();
 
   // 컴포넌트가 마운트되면 로그인 로직 실행
   useEffect(() => {
     async function googleLogin() {
       const res = await UWAxios.login.getGoogleToken(code, process.env.GOOGLE_CALLBACK_URL || ""); // 이 부분은 서버 API에 따라 바뀔 수 있으니 API 명세서를 잘 확인하세요.
-      onHandleLogin(true);
 
-      const loginInfo = {
-        userId: res.id,
-        useName: res?.family_name + res?.given_name,
-        age: res?.age,
-        gender: res?.gender,
-        email: res?.email,
-        site: GOOGLE,
-        date: new Date(),
+      const userInfo = {
+        ...res.userInfoDto,
+        type: GOOGLE,
       };
-      onHandleUserInfo(loginInfo);
-      setCookie(
+      const sessionId = res.sessionId;
+
+      onHandleLogin(true);
+      onHandleLoginSession(sessionId);
+      onHandleUserInfo(userInfo);
+
+      sessionStorage.setItem(
         UWHOO_LOGIN,
         JSON.stringify({
           isLogin: true,
-          userInfo: loginInfo,
+          recentSite: GOOGLE,
+          sessionId: sessionId,
+          userInfo: userInfo,
+        })
+      );
+      // setCookie("JSESSIONID", sessionId, { maxAge: 3600 * 24 * 30 });
+      setCookie(
+        UWHOO_LOGIN,
+        JSON.stringify({
           recentSite: GOOGLE,
         }),
         { maxAge: 3600 * 24 * 30 }
       );
-      navigate("/", { replace: true }); // 로그인 완료시 메인으로 이동
-      /*      const loginInfo = {
-              userId: res.id,
-              useName: res.userName,
-              age: res.age,
-              gender: res.gender,
-              email: res.email,
-              site: NAVER,
-            };
-            onHandleUserInfo(loginInfo);
-            localStorage.setItem("login_info", JSON.stringify(loginInfo));
-            navigate("/", { replace: true }); // 로그인 완료시 메인으로 이동*/
+      // navigate("/", { replace: true });
+
+      // 로그인 완료시 메인으로 이동
     }
 
     googleLogin();

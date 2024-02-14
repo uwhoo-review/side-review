@@ -1,4 +1,4 @@
-import { createContext, createRef, useContext, useEffect, useRef, useState } from "react";
+import {createContext, createRef, useContext, useEffect, useLayoutEffect, useRef, useState} from "react";
 import styled from "./style";
 import HWAlert from "@src/component/atoms/HWAlert";
 import { FilterProps } from "@src/interfaces/common.interface";
@@ -16,14 +16,12 @@ export const useCommon = () => {
 
 export const CommonProvider = ({ children }: { children: React.ReactElement }) => {
   const [isLogin, setIsLogin] = useState(false);
+  const [loginSession, setLogoinSession] = useState("");
   const [userInfo, setUserInfo] = useState({
-    userId: "",
-    userName: "",
-    age: "",
-    gender: "",
-    email: "",
-    site: "",
-    date: null,
+    id: "",
+    nickname: "",
+    profile: "",
+    type: "",
   });
 
   const [alert, setAlert] = useState({
@@ -70,20 +68,24 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const onHandleFilterOpen = (v: boolean) => setIsFilterOpen(v);
   const onAlert = (item: any) => setAlert((prev) => ({ ...prev, ...item }));
   const onHandleUserInfo = (v: any) => setUserInfo((prev: any) => ({ ...prev, ...v }));
-  const onResetUserInfo = () =>
-    setUserInfo({ userId: "", userName: "", age: "", gender: "", email: "", site: "", date: null });
+  const onResetUserInfo = () => setUserInfo({ id: "", nickname: "", profile: "", type: "" });
   const onHandleLogin = (v: boolean) => setIsLogin(v);
+  const onHandleLoginSession = (v: string) => setLogoinSession(v);
 
-  useEffect(() => {
-    const loginInfoStr = getCookie(UWHOO_LOGIN);
+  useLayoutEffect(() => {
+    const loginInfoStr = sessionStorage.getItem(UWHOO_LOGIN);
     if (loginInfoStr) {
       const loginInfo = JSON.parse(loginInfoStr);
+      console.log(loginInfo)
       if (loginInfo.isLogin && loginInfo.userInfo !== null) {
         setIsLogin(true);
+        setLogoinSession(loginInfo.sessionId);
         setUserInfo({ ...loginInfo.userInfo });
       }
     }
   }, []);
+
+  console.log(userInfo)
 
   return (
     <CommonContext.Provider
@@ -97,6 +99,9 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
         searchRef,
         filterRef,
         onAlert,
+
+        onHandleLoginSession,
+        loginSession,
 
         filterState,
         onHandleFilter,

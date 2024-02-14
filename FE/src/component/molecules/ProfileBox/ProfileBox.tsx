@@ -10,6 +10,7 @@ import { setCookie } from "@src/tools/commonTools";
 import { GOOGLE, UWHOO_LOGIN } from "@src/variables/LoginConstants";
 import {useNavigate} from "react-router-dom";
 import img1 from "@res/temp/img5.png";
+import {UWAxios} from "@src/common/axios/AxiosConfig";
 
 const ProfileBox = () => {
   const commonContext = useCommon();
@@ -51,18 +52,11 @@ const ProfileBox = () => {
               <HWButton
                 variant={"secondary"}
                 customCss={styled.btn2}
-                onClick={() => {
-                  setCookie(
-                    UWHOO_LOGIN,
-                    JSON.stringify({
-                      isLogin: false,
-                      userInfo: null,
-                      recentSite: commonContext.userInfo.site,
-                    }),
-                    { maxAge: 3600 * 24 * 30 }
-                  );
+                onClick={async () => {
+                  sessionStorage.removeItem(UWHOO_LOGIN);
+                  await UWAxios.login.logout();
 
-                  window.location.reload();
+                  // window.location.reload();
                 }}
               >
                 <IconLogout width={"18px"} height={"18px"} />
