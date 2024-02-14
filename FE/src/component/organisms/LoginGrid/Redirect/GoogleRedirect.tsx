@@ -43,7 +43,7 @@ const GoogleRedirect = () => {
         }),
         { maxAge: 3600 * 24 * 30 }
       );
-      // navigate("/", { replace: true });
+      navigate("/", { replace: true });
 
       // 로그인 완료시 메인으로 이동
     }
