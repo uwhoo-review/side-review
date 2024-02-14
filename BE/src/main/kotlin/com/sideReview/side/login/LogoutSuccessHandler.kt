@@ -1,5 +1,6 @@
 package com.sideReview.side.login
 
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
 import org.springframework.stereotype.Component
@@ -13,7 +14,11 @@ class LogoutSuccessHandler : LogoutSuccessHandler {
         response: HttpServletResponse,
         authentication: Authentication
     ) {
-        val targetUrl = request.requestURI.split("/")[0]
-        response.sendRedirect(targetUrl)
+        val logger = LoggerFactory.getLogger(this::class.java)!!
+
+        val targetUrl = request.requestURL.split("/api/")[0]
+
+        logger.info("logout hander : $targetUrl")
+        response.sendRedirect("$targetUrl/redirect")
     }
 }

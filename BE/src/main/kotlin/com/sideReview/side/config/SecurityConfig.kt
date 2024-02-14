@@ -23,7 +23,7 @@ open class SecurityConfig(
 //    val oauth2UserService: Oauth2UserServiceImpl,
 //    val authSuccessHandler: AuthSuccessHandler,
 //    val authFailHandler: AuthFailHandler,
-//    val logoutSuccessHandler: LogoutSuccessHandler
+    val logoutSuccessHandler: LogoutSuccessHandler
 ) {
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource {
@@ -79,7 +79,7 @@ open class SecurityConfig(
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
             .clearAuthentication(true)
-//            .logoutSuccessHandler(logoutSuccessHandler)
+            .logoutSuccessHandler(logoutSuccessHandler)
 //            .permitAll()
 //            .and().sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
