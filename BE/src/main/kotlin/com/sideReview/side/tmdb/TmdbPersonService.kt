@@ -83,11 +83,14 @@ class TmdbPersonService @Autowired constructor(
         getAllPeople().forEach {
             try {
                 val personResponse: PeopleDetailResponse = tmdbClient.findOnePerson("Bearer $accessKey", it.id)
-                namesRepository.save(
-                    Names(
-                        personResponse.id, filterKorean(personResponse.also_known_as), personResponse.name
+                val koreanName = filterKorean(personResponse.also_known_as)
+                if( koreanName != "") {
+                    namesRepository.save(
+                        Names(
+                            personResponse.id, koreanName, personResponse.name
+                        )
                     )
-                )
+                }
             } catch (e: Exception) {
                 logger.info("An error occurred during person dictionary processing - $it.id")
             }
@@ -101,6 +104,7 @@ class TmdbPersonService @Autowired constructor(
         for (str in strings) {
             if (koreanRegex.containsMatchIn(str)) {
                 koreanName = str
+                break
             }
         }
 
