@@ -17,7 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
+import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 
 @Service
@@ -84,7 +86,8 @@ class LoginService(
 
     fun createOrUpdateSession(
         saveUser: UserInfo,
-        request: HttpServletRequest
+        request: HttpServletRequest,
+        response: HttpServletResponse
     ): ResponseEntity<String> {
         val userInfoDto = UserInfoDto(saveUser)
 
@@ -112,6 +115,13 @@ class LoginService(
 
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
+
+
+        // 쿠키 생성 및 설정
+        val cookie = Cookie("sessionId", httpSession.id)
+        cookie.maxAge = 3600 // 쿠키의 만료 시간 설정 (초 단위)
+        cookie.path = "/" // 쿠키의 유효 경로 설정
+        response.addCookie(cookie)
 
         val logAuth = SecurityContextHolder.getContext().authentication
         if (logAuth != null && logAuth.principal is UserInfoDto) {
