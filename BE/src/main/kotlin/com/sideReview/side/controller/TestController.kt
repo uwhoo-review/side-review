@@ -22,11 +22,7 @@ class TestController(
     @GetMapping("/init/person")
     fun getPeople(): ResponseEntity<Any> {
         return ResponseEntity.ok(
-            tmdbContentService.getMoreInfo(
-                tmdbContentService.getAllContentsFromPerson(
-                    tmdbPersonService.getAllPeople()
-                )
-            )
+            tmdbPersonService.getAllPeople()
         )
     }
 
