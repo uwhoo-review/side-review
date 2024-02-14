@@ -34,12 +34,14 @@ open class SecurityConfig(
         configuration.allowedOriginPatterns = listOf(
             "https://uwhoo-review.site",
             "https://localhost:3000",
-            "https://www.uwhoo-review.site"
+            "https://www.uwhoo-review.site",
+            "https://www.uwhoo-review.site/redirect"
         )
         configuration.allowedOrigins = listOf(
             "https://uwhoo-review.site",
             "https://localhost:3000",
-            "https://www.uwhoo-review.site"
+            "https://www.uwhoo-review.site",
+            "https://www.uwhoo-review.site/redirect"
         )
 
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
