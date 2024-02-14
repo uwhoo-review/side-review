@@ -158,8 +158,8 @@ class MyPageService(
             genre = if (user.preferGenre != null) MapperUtils.parseStringToList(user.preferGenre!!) else emptyList()
         )
         val report = Report(
-            avgRating = String.format("%.2f", userReport.avgRating).toFloat(),
-            maxRating = userReport.maxRating,
+            avgRating = if (userReport.avgRating != null) String.format("%.2f", userReport.avgRating).toFloat() else 0.0f,
+            maxRating = if (userReport.maxRating != null) userReport.maxRating else 0.0f,
             ratingCount = userReport.ratingCount?.toInt(),
             ratings = starRatingService.getRatingByUserId(userId),
             genreFrequency = evaluatingService.getCaptivatingGenre(user),
