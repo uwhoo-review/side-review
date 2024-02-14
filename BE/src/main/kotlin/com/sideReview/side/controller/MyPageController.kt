@@ -2,6 +2,7 @@ package com.sideReview.side.controller
 
 import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.login.LoginUser
+import com.sideReview.side.login.NickNameDuplicateException
 import com.sideReview.side.login.NicknameService
 import com.sideReview.side.mypage.MyPageService
 import com.sideReview.side.mypage.dto.FavoriteContentInputDto
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/user")
 class MyPageController(
-        val nicknameService: NicknameService,
-        val myPageService: MyPageService,
+    val nicknameService: NicknameService,
+    val myPageService: MyPageService,
 ) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
+
     @GetMapping
-    fun getMyPage(@LoginUser(required = false) user: UserInfoDto
+    fun getMyPage(
+        @LoginUser(required = false) user: UserInfoDto
     ): ResponseEntity<Any> {
         logger.info(user.toString())
         return ResponseEntity.ok(myPageService.getMyPage(user.id))
@@ -31,8 +34,11 @@ class MyPageController(
         @RequestParam name: String
     ): ResponseEntity<Any> {
         logger.info(user.toString())
-
-        nicknameService.editNickname(user.id, name)
+        try {
+            nicknameService.editNickname(user.id, name)
+        } catch (e: NickNameDuplicateException) {
+            return ResponseEntity.badRequest().body(e.message)
+        }
         return ResponseEntity(HttpStatus.OK)
     }
 

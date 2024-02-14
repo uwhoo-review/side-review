@@ -28,8 +28,7 @@ class NicknameService(private val userInfoRepository: UserInfoRepository) {
             userInfo.nickname = name
             userInfoRepository.save(userInfo)
         }else{
-            //TODO: 예외 처리
-            throw Exception("Duplicated nickname")
+            throw NickNameDuplicateException("Nickname update failed. Duplicated nickname")
         }
     }
     private fun readCsvCell(filePath: String, lineNumber: Int, columnIndex: Int): String? {
