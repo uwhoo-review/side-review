@@ -98,14 +98,15 @@ class MainContentsController @Autowired constructor(
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         runBlocking {
             val reDup = request.copy()
-            if (reDup.sort.isNullOrBlank()) reDup.sort = "popularity"
             if (reDup.query.isNullOrBlank()) {
+                if (reDup.sort.isNullOrBlank()) reDup.sort = "popularity"
                 reDup.tab = "sortFilter"
 
                 response = ResponseEntity.ok(
                     opensearchClient.getMatchContents(reDup)
                 )
             } else {
+                if (!reDup.sort.isNullOrBlank()) reDup.sort = null
                 when (type) {
                     "content" -> {
                         reDup.tab = "search"
