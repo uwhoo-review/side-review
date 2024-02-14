@@ -31,15 +31,13 @@ open class SecurityConfig(
 
         configuration.allowedOriginPatterns = listOf(
             "https://uwhoo-review.site",
-            "https://localhost",
-            "https://www.uwhoo-review.site",
-            "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
+            "https://localhost:3000",
+            "https://www.uwhoo-review.site"
         )
         configuration.allowedOrigins = listOf(
             "https://uwhoo-review.site",
-            "https://localhost",
-            "https://www.uwhoo-review.site",
-            "https://feature-frontend-main.d21476p4w1wok.amplifyapp.com"
+            "https://localhost:3000",
+            "https://www.uwhoo-review.site"
         )
 
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
@@ -60,7 +58,8 @@ open class SecurityConfig(
             .and()
             .formLogin().disable()
             .authorizeRequests()
-            .antMatchers("/user/**").authenticated()
+            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // pre-flight 요청 허용
+            .antMatchers("/user**").authenticated()
             .antMatchers(HttpMethod.DELETE, "/star/**").authenticated()
             .antMatchers(HttpMethod.PUT, "/star/**").authenticated()
 //            .access("isAuthenticated() or permitAll()")
