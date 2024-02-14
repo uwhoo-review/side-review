@@ -16,7 +16,8 @@ class LogoutSuccessHandler : LogoutSuccessHandler {
     ) {
         val logger = LoggerFactory.getLogger(this::class.java)!!
 
-        val targetUrl = request.requestURL.split("/api/")[0]
+        val targetUrl = request.getHeader("origin")
+//        val targetUrl = request.requestURL.split("/api/")[0]
 
         logger.info("logout hander : $targetUrl")
         response.sendRedirect("$targetUrl/redirect")
