@@ -96,7 +96,7 @@ open class SecurityConfig(
     fun cookieSerializer(): CookieSerializer {
         val serializer = DefaultCookieSerializer()
         serializer.setSameSite("None") // SameSite 설정
-        serializer.setUseSecureCookie(false) // HTTPS에서만 전송하도록 설정
+        serializer.setUseSecureCookie(true) // HTTPS에서만 전송하도록 설정
         return serializer
     }
 }
