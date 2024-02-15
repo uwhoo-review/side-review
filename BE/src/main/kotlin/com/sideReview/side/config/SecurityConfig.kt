@@ -1,9 +1,7 @@
 package com.sideReview.side.config
 
+import com.sideReview.side.login.CookieClearingHandler
 import com.sideReview.side.login.LogoutSuccessHandler
-import com.sideReview.side.login.oauth2.AuthFailHandler
-import com.sideReview.side.login.oauth2.AuthSuccessHandler
-import com.sideReview.side.login.oauth2.Oauth2UserServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -25,7 +23,8 @@ open class SecurityConfig(
 //    val oauth2UserService: Oauth2UserServiceImpl,
 //    val authSuccessHandler: AuthSuccessHandler,
 //    val authFailHandler: AuthFailHandler,
-    val logoutSuccessHandler: LogoutSuccessHandler
+    val logoutSuccessHandler: LogoutSuccessHandler,
+    val cookieClearingLogoutHandler: CookieClearingHandler
 ) {
     @Bean
     open fun corsConfigurationSource(): CorsConfigurationSource {
@@ -78,8 +77,8 @@ open class SecurityConfig(
             .logout()
             .logoutUrl("/logout")
             .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID")
             .clearAuthentication(true)
+            .addLogoutHandler(cookieClearingLogoutHandler) // 쿠키를 삭제하는 핸들러 추가
 //            .logoutSuccessUrl("/login/redirect")
             .logoutSuccessHandler(logoutSuccessHandler)
 //            .permitAll()
@@ -91,13 +90,5 @@ open class SecurityConfig(
     @Bean
     fun sessionRegistry(): SessionRegistry? {
         return SessionRegistryImpl()
-    }
-
-    @Bean
-    fun cookieSerializer(): CookieSerializer {
-        val serializer = DefaultCookieSerializer()
-        serializer.setSameSite("None") // SameSite 설정
-        serializer.setUseSecureCookie(true) // HTTPS에서만 전송하도록 설정
-        return serializer
     }
 }

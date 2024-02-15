@@ -73,6 +73,12 @@ server:
     context-path: /api
     session:
       timeout: 24h
+      cookie:
+        name: JSESSIONID
+        path: /
+        secure: true
+        http-only: true
+        same-site: none
 
 logging:
   config: classpath:logback-product.xml
