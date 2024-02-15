@@ -7,6 +7,7 @@ import com.sideReview.side.login.google.dto.GoogleRequest
 import com.sideReview.side.login.kakao.KakaoClient
 import com.sideReview.side.login.naver.NaverClientAuth
 import com.sideReview.side.login.naver.NaverClientProfile
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
@@ -80,8 +81,10 @@ class LoginController(
     @GetMapping("/logout")
     fun logout(request: HttpServletRequest, response: HttpServletResponse):ResponseEntity<String> {
 
+        val logger = LoggerFactory.getLogger(this::class.java)!!
+        logger.info("######## /logout api ############")
         // 세션 삭제
-        request.getSession(false).invalidate()
+        request.getSession(false)?.invalidate()
 
         // 기존 쿠키 삭제
         val cookieNames = arrayOf("JSESSIONID") // 여러 쿠키 이름이 있다면 추가
@@ -91,20 +94,12 @@ class LoginController(
             cookie.maxAge = 0
             cookie.secure = true
             cookie.isHttpOnly = true
-            cookieSerializer.setSameSite("Lax")
-            cookieSerializer.writeCookieValue(
-                CookieSerializer.CookieValue(
-                    request,
-                    response,
-                    cookie.value
-                )
-            )
+            cookieSerializer.setSameSite("None")
+            response.addCookie(cookie)
         }
 
         // 사용자 인증 정보 삭제
-        SecurityContextHolder.getContext().authentication = null
-        val securityContextLogoutHandler = SecurityContextLogoutHandler()
-        securityContextLogoutHandler.logout(request, response, null)
+        SecurityContextHolder.clearContext()
 
 
         // 새로운 쿠키 생성 및 응답에 추가

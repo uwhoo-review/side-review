@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.session.web.http.CookieSerializer
-import org.springframework.session.web.http.DefaultCookieSerializer
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -73,8 +71,9 @@ open class SecurityConfig(
 //            .and()
 //            .successHandler(authSuccessHandler)
 //            .failureHandler(authFailHandler)
-//            .and()
-//            .logout()
+            .and()
+            .logout()
+            .disable()
 //            .logoutUrl("/logout")
 //            .invalidateHttpSession(true)
 //            .clearAuthentication(true)
