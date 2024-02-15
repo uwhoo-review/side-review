@@ -73,14 +73,14 @@ open class SecurityConfig(
 //            .and()
 //            .successHandler(authSuccessHandler)
 //            .failureHandler(authFailHandler)
-            .and()
-            .logout()
-            .logoutUrl("/logout")
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .addLogoutHandler(cookieClearingLogoutHandler) // 쿠키를 삭제하는 핸들러 추가
+//            .and()
+//            .logout()
+//            .logoutUrl("/logout")
+//            .invalidateHttpSession(true)
+//            .clearAuthentication(true)
+//            .addLogoutHandler(cookieClearingLogoutHandler) // 쿠키를 삭제하는 핸들러 추가
 //            .logoutSuccessUrl("/login/redirect")
-            .logoutSuccessHandler(logoutSuccessHandler)
+//            .logoutSuccessHandler(logoutSuccessHandler)
 //            .permitAll()
 //            .and().sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);

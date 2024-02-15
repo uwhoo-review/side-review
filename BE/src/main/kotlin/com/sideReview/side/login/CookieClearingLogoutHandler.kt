@@ -15,10 +15,12 @@ class CookieClearingHandler() : LogoutHandler {
         authentication: Authentication?
     ) {
         // 쿠키 삭제
+        // 여기서 쿠키를 설정하거나 다룰 수 있음
         val cookie = Cookie("JSESSIONID", null)
+        cookie.path = "/"
         cookie.maxAge = 0
-        cookie.path = "/" // 쿠키의 Path를 설정
-
+        cookie.secure = true
+        cookie.isHttpOnly = true
         response.addCookie(cookie)
     }
 }
