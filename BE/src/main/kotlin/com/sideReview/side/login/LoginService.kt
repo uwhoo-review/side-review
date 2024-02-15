@@ -120,15 +120,15 @@ class LoginService(
 
 
         // 쿠키 생성 및 설정
-//        val sessionCookie = ResponseCookie
-//            .from("JSESSIONID", httpSession.id)
-//            .maxAge(3600)
-//            .httpOnly(true)
-//            .secure(true) // HTTPS에서만 전송하도록 설정
-//            .sameSite("None") // SameSite 설정
-//            .path("/")
-//            .build()
-//        response.addHeader(HttpHeaders.SET_COOKIE, sessionCookie.toString())
+        val sessionCookie = ResponseCookie
+            .from("JSESSIONID", httpSession.id)
+            .maxAge(3600)
+            .httpOnly(true)
+            .secure(true) // HTTPS에서만 전송하도록 설정
+            .sameSite("None") // SameSite 설정
+            .path("/")
+            .build()
+        response.addHeader(HttpHeaders.SET_COOKIE, sessionCookie.toString())
 
         val logAuth = SecurityContextHolder.getContext().authentication
         if (logAuth != null && logAuth.principal is UserInfoDto) {
