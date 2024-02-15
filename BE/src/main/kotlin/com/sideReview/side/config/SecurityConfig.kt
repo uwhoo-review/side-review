@@ -80,7 +80,7 @@ open class SecurityConfig(
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
             .clearAuthentication(true)
-            .logoutSuccessHandler(logoutSuccessHandler)
+//            .logoutSuccessHandler(logoutSuccessHandler)
 //            .permitAll()
 //            .and().sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
