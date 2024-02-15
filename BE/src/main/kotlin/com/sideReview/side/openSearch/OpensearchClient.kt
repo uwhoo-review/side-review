@@ -366,8 +366,10 @@ class OpensearchClient(
                 }
             } else {
                 val contentIdList : MutableList<String> = mutableListOf()
-                if (it.cast?.size !=0)
-                    contentIdList.addAll(it.cast!!.map { it.contentId })
+                if (it.cast?.size != 0){
+                    val idList = it.cast!!.map { it.contentId }
+                    contentIdList.addAll(idList)
+                }
                 for (element in contentIdList) {
                     if (idRatingMap.containsKey(element)) {
                         val triple =
@@ -378,7 +380,7 @@ class OpensearchClient(
                 }
             }
         }
-        return Pair(first = actorList, second = directorList)
+        return Pair(first = actorList?: emptyList(), second = directorList?: emptyList())
     }
 
     fun Calendar.addDate(addFun: Int?, addParam: Int?): String {
