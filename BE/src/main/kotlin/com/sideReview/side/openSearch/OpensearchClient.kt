@@ -365,7 +365,9 @@ class OpensearchClient(
                     }
                 }
             } else {
-                val contentIdList = it.cast!!.map { it.contentId }
+                val contentIdList : MutableList<String> = mutableListOf()
+                if (it.cast?.size !=0)
+                    contentIdList.addAll(it.cast!!.map { it.contentId })
                 for (element in contentIdList) {
                     if (idRatingMap.containsKey(element)) {
                         val triple =
