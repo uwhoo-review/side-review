@@ -21,7 +21,7 @@ class LogoutSuccessHandler : LogoutSuccessHandler {
 
         logger.info("logout hander : $targetUrl")
         response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Credentials", "false");
         response.sendRedirect("$targetUrl/redirect")
     }
 }
