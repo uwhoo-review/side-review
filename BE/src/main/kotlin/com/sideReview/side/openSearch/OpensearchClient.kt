@@ -366,8 +366,9 @@ class OpensearchClient(
                 }
             } else {
                 val contentIdList : MutableList<String> = mutableListOf()
-                if (it.cast?.size != 0){
-                    val idList = it.cast!!.map { it.contentId }
+                if (it.cast != null){
+                    val idList = it.cast!!.map {
+                        item -> item.contentId }
                     contentIdList.addAll(idList)
                 }
                 for (element in contentIdList) {
