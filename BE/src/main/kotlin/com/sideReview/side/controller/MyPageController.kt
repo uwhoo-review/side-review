@@ -162,11 +162,23 @@ class MyPageController(
 
     @GetMapping("/review")
     fun getAllReviewsByWriterId(
+        @LoginUser(required = false) user: UserInfoDto,
         @RequestParam(required = false, defaultValue = "0") page: String,
-        @RequestParam(required = false, defaultValue = "6") size: String,
-        @PathVariable userId: String
+        @RequestParam(required = false, defaultValue = "6") size: String
     ): ResponseEntity<Any> {
         val pageable = PageRequest.of(page.toInt(), size.toInt())
-        return ResponseEntity.ok(reviewService.gerReviewsByWriterId(userId, pageable))
+        return ResponseEntity.ok(reviewService.gerReviewsByWriterId(user.id, pageable))
     }
+/*
+    @GetMapping("/star")
+    fun getAllRatingsByWriterId(
+        @LoginUser(required = false) user: UserInfoDto,
+        @RequestParam(required = false, defaultValue = "0") page: String,
+        @RequestParam(required = false, defaultValue = "6") size: String
+    ): ResponseEntity<Any> {
+        val pageable = PageRequest.of(page.toInt(), size.toInt())
+        return ResponseEntity.ok(reviewService.gerReviewsByWriterId(user.id, pageable))
+    }
+
+ */
 }
