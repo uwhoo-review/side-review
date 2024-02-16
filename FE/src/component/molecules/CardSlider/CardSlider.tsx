@@ -18,7 +18,7 @@ const CardSlider = ({ cardList, onClose }: any) => {
   const [firstIdx, setFirstIdx] = useState(1);
   const [lastIdx, setLastIdx] = useState(5);
   const [translateX, setTranslateX] = useState(0);
-  const [cards, setCards] = useState(cardList);
+  const [cards, setCards] = useState<any>([]);
 
   const onPrevHandler = () => {
     if (currentPage === 1) {
@@ -89,6 +89,11 @@ const CardSlider = ({ cardList, onClose }: any) => {
     setTranslateX(x);
   }, [firstIdx]);
 
+  useEffect(() => {
+    setCards(cardList);
+    // console.log(cardList)
+  },[cardList])
+
   return (
     <div css={styled.cardSlider(currentPage, TOTAL_PAGE)}>
       <CarouselArrow
@@ -126,7 +131,7 @@ const CardSlider = ({ cardList, onClose }: any) => {
                 moveCard={moveCard}
                 findCard={findCard}
                 isHoverScale={false}
-                rank={v.rank}
+                rank={(i+1) < 4 ? i+1 : undefined}
               />
             </div>
           );

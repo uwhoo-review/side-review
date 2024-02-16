@@ -58,6 +58,12 @@ const AccordionContents = ({ contentsList }: any) => {
     }
   }, [isModalOpen]);
 
+  useEffect(() => {
+    console.log(contents)
+  },[contents])
+
+
+
   return (
     <>
       <MenuAccordion
@@ -89,8 +95,9 @@ const AccordionContents = ({ contentsList }: any) => {
             <div css={styled.rightBox}>
               <CardSlider
                 cardList={contents}
-                onClose={(id: string) => {
-                  console.log(id);
+                onClose={async (id: string) => {
+                  await UWAxios.user.deleteMyContents(id);
+                  setContents((prev: any) => [...prev.filter((v: any) => v.id !== id)]);
                 }}
               />
             </div>
@@ -179,12 +186,10 @@ const AccordionContents = ({ contentsList }: any) => {
                             subTitle={sub.join(" ∙ ")}
                             rating={v.rating}
                             onClick={async () => {
-                              const dataSet = {
-                                contentId: v.id,
-                              };
-                              // const res = await UWAxios.user.putMyContents([dataSet]);
+                              const res = await UWAxios.user.addMyContents(v.id);
                               // console.log(res);
-                              // setContents((prev:any) => [...prev, v]);
+                              setContents((prev:any) => [...prev, res]);
+                              setIsModalOpen(false);
                             }}
                           />
                         );

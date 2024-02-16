@@ -13,9 +13,9 @@ export const UWAxios = {
   },
   contents: {
     async getContents(data: any) {
-      console.log("api")
+      console.log("api");
 
-      const res = await axiosBaseInstance.post<ContentsResDO>(`contents`, data );
+      const res = await axiosBaseInstance.post<ContentsResDO>(`contents`, data);
       return res.data;
     },
     async getContentsDetail(id: string) {
@@ -105,17 +105,17 @@ export const UWAxios = {
       const res = await axiosBaseInstance.get<any>(`user`);
       return res.data;
     },
-    async putNickName( nickName: string) {
+    async putNickName(nickName: string) {
       const res = await axiosBaseInstance.put<any>(`user?name=${nickName}`);
       return res.data;
     },
-    async getMyContents( keyword: string, page: number, size: number) {
+    async getMyContents(keyword: string, page: number, size: number) {
       const res = await axiosBaseInstance.get<any>(
         `user/contents?keyword=${keyword}&page=${page}&size=${size}`
       );
       return res.data;
     },
-    async getMyPerson( keyword: string, page: number, size: number) {
+    async getMyPerson(keyword: string, page: number, size: number) {
       const res = await axiosBaseInstance.get<any>(
         `user/person?keyword=${keyword}&page=${page}&size=${size}`
       );
@@ -129,13 +129,15 @@ export const UWAxios = {
       const res = await axiosBaseInstance.put<any>(`user`, data);
       return res.data;
     },
-    async deleteMyContents(contentId: string) {
-      const res = await axiosBaseInstance.delete<any>(
-        `user/contents?contentId=${contentId}`
-      );
+    async addMyContents(contentId: string) {
+      const res = await axiosBaseInstance.post<any>(`user/contents?contentId=${contentId}`);
       return res.data;
     },
-    async putMyOtt( data: any) {
+    async deleteMyContents(contentId: string) {
+      const res = await axiosBaseInstance.delete<any>(`user/contents?contentId=${contentId}`);
+      return res.data;
+    },
+    async putMyOtt(data: any) {
       const res = await axiosBaseInstance.put<any>(`user/ott`, data);
       return res.data;
     },
