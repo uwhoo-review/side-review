@@ -33,10 +33,10 @@ class MyPageService(
     ): FavoriteContentSearchPageDto {
         val contents = opensearchClient.getContents(keyword, page, size)
         contents.content.forEach {
-            it.rating = userStarRatingRepository.findOneByTargetIdAndWriterId(
+            val rating = userStarRatingRepository.findOneByTargetIdAndWriterId(
                 it.id,
-                userId
-            )?.rating.toString()
+                userId)
+            it.rating = rating?.rating?: 0.0f
         }
         return contents
     }
