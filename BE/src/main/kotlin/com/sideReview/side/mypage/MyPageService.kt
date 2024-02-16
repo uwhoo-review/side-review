@@ -11,14 +11,15 @@ import com.sideReview.side.mypage.repository.UserFavoritePersonRepository
 import com.sideReview.side.mypage.repository.UserReportRepository
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.review.StarRatingService
-import com.sideReview.side.review.UserStarRatingRepository
+import com.sideReview.side.review.dto.PageRatedContentDto
+import com.sideReview.side.review.dto.RatedContentDto
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MyPageService(
     val opensearchClient: OpensearchClient,
-    val userStarRatingRepository: UserStarRatingRepository,
     val userFavoritePersonRepository: UserFavoritePersonRepository,
     val userInfoRepository: UserInfoRepository,
     val userFavoriteContentRepository: UserFavoriteContentRepository,
@@ -34,10 +35,7 @@ class MyPageService(
     ): FavoriteContentSearchPageDto {
         val contents = opensearchClient.getContents(keyword, page, size)
         contents.content.forEach {
-            val rating = userStarRatingRepository.findOneByTargetIdAndWriterId(
-                it.id,
-                userId)
-            it.rating = rating?.rating?: 0.0f
+            it.rating = starRatingService.getRatingByUserIdAndTargetId(it.id, userId)
         }
         return contents
     }
@@ -152,6 +150,31 @@ class MyPageService(
                 userInfo = user
             )
         )
+    }
+    fun getMyRating(userId: String, pageable: PageRequest): PageRatedContentDto{
+        val ratedContentDtoList : MutableList<RatedContentDto> = mutableListOf()
+        val pageDto = starRatingService.getRatingsByWriterId(userId, pageable)
+        val contentIdList = pageDto.contents.map { it.id }
+        val docList = opensearchClient.getAllContents(contentIdList)
+
+        val dtoMap = pageDto.contents.associateBy { it.id }
+        val docMap = docList.associateBy { it.id }
+
+        contentIdList.forEach{
+            val dto = dtoMap[it]
+            val doc = docMap[it]
+
+            ratedContentDtoList.add(
+                RatedContentDto(
+                    id = it,
+                    name = doc!!.name,
+                    poster = doc.poster?: "",
+                    userRating = dto!!.userRating
+                )
+            )
+        }
+
+        return PageRatedContentDto(ratedContentDtoList, pageDto.pageInfo)
     }
 
     fun getMyPage(userId: String): MyPageDto {

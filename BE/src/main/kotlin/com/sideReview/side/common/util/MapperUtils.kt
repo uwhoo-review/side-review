@@ -16,8 +16,10 @@ import com.sideReview.side.mypage.dto.FavoriteContentInputDto
 import com.sideReview.side.mypage.dto.FavoriteContentSearchDto
 import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
+import com.sideReview.side.review.dto.RatedContentDto
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.entity.UserReview
+import com.sideReview.side.review.entity.UserStarRating
 import com.sideReview.side.tmdb.dto.*
 import java.lang.reflect.Type
 
@@ -362,5 +364,16 @@ object MapperUtils {
             profile = user.profile,
             type = user.loginType
         )
+    }
+
+    fun mapRatingEntityToRatedContentDto(ratingList : List<UserStarRating>): List<RatedContentDto>{
+        return ratingList.map {
+            RatedContentDto(
+                id = it.targetId,
+                name = "",
+                poster = "",
+                userRating = it.rating
+            )
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.sideReview.side.mypage.MyPageService
 import com.sideReview.side.tmdb.TmdbContentService
 import com.sideReview.side.tmdb.TmdbPersonService
 import kotlinx.coroutines.runBlocking
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -34,9 +35,10 @@ class TestController(
     @GetMapping("/page")
     fun getPage(): ResponseEntity<Any> {
         var response: ResponseEntity<Any>
+        val pageable = PageRequest.of(0, 6)
         runBlocking {
             response =
-                ResponseEntity.ok(myPageService.getKeywordContent("110383138275584860058", "나는", 1, 6))
+                ResponseEntity.ok(myPageService.getMyRating("110383138275584860058", pageable))
         }
         return response
     }

@@ -167,9 +167,9 @@ class MyPageController(
         @RequestParam(required = false, defaultValue = "6") size: String
     ): ResponseEntity<Any> {
         val pageable = PageRequest.of(page.toInt(), size.toInt())
-        return ResponseEntity.ok(reviewService.gerReviewsByWriterId(user.id, pageable))
+        return ResponseEntity.ok(reviewService.getReviewsByWriterId(user.id, pageable))
     }
-/*
+
     @GetMapping("/star")
     fun getAllRatingsByWriterId(
         @LoginUser(required = false) user: UserInfoDto,
@@ -177,8 +177,6 @@ class MyPageController(
         @RequestParam(required = false, defaultValue = "6") size: String
     ): ResponseEntity<Any> {
         val pageable = PageRequest.of(page.toInt(), size.toInt())
-        return ResponseEntity.ok(reviewService.gerReviewsByWriterId(user.id, pageable))
+        return ResponseEntity.ok(myPageService.getMyRating(user.id, pageable))
     }
-
- */
 }

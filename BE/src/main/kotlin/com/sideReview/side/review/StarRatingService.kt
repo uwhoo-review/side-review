@@ -1,12 +1,14 @@
 package com.sideReview.side.review
 
+import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.common.repository.UserInfoRepository
+import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.Rating
-import com.sideReview.side.review.dto.StarRatingCreateDto
-import com.sideReview.side.review.dto.StarRatingUpdateDto
+import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserStarRating
 import com.sideReview.side.review.exception.StarRatingSaveDuplicateException
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -85,5 +87,25 @@ class StarRatingService(
         val countMap = userStarRatingList.groupBy { it.rating }.mapValues { it.value.size }
 
         return countMap.entries.map { Rating(it.key, it.value) }
+    }
+
+    fun getRatingByUserIdAndTargetId(contentId: String, userId: String): Float {
+        val rating = userStarRatingRepository.findOneByTargetIdAndWriterId(
+            contentId,
+            userId
+        )
+        return rating?.rating?: 0.0f
+    }
+
+    fun getRatingsByWriterId(userId: String, pageable: PageRequest): PageRatedContentDto {
+        val userRating = userStarRatingRepository.findAllByWriterId(userId, pageable)
+        val ratedContentDtoList = MapperUtils.mapRatingEntityToRatedContentDto(userRating.content)
+        val totalPages = userRating.totalPages
+        val totalElements = userRating.totalElements.toInt()
+
+        return PageRatedContentDto(
+            ratedContentDtoList,
+            PageInfoDto(totalElements, totalPages, pageable.pageNumber)
+        )
     }
 }

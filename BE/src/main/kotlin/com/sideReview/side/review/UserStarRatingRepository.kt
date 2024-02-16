@@ -1,7 +1,8 @@
 package com.sideReview.side.review
 
 import com.sideReview.side.review.entity.UserStarRating
-import org.apache.catalina.User
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -13,4 +14,6 @@ interface UserStarRatingRepository : JpaRepository<UserStarRating, Int>{
     fun existsByTargetIdAndWriterId(contentId: String, writerId: String) : Boolean
     fun findByWriterIdAndRatingGreaterThan(writerId: String, rating: Float) : List<UserStarRating>
     fun findAllByWriterId(writerId: String) : List<UserStarRating>
+    fun findAllByWriterId(writerId: String, pageable: Pageable): Page<UserStarRating>
+    fun countAllByWriterId(writerId: String): Int
 }
