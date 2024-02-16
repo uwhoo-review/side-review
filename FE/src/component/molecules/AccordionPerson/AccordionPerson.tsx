@@ -18,20 +18,19 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 
-const AccordionPerson = () => {
+const AccordionPerson = ({ personList }: any) => {
   const PAGE_SIZE = 10;
   const [open, setOpen] = useState(true);
+  const [person, setPerson] = useState(personList);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [page, setPage] = useState(1);
   const [isSearch, setIsSearch] = useState(false);
 
-  const userId = "PwoRK3jACUc2LairkizG5J8M9zmpUaZ6k0Dk0DOSO1A";
-
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["mypage", "search", "person", page, PAGE_SIZE],
     queryFn: async ({ queryKey }: any) => {
-      return await UWAxios.user.getMyPerson(userId, searchVal, page, PAGE_SIZE);
+      return await UWAxios.user.getMyPerson(searchVal, page, PAGE_SIZE);
     },
     refetchOnWindowFocus: false,
     enabled: isSearch,
@@ -72,23 +71,7 @@ const AccordionPerson = () => {
               </HWTypography>
             </div>
             <div css={styled.rightBox}>
-              <CardSliderPerson
-                cardList={[
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                  DUMMY_PERSON,
-                ]}
-              />
+              <CardSliderPerson cardList={person} />
             </div>
           </div>
         </div>
@@ -163,6 +146,11 @@ const AccordionPerson = () => {
                             src={getCardURL({ type: "content", srcId: v.profilePath })}
                             id={v.id}
                             title={v.name}
+                            onClick={async () => {
+                              const res = await UWAxios.user.putMyPerson(v.id);
+                              setPerson((prev: any) => [...prev, res]);
+                              setIsModalOpen(false);
+                            }}
                           />
                         );
                       })}

@@ -69,7 +69,7 @@ export default {
     font-size: 24px !important;
     //z-index: 1;
   `,
-  imgWrapper: (active: boolean, isOver: boolean) => css`
+  imgWrapper: (active: boolean, isOver: boolean, isHoverScale: boolean) => css`
     width: ${active ? "216px" : "196px"};
     height: ${active ? "324px" : "294px"};
 
@@ -80,11 +80,11 @@ export default {
     margin-bottom: 10px;
     position: relative;
 
-     opacity: ${isOver ? 0.5 : 1};
+    opacity: ${isOver ? 0.5 : 1};
     // border-left: ${isOver ? "1px solid yellow" : "none"};
     &:hover {
       img {
-        transform: scale(1.1);
+        transform: ${isHoverScale ? "scale(1.1)" : "none"};
       }
     }
   `,

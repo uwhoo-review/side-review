@@ -7,8 +7,8 @@ import { IconQuestion } from "@res/index";
 import img1 from "@res/temp/img5.png";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 
-const MyPageProfile = () => {
-  const [nickName, setNickName] = useState<string>("");
+const MyPageProfile = ({user}:any) => {
+  const [nickName, setNickName] = useState<string>(user.nickname);
 
   return (
     <div css={styled.wrapper}>

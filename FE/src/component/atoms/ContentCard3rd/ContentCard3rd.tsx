@@ -2,9 +2,9 @@ import styled from "./style";
 import { IconRating, IconStar } from "@res/index";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 
-const ContentCard3rd = ({ type, src, title, subTitle, rating }: any) => {
+const ContentCard3rd = ({ type, src, title, subTitle, rating, onClick, rank}: any) => {
   return (
-    <div css={styled.wrapper}>
+    <div css={styled.wrapper} onClick={onClick}>
       <div css={styled.box1}>
         <img src={src} css={styled.img} />
       </div>

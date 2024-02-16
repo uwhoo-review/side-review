@@ -5,19 +5,20 @@ import AccordionPerson from "@src/component/molecules/AccordionPerson/AccordionP
 import AccordionGenre from "@src/component/molecules/AccordionGenre/AccordionGenre";
 import AccordionReport from "@src/component/molecules/AccordionReport/AccordionReport";
 import styled from "./style";
-import {useRef} from "react";
+import { useRef, useState } from "react";
 
-const MyPageContent = () => {
-
+const MyPageContent = ({ data }: any) => {
+  const [favorite, setFavorit] = useState(data.favorite);
+  const [report, setReport] = useState(data.report);
+  const [ott, setOtt] = useState(data.ott);
   return (
     <div className={"mypage-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
-        <AccordionSubscribe />
-        <AccordionContents />
-        <AccordionPerson />
-        <AccordionGenre />
-        <AccordionReport />
-
+        <AccordionSubscribe ott={ott} />
+        <AccordionContents contentsList={favorite.contents} />
+        <AccordionPerson personList={favorite.person} />
+        <AccordionGenre genreList={favorite.genre} />
+        <AccordionReport report={report} />
       </CenterWrapper>
     </div>
   );

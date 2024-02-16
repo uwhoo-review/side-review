@@ -15,7 +15,7 @@ interface ContentCardProps {
   id: string;
   srcId: string;
   contentName: string;
-  platform: number[];
+  platform?: number[];
   className?: string;
   age?: string;
   date: string;
@@ -28,13 +28,14 @@ interface ContentCardProps {
   moveCard?: (dragId: string, hoverId: string) => void;
   findCard?: any;
   customCss?: SerializedStyles;
+  isHoverScale?: boolean;
 }
 const ContentCard = ({
   id,
   srcId,
   contentName,
   rating,
-  platform,
+  platform = [],
   age,
   date,
   launch = true,
@@ -46,6 +47,7 @@ const ContentCard = ({
   active,
   moveCard,
   findCard,
+  isHoverScale = true,
   ...props
 }: ContentCardProps) => {
   const navigate = useNavigate();
@@ -118,7 +120,7 @@ const ContentCard = ({
       }}
       {...props}
     >
-      <div className={`card-box`} css={styled.imgWrapper(active, isOver)}>
+      <div className={`card-box`} css={styled.imgWrapper(active, isOver, isHoverScale)}>
         {rank && rank < 100 && <div css={styled.rank}>{rank}</div>}
         <DefaultImage
           width="100%"

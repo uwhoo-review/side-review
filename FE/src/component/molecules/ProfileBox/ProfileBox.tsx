@@ -8,9 +8,9 @@ import { IconApple, IconLogout, IconMyPage } from "@res/index";
 import { useCommon } from "@src/providers/CommonProvider";
 import { setCookie } from "@src/tools/commonTools";
 import { GOOGLE, UWHOO_LOGIN } from "@src/variables/LoginConstants";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import img1 from "@res/temp/img5.png";
-import {UWAxios} from "@src/common/axios/AxiosConfig";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
 
 const ProfileBox = () => {
   const commonContext = useCommon();
@@ -53,10 +53,11 @@ const ProfileBox = () => {
                 variant={"secondary"}
                 customCss={styled.btn2}
                 onClick={async () => {
-                  sessionStorage.removeItem(UWHOO_LOGIN);
-                  await UWAxios.login.logout();
-
-                  // window.location.reload();
+                  const res = await UWAxios.login.logout();
+                  if (res === "logout success") {
+                    sessionStorage.removeItem(UWHOO_LOGIN);
+                    window.location.reload();
+                  }
                 }}
               >
                 <IconLogout width={"18px"} height={"18px"} />

@@ -10,7 +10,7 @@ import DonutChartApex from "@src/component/atoms/DonutChartApex/DonutChartApex";
 import { IconArrowRight } from "@res/index";
 import ContentCardSec from "@src/component/atoms/ContentCardSec/ContentCardSec";
 
-const AccordionReport = () => {
+const AccordionReport = ({report}:any) => {
   const [open, setOpen] = useState(true);
   return (
     <MenuAccordion

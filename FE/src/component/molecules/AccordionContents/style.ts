@@ -67,7 +67,7 @@ export default {
   box3: css`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 4px;
     margin-top: 8px;

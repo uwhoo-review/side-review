@@ -34,11 +34,17 @@ export default {
     transition: 0.5s ease transform;
     transform: translateX(${translateX}px);
     gap: ${active ? "40px" : "20px"};
+
     .content-slide {
+      position: relative;
+      &:hover {
+        .content-close-button {
+          display: inline-flex;
+        }
+      }
     }
   `,
   card: css`
-    cursor: pointer;
     opacity: 1;
   `,
   leftPageBtn: css`
@@ -82,5 +88,18 @@ export default {
   `,
   dotPagination: css`
     //float: right;
+  `,
+  closeButton: css`
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: #fff;
+    padding: 3px;
+    background-color: #000;
+    display: none;
+    z-index: 2;
+    &:hover {
+      background-color: #fff;
+    }
   `,
 };

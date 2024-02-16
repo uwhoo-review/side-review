@@ -7,10 +7,10 @@ import { GENRE_ID, GENRE_ID_NAME, GENRE_NAME } from "@src/variables/CommonConsta
 import { IconCheck } from "@res/index";
 import HWDialog from "@src/component/atoms/HWDialog";
 
-const AccordionGenre = () => {
+const AccordionGenre = ({genreList}:any) => {
   const [open, setOpen] = useState(true);
 
-  const [genre, setGenre] = useState([80, 99, 18, 10751, 10762, 9648, 10763]);
+  const [genre, setGenre] = useState<number[]>(genreList);
   const props = (v: number) => {
     const idx = genre.indexOf(v);
     return {

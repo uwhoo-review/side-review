@@ -7,7 +7,6 @@ import Color from "@src/common/styles/Color";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCardURL } from "@src/tools/commonTools";
-import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import { RatingDO, SeasonDO } from "@src/interfaces/api.interface";
 
 interface ContentCardProps {

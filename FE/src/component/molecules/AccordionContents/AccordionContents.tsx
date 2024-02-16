@@ -31,20 +31,21 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useQuery } from "@tanstack/react-query";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 
-const AccordionContents = () => {
+const AccordionContents = ({ contentsList }: any) => {
   const PAGE_SIZE = 10;
   const userId = "PwoRK3jACUc2LairkizG5J8M9zmpUaZ6k0Dk0DOSO1A";
 
   const [open, setOpen] = useState(true);
+  const [contents, setContents] = useState(contentsList.sort((a: any, b: any) => a.rank - b.rank));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [page, setPage] = useState(1);
   const [isSearch, setIsSearch] = useState(false);
 
-  const {data , isLoading, error, refetch} = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["mypage", "search", "content", page, PAGE_SIZE],
     queryFn: async ({ queryKey }: any) => {
-      return await UWAxios.user.getMyContents(userId, searchVal, page, PAGE_SIZE);
+      return await UWAxios.user.getMyContents(searchVal, page, PAGE_SIZE);
     },
     refetchOnWindowFocus: false,
     enabled: isModalOpen && isSearch,
@@ -87,7 +88,10 @@ const AccordionContents = () => {
             </div>
             <div css={styled.rightBox}>
               <CardSlider
-                cardList={[DUMMY_CONTENT, DUMMY_CONTENT2, DUMMY_CONTENT3, DUMMY_CONTENT4]}
+                cardList={contents}
+                onClose={(id: string) => {
+                  console.log(id);
+                }}
               />
             </div>
           </div>
@@ -174,6 +178,14 @@ const AccordionContents = () => {
                             title={v.name}
                             subTitle={sub.join(" ∙ ")}
                             rating={v.rating}
+                            onClick={async () => {
+                              const dataSet = {
+                                contentId: v.id,
+                              };
+                              // const res = await UWAxios.user.putMyContents([dataSet]);
+                              // console.log(res);
+                              // setContents((prev:any) => [...prev, v]);
+                            }}
                           />
                         );
                       })}
@@ -190,15 +202,11 @@ const AccordionContents = () => {
                   </HWIconButton>
                   <div>
                     <HWTypography variant={"bodyXS"} color={"#84838D"}>
-                      Page {data?.pageInfo.page} of{" "}
-                      {data?.pageInfo.totalPages}
+                      Page {data?.pageInfo.page} of {data?.pageInfo.totalPages}
                     </HWTypography>
                   </div>
                   <HWIconButton
-                    disabled={
-                      data?.pageInfo.page ===
-                      data?.pageInfo.totalPages
-                    }
+                    disabled={data?.pageInfo.page === data?.pageInfo.totalPages}
                     onClick={() => {
                       setPage(page + 1);
                     }}

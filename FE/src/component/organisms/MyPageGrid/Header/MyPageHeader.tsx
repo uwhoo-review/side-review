@@ -7,12 +7,12 @@ import MyPageGNB from "@src/component/organisms/GNB/MyPageGNB";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import MyFootPrints from "@src/component/molecules/MyFootPrints/MyFootPrints";
 
-const MyPageHeader = () => {
+const MyPageHeader = ({data}:any) => {
   return (
     <div className={"mypage-header-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
         <div css={styled.subWrapper}>
-          <MyPageProfile />
+          <MyPageProfile user={data.user} />
           <MyPageInfo
             topText={
               <>

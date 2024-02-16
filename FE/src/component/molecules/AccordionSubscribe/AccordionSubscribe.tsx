@@ -1,22 +1,19 @@
 import styled from "./style";
 import MenuAccordion from "@src/component/atoms/MenuAccordion/MenuAccordion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
 import { IconApple, IconDisney, IconNetflix, IconWatcha, IconWavve } from "@res/index";
 import { PLATFORM_ID_NAME, PLATFORM_NAME } from "@src/variables/CommonConstants";
 import { PlatformConstants } from "@src/variables/PlatformConstants";
 
-const AccordionSubscribe = () => {
-  const PLATFORM_LIST = [PLATFORM_NAME.NETFLIX, PLATFORM_NAME.WATCHA];
+const AccordionSubscribe = ({ ott }: { ott: number[] }) => {
   const [open, setOpen] = useState(true);
-  const [subscribe, setSubscribe] = useState({
-    [PLATFORM_NAME.NETFLIX]: false,
-    [PLATFORM_NAME.WATCHA]: false,
-    [PLATFORM_NAME.DISNEY_PLUS]: false,
-    [PLATFORM_NAME.WAVVE]: false,
-    [PLATFORM_NAME.APPLE_TV]: false,
-  });
+  const [subscribe, setSubscribe] = useState<number[]>(ott);
+
+  useEffect(() => {
+    console.log(subscribe);
+  }, [subscribe]);
 
   return (
     <MenuAccordion
@@ -37,7 +34,19 @@ const AccordionSubscribe = () => {
     >
       <div css={styled.subWrapper}>
         {Object.values(PlatformConstants).map((v: any) => (
-          <HWAvatar key={v.id} size={"80px"} customCss={styled.avatar} active={true} >
+          <HWAvatar
+            key={v.id}
+            size={"80px"}
+            customCss={styled.avatar}
+            active={subscribe.includes(v.id)}
+            onClick={() => {
+              if (subscribe.includes(v.id)) {
+                setSubscribe(subscribe.filter((s) => s !== v.id));
+              } else {
+                setSubscribe((prev) => [...prev, v.id]);
+              }
+            }}
+          >
             <v.icon />
           </HWAvatar>
         ))}

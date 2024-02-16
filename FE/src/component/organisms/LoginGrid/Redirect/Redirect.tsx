@@ -14,6 +14,7 @@ const Redirect = () => {
   // 컴포넌트가 마운트되면 로그인 로직 실행
   useEffect(() => {
     async function loginCheck() {
+      sessionStorage.removeItem(UWHOO_LOGIN);
       navigate(-1);
     }
 

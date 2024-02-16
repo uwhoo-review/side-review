@@ -3,12 +3,14 @@ import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { useCallback, useEffect, useState } from "react";
 import styled from "./style";
 import { useDrop } from "react-dnd";
+import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 function switchValues(arr: any, index1: any, index2: any) {
   [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
 }
 
-const CardSlider = ({ cardList }: any) => {
+const CardSlider = ({ cardList, onClose }: any) => {
   const TOTAL_LIST = cardList.length;
   const MOVE = 1;
   const TOTAL_PAGE = TOTAL_LIST <= 5 ? 1 : Math.ceil((TOTAL_LIST - 5) / MOVE) + 1;
@@ -66,7 +68,6 @@ const CardSlider = ({ cardList }: any) => {
       const fromCard = findCard(fromId);
       const toCard = findCard(toId);
       switchValues(cards, fromCard.index, toCard.index);
-      console.log(cards);
       setCards([...cards]);
 
       /*    setCards((prevCards: any[]) =>
@@ -100,6 +101,16 @@ const CardSlider = ({ cardList }: any) => {
         {cards.map((v: any, i: number) => {
           return (
             <div className={"content-slide"} key={v.id} ref={drop}>
+              {
+                <HWIconButton
+                  className={"content-close-button"}
+                  aria-label="close"
+                  onClick={() => onClose(v.id)}
+                  css={[styled.closeButton]}
+                >
+                  <CloseIcon />
+                </HWIconButton>
+              }
               <ContentCard
                 id={v.id}
                 className={`image-card`}
@@ -107,14 +118,15 @@ const CardSlider = ({ cardList }: any) => {
                 contentName={v.name}
                 platform={v.platform}
                 age={v.age}
-                date={v.date}
+                date={v.year}
                 rating={v.rating}
                 active={false}
                 season={v.season}
                 customCss={styled.card}
                 moveCard={moveCard}
                 findCard={findCard}
-                rank={i + 1}
+                isHoverScale={false}
+                rank={v.rank}
               />
             </div>
           );
