@@ -160,6 +160,7 @@ class MyPageService(
         val report = Report(
             avgRating = if (userReport.avgRating != null) String.format("%.2f", userReport.avgRating).toFloat() else 0.0f,
             maxRating = if (userReport.maxRating != null) userReport.maxRating else 0.0f,
+            reviewCount = userReport.reviewCount?.toInt(),
             ratingCount = userReport.ratingCount?.toInt(),
             ratings = starRatingService.getRatingByUserId(userId),
             genreFrequency = evaluatingService.getCaptivatingGenre(user),
