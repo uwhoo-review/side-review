@@ -148,7 +148,7 @@ class MyPageService(
 
         val userInfo = UserInfo(
             id = userId,
-            profile = "",
+            profile = user.profile,
             nickname = user.nickname,
             email = ""
         )
