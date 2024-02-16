@@ -96,14 +96,4 @@ class ReviewController(val reviewService: ReviewService) {
             }
         }
     }
-
-    @GetMapping("/user/{userId}")
-    fun getAllReviewsByWriterId(
-        @RequestParam(required = false, defaultValue = "0") page: String,
-        @RequestParam(required = false, defaultValue = "6") size: String,
-        @PathVariable userId: String
-    ): ResponseEntity<Any> {
-        val pageable = PageRequest.of(page.toInt(), size.toInt())
-        return ResponseEntity.ok(reviewService.gerReviewsByWriterId(userId, pageable))
-    }
 }
