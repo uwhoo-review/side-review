@@ -110,6 +110,13 @@ class MyPageController(
         return ResponseEntity.ok("delete success")
     }
 
+    @PostMapping("/contents")
+    fun addFavoriteContent(
+        @LoginUser(required = false) user: UserInfoDto,
+        @RequestParam contentId : String) : ResponseEntity<Any>{
+        return ResponseEntity.ok(myPageService.addFavoriteContent(user.id, contentId))
+    }
+
     @PutMapping("/contents")
     fun saveFavoriteContents(
         @LoginUser(required = false) user: UserInfoDto,
@@ -117,7 +124,6 @@ class MyPageController(
     ): ResponseEntity<Any> {
         logger.info(user.toString())
 
-        println("dd")
         return ResponseEntity.ok(myPageService.saveFavoriteContent(user.id, contentsList))
     }
 

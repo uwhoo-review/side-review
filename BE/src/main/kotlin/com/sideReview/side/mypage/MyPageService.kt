@@ -1,5 +1,6 @@
 package com.sideReview.side.mypage
 
+import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserFavoriteContentIdClass
 import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.repository.UserInfoRepository
@@ -138,6 +139,19 @@ class MyPageService(
     fun getOneContent(defaultDto: FavoriteContentDto, userId: String): FavoriteContentDto {
         val oneContent = opensearchClient.getOneContent(defaultDto.id, userId)
         return MapperUtils.mapDetailToFavoriteContentDto(oneContent, defaultDto)
+    }
+
+    fun addFavoriteContent(userId: String, contentId: String) {
+        val user = userInfoRepository.getReferenceById(userId)
+        val curRank = userFavoriteContentRepository.findMaxRank(userId)
+        val rank = if (curRank == null) 1 else curRank + 1
+        userFavoriteContentRepository.save(
+            UserFavoriteContent(
+                contentId = contentId,
+                rank = rank,
+                userInfo = user
+            )
+        )
     }
 
     fun getMyPage(userId: String): MyPageDto {
