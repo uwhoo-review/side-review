@@ -13,4 +13,5 @@ interface UserFavoriteContentRepository : JpaRepository<UserFavoriteContent, Use
     @Query("SELECT MAX(f.rank) FROM UserFavoriteContent f WHERE f.userInfo.userId = :userId")
     fun findMaxRank(@Param("userId") userId: String): Int?
 
+    fun existsByUserInfoAndContentId(userInfo: UserInfo, contentId: String) : Boolean
 }

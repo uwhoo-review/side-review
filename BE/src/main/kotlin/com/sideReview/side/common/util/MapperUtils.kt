@@ -299,7 +299,7 @@ object MapperUtils {
             name = detailDto.name,
             poster = detailDto.poster,
             date = detailDto.getYear(),
-            rating = detailDto.rating.rating.toString(),
+            rating = detailDto.rating.rating?: 0.0f,
             provider = detailDto.platform ?: emptyList(),
         )
     }

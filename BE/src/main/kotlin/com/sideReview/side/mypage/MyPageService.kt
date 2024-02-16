@@ -139,8 +139,10 @@ class MyPageService(
         return MapperUtils.mapDetailToFavoriteContentDto(oneContent, defaultDto)
     }
 
-    fun addFavoriteContent(userId: String, contentId: String) {
+    fun addFavoriteContent(userId: String, contentId: String): FavoriteContentDto {
         val user = userInfoRepository.getReferenceById(userId)
+        if(userFavoriteContentRepository.existsByUserInfoAndContentId(user,contentId))
+            throw Exception("This content already exists.")
         val curRank = userFavoriteContentRepository.findMaxRank(userId)
         val rank = if (curRank == null) 1 else curRank + 1
         userFavoriteContentRepository.save(
@@ -150,6 +152,15 @@ class MyPageService(
                 userInfo = user
             )
         )
+        return getOneContent(
+            FavoriteContentDto(
+                id = contentId,
+                rank = rank,
+                name = "",
+                poster = "",
+                date = "",
+                provider = emptyList(),
+            ), userId)
     }
     fun getMyRating(userId: String, pageable: PageRequest): PageRatedContentDto{
         val ratedContentDtoList : MutableList<RatedContentDto> = mutableListOf()
