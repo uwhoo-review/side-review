@@ -24,6 +24,7 @@ data class Report(
     val avgRating: Float? = null,
     val maxRating: Float? = null,
     val ratingCount: Int? = 0,
+    val reviewCount: Int? = 0,
     val ratings: List<Rating>? = emptyList(),
     val director: Person? = null,
     val actor: Person? = null,

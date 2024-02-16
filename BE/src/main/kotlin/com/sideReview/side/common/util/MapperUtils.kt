@@ -239,7 +239,7 @@ object MapperUtils {
             id = detailContentDto.id,
             poster = detailContentDto.poster,
             name = detailContentDto.name,
-            year = detailContentDto.getYear(),
+            date = detailContentDto.getYear(),
             director = detailContentDto.directors ?: emptyList(),
             genre = detailContentDto.genre,
             country = detailContentDto.originCountry
@@ -296,7 +296,7 @@ object MapperUtils {
             rank = defaultDto.rank,
             name = detailDto.name,
             poster = detailDto.poster,
-            year = detailDto.getYear(),
+            date = detailDto.getYear(),
             rating = detailDto.rating.rating.toString(),
             provider = detailDto.platform ?: emptyList(),
         )
@@ -322,7 +322,7 @@ object MapperUtils {
                 rank = it.rank,
                 name = "",
                 poster = "",
-                year = "",
+                date = "",
                 provider = emptyList(),
             )
         }

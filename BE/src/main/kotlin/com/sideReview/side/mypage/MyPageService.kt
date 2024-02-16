@@ -1,5 +1,6 @@
 package com.sideReview.side.mypage
 
+import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserFavoriteContentIdClass
 import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.repository.UserInfoRepository
@@ -33,10 +34,10 @@ class MyPageService(
     ): FavoriteContentSearchPageDto {
         val contents = opensearchClient.getContents(keyword, page, size)
         contents.content.forEach {
-            it.rating = userStarRatingRepository.findOneByTargetIdAndWriterId(
+            val rating = userStarRatingRepository.findOneByTargetIdAndWriterId(
                 it.id,
-                userId
-            )?.rating.toString()
+                userId)
+            it.rating = rating?.rating?: 0.0f
         }
         return contents
     }
@@ -140,6 +141,19 @@ class MyPageService(
         return MapperUtils.mapDetailToFavoriteContentDto(oneContent, defaultDto)
     }
 
+    fun addFavoriteContent(userId: String, contentId: String) {
+        val user = userInfoRepository.getReferenceById(userId)
+        val curRank = userFavoriteContentRepository.findMaxRank(userId)
+        val rank = if (curRank == null) 1 else curRank + 1
+        userFavoriteContentRepository.save(
+            UserFavoriteContent(
+                contentId = contentId,
+                rank = rank,
+                userInfo = user
+            )
+        )
+    }
+
     fun getMyPage(userId: String): MyPageDto {
         val userReport = userReportRepository.findById(userId).get()
         val user = userInfoRepository.findById(userId).get()
@@ -148,7 +162,7 @@ class MyPageService(
 
         val userInfo = UserInfo(
             id = userId,
-            profile = "",
+            profile = user.profile,
             nickname = user.nickname,
             email = ""
         )
@@ -160,6 +174,7 @@ class MyPageService(
         val report = Report(
             avgRating = if (userReport.avgRating != null) String.format("%.2f", userReport.avgRating).toFloat() else 0.0f,
             maxRating = if (userReport.maxRating != null) userReport.maxRating else 0.0f,
+            reviewCount = userReport.reviewCount?.toInt(),
             ratingCount = userReport.ratingCount?.toInt(),
             ratings = starRatingService.getRatingByUserId(userId),
             genreFrequency = evaluatingService.getCaptivatingGenre(user),
