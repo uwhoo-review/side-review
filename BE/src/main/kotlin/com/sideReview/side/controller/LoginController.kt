@@ -10,8 +10,6 @@ import com.sideReview.side.login.naver.NaverClientProfile
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
-import org.springframework.session.web.http.CookieSerializer
 import org.springframework.session.web.http.DefaultCookieSerializer
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -79,28 +77,32 @@ class LoginController(
     }
 
     @GetMapping("/logout")
-    fun logout(request: HttpServletRequest, response: HttpServletResponse):ResponseEntity<String> {
+    fun logout(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<String> {
 
-        val logger = LoggerFactory.getLogger(this::class.java)!!
-        logger.info("######## /logout api ############")
-        // 세션 삭제
-        request.getSession(false)?.invalidate()
+        try {
+            val logger = LoggerFactory.getLogger(this::class.java)!!
+            logger.info("######## /logout api ############")
+            // 세션 삭제
+            request.getSession(false)?.invalidate()
 
-        // 기존 쿠키 삭제
-        val cookieNames = arrayOf("JSESSIONID") // 여러 쿠키 이름이 있다면 추가
-        for (cookieName in cookieNames) {
-            val cookie = Cookie(cookieName, null)
-            cookie.path = "/"
-            cookie.maxAge = 0
-            cookie.secure = true
-            cookie.isHttpOnly = true
-            cookieSerializer.setSameSite("None")
-            response.addCookie(cookie)
+            // 기존 쿠키 삭제
+            val cookieNames = arrayOf("JSESSIONID") // 여러 쿠키 이름이 있다면 추가
+            for (cookieName in cookieNames) {
+                val cookie = Cookie(cookieName, null)
+                cookie.path = "/"
+                cookie.maxAge = 0
+                cookie.secure = true
+                cookie.isHttpOnly = true
+                cookieSerializer.setSameSite("None")
+                response.addCookie(cookie)
+            }
+
+            // 사용자 인증 정보 삭제
+            SecurityContextHolder.clearContext()
+            return ResponseEntity.ok("logout success")
+        } catch (e: Exception) {
+            return ResponseEntity.internalServerError().body(e.message)
         }
 
-        // 사용자 인증 정보 삭제
-        SecurityContextHolder.clearContext()
-
-        return ResponseEntity.ok("logout success")
     }
 }
