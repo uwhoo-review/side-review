@@ -101,15 +101,6 @@ class LoginController(
         // 사용자 인증 정보 삭제
         SecurityContextHolder.clearContext()
 
-
-        // 새로운 쿠키 생성 및 응답에 추가
-//        val newCookie = Cookie("JSESSIONID", "") // 여러 쿠키가 있다면 추가
-//        newCookie.path = "/"
-//        newCookie.secure = true
-//        newCookie.isHttpOnly = true
-        // SameSite 설정을 삭제하고 싶다면 아래 주석 처리된 라인을 사용하세요.
-        // newCookie.sameSite = "None"
-//        response.addCookie(newCookie)
         return ResponseEntity.ok("logout success")
     }
 }
