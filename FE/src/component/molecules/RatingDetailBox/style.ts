@@ -27,6 +27,10 @@ export default {
     display: flex;
     flex-direction: column;
   `,
+  ratingSubBox: css`
+    height: 38px;
+    margin-top: 12px;
+  `,
   rating: css`
     font-size: 30px;
     //gap: 8px;

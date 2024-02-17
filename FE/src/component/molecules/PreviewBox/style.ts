@@ -165,10 +165,5 @@ export default {
   height28: css`
     height: 28px;
   `,
-  ratingFlex: css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-  `
+
 };

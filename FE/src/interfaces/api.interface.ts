@@ -9,7 +9,7 @@ export interface ContentDO {
   synopsis?: string;
   trailer?: string;
   poster?: string;
-  rating?: RatingDO;
+  rating: RatingDO;
   age?: (typeof WATCH_RATING_ID)[keyof typeof WATCH_RATING_ID];
   actors?: string[];
   season?: SeasonDO;

@@ -6,14 +6,14 @@ import Color from "@src/common/styles/Color";
 import Divider from "@src/component/atoms/Divider/Divider";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { Rating } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
+import {SyntheticEvent, useEffect, useState} from "react";
 import ReviewModal from "@src/component/molecules/ReviewModal/ReviewModal";
 import { useLocation } from "react-router-dom";
 import { useCommon } from "@src/providers/CommonProvider";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
+import RatingBox from "@src/component/molecules/RatingBox/RatingBox";
 
 const RatingDetailBox = ({ item }: any) => {
-  const [rating, setRating] = useState<number>(item.user || 0);
   const [dialog, setDialog] = useState(false);
   const location = useLocation();
   const commonContext = useCommon();
@@ -30,27 +30,6 @@ const RatingDetailBox = ({ item }: any) => {
     }
   };
 
-  const handleChangeRating = async (e: SyntheticEvent, val: number | null) => {
-    if (val) {
-      const data = {
-        contentId: item.id,
-        rating: val,
-      };
-      if (rating === 0) {
-        setRating(val);
-        //rating 없을때
-        console.log("추가");
-        const res = await UWAxios.star.postStart(data.contentId, data);
-      } else {
-        console.log("변경");
-        // const res = await UWAxios.star.putStart(data.contentId, data);
-      }
-    }
-  };
-
-  const handleClearRating = async (id: string) => {
-    const res = await UWAxios.star.deleteStart(id);
-  };
 
   return (
     <div css={styled.wrapper}>
@@ -70,7 +49,7 @@ const RatingDetailBox = ({ item }: any) => {
                 {item.rating.rating || 0}
               </HWTypography>
 
-              {item.rating.total > 0 && (
+              {item.rating.total > 10 && (
                 <>
                   <Divider direction={"v"} length={"14px"} />
                   <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
@@ -84,24 +63,8 @@ const RatingDetailBox = ({ item }: any) => {
             <HWTypography variant={"headlineXS"} family={"Pretendard-SemiBold"}>
               내 별점
             </HWTypography>
-            <div className={"margin-top-12 flex flex-align-center gap-10"}>
-              {/*<div css={styled.clear} onClick={}>*/}
-              {/*  -*/}
-              {/*</div>*/}
-              <Rating
-                name="rating-value"
-                value={rating}
-                max={5}
-                precision={0.5}
-                css={styled.rating}
-                emptyIcon={<IconRatingEmpty style={{ marginLeft: "4px", marginRight: "4px" }} />}
-                icon={<IconRating style={{ marginLeft: "4px", marginRight: "4px" }} />}
-                onChange={handleChangeRating}
-              />
-              <Divider direction={"v"} length={"14px"} />
-              <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
-                별점을 매겨주세요!
-              </HWTypography>
+            <div css={styled.ratingSubBox}>
+              <RatingBox contentId={item.id} userRating={item.rating.user} />
             </div>
           </div>
         </div>

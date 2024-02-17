@@ -74,8 +74,8 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
 
   useEffect(() => {
     if (data) {
-      setReviewList(data.reviewDTO.review);
-      setTotalCnt(data.reviewDTO.total);
+      setReviewList(data.reviews.review);
+      setTotalCnt(data.reviews.total);
       setPageInfo(data.pageInfo);
     }
   }, [data]);

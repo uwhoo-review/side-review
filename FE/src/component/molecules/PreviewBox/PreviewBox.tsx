@@ -31,6 +31,7 @@ import {
   WATCH_RATING_NAME,
 } from "@src/variables/CommonConstants";
 import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
+import RatingBox from "@src/component/molecules/RatingBox/RatingBox";
 
 interface PreviewBoxProps {
   item: ContentDO;
@@ -142,7 +143,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       >
                         {item.rating?.rating || 0}
                       </HWTypography>
-                      {item.rating && item.rating.total > 0 && (
+                      {item.rating && item.rating.total > 10 && (
                         <>
                           <Divider direction={"v"} length={"14px"} />{" "}
                           <HWTypography
@@ -166,35 +167,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       className={"margin-top-12 flex flex-align-center gap-10"}
                       css={styled.height28}
                     >
-                      <Rating
-                        name="rating-value"
-                        value={rating}
-                        max={5}
-                        precision={0.5}
-                        onChange={(e, val) => {
-                          setRating(val);
-                        }}
-                        css={styled.rating}
-                        emptyIcon={
-                          <IconRatingEmpty style={{ marginLeft: "2px", marginRight: "2px" }} />
-                        }
-                        icon={<IconRating style={{ marginLeft: "2px", marginRight: "2px" }} />}
-                      />
-                      <Divider direction={"v"} length={"14px"} />{" "}
-                      <HWTypography
-                        variant={"bodyS"}
-                        family={"Pretendard"}
-                        color={Color.dark.grey500}
-                      >
-                        {rating === 0 ? (
-                          "별점을 매겨주세요!"
-                        ) : (
-                          <div css={styled.ratingFlex}>
-                            <IconCircleCheck />
-                            평가를 완료했어요!
-                          </div>
-                        )}
-                      </HWTypography>
+                      <RatingBox contentId={item.id} userRating={item.rating.user} ratingSize={"20px"} />
                     </div>
                   </div>
                 </div>

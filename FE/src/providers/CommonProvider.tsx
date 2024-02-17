@@ -67,6 +67,13 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const onHandleFilter = (v: FilterProps) => setFilterState((prev) => ({ ...prev, ...v }));
   const onHandleFilterOpen = (v: boolean) => setIsFilterOpen(v);
   const onAlert = (item: any) => setAlert((prev) => ({ ...prev, ...item }));
+  const onResetAlert = () => setAlert({    is: false,
+    type: undefined,
+    disableCloseIcon: false,
+    title: undefined,
+    timeInfo: undefined,
+    children: <></>,
+    width: undefined});
   const onHandleUserInfo = (v: any) => setUserInfo((prev: any) => ({ ...prev, ...v }));
   const onResetUserInfo = () => setUserInfo({ id: "", nickname: "", profile: "", type: "" });
   const onHandleLogin = (v: boolean) => setIsLogin(v);
@@ -85,7 +92,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
     }
   }, []);
 
-  console.log(userInfo)
+  console.log(alert)
 
   return (
     <CommonContext.Provider
@@ -98,7 +105,9 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
         sortRef,
         searchRef,
         filterRef,
+
         onAlert,
+        onResetAlert,
 
         onHandleLoginSession,
         loginSession,
