@@ -1,4 +1,12 @@
-import {createContext, createRef, useContext, useEffect, useLayoutEffect, useRef, useState} from "react";
+import {
+  createContext,
+  createRef,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import styled from "./style";
 import HWAlert from "@src/component/atoms/HWAlert";
 import { FilterProps } from "@src/interfaces/common.interface";
@@ -67,13 +75,16 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const onHandleFilter = (v: FilterProps) => setFilterState((prev) => ({ ...prev, ...v }));
   const onHandleFilterOpen = (v: boolean) => setIsFilterOpen(v);
   const onAlert = (item: any) => setAlert((prev) => ({ ...prev, ...item }));
-  const onResetAlert = () => setAlert({    is: false,
-    type: undefined,
-    disableCloseIcon: false,
-    title: undefined,
-    timeInfo: undefined,
-    children: <></>,
-    width: undefined});
+  const onResetAlert = () =>
+    setAlert({
+      is: false,
+      type: undefined,
+      disableCloseIcon: false,
+      title: undefined,
+      timeInfo: undefined,
+      children: <></>,
+      width: undefined,
+    });
   const onHandleUserInfo = (v: any) => setUserInfo((prev: any) => ({ ...prev, ...v }));
   const onResetUserInfo = () => setUserInfo({ id: "", nickname: "", profile: "", type: "" });
   const onHandleLogin = (v: boolean) => setIsLogin(v);
@@ -83,7 +94,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
     const loginInfoStr = sessionStorage.getItem(UWHOO_LOGIN);
     if (loginInfoStr) {
       const loginInfo = JSON.parse(loginInfoStr);
-      console.log(loginInfo)
+      console.log(loginInfo);
       if (loginInfo.isLogin && loginInfo.userInfo !== null) {
         setIsLogin(true);
         setLogoinSession(loginInfo.sessionId);
@@ -91,9 +102,6 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
       }
     }
   }, []);
-
-  console.log(alert)
-
   return (
     <CommonContext.Provider
       value={{

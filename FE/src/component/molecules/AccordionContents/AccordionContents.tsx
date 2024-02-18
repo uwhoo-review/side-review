@@ -33,8 +33,6 @@ import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 
 const AccordionContents = ({ contentsList }: any) => {
   const PAGE_SIZE = 10;
-  const userId = "PwoRK3jACUc2LairkizG5J8M9zmpUaZ6k0Dk0DOSO1A";
-
   const [open, setOpen] = useState(true);
   const [contents, setContents] = useState(contentsList.sort((a: any, b: any) => a.rank - b.rank));
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,12 +55,6 @@ const AccordionContents = ({ contentsList }: any) => {
       setSearchVal("");
     }
   }, [isModalOpen]);
-
-  useEffect(() => {
-    console.log(contents)
-  },[contents])
-
-
 
   return (
     <>

@@ -40,8 +40,14 @@ const AxiosInterceptor = ({ children }: any) => {
         const { config, response } = error;
 
         if (response) {
-          const responseData = error.response?.data as any;
-          const serverCode: string = responseData.code;
+          // const responseData = error.response?.data as any;
+          // const serverCode: string = responseData.code;
+          commonContext.onAlert({
+            is: true,
+            type: "error",
+            children: <>{response.data}</>,
+          });
+
           switch (response.status) {
             case 400: {
               break;
@@ -61,6 +67,7 @@ const AxiosInterceptor = ({ children }: any) => {
               break;
             }
           }
+
         }
 
         return Promise.reject(error);

@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useCommon } from "@src/providers/CommonProvider";
 
-const ReviewModal = ({ item, onClose, ...props }: any) => {
+const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
   const LIMIT_BYTE = 2000;
 
   const commonContext = useCommon();
@@ -31,6 +31,12 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
     },
   });
 
+  const onHandleDelete = () => {
+
+  }
+
+
+
   useEffect(() => {
     setText("");
     setIsSpoiler(false);
@@ -39,7 +45,7 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
 
   return (
     <HWDialog {...props} customCss={styled.wrapper}>
-      <HWDialog.Title onClose={onClose}>리뷰 쓰기</HWDialog.Title>
+      <HWDialog.Title onClose={onClose}>리뷰 수정</HWDialog.Title>
       <HWDialog.Content css={styled.contentWrapper}>
         <div>
           <HWChip label={item.name} color={"best"} customCss={styled.chip} />
@@ -76,27 +82,35 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
           </div>
         </div>
       </HWDialog.Content>
-      <HWDialog.Actions>
-        <HWButton variant="lower" onClick={onClose}>
-          취소
-        </HWButton>
-        <HWButton
-          variant="primary"
-          onClick={() => {
-            const data = {
-              dramaId: item.id,
-              content: text,
-              spoiler: isSpoiler,
-            };
-            onClose();
-            mutation.mutate(data);
-          }}
-        >
-          등록
-        </HWButton>
+      <HWDialog.Actions customCss={styled.dialogAction}>
+        <div>
+          <HWButton variant="secondary" onClick={onHandleDelete}>
+            리뷰 삭제
+          </HWButton>
+        </div>
+        <div css={styled.actionRight}>
+          <HWButton variant="lower" onClick={onClose}>
+            취소
+          </HWButton>
+          <HWButton
+            variant="primary"
+            onClick={() => {
+              const data = {
+                reviewId: review.id,
+                dramaId: item.id,
+                content: text,
+                spoiler: isSpoiler,
+              };
+              onClose();
+              mutation.mutate(data);
+            }}
+          >
+            수정
+          </HWButton>
+        </div>
       </HWDialog.Actions>
     </HWDialog>
   );
 };
 
-export default ReviewModal;
+export default ReviewModifyModal;

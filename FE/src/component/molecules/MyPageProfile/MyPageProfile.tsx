@@ -1,14 +1,20 @@
 import styled from "./style";
 import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
 import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HWTooltip from "@src/component/atoms/HWTooltip/HWTooltip";
 import { IconQuestion } from "@res/index";
 import img1 from "@res/temp/img5.png";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
+import { useCommon } from "@src/providers/CommonProvider";
 
-const MyPageProfile = ({user}:any) => {
-  const [nickName, setNickName] = useState<string>(user.nickname);
+const MyPageProfile = ({ user }: any) => {
+  const [nickName, setNickName] = useState<string>("");
+  const commonContext = useCommon();
+  useEffect(() => {
+    setNickName(user.nickname);
+  }, []);
 
   return (
     <div css={styled.wrapper}>
@@ -30,7 +36,17 @@ const MyPageProfile = ({user}:any) => {
           }
           customCss={styled.textField}
         />
-        <HWButton variant={"primary"} onClick={() => {}}>
+        <HWButton
+          variant={"primary"}
+          onClick={async () => {
+            const res = await UWAxios.user.putNickName(nickName);
+            commonContext.onAlert({
+              is: true,
+              type: "success",
+              children: "변경 완료!",
+            });
+          }}
+        >
           저장
         </HWButton>
       </div>

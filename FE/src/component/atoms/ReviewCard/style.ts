@@ -28,6 +28,9 @@ export default {
     height: 24px;
     margin-bottom: 10px;
   `,
+  topWrapper2: css`
+  
+  `,
   chipWrapper: css`
     display: flex;
     align-items: center;

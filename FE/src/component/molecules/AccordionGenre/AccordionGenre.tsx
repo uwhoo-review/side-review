@@ -1,27 +1,33 @@
 import styled from "./style";
 import MenuAccordion from "@src/component/atoms/MenuAccordion/MenuAccordion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import HWToggleButton from "@src/component/atoms/HWToggleButton/HWToggleButton";
 import { GENRE_ID, GENRE_ID_NAME, GENRE_NAME } from "@src/variables/CommonConstants";
 import { IconCheck } from "@res/index";
 import HWDialog from "@src/component/atoms/HWDialog";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
 
-const AccordionGenre = ({genreList}:any) => {
+const AccordionGenre = ({ genreList }: any) => {
   const [open, setOpen] = useState(true);
 
-  const [genre, setGenre] = useState<number[]>(genreList);
-  const props = (v: number) => {
-    const idx = genre.indexOf(v);
-    return {
-      checked: genre.includes(v),
-      onClick: () => {
-        idx === -1
-          ? setGenre((prev) => [...prev, v])
-          : setGenre((prev) => [...prev.splice(idx, 1)]);
-      },
-    };
-  };
+  const [genre, setGenre] = useState<number[]>([]);
+  // const props = (v: number) => {
+  //   const idx = genre.indexOf(v);
+  //   return {
+  //     checked: genre.includes(v),
+  //     onClick: () => {
+  //       idx === -1
+  //         ? setGenre((prev) => [...prev, v])
+  //         : setGenre((prev) => [...prev.splice(idx, 1)]);
+  //     },
+  //   };
+  // };
+
+  useEffect(() => {
+    console.log(genreList);
+    setGenre(genreList);
+  }, [genreList]);
 
   return (
     <>
@@ -53,11 +59,12 @@ const AccordionGenre = ({genreList}:any) => {
                   <HWToggleButton
                     key={v}
                     checked={genre.includes(v)}
-                    onClick={() => {
+                    onClick={async () => {
                       const idx = genre.indexOf(v);
-                      idx === -1
-                        ? setGenre((prev) => [...genre, v])
-                        : setGenre((prev) => [...genre.filter((g) => g !== v)]);
+                      const tmpGenre =
+                        idx === -1 ? [...genre, v] : [...genre.filter((g) => g !== v)];
+                      setGenre(tmpGenre);
+                      const res = await UWAxios.user.putMyGenre(tmpGenre);
                     }}
                     customCss={styled.toggle}
                   >
@@ -74,11 +81,12 @@ const AccordionGenre = ({genreList}:any) => {
                   <HWToggleButton
                     key={v}
                     checked={genre.includes(v)}
-                    onClick={() => {
+                    onClick={async () => {
                       const idx = genre.indexOf(v);
-                      idx === -1
-                        ? setGenre((prev) => [...genre, v])
-                        : setGenre((prev) => [...genre.filter((g) => g !== v)]);
+                      const tmpGenre =
+                        idx === -1 ? [...genre, v] : [...genre.filter((g) => g !== v)];
+                      setGenre(tmpGenre);
+                      const res = await UWAxios.user.putMyGenre(tmpGenre);
                     }}
                     customCss={styled.toggle}
                   >
@@ -90,7 +98,6 @@ const AccordionGenre = ({genreList}:any) => {
           </div>
         </div>
       </MenuAccordion>
-
     </>
   );
 };

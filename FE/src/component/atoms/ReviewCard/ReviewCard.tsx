@@ -1,13 +1,16 @@
 import styled from "./style";
 import Color from "@src/common/styles/Color";
 import { SerializedStyles } from "@emotion/react";
-import { IconThumbDown, IconThumbUp } from "@res/index";
+import { IconStar, IconThumbDown, IconThumbUp } from "@res/index";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
 import Divider from "@src/component/atoms/Divider/Divider";
 import { useState } from "react";
 import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCommon } from "@src/providers/CommonProvider";
+import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
+import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 
 interface ReviewCardProps {
   id?: string;
@@ -46,11 +49,12 @@ const ReviewCard = ({
   line,
   customCss,
   children,
+  user,
   useModal = false,
   onClick,
 }: ReviewCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const commonContext = useCommon();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: any) => {
@@ -62,6 +66,8 @@ const ReviewCard = ({
       });
     },
   });
+
+  console.log(commonContext);
 
   return (
     <>
@@ -89,6 +95,19 @@ const ReviewCard = ({
           </div>
           <div css={styled.dateDiv}>{date}</div>
         </div>
+        {!useModal && (
+          <div css={styled.topWrapper}>
+            <div css={styled.chipWrapper}></div>
+            <div css={styled.chipWrapper}>
+              {user && (
+                <>
+                  <ProfileImage src={user.profile} size={"26px"} />
+                  <HWTypography variant={"bodyL"} color={"#9897A1"}>{user.nickname}</HWTypography>
+                </>
+              )}
+            </div>
+          </div>
+        )}
         <div css={[styled.contents, line && styled.lineClamp(line)]}>{children}</div>
         {footer && (
           <>
@@ -139,6 +158,7 @@ const ReviewCard = ({
               best={best}
               spoiler={spoiler}
               footer={true}
+              user={user}
               width={"800px"}
               height={"570px"}
             >

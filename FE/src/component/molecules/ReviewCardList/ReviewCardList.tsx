@@ -149,6 +149,7 @@ const ReviewCardList = ({ size = 6 }: any) => {
                     width={"452px"}
                     height={"280px"}
                     useModal={true}
+                    user={v.user}
                   >
                     {v.content}
                   </ReviewCard>
@@ -174,8 +175,6 @@ const ReviewCardList = ({ size = 6 }: any) => {
           </Slide>
         </Modal>
       }
-
-      {/*)}*/}
     </>
   );
 };

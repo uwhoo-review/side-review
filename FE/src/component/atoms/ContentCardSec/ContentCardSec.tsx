@@ -1,5 +1,5 @@
 import styled from "./style";
-import { IconLaunch, IconNetflix, IconStar, IconTving, IconWatcha } from "@res/index";
+import { IconLaunch, IconNetflix, IconRating, IconStar, IconTving, IconWatcha } from "@res/index";
 import { SerializedStyles } from "@emotion/react";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { getCardURL } from "@src/tools/commonTools";
 import { RatingDO, SeasonDO } from "@src/interfaces/api.interface";
 
-interface ContentCardProps {
+interface ContentCardSecProps {
   id: string;
   srcId: string;
   contentName: string;
@@ -20,7 +20,8 @@ interface ContentCardProps {
   active: boolean;
   launch?: boolean;
   rank?: number;
-  rating?: RatingDO;
+  rating: number;
+  userRating: number;
   season?: SeasonDO;
   onClick?: (e: React.MouseEvent) => void;
   customCss?: SerializedStyles;
@@ -40,8 +41,9 @@ const ContentCardSec = ({
   customCss,
   season,
   active,
+  userRating,
   ...props
-}: ContentCardProps) => {
+}: ContentCardSecProps) => {
   const navigate = useNavigate();
   const divRef = useRef<any>(null);
   const [isOverflow, setIsOverflow] = useState<boolean>(false);
@@ -94,14 +96,14 @@ const ContentCardSec = ({
             </HWTypography>
             <div css={styled.rating}>
               <IconStar css={styled.iconStar} />
-              <HWTypography variant={"bodyXS"}>{rating?.rating || 0}</HWTypography>
+              <HWTypography variant={"bodyXS"}>{rating || 0}</HWTypography>
             </div>
             <HWTypography variant={"bodyXS"} color={Color.dark.grey400} css={styled.typo1}>
               내 별점
             </HWTypography>
             <div css={styled.rating}>
-              <IconStar css={styled.iconStar} />
-              <HWTypography variant={"bodyXS"}>{rating?.rating || 0}</HWTypography>
+              <IconRating css={styled.iconStar} />
+              <HWTypography variant={"bodyXS"}>{userRating || 0}</HWTypography>
             </div>
           </div>
         </div>

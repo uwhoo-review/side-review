@@ -1,6 +1,5 @@
 import React from "react";
 import MainPage from "@src/pages/MainPage/MainPage";
-import GNB from "@src/component/organisms/GNB/GNB";
 import { Navigate, Route, Routes } from "react-router-dom";
 import PopularPage from "@src/pages/PopularPage/PopularPage";
 import RecentlyPage from "@src/pages/RecentlyPage/RecentlyPage";

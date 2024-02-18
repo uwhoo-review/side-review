@@ -42,16 +42,18 @@ export default {
     align-items: center;
     height: 24px;
     width: 100%;
+    
   `,
   rating: css`
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
   `,
   iconStar: css`
     font-size: 14px;
   `,
   typo1: css`
+    font-size: 10px;
   `,
   avatarGroup: css`
     div {
@@ -80,15 +82,15 @@ export default {
 
     margin-bottom: 10px;
     position: relative;
-    &:hover {
-      img {
-        transform: scale(1.1);
-      }
-    }
+    //&:hover {
+    //  img {
+    //    transform: scale(1.1);
+    //  }
+    //}
   `,
   title: css`
     width: 100%;
-    margin-bottom: 2px;
+    margin-bottom: 6px;
     overflow-x: hidden;
     display: flex;
     flex: 0 0 auto;

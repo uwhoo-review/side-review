@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import Chart from "react-apexcharts";
+import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
 
-const BarChartApex = () => {
+const BarChartApex = ({ genreFrequency }: any) => {
   const [data, setData] = useState({
     series: [
       {
         name: "장르",
-        data: [75, 40, 45, 50, 10],
+        data: genreFrequency.map((v: any) => v.count),
       },
     ],
     options: {
@@ -28,14 +29,14 @@ const BarChartApex = () => {
       legend: {
         show: false,
         labels: {
-          colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
+          colors: new Array(genreFrequency.length).fill("#fff"),
         },
       },
       xaxis: {
-        categories: ["액션", "코미디", "로맨스", "판타지", "다큐멘터리"],
+        categories: genreFrequency.map((v: any) => GENRE_ID_NAME[v.genre]),
         labels: {
           style: {
-            colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
+            colors: new Array(genreFrequency.length).fill("#fff"),
             fontSize: "12px",
             fontFamily: "Helvetica, Arial, sans-serif",
             fontWeight: 400,

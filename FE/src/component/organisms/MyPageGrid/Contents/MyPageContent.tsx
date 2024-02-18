@@ -11,6 +11,7 @@ const MyPageContent = ({ data }: any) => {
   const [favorite, setFavorit] = useState(data.favorite);
   const [report, setReport] = useState(data.report);
   const [ott, setOtt] = useState(data.ott);
+  const [user, setUser] = useState(data.user);
   return (
     <div className={"mypage-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
@@ -18,7 +19,7 @@ const MyPageContent = ({ data }: any) => {
         <AccordionContents contentsList={favorite.contents} />
         <AccordionPerson personList={favorite.person} />
         <AccordionGenre genreList={favorite.genre} />
-        <AccordionReport report={report} />
+        <AccordionReport report={report} user={user} />
       </CenterWrapper>
     </div>
   );

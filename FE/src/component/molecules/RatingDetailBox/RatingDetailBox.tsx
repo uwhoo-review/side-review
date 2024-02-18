@@ -12,9 +12,11 @@ import { useLocation } from "react-router-dom";
 import { useCommon } from "@src/providers/CommonProvider";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import RatingBox from "@src/component/molecules/RatingBox/RatingBox";
+import ReviewModifyModal from "@src/component/molecules/ReviewModifyModal/ReviewModifyModal";
 
 const RatingDetailBox = ({ item }: any) => {
   const [dialog, setDialog] = useState(false);
+  const [modifyDialog, setModifyDialog] = useState(true);
   const location = useLocation();
   const commonContext = useCommon();
 
@@ -87,6 +89,7 @@ const RatingDetailBox = ({ item }: any) => {
         </div>
       </div>
       <ReviewModal width={"800px"} open={dialog} onClose={() => setDialog(false)} item={item} />
+      {/*<ReviewModifyModal width={"800px"} open={modifyDialog} onClose={() => setModifyDialog(false)} item={item} />*/}
     </div>
   );
 };

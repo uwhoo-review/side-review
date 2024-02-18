@@ -17,7 +17,7 @@ const MyPageHeader = ({data}:any) => {
             topText={
               <>
                 <HWTypography variant={"displayL"} family={"Pretendard-SemiBold"}>
-                  21
+                  {data.report.ratingCount}
                 </HWTypography>
                 <HWTypography variant={"headlineL"} family={"Pretendard-SemiBold"}>
                   개
@@ -46,7 +46,7 @@ const MyPageHeader = ({data}:any) => {
             topText={
               <>
                 <HWTypography variant={"displayL"} family={"Pretendard-SemiBold"}>
-                  8
+                  {data.report.reviewCount}
                 </HWTypography>
                 <HWTypography variant={"headlineL"} family={"Pretendard-SemiBold"}>
                   개
@@ -75,7 +75,7 @@ const MyPageHeader = ({data}:any) => {
             topText={
               <>
                 <HWTypography variant={"displayL"} family={"Pretendard-SemiBold"}>
-                  4.5
+                  {data.report.avgRating}
                 </HWTypography>
                 <HWTypography variant={"headlineL"} family={"Pretendard-SemiBold"}>
                   점
