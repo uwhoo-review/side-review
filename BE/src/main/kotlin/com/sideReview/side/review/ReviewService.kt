@@ -251,6 +251,16 @@ class ReviewService(
         )
     }
 
+    fun getOneReviewByWriterId(contentId: String, userId: String): ReviewDetailDto {
+        val entity = userReviewRepository.findByTargetIdAndWriterId(contentId, userId)
+        var dto: MutableList<ReviewDetailDto> = mutableListOf()
+        if (entity != null) {
+            val dtoList = fillUserInReview(mapUserReviewToReviewDetailDTO(listOf(entity)))
+            dto.addAll(dtoList)
+        }
+        return if (dto.size > 0) dto[0] else ReviewDetailDto()
+    }
+
     fun delete(reviewId: String, id: String) {
         if (!userInfoRepository.existsById(id)) throw ReviewUserIdInvalidException("Cannot delete review. User Not Found.")
         userReviewRepository.deleteById(reviewId)

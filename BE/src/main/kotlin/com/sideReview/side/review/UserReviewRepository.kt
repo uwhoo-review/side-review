@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserReviewRepository : JpaRepository<UserReview, String> {
     fun findByTargetId(id: String): List<UserReview>
+    fun findByTargetIdAndWriterId(targetId: String, writerId: String) : UserReview?
     fun countAllByTargetId(id: String): Int
     fun countAllByWriterId(id: String): Int
     fun findByTargetIdAndSpoilerIsOrderByCreate(id: String, spoiler: String): List<UserReview>

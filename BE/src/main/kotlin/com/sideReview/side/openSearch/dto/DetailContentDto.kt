@@ -2,6 +2,7 @@ package com.sideReview.side.openSearch.dto
 
 import kotlinx.serialization.Serializable
 import com.sideReview.side.common.dto.RatingDto
+import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.tmdb.dto.SeasonDto
 
 data class DetailContentDto(
@@ -21,6 +22,7 @@ data class DetailContentDto(
     val directors: List<String>? = null,
     val age: String? = "",
     val rating: RatingDto,
+    val review: ReviewDetailDto,
     var season: Season,
     val episodeCnt: Int? = 0
 ) {
