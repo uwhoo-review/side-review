@@ -34,13 +34,13 @@ class ReviewService(
                             rev.content = review.content
                             rev.spoiler = if (review.spoiler) "1" else "0"
                         } else {
-                            throw ReviewUpdateUserInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
+                            throw ReviewUserIdInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
                         }
                     }
                 } ?: throw ReviewGetIdInvalidException()
 
             } else {
-                throw ReviewUpdateUserInvalidException("Cannot Update Review. User Id not found.")
+                throw ReviewUserIdInvalidException("Cannot Update Review. User Id not found.")
             }
         } else {
             if (userReviewRepository.existsByTargetIdAndWriterId(
@@ -238,7 +238,7 @@ class ReviewService(
         return reviewsByTargetId
     }
 
-    fun getReviewsByWriterId(userId: String, pageable: PageRequest): PageReviewDto{
+    fun getReviewsByWriterId(userId: String, pageable: PageRequest): PageReviewDto {
         val total = userReviewRepository.countAllByWriterId(userId)
         val userReview = userReviewRepository.findAllByWriterId(userId, pageable)
         val reviewDetailDtoList = mapUserReviewToReviewDetailDTO(userReview.content)
@@ -249,5 +249,10 @@ class ReviewService(
             ReviewDto(total, fillUserInReview(reviewDetailDtoList)),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
+    }
+
+    fun delete(reviewId: String, id: String) {
+        if (!userInfoRepository.existsById(id)) throw ReviewUserIdInvalidException("Cannot delete review. User Not Found.")
+        userReviewRepository.deleteById(reviewId)
     }
 }

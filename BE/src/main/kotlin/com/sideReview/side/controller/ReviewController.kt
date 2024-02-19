@@ -36,7 +36,7 @@ class ReviewController(val reviewService: ReviewService) {
             logger.error(e.message)
             logger.error(e.stackTraceToString())
             return when (e) {
-                is ReviewUpdateUserInvalidException -> {
+                is ReviewUserIdInvalidException -> {
                     logger.error("UserId : ${ClientUtils.getUserId(request, user)}")
                     ResponseEntity.badRequest().body(e.message)
                 }
@@ -70,10 +70,7 @@ class ReviewController(val reviewService: ReviewService) {
         @RequestParam(required = false, defaultValue = "6") size: String,
         @RequestParam(required = false, defaultValue = "0") type: String,
         @LoginUser(required = false) user: UserInfoDto?
-
-//        request: HttpServletRequest
     ): ResponseEntity<Any> {
-//        val userId = ClientUtils.getUserId(request)
         val userId = user?.id
         val pageable = PageRequest.of(page.toInt(), size.toInt())
         try {
@@ -93,6 +90,24 @@ class ReviewController(val reviewService: ReviewService) {
                     return ResponseEntity.badRequest().build()
 
                 else -> return ResponseEntity.internalServerError().build()
+            }
+        }
+    }
+
+    @DeleteMapping("")
+    fun delete(
+        @RequestParam(required = true) id: String,
+        @LoginUser(required = false) user: UserInfoDto
+    ): ResponseEntity<Any> {
+        try {
+            reviewService.delete(id, user.id)
+            return ResponseEntity(HttpStatus.OK)
+        } catch (e: Exception) {
+            logger.error(e.message)
+            logger.error(e.stackTraceToString())
+            return when (e) {
+                is ReviewUserIdInvalidException -> ResponseEntity.badRequest().body(e.message)
+                else -> ResponseEntity.internalServerError().body(e.message)
             }
         }
     }
