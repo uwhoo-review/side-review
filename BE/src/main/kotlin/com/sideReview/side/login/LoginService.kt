@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -28,6 +29,8 @@ class LoginService(
     val sessionRegistry: SessionRegistry
 ) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
+
+    @Transactional
     fun saveUser(type: String, response: Any): UserInfo {
         var id: String = ""
         var name: String = ""
@@ -129,6 +132,7 @@ class LoginService(
         return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
     }
 
+    @Transactional
     fun changeToggle(user: UserInfoDto, toggle: Boolean) {
         if (!userInfoRepository.existsById(user.id)) throw LoginToggleUserIdInvalidException("Cannot change user parameter toggle. User Id Invalid.")
         userInfoRepository.findById(user.id).get().toggle = if (toggle) 1 else 0

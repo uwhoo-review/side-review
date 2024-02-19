@@ -115,7 +115,6 @@ class LoginController(
         @LoginUser user: UserInfoDto
     ): ResponseEntity<String> {
         try {
-
             loginService.changeToggle(user, toggle)
         } catch (e: Exception) {
             when (e) {

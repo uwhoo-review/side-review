@@ -38,12 +38,11 @@ class ReviewService(
                 logger.info(revOpt.get().spoiler)
 
                 revOpt.getOrNull()?.let { rev ->
-                    {
                         logger.info("AAAA")
                         if (rev.writerId == userId) {
                             rev.content = review.content
                             rev.spoiler = if (review.spoiler) "1" else "0"
-
+//                            userReviewRepository.save(rev)
                             logger.info(rev.reviewId)
                             logger.info(rev.content)
                             logger.info(rev.writerId)
@@ -51,7 +50,6 @@ class ReviewService(
                         } else {
                             throw ReviewUserIdInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
                         }
-                    }
                 } ?: throw ReviewGetIdInvalidException()
             } else {
                 throw ReviewUserIdInvalidException("Cannot Update Review. User Id not found.")
