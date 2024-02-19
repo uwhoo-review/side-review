@@ -8,7 +8,14 @@ data class UserInfoDto @JvmOverloads constructor(
     val id: String = "",
     var nickname: String = "",
     var profile: String = "",
-    val type: String = ""
+    val type: String = "",
+    val toggle: Boolean = false
 ) {
-    constructor(user: UserInfo) : this(user.userId, user.nickname, user.profile, user.loginType)
+    constructor(user: UserInfo) : this(
+        user.userId,
+        user.nickname,
+        user.profile,
+        user.loginType,
+        user.toggle
+    )
 }

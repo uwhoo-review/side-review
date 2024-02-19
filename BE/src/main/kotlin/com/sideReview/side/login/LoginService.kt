@@ -8,8 +8,6 @@ import com.sideReview.side.login.google.dto.GoogleProfileResponse
 import com.sideReview.side.login.kakao.dto.KakaoProfileResponse
 import com.sideReview.side.login.naver.dto.NaverProfileResponse
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpHeaders
-import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -19,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
-import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -76,6 +73,7 @@ class LoginService(
                     profile,
                     null,
                     null,
+                    false,
                     null,
                     null
                 )

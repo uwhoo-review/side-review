@@ -1,5 +1,6 @@
 package com.sideReview.side.common.entity
 
+import org.hibernate.annotations.Comment
 import org.hibernate.annotations.DynamicUpdate
 import javax.persistence.*
 
@@ -25,6 +26,10 @@ data class UserInfo(
 
     @Column(name = "prefer_genre", length = 100)
     var preferGenre: String?,
+
+    @Column(name = "ott_toggle", length = 1)
+    @Comment("0:false, 1:true / tinyint(1)")
+    var toggle: Boolean,
 
     @OneToMany(mappedBy = "userInfo", cascade = [CascadeType.ALL])
     val favoriteContent: List<UserFavoriteContent>?,
