@@ -36,21 +36,21 @@ class ReviewService(
                 logger.info(revOpt.get().content)
                 logger.info(revOpt.get().writerId)
                 logger.info(revOpt.get().spoiler)
-
-                revOpt.getOrNull()?.let { rev ->
-                        logger.info("AAAA")
-                        if (rev.writerId == userId) {
-                            rev.content = review.content
-                            rev.spoiler = if (review.spoiler) "1" else "0"
+                if (revOpt.isPresent) {
+                    val rev = revOpt.get()
+                    logger.info("AAAA")
+                    if (rev.writerId == userId) {
+                        rev.content = review.content
+                        rev.spoiler = if (review.spoiler) "1" else "0"
 //                            userReviewRepository.save(rev)
-                            logger.info(rev.reviewId)
-                            logger.info(rev.content)
-                            logger.info(rev.writerId)
-                            logger.info(rev.spoiler)
-                        } else {
-                            throw ReviewUserIdInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
-                        }
-                } ?: throw ReviewGetIdInvalidException()
+                        logger.info(rev.reviewId)
+                        logger.info(rev.content)
+                        logger.info(rev.writerId)
+                        logger.info(rev.spoiler)
+                    } else {
+                        throw ReviewUserIdInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
+                    }
+                } else throw ReviewGetIdInvalidException()
             } else {
                 throw ReviewUserIdInvalidException("Cannot Update Review. User Id not found.")
             }
