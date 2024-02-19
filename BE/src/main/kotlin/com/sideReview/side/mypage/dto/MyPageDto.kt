@@ -50,7 +50,7 @@ data class Genre(
     val count: Int
 )
 
-data class Person(
-    val id: Int,
-    val name: String
+data class Person @JvmOverloads constructor(
+    val id: Int = 0,
+    val name: String = ""
 )

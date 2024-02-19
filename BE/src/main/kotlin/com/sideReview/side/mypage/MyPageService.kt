@@ -215,11 +215,11 @@ class MyPageService(
             actor = if (captivatingPair.first != null) Person(
                 id = captivatingPair.first!!.first,
                 name = captivatingPair.first!!.second
-            ) else null,
+            ) else Person(),
             director = if (captivatingPair.second != null) Person(
                 id = captivatingPair.second!!.first,
                 name = captivatingPair.second!!.second
-            ) else null,
+            ) else Person(),
             unique = unique
         )
         return MyPageDto(
