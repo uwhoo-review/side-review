@@ -53,6 +53,10 @@ export const UWAxios = {
       const res = await axiosBaseInstance.put<any>(`review`, data);
       return res.data;
     },
+    async deleteReview(reviewId: string) {
+      const res = await axiosBaseInstance.delete<any>(`review?id=${reviewId}`);
+      return res.data;
+    },
   },
   person: {
     async getPersonDetail(id: string) {
@@ -106,7 +110,15 @@ export const UWAxios = {
       return res.data;
     },
     async putNickName(nickName: string) {
-      const res = await axiosBaseInstance.put<any>(`user?name=${nickName}`);
+      const res = await axiosBaseInstance.put<any>(`user/nickname?name=${nickName}`);
+      return res.data;
+    },
+    async getMyStarCollect(page: number, size: number) {
+      const res = await axiosBaseInstance.get<any>(`user/star?page=${page}&size=${size}`);
+      return res.data;
+    },
+    async getMyReviewCollect(page: number, size: number) {
+      const res = await axiosBaseInstance.get<any>(`user/review?page=${page}&size=${size}`);
       return res.data;
     },
     async getMyContents(keyword: string, page: number, size: number) {

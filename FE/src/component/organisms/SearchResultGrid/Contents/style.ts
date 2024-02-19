@@ -2,10 +2,10 @@ import { css } from "@emotion/react";
 import Color from "@src/common/styles/Color";
 
 export default {
-  wrapper: css``,
+  wrapper: css`
+  `,
   subWrapper: css``,
   virtuosoWrapper: css`
-    margin-top: 50px;
     padding-bottom: 100px;
   `,
   subTitle: css`

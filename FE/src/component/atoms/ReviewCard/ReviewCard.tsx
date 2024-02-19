@@ -42,7 +42,7 @@ const ReviewCard = ({
   height = "140px",
   radius = "10px",
   backgroundColor = Color.dark.elevation16,
-  best = true,
+  best = false,
   spoiler = false,
   footer = false,
   date,
@@ -93,11 +93,11 @@ const ReviewCard = ({
           </div>
           <div css={styled.dateDiv}>{date}</div>
         </div>
-        {!useModal && (
+        {!useModal && user && (
           <div css={styled.topWrapper}>
             <div css={styled.chipWrapper}></div>
             <div css={styled.chipWrapper}>
-              {user && (
+              {(
                 <>
                   <ProfileImage src={user.profile} size={"26px"} />
                   <HWTypography variant={"bodyL"} color={"#9897A1"}>{user.nickname}</HWTypography>

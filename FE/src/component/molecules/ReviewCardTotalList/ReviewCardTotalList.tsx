@@ -39,8 +39,6 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
     };
   };
 
-  console.log(reviewList)
-
 
   const { status, data, error } = useQuery({
     queryKey: ["list", "review", id, sort, isSpoiler, page, size, toggle1],

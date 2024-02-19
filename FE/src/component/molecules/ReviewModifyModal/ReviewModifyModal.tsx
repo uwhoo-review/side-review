@@ -17,6 +17,7 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
 
   const commonContext = useCommon();
   const [text, setText] = useState<string>("");
+  const [tmpText, setTmpText] = useState<string>("");
   const [byteText, setByteText] = useState(0);
   const [isSpoiler, setIsSpoiler] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -31,16 +32,26 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
     },
   });
 
-  const onHandleDelete = () => {
-
-  }
-
-
+  const deleteMutation = useMutation({
+    mutationFn: async (reviewId: string) => {
+      return await UWAxios.review.deleteReview(reviewId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["list", "review", item.id, "best", 0, 0, 6],
+      });
+    },
+  });
 
   useEffect(() => {
-    setText("");
-    setIsSpoiler(false);
-    setByteText(0);
+    const res = getMaxByteText(tmpText, LIMIT_BYTE);
+    setText(res.s);
+    setByteText(res.byte);
+  }, [tmpText]);
+
+  useEffect(() => {
+    setTmpText(review.content);
+    setIsSpoiler(review.spoiler);
   }, []);
 
   return (
@@ -61,9 +72,7 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
           }
           value={text}
           onChange={(e) => {
-            const res = getMaxByteText(e.target.value, LIMIT_BYTE);
-            setText(res.s);
-            setByteText(res.byte);
+            setTmpText(e.target.value);
           }}
           css={styled.textarea}
         />
@@ -84,7 +93,13 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
       </HWDialog.Content>
       <HWDialog.Actions customCss={styled.dialogAction}>
         <div>
-          <HWButton variant="secondary" onClick={onHandleDelete}>
+          <HWButton
+            variant="secondary"
+            onClick={() => {
+              onClose();
+              deleteMutation.mutate(review.id);
+            }}
+          >
             리뷰 삭제
           </HWButton>
         </div>

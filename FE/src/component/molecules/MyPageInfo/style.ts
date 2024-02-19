@@ -51,7 +51,6 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
-    //transition: height 0.1s linear;
     background-color: #232323;
     border: 1px solid #333333;
     z-index: 15;
@@ -67,13 +66,6 @@ export default {
 
     height: ${size}px;
 
-    //display: flex;
-    //justify-content: center;
-    //align-items: flex-end;
-    //color: #fff;
-    //.MuiBackdrop-root {
-    //  background-color: rgba(0, 0, 0, 0.2);
-    //}
   `,
   modalWrapper: css`
     width: 100%;

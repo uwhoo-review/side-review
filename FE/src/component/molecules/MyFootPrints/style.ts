@@ -3,11 +3,12 @@ import Color from "@src/common/styles/Color";
 
 export default {
   wrapper: css`
+    padding: 40px 0;
   `,
   subWrapper: css``,
 
   virtuosoWrapper: css`
-    margin-top: 50px;
+    margin-top: 40px;
     padding-bottom: 100px;
   `,
   sub1: css`
@@ -50,8 +51,7 @@ export default {
   itemContainer: css`
     display: flex;
     flex: none;
-    align-content: stretch;
-    align-items: flex-end;
+    align-items: flex-start;
     box-sizing: border-box;
     margin-bottom: 40px;
     width: calc(100% / 6);
@@ -77,14 +77,28 @@ export default {
     background-color: #1e1e1e;
     border-radius: 10px;
   `,
+
+  typoCenter: css`
+    text-align: center;
+  `,
+  contentTotalWrapper: css`
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+  `,
+  toggle: css`
+    margin-top: 20px;
+  `,
+  toggleBtn: css`
+    gap: 8px;
+  `,
   typo: css`
     color: #9897a1;
     font-family: Poppins;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
-  `,
-  typoCenter: css`
-    text-align: center;
   `,
 };

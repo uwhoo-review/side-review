@@ -13,18 +13,19 @@ interface ContentCardSecProps {
   id: string;
   srcId: string;
   contentName: string;
-  platform: number[];
+  platform?: number[];
   className?: string;
   age?: string;
-  date: string;
+  date?: string;
   active: boolean;
   launch?: boolean;
   rank?: number;
-  rating: number;
+  rating?: number;
   userRating: number;
   season?: SeasonDO;
   onClick?: (e: React.MouseEvent) => void;
   customCss?: SerializedStyles;
+  type?: string;
 }
 const ContentCardSec = ({
   id,
@@ -42,6 +43,7 @@ const ContentCardSec = ({
   season,
   active,
   userRating,
+  type = "first",
   ...props
 }: ContentCardSecProps) => {
   const navigate = useNavigate();
@@ -64,7 +66,7 @@ const ContentCardSec = ({
   return (
     <div
       className={classNames.join(" ")}
-      css={[styled.wrapper(active), customCss]}
+      css={[styled.wrapper(active), styled.variant(type), customCss]}
       onClick={onClick}
       {...props}
     >
@@ -90,22 +92,37 @@ const ContentCardSec = ({
           </div>
         </div>
         <div css={styled.flexBetween}>
-          <div className={"title-star"} css={styled.flexBetween}>
-            <HWTypography variant={"bodyXS"} color={Color.dark.grey400} css={styled.typo1}>
-              평균 별점
-            </HWTypography>
-            <div css={styled.rating}>
-              <IconStar css={styled.iconStar} />
-              <HWTypography variant={"bodyXS"}>{rating || 0}</HWTypography>
-            </div>
-            <HWTypography variant={"bodyXS"} color={Color.dark.grey400} css={styled.typo1}>
-              내 별점
-            </HWTypography>
-            <div css={styled.rating}>
-              <IconRating css={styled.iconStar} />
-              <HWTypography variant={"bodyXS"}>{userRating || 0}</HWTypography>
-            </div>
-          </div>
+          <>
+            {type === "first" && (
+              <div className={"title-star"} css={styled.flexBetween}>
+                <HWTypography variant={"bodyXS"} color={Color.dark.grey400} css={styled.typo1}>
+                  평균 별점
+                </HWTypography>
+                <div css={styled.rating}>
+                  <IconStar css={styled.iconStar} />
+                  <HWTypography variant={"bodyXS"}>{rating || 0}</HWTypography>
+                </div>
+                <HWTypography variant={"bodyXS"} color={Color.dark.grey400} css={styled.typo1}>
+                  내 별점
+                </HWTypography>
+                <div css={styled.rating}>
+                  <IconRating css={styled.iconStar} />
+                  <HWTypography variant={"bodyXS"}>{userRating || 0}</HWTypography>
+                </div>
+              </div>
+            )}
+            {type === "second" && (
+              <div className={"title-star"} css={styled.flexBetween2}>
+                <HWTypography variant={"bodyXS"} color={"#6D6ADA"}>
+                  내 별점
+                </HWTypography>
+                <div css={styled.rating}>
+                  <IconRating css={styled.iconStar} />
+                  <HWTypography variant={"bodyXS"}>{userRating || 0}</HWTypography>
+                </div>
+              </div>
+            )}
+          </>
         </div>
       </div>
     </div>

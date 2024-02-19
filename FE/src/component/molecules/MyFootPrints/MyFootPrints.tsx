@@ -1,6 +1,6 @@
 import HWToggleButtonGroup from "@src/component/atoms/HWToggleButtonGroup/HWToggleButtonGroup";
 import HWToggleButton from "@src/component/atoms/HWToggleButton/HWToggleButton";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import Color from "@src/common/styles/Color";
@@ -9,13 +9,72 @@ import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { VirtuosoGrid } from "react-virtuoso";
 import { useNavigate } from "react-router-dom";
 import styled from "./style";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
+import { CONTENTS_TABS } from "@src/variables/APIConstants";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
+import MoreViewButton from "@src/component/atoms/MoreViewButton/MoreViewButton";
+import ReviewCard from "@src/component/atoms/ReviewCard/ReviewCard";
+import ContentCardSec from "@src/component/atoms/ContentCardSec/ContentCardSec";
 
-const MyFootPrints = ({ toggle = "content", data = [] }: any) => {
+const MyFootPrints = ({ toggle = "star" }: any) => {
+  const PAGE_SIZE = 6;
+
   const [toggle1, setToggle1] = useState<string>(toggle);
-  const [resultContent, setResultContent] = useState<any>(data);
-  const navigate = useNavigate();
+  const [resultContent, setResultContent] = useState<any>([]);
+  const [resultReview, setResultReview] = useState<any>([]);
+  const [contentPageInfo, setContentPageInfo] = useState({
+    page: 0,
+    totalElements: 0,
+    totalPages: 0,
+  });
+  const [reviewPageInfo, setReviewPageInfo] = useState({
+    page: 0,
+    totalElements: 0,
+    totalPages: 0,
+  });
 
+  const navigate = useNavigate();
   const virtuosoRef = useRef<any>();
+
+  const useStarMatch = useQuery({
+    queryKey: ["user", "star", "list", 0, PAGE_SIZE],
+    queryFn: async ({ queryKey }: any) => {
+      return await UWAxios.user.getMyStarCollect(queryKey[3], queryKey[4]);
+    },
+    refetchOnWindowFocus: false,
+    // enabled: toggle1 === "star",
+  });
+
+  const useReviewMatch = useQuery({
+    queryKey: ["user", "review", "list", 0, PAGE_SIZE],
+    queryFn: async ({ queryKey }: any) => {
+      return await UWAxios.user.getMyReviewCollect(queryKey[3], queryKey[4]);
+    },
+    refetchOnWindowFocus: false,
+    // enabled: toggle1 === "review",
+  });
+
+  const starMutation = useMutation({
+    mutationFn: async (p: any) => {
+      return await UWAxios.user.getMyStarCollect(p, PAGE_SIZE);
+    },
+    onSuccess: (data: any) => {
+      setResultContent((prev: any) => [...prev, ...data.contents]);
+      setContentPageInfo(data.pageInfo);
+    },
+  });
+
+  const reviewMutation = useMutation({
+    mutationFn: async (p: any) => {
+      return await UWAxios.user.getMyReviewCollect(p, PAGE_SIZE);
+    },
+    onSuccess: (data: any) => {
+      setResultReview((prev: any) => [...prev, ...data.reviews.review]);
+      setReviewPageInfo(data.pageInfo);
+    },
+  });
+
   const props1 = (value: string) => {
     return {
       checked: toggle1 === value,
@@ -25,79 +84,131 @@ const MyFootPrints = ({ toggle = "content", data = [] }: any) => {
     };
   };
 
+  useEffect(() => {
+    if (useStarMatch.data) {
+      setResultContent(useStarMatch.data.contents);
+      setContentPageInfo(useStarMatch.data.pageInfo);
+    }
+  }, [useStarMatch.data]);
+
+  useEffect(() => {
+    console.log(useReviewMatch);
+    if (useReviewMatch.data) {
+      setResultReview(useReviewMatch.data.reviews.review);
+      setReviewPageInfo(useReviewMatch.data.pageInfo);
+    }
+  }, [useReviewMatch.data]);
+
+  useEffect(() => {
+    setToggle1(toggle);
+  }, [toggle]);
+
   return (
     <div css={styled.wrapper}>
       <HWTypography variant={"headlineM"} family={"Pretendard-SemiBold"}>
         UWHOO 발자취
       </HWTypography>
-      <HWToggleButtonGroup>
-        <HWToggleButton {...props1("content")}>내 별점 작품</HWToggleButton>
-        <HWToggleButton {...props1("review")}>내 리뷰</HWToggleButton>
+      <HWToggleButtonGroup customCss={styled.toggle}>
+        <HWToggleButton customCss={styled.toggleBtn} {...props1("star")}>
+          내 별점 작품 <span css={styled.typo}>{contentPageInfo.totalElements}</span>
+        </HWToggleButton>
+        <HWToggleButton customCss={styled.toggleBtn} {...props1("review")}>
+          내 리뷰 <span css={styled.typo}>{reviewPageInfo.totalElements}</span>
+        </HWToggleButton>
       </HWToggleButtonGroup>
       <CenterWrapper>
-        {toggle1 === "content" && (
+        {toggle1 === "star" && (
           <>
-            <div css={styled.virtuosoWrapper}>
-              <VirtuosoGrid
-                ref={virtuosoRef}
-                data={resultContent}
-                useWindowScroll={true}
-                components={{
-                  List: forwardRef((props, ref) => (
-                    <div {...props} css={styled.listContainer} ref={ref} />
-                  )),
-                  Item: (props) => (
-                    <div {...props} className={"item-container"} css={styled.itemContainer} />
-                  ),
-                }}
-                itemContent={(i, v) => {
-                  return (
-                    <div className={"content-slide"} key={v.id} css={styled.item}>
-                      <ContentCard
-                        id={v.id}
-                        key={v.id}
-                        className={`image-card`}
-                        srcId={v.poster}
-                        contentName={v.name}
-                        platform={v.platform}
-                        age={v.age}
-                        date={v.year}
-                        rating={v.rating}
-                        season={v.season}
-                        active={true}
-                        launch={false}
-                        customCss={styled.card}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/detail/${v.id}`);
-                        }}
-                      />
-                    </div>
-                  );
-                }}
-              />
-            </div>
-
-            {/*{total > resultContent.length && (
-                <div
-                  css={styled.plusBtn}
-                  onClick={() => {
-                    mutation.mutate({ s: resultContent.length });
-                  }}
-                >
-                  <HWTypography
-                    variant={"headlineXXS"}
-                    family={"Pretendard-SemiBold"}
-                    color={Color.dark.primary800}
-                  >
-                    더보기
-                  </HWTypography>
-                  <IconChevronDoubleDown />
+            {useStarMatch.isLoading && <LoadingGrid />}
+            {resultContent.length !== 0 && (
+              <>
+                <div css={styled.virtuosoWrapper}>
+                  <VirtuosoGrid
+                    ref={virtuosoRef}
+                    data={resultContent}
+                    useWindowScroll={true}
+                    components={{
+                      List: forwardRef((props, ref) => (
+                        <div {...props} css={styled.listContainer} ref={ref} />
+                      )),
+                      Item: (props) => (
+                        <div {...props} className={"item-container"} css={styled.itemContainer} />
+                      ),
+                    }}
+                    itemContent={(i, v) => {
+                      return (
+                        <div className={"content-slide"} key={v.id} css={styled.item}>
+                          <ContentCardSec
+                            id={v.id}
+                            key={v.id}
+                            className={`image-card`}
+                            srcId={v.poster}
+                            contentName={v.name}
+                            season={v.season}
+                            active={true}
+                            launch={false}
+                            customCss={styled.card}
+                            userRating={v.userRating}
+                            type={"second"}
+                            // onClick={(e) => {
+                            //   e.stopPropagation();
+                            //   navigate(`/detail/${v.id}`);
+                            // }}
+                          />
+                        </div>
+                      );
+                    }}
+                  />
                 </div>
-              )}*/}
+                {contentPageInfo.page < contentPageInfo.totalPages - 1 && (
+                  <MoreViewButton
+                    onClick={() => {
+                      starMutation.mutate(contentPageInfo.page + 1);
+                    }}
+                  />
+                )}
+              </>
+            )}
           </>
         )}
-        {toggle1 === "review" && <></>}
+        {toggle1 === "review" && (
+          <>
+            {useReviewMatch.isLoading && <LoadingGrid />}
+            {resultReview.length !== 0 && (
+              <>
+                <div css={styled.contentTotalWrapper}>
+                  {resultReview.map((v: any, i: number) => {
+                    return (
+                      <ReviewCard
+                        key={v.id}
+                        reviewId={v.id}
+                        dislike={v.dislike}
+                        like={v.like}
+                        date={v.date}
+                        // best={i < 7}
+                        // user={v.user}
+                        spoiler={v.spoiler}
+                        footer={true}
+                        width={"100%"}
+                        height={"280px"}
+                        useModal={false}
+                      >
+                        {v.content}
+                      </ReviewCard>
+                    );
+                  })}
+                </div>
+                {reviewPageInfo.page < reviewPageInfo.totalPages - 1 && (
+                  <MoreViewButton
+                    onClick={() => {
+                      reviewMutation.mutate(reviewPageInfo.page + 1);
+                    }}
+                  />
+                )}
+              </>
+            )}
+          </>
+        )}
       </CenterWrapper>
     </div>
   );

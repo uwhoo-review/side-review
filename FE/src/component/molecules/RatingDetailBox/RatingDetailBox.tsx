@@ -6,7 +6,7 @@ import Color from "@src/common/styles/Color";
 import Divider from "@src/component/atoms/Divider/Divider";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { Rating } from "@mui/material";
-import {SyntheticEvent, useEffect, useState} from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import ReviewModal from "@src/component/molecules/ReviewModal/ReviewModal";
 import { useLocation } from "react-router-dom";
 import { useCommon } from "@src/providers/CommonProvider";
@@ -16,7 +16,7 @@ import ReviewModifyModal from "@src/component/molecules/ReviewModifyModal/Review
 
 const RatingDetailBox = ({ item }: any) => {
   const [dialog, setDialog] = useState(false);
-  const [modifyDialog, setModifyDialog] = useState(true);
+  const [modifyDialog, setModifyDialog] = useState(false);
   const location = useLocation();
   const commonContext = useCommon();
 
@@ -31,7 +31,6 @@ const RatingDetailBox = ({ item }: any) => {
       console.log(err);
     }
   };
-
 
   return (
     <div css={styled.wrapper}>
@@ -78,18 +77,35 @@ const RatingDetailBox = ({ item }: any) => {
           >
             <IconLink /> 링크 공유
           </HWButton>
-          <HWButton
-            variant={"primary"}
-            onClick={() => setDialog(true)}
-            // customCss={styled.btn2}
-          >
-            <IconWrite />
-            리뷰 쓰기
-          </HWButton>
+          {item?.review?.id === "" ? (
+            <HWButton
+              variant={"primary"}
+              onClick={() => setDialog(true)}
+              // customCss={styled.btn2}
+            >
+              <IconWrite />
+              리뷰 쓰기
+            </HWButton>
+          ) : (
+            <HWButton
+              variant={"primary"}
+              onClick={() => setModifyDialog(true)}
+              // customCss={styled.btn2}
+            >
+              <IconWrite />
+              리뷰 수정
+            </HWButton>
+          )}
         </div>
       </div>
       <ReviewModal width={"800px"} open={dialog} onClose={() => setDialog(false)} item={item} />
-      {/*<ReviewModifyModal width={"800px"} open={modifyDialog} onClose={() => setModifyDialog(false)} item={item} />*/}
+      <ReviewModifyModal
+        width={"800px"}
+        open={modifyDialog}
+        onClose={() => setModifyDialog(false)}
+        review={item.review}
+        item={item}
+      />
     </div>
   );
 };

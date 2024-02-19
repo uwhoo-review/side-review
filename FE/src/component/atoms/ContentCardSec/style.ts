@@ -14,6 +14,28 @@ export default {
       }
     }
   `,
+  variant: (type: string) => {
+    switch (type) {
+      case "first": {
+        return css`
+          width: 160px;
+          height: 240px;
+        `;
+      }
+      case "second": {
+        return css`
+          width: 216px;
+          height: 324px;
+        `;
+      }
+      default: {
+        return css`
+          width: 160px;
+          height: 240px;
+        `;
+      }
+    }
+  },
   rank: css`
     position: absolute;
     top: 0;
@@ -42,7 +64,14 @@ export default {
     align-items: center;
     height: 24px;
     width: 100%;
-    
+  `,
+  flexBetween2: css`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 24px;
+    width: 100%;
+    gap: 4px;
   `,
   rating: css`
     display: flex;
