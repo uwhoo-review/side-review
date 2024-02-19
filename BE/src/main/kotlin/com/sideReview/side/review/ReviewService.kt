@@ -7,6 +7,7 @@ import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.review.exception.*
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -20,25 +21,38 @@ class ReviewService(
     val userReviewRepository: UserReviewRepository,
     val userInfoRepository: UserInfoRepository
 ) {
+    val logger = LoggerFactory.getLogger(this::class.java)!!
 
     @Transactional
     fun createOrUpdate(review: ReviewCreateDto, userId: String, userType: String) {
         val uuid = "${UUID.randomUUID()}"
-        // review id와 userId가 있다면 수정
-        if (review.reviewId != null) {
+        // 로그인 유저이고, review id와 userId가 있다면 수정
+        if (userType == "1" && review.reviewId != null) {
             if (userInfoRepository.existsById(userId)) {
                 val revOpt: Optional<UserReview> = userReviewRepository.findById(review.reviewId)
+                logger.info("#### review : update ####")
+                logger.info(revOpt.getOrNull().toString())
+                logger.info(revOpt.get().reviewId)
+                logger.info(revOpt.get().content)
+                logger.info(revOpt.get().writerId)
+                logger.info(revOpt.get().spoiler)
+
                 revOpt.getOrNull()?.let { rev ->
                     {
+                        logger.info("AAAA")
                         if (rev.writerId == userId) {
                             rev.content = review.content
                             rev.spoiler = if (review.spoiler) "1" else "0"
+
+                            logger.info(rev.reviewId)
+                            logger.info(rev.content)
+                            logger.info(rev.writerId)
+                            logger.info(rev.spoiler)
                         } else {
                             throw ReviewUserIdInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
                         }
                     }
                 } ?: throw ReviewGetIdInvalidException()
-
             } else {
                 throw ReviewUserIdInvalidException("Cannot Update Review. User Id not found.")
             }

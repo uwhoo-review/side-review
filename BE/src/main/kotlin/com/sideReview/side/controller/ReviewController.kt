@@ -22,7 +22,7 @@ class ReviewController(val reviewService: ReviewService) {
     @PutMapping("")
     fun createOrUpdate(
         @RequestBody body: ReviewCreateDto,
-        @LoginUser(required = false) user: UserInfoDto?,
+        @LoginUser user: UserInfoDto?,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
         try {
