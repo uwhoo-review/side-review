@@ -34,26 +34,19 @@ class MainContentsController @Autowired constructor(
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         val userId = ClientUtils.getUserId(request, user)
+
         runBlocking {
             var reDup = requestDto.copy()
-            logger.info("#### main contents ####")
-            logger.info("userId : ${userId}")
-            logger.info("user type: ${ClientUtils.getUserType(request, user)} -- 1 login 2 public")
-            logger.info("is ott true : ${loginService.isOttTrue(userId)}")
             // 로그인 user일 경우 ott_toggle이 true일 때 perferOtt로 filter추가.
             if (ClientUtils.getUserType(request, user) == "1" && loginService.isOttTrue(userId)) {
                 val userEntity = loginService.getUser(userId)
                 if (userEntity.preferOtt != null && !userEntity.preferOtt.isNullOrBlank()) {
-                    logger.info("오티티 필터 추가 ${
+                    reDup.addFilter(
                         ContentRequestFilterDetail(
                             "platform",
                             MapperUtils.parseStringToList(userEntity.preferOtt!!)
                                 .map { it.toString() }
-                        ).toString()
-                    }")
-                    ContentRequestFilterDetail(
-                        "platform",
-                        MapperUtils.parseStringToList(userEntity.preferOtt!!).map { it.toString() }
+                        )
                     )
                 }
             }
