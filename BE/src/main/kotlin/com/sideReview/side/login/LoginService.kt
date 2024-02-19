@@ -116,18 +116,6 @@ class LoginService(
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
 
-//
-//        // 쿠키 생성 및 설정
-//        val sessionCookie = ResponseCookie
-//            .from("JSESSIONID", httpSession.id)
-//            .maxAge(3600)
-//            .httpOnly(true)
-//            .secure(true) // HTTPS에서만 전송하도록 설정
-//            .sameSite("None") // SameSite 설정
-//            .path("/")
-//            .build()
-//        response.addHeader(HttpHeaders.SET_COOKIE, sessionCookie.toString())
-
         val logAuth = SecurityContextHolder.getContext().authentication
         if (logAuth != null && logAuth.principal is UserInfoDto) {
             val logInfo = logAuth.principal as UserInfoDto
@@ -140,4 +128,11 @@ class LoginService(
         obj["sessionId"] = httpSession.id
         return ResponseEntity.ok(ObjectMapper().writeValueAsString(obj))
     }
+
+    fun changeToggle(user: UserInfoDto, toggle: Boolean) {
+        if (!userInfoRepository.existsById(user.id)) throw LoginToggleUserIdInvalidException("Cannot change user parameter toggle. User Id Invalid.")
+        userInfoRepository.findById(user.id).get().toggle = toggle
+    }
+
+
 }

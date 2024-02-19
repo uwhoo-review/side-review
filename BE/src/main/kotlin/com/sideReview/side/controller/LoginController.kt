@@ -1,6 +1,9 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.login.LoginService
+import com.sideReview.side.login.LoginToggleUserIdInvalidException
+import com.sideReview.side.login.LoginUser
 import com.sideReview.side.login.google.GoogleClientAuth
 import com.sideReview.side.login.google.GoogleClientProfile
 import com.sideReview.side.login.google.dto.GoogleRequest
@@ -12,6 +15,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.session.web.http.DefaultCookieSerializer
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.Cookie
@@ -103,6 +107,23 @@ class LoginController(
         } catch (e: Exception) {
             return ResponseEntity.internalServerError().body(e.message)
         }
+    }
 
+    @GetMapping("/user/ott/{toggle}")
+    fun changeToggle(
+        @PathVariable toggle: Boolean,
+        @LoginUser user: UserInfoDto
+    ): ResponseEntity<String> {
+        try {
+
+            loginService.changeToggle(user, toggle)
+        } catch (e: Exception) {
+            when (e) {
+                is LoginToggleUserIdInvalidException ->
+                    return ResponseEntity.badRequest().body(e.message)
+            }
+        }
+        return ResponseEntity.ok()
+            .body("user param changed : toggle ${if (toggle) "on" else "off"}")
     }
 }
