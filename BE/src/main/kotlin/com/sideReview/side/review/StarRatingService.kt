@@ -36,14 +36,17 @@ class StarRatingService(
     @Transactional
     fun editStarRating(dto: StarRatingUpdateDto, userId: String) {
         if (userInfoRepository.existsById(userId)) {
-            userStarRatingRepository.save(
-                UserStarRating(
-                    id = dto.ratingId,
-                    targetId = dto.contentId,
-                    writerId = userId,
-                    rating = dto.rating
+            val entity = userStarRatingRepository.findOneByTargetIdAndWriterId(dto.contentId, userId)
+            if(entity != null) {
+                userStarRatingRepository.save(
+                    UserStarRating(
+                        id = entity.id,
+                        targetId = dto.contentId,
+                        writerId = userId,
+                        rating = dto.rating
+                    )
                 )
-            )
+            }
         }
         else throw Exception("Cannot update star rating. User Id not found.")
     }
