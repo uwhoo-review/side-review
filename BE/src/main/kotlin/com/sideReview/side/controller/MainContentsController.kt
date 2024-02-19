@@ -1,5 +1,7 @@
 package com.sideReview.side.controller
 
+import com.sideReview.side.common.dto.UserInfoDto
+import com.sideReview.side.login.LoginUser
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.ReviewService
@@ -19,7 +21,8 @@ class MainContentsController @Autowired constructor(
 
     @PostMapping("")
     fun getContents(
-        @RequestBody request: ContentRequestDTO
+        @RequestBody request: ContentRequestDTO,
+        @LoginUser user: UserInfoDto?
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         runBlocking {
@@ -28,12 +31,12 @@ class MainContentsController @Autowired constructor(
                 "main" -> {
                     reDup.sort = "popularity"
                     val popular = reviewService.fillReview(
-                        opensearchClient.getContents(reDup)
+                        opensearchClient.getContents(reDup, user)
                     )
 
                     reDup.sort = "new"
                     val latest = reviewService.fillReview(
-                        opensearchClient.getContents(reDup)
+                        opensearchClient.getContents(reDup, user)
                     )
                     response = ResponseEntity.ok(
                         MainContentDto(
@@ -50,14 +53,14 @@ class MainContentsController @Autowired constructor(
                     reDup.pagination = 0
                     reDup.tab = "main"
                     reDup.sort = "popularity"
-                    val lastOneYear = opensearchClient.getContents(reDup)
+                    val lastOneYear = opensearchClient.getContents(reDup, user)
 
                     // lastOneYear의 id를 제외, popularity 순으로 정렬, page-20번~30개 가져옴
                     reDup = request.copy()
                     reDup.sort = "popularity"
                     reDup.notQuery = lastOneYear.map { it.id }
                     reDup.pagination = if (page < 20) page else page - 20
-                    val sortByPopular = opensearchClient.getContents(reDup)
+                    val sortByPopular = opensearchClient.getContents(reDup, user)
 
                     // 요청 데이터 번호가 20 이전일 경우 1년 내의 결과 + popularity 순에서 모자란거 채워서 30개 생성
                     response = if (page < 20) {
@@ -80,7 +83,7 @@ class MainContentsController @Autowired constructor(
                     reDup.sort = "new"
                     response = ResponseEntity.ok(
                         reviewService.fillReview(
-                            opensearchClient.getContents(reDup)
+                            opensearchClient.getContents(reDup, user)
                         )
                     )
                 }

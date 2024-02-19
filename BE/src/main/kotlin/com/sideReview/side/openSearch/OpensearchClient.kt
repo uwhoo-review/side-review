@@ -5,6 +5,7 @@ import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.PageInfoDto
+import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.FavoriteContentSearchDto
 import com.sideReview.side.mypage.dto.FavoriteContentSearchPageDto
@@ -119,7 +120,7 @@ class OpensearchClient(
         return documentList
     }
 
-    fun getContents(request: ContentRequestDTO): List<ContentDto> {
+    fun getContents(request: ContentRequestDTO, user: UserInfoDto?): List<ContentDto> {
         // SearchResponse 가져오는 단계
         if (request.tab == "main" && request.sort == "popularity") {
             // 최근 1년간의 결과만 가져오기 위해 filter 추가
@@ -166,7 +167,7 @@ class OpensearchClient(
             // Response 가공 단계
             for (doc in documentList) {
                 val detailContentDto =
-                    openSearchDetailService.getContentDocumentAsDetailContentDto(doc, null)
+                    openSearchDetailService.getContentDocumentAsDetailContentDto(doc, user?.id)
 
                 // detail Content dto -> Content dto
                 // contentDtoList.add....
@@ -365,10 +366,9 @@ class OpensearchClient(
                     }
                 }
             } else {
-                val contentIdList : MutableList<String> = mutableListOf()
-                if (it.cast != null){
-                    val idList = it.cast!!.map {
-                        item -> item.contentId }
+                val contentIdList: MutableList<String> = mutableListOf()
+                if (it.cast != null) {
+                    val idList = it.cast!!.map { item -> item.contentId }
                     contentIdList.addAll(idList)
                 }
                 for (element in contentIdList) {
@@ -381,7 +381,7 @@ class OpensearchClient(
                 }
             }
         }
-        return Pair(first = actorList?: emptyList(), second = directorList?: emptyList())
+        return Pair(first = actorList ?: emptyList(), second = directorList ?: emptyList())
     }
 
     fun Calendar.addDate(addFun: Int?, addParam: Int?): String {
