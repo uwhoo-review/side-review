@@ -25,8 +25,6 @@ class ReviewController(val reviewService: ReviewService) {
         @LoginUser(required = false) user: UserInfoDto?,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
-        logger.info("SSSSSSSSSSSSSSSS")
-        logger.info(user.toString())
         try {
             reviewService.createOrUpdate(
                 body, ClientUtils.getUserId(request, user), ClientUtils.getUserType(request, user)
@@ -69,9 +67,10 @@ class ReviewController(val reviewService: ReviewService) {
         @RequestParam(required = false, defaultValue = "0") page: String,
         @RequestParam(required = false, defaultValue = "6") size: String,
         @RequestParam(required = false, defaultValue = "0") type: String,
-        @LoginUser(required = false) user: UserInfoDto?
+        @LoginUser(required = false) user: UserInfoDto?,
+        request: HttpServletRequest
     ): ResponseEntity<Any> {
-        val userId = user?.id
+        val userId = ClientUtils.getUserId(request, user)
         val pageable = PageRequest.of(page.toInt(), size.toInt())
         try {
             return ResponseEntity.ok(
@@ -81,7 +80,7 @@ class ReviewController(val reviewService: ReviewService) {
                     spoiler,
                     type,
                     pageable,
-                    userId ?: ""
+                    userId
                 )
             )
         } catch (e: Exception) {
