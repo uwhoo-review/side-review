@@ -67,8 +67,6 @@ const ReviewCard = ({
     },
   });
 
-  console.log(commonContext);
-
   return (
     <>
       <div

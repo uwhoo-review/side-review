@@ -45,7 +45,8 @@ const AxiosInterceptor = ({ children }: any) => {
           commonContext.onAlert({
             is: true,
             type: "error",
-            children: <>{response.data}</>,
+            title: <>{response.data}</>,
+            children: "",
           });
 
           switch (response.status) {

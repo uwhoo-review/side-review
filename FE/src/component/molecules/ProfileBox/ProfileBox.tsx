@@ -27,7 +27,7 @@ const ProfileBox = () => {
   return (
     <div css={styled.wrapper}>
       <HWIconButton onClick={() => setOpen(!open)} ref={anchorRef}>
-        <ProfileImage size={"38px"} src={img1} />
+        <ProfileImage size={"38px"} src={commonContext.userInfo.profile} />
       </HWIconButton>
       <Popper
         open={open}
@@ -38,9 +38,9 @@ const ProfileBox = () => {
         <ClickAwayListener onClickAway={handleClose}>
           <div css={styled.subWrapper}>
             <div css={styled.top}>
-              <ProfileImage size={"60px"} src={img1} />
+              <ProfileImage size={"60px"} src={commonContext.userInfo.profile} />
               <div css={styled.topRight}>
-                <div css={styled.typo1}>날으는스파게티</div>
+                <div css={styled.typo1}>{commonContext.userInfo.nickname}</div>
                 <div css={styled.typo2}>flyingpasta@naver.com</div>
               </div>
             </div>

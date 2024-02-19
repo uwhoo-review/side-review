@@ -12,6 +12,7 @@ import HWAlert from "@src/component/atoms/HWAlert";
 import { FilterProps } from "@src/interfaces/common.interface";
 import { UWHOO_LOGIN } from "@src/variables/LoginConstants";
 import { getCookie } from "@src/tools/commonTools";
+import {UWAxios} from "@src/common/axios/AxiosConfig";
 
 const CommonContext = createContext<any | null>(null);
 export const useCommon = () => {
@@ -94,12 +95,13 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
     const loginInfoStr = sessionStorage.getItem(UWHOO_LOGIN);
     if (loginInfoStr) {
       const loginInfo = JSON.parse(loginInfoStr);
-      console.log(loginInfo);
       if (loginInfo.isLogin && loginInfo.userInfo !== null) {
         setIsLogin(true);
         setLogoinSession(loginInfo.sessionId);
         setUserInfo({ ...loginInfo.userInfo });
       }
+    } else {
+      (async () => await UWAxios.login.logout())();
     }
   }, []);
   return (
