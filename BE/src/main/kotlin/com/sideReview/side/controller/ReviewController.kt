@@ -97,11 +97,11 @@ class ReviewController(val reviewService: ReviewService) {
     @DeleteMapping("")
     fun delete(
         @RequestParam(required = true) id: String,
-        @LoginUser(required = false) user: UserInfoDto
+        @LoginUser user: UserInfoDto
     ): ResponseEntity<Any> {
         try {
             reviewService.delete(id, user.id)
-            return ResponseEntity(HttpStatus.OK)
+            return ResponseEntity.ok().body("review delete success.")
         } catch (e: Exception) {
             logger.error(e.message)
             logger.error(e.stackTraceToString())
