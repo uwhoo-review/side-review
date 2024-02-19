@@ -29,7 +29,7 @@ data class UserInfo(
 
     @Column(name = "ott_toggle", length = 1)
     @Comment("0:false, 1:true / tinyint(1)")
-    var toggle: Boolean,
+    var toggle: Int,
 
     @OneToMany(mappedBy = "userInfo", cascade = [CascadeType.ALL])
     val favoriteContent: List<UserFavoriteContent>?,

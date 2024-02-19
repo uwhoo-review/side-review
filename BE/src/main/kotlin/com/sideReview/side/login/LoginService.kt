@@ -73,7 +73,7 @@ class LoginService(
                     profile,
                     null,
                     null,
-                    false,
+                    0,
                     null,
                     null
                 )
@@ -131,12 +131,12 @@ class LoginService(
 
     fun changeToggle(user: UserInfoDto, toggle: Boolean) {
         if (!userInfoRepository.existsById(user.id)) throw LoginToggleUserIdInvalidException("Cannot change user parameter toggle. User Id Invalid.")
-        userInfoRepository.findById(user.id).get().toggle = toggle
+        userInfoRepository.findById(user.id).get().toggle = if (toggle) 1 else 0
     }
 
     fun isOttTrue(userId: String): Boolean {
         val user = userInfoRepository.findById(userId)
-        return user.isPresent && userInfoRepository.findById(userId).get().toggle
+        return user.isPresent && userInfoRepository.findById(userId).get().toggle == 1
     }
 
     fun getUser(userId: String): UserInfo {
