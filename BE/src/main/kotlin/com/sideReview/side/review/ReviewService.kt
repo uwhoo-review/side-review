@@ -43,6 +43,7 @@ class ReviewService(
                 throw ReviewUserIdInvalidException("Cannot Update Review. User Id not found.")
             }
         } else {
+            // 신규 생성
             if (userReviewRepository.existsByTargetIdAndWriterId(
                     review.dramaId,
                     userId

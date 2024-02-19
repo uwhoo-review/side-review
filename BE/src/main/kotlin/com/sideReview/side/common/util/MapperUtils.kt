@@ -96,7 +96,7 @@ object MapperUtils {
                 id = it.id,
                 sortingName = it.name,
                 name = it.name,
-                originalName = it.original_name?: it.name,
+                originalName = it.original_name ?: it.name,
                 profilePath = it.profile_path?.substring(1),
                 popularity = it.popularity,
                 cast = null,
@@ -299,7 +299,7 @@ object MapperUtils {
             name = detailDto.name,
             poster = detailDto.poster,
             date = detailDto.getYear(),
-            rating = detailDto.rating.rating?: 0.0f,
+            rating = detailDto.rating.rating ?: 0.0f,
             provider = detailDto.platform ?: emptyList(),
         )
     }
@@ -352,9 +352,7 @@ object MapperUtils {
 
     fun parseStringToList(str: String): List<Int> {
         val cleanedString = str.replace("[", "").replace("]", "").replace(" ", "")
-        val intList = cleanedString.split(",").map { it.toInt() }
-
-        return intList
+        return cleanedString.split(",").map { it.toInt() }
     }
 
     fun mapUserInfoToLoginResponseDto(user: UserInfo): UserInfoDto {
@@ -366,7 +364,7 @@ object MapperUtils {
         )
     }
 
-    fun mapRatingEntityToRatedContentDto(ratingList : List<UserStarRating>): List<RatedContentDto>{
+    fun mapRatingEntityToRatedContentDto(ratingList: List<UserStarRating>): List<RatedContentDto> {
         return ratingList.map {
             RatedContentDto(
                 id = it.targetId,

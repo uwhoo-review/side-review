@@ -134,5 +134,13 @@ class LoginService(
         userInfoRepository.findById(user.id).get().toggle = toggle
     }
 
+    fun isOttTrue(userId: String): Boolean {
+        val user = userInfoRepository.findById(userId)
+        return user.isPresent && userInfoRepository.findById(userId).get().toggle
+    }
+
+    fun getUser(userId: String): UserInfo {
+        return userInfoRepository.findById(userId).get()
+    }
 
 }

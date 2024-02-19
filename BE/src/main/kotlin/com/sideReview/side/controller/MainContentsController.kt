@@ -2,6 +2,8 @@ package com.sideReview.side.controller
 
 import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.util.ClientUtils
+import com.sideReview.side.common.util.MapperUtils
+import com.sideReview.side.login.LoginService
 import com.sideReview.side.login.LoginUser
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.openSearch.dto.*
@@ -18,7 +20,8 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/contents")
 class MainContentsController @Autowired constructor(
     private val opensearchClient: OpensearchClient,
-    private val reviewService: ReviewService
+    private val reviewService: ReviewService,
+    private val loginService: LoginService
 ) {
 
     @PostMapping("")
@@ -31,6 +34,18 @@ class MainContentsController @Autowired constructor(
         val userId = ClientUtils.getUserId(request, user)
         runBlocking {
             var reDup = requestDto.copy()
+
+            // 로그인 user일 경우 ott_toggle이 true일 때 perferOtt로 filter추가.
+            if (ClientUtils.getUserType(request, user) == "1" && loginService.isOttTrue(userId)) {
+                val userEntity = loginService.getUser(userId)
+                if (userEntity.preferOtt != null && !userEntity.preferOtt.isNullOrBlank()) {
+                    ContentRequestFilterDetail(
+                        "platform",
+                        MapperUtils.parseStringToList(userEntity.preferOtt!!).map { it.toString() }
+                    )
+                }
+            }
+
             when (reDup.tab) {
                 "main" -> {
                     reDup.sort = "popularity"

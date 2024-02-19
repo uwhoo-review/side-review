@@ -5,7 +5,6 @@ import com.jillesvangurp.searchdsls.querydsl.*
 import com.sideReview.side.common.document.ContentDocument
 import com.sideReview.side.common.document.PersonDocument
 import com.sideReview.side.common.dto.PageInfoDto
-import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.FavoriteContentSearchDto
 import com.sideReview.side.mypage.dto.FavoriteContentSearchPageDto
@@ -120,12 +119,11 @@ class OpensearchClient(
         return documentList
     }
 
-    fun getContents(request: ContentRequestDTO, userId:String): List<ContentDto> {
+    fun getContents(request: ContentRequestDTO, userId: String): List<ContentDto> {
         // SearchResponse 가져오는 단계
         if (request.tab == "main" && request.sort == "popularity") {
             // 최근 1년간의 결과만 가져오기 위해 filter 추가
-            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
-            request.filter!!.add(
+            request.addFilter(
                 ContentRequestFilterDetail(
                     "date",
                     listOf(
@@ -134,11 +132,9 @@ class OpensearchClient(
                     )
                 )
             )
-        }
-        else if (request.tab == "open") {
+        } else if (request.tab == "open") {
             // 오늘 날짜 이후만 가져오도록 filter 추가
-            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
-            request.filter!!.add(
+            request.addFilter(
                 ContentRequestFilterDetail(
                     "date",
                     listOf(
@@ -147,11 +143,9 @@ class OpensearchClient(
                     )
                 )
             )
-        }
-        else if (request.tab == "new") {
+        } else if (request.tab == "new") {
             // 오늘 날짜 이전만 가져오도록 filter 추가
-            if (request.filter.isNullOrEmpty()) request.filter = mutableListOf()
-            request.filter!!.add(
+            request.addFilter(
                 ContentRequestFilterDetail(
                     "date",
                     listOf(
