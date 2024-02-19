@@ -16,6 +16,6 @@ data class UserInfoDto @JvmOverloads constructor(
         user.nickname,
         user.profile,
         user.loginType,
-        user.toggle
+        user.toggle == 1
     )
 }
