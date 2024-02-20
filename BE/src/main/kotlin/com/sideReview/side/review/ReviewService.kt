@@ -6,6 +6,7 @@ import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDT
 import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserReview
+import com.sideReview.side.review.entity.UserReviewEval
 import com.sideReview.side.review.exception.*
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Page
@@ -67,8 +68,29 @@ class ReviewService(
 
     @Transactional
     fun evaluate(body: ReviewEvaDto, userId: String) {
-        val review = userReviewEvalRepository.findByReviewId(body.reviewId)
-            ?: throw ReviewEvalReviewNotFound("Review eval error : Review Id not found.")
+        val review = userReviewRepository.findById(body.reviewId)
+
+        review.ifPresent { existingReview ->
+            val reviewEval = userReviewEvalRepository.findByReviewIdAndWriterId(body.reviewId, userId)
+
+            if (reviewEval == null) {
+                userReviewEvalRepository.save(
+                    UserReviewEval(
+                        reviewId = body.reviewId,
+                        eval = body.eval,
+                        writerId = userId
+                    )
+                )
+                userReviewRepository.save(review.get())
+            } else {
+                handleExistingReviewEval(reviewEval, body.eval)
+            }
+            val like = userReviewEvalRepository.countByReviewIdAndEval(body.reviewId, 1)
+            val dislike = userReviewEvalRepository.countByReviewIdAndEval(body.reviewId, 0)
+            review.get().like = like
+            review.get().dislike = dislike
+            userReviewRepository.save(review.get())
+        }
     }
 
     fun getReviewsByTargetId(
@@ -263,5 +285,14 @@ class ReviewService(
     fun delete(reviewId: String, id: String) {
         if (!userInfoRepository.existsById(id)) throw ReviewUserIdInvalidException("Cannot delete review. User Not Found.")
         userReviewRepository.deleteById(reviewId)
+    }
+
+    private fun handleExistingReviewEval(reviewEval: UserReviewEval, newEval: Int) {
+        if (reviewEval.eval == newEval) {
+            userReviewEvalRepository.delete(reviewEval)
+        } else {
+            reviewEval.eval = newEval
+            userReviewEvalRepository.save(reviewEval)
+        }
     }
 }

@@ -12,7 +12,7 @@ data class UserReviewEval(
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "user_review_eval_seq_gen", sequenceName = "user_review_eval_seq")
     @Column(name = "eval_id", nullable = false, length = 11)
-    val evalId: Int,
+    val evalId: Int = 0,
 
     @Column(name = "review_id", nullable = false, length = 36)
     val reviewId: String,
@@ -22,7 +22,7 @@ data class UserReviewEval(
 
     @Column(name = "eval", nullable = false, length = 1)
     @Comment("0: dislike, 1: like")
-    val eval: Int,
+    var eval: Int,
 
     @CreationTimestamp
     @Column(name = "creation_time", nullable = false)
