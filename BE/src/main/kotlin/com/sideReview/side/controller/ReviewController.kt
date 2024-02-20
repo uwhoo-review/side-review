@@ -5,6 +5,7 @@ import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.login.LoginUser
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDto
+import com.sideReview.side.review.dto.ReviewEvaDto
 import com.sideReview.side.review.exception.*
 import io.ktor.util.logging.*
 import org.slf4j.LoggerFactory
@@ -47,17 +48,24 @@ class ReviewController(val reviewService: ReviewService) {
         }
     }
 
-//    @PutMapping("")
-//    fun evaluate(@RequestBody body: ReviewEvaDto): ResponseEntity<Any> {
-//        if (body.eval != 0 && body.eval != 1) return ResponseEntity(HttpStatus.BAD_REQUEST)
-//        runCatching {
-//            reviewService.evaluate(body)
-//        }.onFailure {
-//            return ResponseEntity(HttpStatus.BAD_REQUEST)
-//        }
-//
-//        return ResponseEntity(HttpStatus.OK)
-//    }
+    @PutMapping("")
+    fun evaluate(
+        @RequestBody body: ReviewEvaDto,
+        @LoginUser user: UserInfoDto?,
+        request: HttpServletRequest
+    ): ResponseEntity<Any> {
+        val userId = ClientUtils.getUserId(request, user)
+        if (body.eval != 0 && body.eval != 1) return ResponseEntity.badRequest()
+            .body("Review eval error : eval not 0 or 1.")
+        try {
+            reviewService.evaluate(body, userId)
+        } catch (e: Exception) {
+            when (e) {
+                is ReviewEvalReviewNotFound -> return ResponseEntity.badRequest().body(e.message)
+            }
+        }
+        return ResponseEntity(HttpStatus.OK)
+    }
 
     @GetMapping("/{id}")
     fun getAllReviewsById(

@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.util.*
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class ReviewService(
     val userReviewRepository: UserReviewRepository,
-    val userInfoRepository: UserInfoRepository
+    val userInfoRepository: UserInfoRepository,
+    val userReviewEvalRepository: UserReviewEvalRepository
 ) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
 
@@ -66,11 +66,9 @@ class ReviewService(
     }
 
     @Transactional
-    fun evaluate(body: ReviewEvaDto) {
-        userReviewRepository.findById(body.reviewId).ifPresent {
-            if (body.eval == 0) it.dislike += 1
-            else it.like += 1
-        }
+    fun evaluate(body: ReviewEvaDto, userId: String) {
+        val review = userReviewEvalRepository.findByReviewId(body.reviewId)
+            ?: throw ReviewEvalReviewNotFound("Review eval error : Review Id not found.")
     }
 
     fun getReviewsByTargetId(
