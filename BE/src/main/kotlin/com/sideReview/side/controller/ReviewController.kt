@@ -48,7 +48,7 @@ class ReviewController(val reviewService: ReviewService) {
         }
     }
 
-    @PutMapping("")
+    @PutMapping("/eval")
     fun evaluate(
         @RequestBody body: ReviewEvaDto,
         @LoginUser user: UserInfoDto?,
