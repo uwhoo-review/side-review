@@ -150,6 +150,7 @@ const ReviewCardList = ({ size = 6 }: any) => {
                     height={"280px"}
                     useModal={true}
                     user={v.user}
+                    content={v.content}
                   >
                     {v.content}
                   </ReviewCard>

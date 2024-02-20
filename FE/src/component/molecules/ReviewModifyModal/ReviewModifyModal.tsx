@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useCommon } from "@src/providers/CommonProvider";
 
-const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
+const ReviewModifyModal = ({ itemId, review, onClose, ...props }: any) => {
   const LIMIT_BYTE = 2000;
 
   const commonContext = useCommon();
@@ -20,6 +20,7 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
   const [tmpText, setTmpText] = useState<string>("");
   const [byteText, setByteText] = useState(0);
   const [isSpoiler, setIsSpoiler] = useState<boolean>(false);
+
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (data: any) => {
@@ -27,7 +28,7 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list", "review", item.id, "best", 0, 0, 6],
+        queryKey: ["list", "review", itemId, "best", 0, 0, 6],
       });
     },
   });
@@ -38,7 +39,10 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list", "review", item.id, "best", 0, 0, 6],
+        queryKey: ["list", "review", itemId, "best", 0, 0, 6],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["list", "detail", itemId],
       });
     },
   });
@@ -59,12 +63,12 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
       <HWDialog.Title onClose={onClose}>리뷰 수정</HWDialog.Title>
       <HWDialog.Content css={styled.contentWrapper}>
         <div>
-          <HWChip label={item.name} color={"best"} customCss={styled.chip} />
+{/*          <HWChip label={item.name} color={"best"} customCss={styled.chip} />
           <HWChip
             label={new Date(item.date).getFullYear()}
             color={"best"}
             customCss={styled.chip}
-          />
+          />*/}
         </div>
         <textarea
           placeholder={
@@ -112,7 +116,7 @@ const ReviewModifyModal = ({ item, onClose, review, ...props }: any) => {
             onClick={() => {
               const data = {
                 reviewId: review.id,
-                dramaId: item.id,
+                dramaId: itemId,
                 content: text,
                 spoiler: isSpoiler,
               };

@@ -49,8 +49,8 @@ export const UWAxios = {
       );
       return res.data;
     },
-    async updownReview(data: updownReviewAPI) {
-      const res = await axiosBaseInstance.put<any>(`review`, data);
+    async updateEval(data: updownReviewAPI) {
+      const res = await axiosBaseInstance.put<any>(`review/eval`, data);
       return res.data;
     },
     async deleteReview(reviewId: string) {

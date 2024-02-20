@@ -28,6 +28,10 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
       queryClient.invalidateQueries({
         queryKey: ["list", "review", item.id, "best", 0, 0, 6],
       });
+      commonContext.isLogin &&
+        queryClient.invalidateQueries({
+          queryKey: ["list", "detail", item.id],
+        });
     },
   });
 

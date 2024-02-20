@@ -104,7 +104,7 @@ const RatingDetailBox = ({ item }: any) => {
         open={modifyDialog}
         onClose={() => setModifyDialog(false)}
         review={item.review}
-        item={item}
+        itemId={item.id}
       />
     </div>
   );

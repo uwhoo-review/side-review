@@ -32,6 +32,9 @@ import { ReactComponent as IconChevronDown } from "./icon/ic_chevron_down.svg";
 import { ReactComponent as IconChevronLeft } from "./icon/ic_chevron_left.svg";
 import { ReactComponent as IconChevronRight } from "./icon/ic_chevron_right.svg";
 import { ReactComponent as IconCircleCheck } from "./icon/ic_circle-check.svg";
+import { ReactComponent as IconDelete } from "./icon/ic_delete.svg";
+import { ReactComponent as IconEdit } from "./icon/ic_edit.svg";
+
 import { ReactComponent as IconInit } from "./icon/ic_init.svg";
 
 import { ReactComponent as IconCircleCamera } from "./icon/ic_circle_camera.svg";
@@ -124,6 +127,8 @@ export {
   IconGoogle,
   IconKakao,
   IconNaver,
+  IconDelete,
+  IconEdit,
   bg01,
   bg02,
   bg03,
