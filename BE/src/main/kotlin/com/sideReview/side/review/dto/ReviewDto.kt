@@ -17,5 +17,6 @@ data class ReviewDetailDto @JvmOverloads constructor(
     val date: String = "",
     val like: Int = 0,
     val dislike: Int = 0,
-    val spoiler: Boolean = false
+    val spoiler: Boolean = false,
+    var best: Boolean = false
 )

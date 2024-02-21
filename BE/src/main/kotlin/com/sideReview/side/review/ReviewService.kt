@@ -215,7 +215,7 @@ class ReviewService(
         val reviewDetailDtoList = mapUserReviewToReviewDetailDTO(userReview.content)
 
         return PageReviewDto(
-            ReviewDto(total, fillUserInReview(reviewDetailDtoList)),
+            ReviewDto(total, fillBestInReview(fillUserInReview(reviewDetailDtoList), id)),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }
@@ -259,6 +259,16 @@ class ReviewService(
         return reviewsByTargetId
     }
 
+    fun fillBestInReview(reviewsByTargetId: List<ReviewDetailDto>, contentId: String): List<ReviewDetailDto> {
+        val bestReviewIdList = getBestReviewByTargetId(contentId)
+        if (bestReviewIdList != null){
+            reviewsByTargetId.forEach {
+                if(bestReviewIdList.contains(it.id)) it.best = true
+            }
+            return reviewsByTargetId
+        } else return reviewsByTargetId
+    }
+
     fun getReviewsByWriterId(userId: String, pageable: PageRequest): PageReviewDto {
         val total = userReviewRepository.countAllByWriterId(userId)
         val userReview = userReviewRepository.findAllByWriterId(userId, pageable)
@@ -285,6 +295,14 @@ class ReviewService(
     fun delete(reviewId: String, id: String) {
         if (!userInfoRepository.existsById(id)) throw ReviewUserIdInvalidException("Cannot delete review. User Not Found.")
         userReviewRepository.deleteById(reviewId)
+    }
+
+    private fun getBestReviewByTargetId(contentId: String): List<String>? {
+        val entities = userReviewRepository.findAllByTargetIdOrderByLikeDescDislikeAsc(
+            contentId,
+            pageable = PageRequest.of(0, 6)
+        ).content
+        return if(entities.size > 0) entities.map { it.reviewId } else null
     }
 
     private fun handleExistingReviewEval(reviewEval: UserReviewEval, newEval: Int) {
