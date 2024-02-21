@@ -2,6 +2,7 @@ package com.sideReview.side.controller
 
 import com.sideReview.side.login.NicknameService
 import com.sideReview.side.mypage.MyPageService
+import com.sideReview.side.review.ReviewService
 import com.sideReview.side.tmdb.TmdbContentService
 import com.sideReview.side.tmdb.TmdbPersonService
 import kotlinx.coroutines.runBlocking
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*
 class TestController(
     private val tmdbContentService: TmdbContentService,
     private val tmdbPersonService: TmdbPersonService,
-    private val myPageService: MyPageService
+    private val myPageService: MyPageService,
+    private val reviewService: ReviewService
 ) {
     @GetMapping("/init")
     fun getTmdb(): ResponseEntity<Any> {
@@ -29,7 +31,8 @@ class TestController(
 
     @GetMapping("/test")
     fun getTest(): ResponseEntity<Any> {
-        return ResponseEntity.ok(myPageService.getMyPage("110383138275584860058"))
+        val pageable = PageRequest.of(0, 6)
+        return ResponseEntity.ok(reviewService.getReviewsByWriterId("110383138275584860058", pageable))
     }
 
     @GetMapping("/page")

@@ -259,14 +259,30 @@ class ReviewService(
         return reviewsByTargetId
     }
 
-    fun fillBestInReview(reviewsByTargetId: List<ReviewDetailDto>, contentId: String): List<ReviewDetailDto> {
+    private fun fillBestInReview(reviewsByTargetId: List<ReviewDetailDto>, contentId: String): List<ReviewDetailDto> {
         val bestReviewIdList = getBestReviewByTargetId(contentId)
-        if (bestReviewIdList != null){
-            reviewsByTargetId.forEach {
-                if(bestReviewIdList.contains(it.id)) it.best = true
+
+        return bestReviewIdList?.let { bestIds ->
+            reviewsByTargetId.take(6).onEach { review ->
+                if (bestIds.contains(review.id)) {
+                    review.best = true
+                }
             }
-            return reviewsByTargetId
-        } else return reviewsByTargetId
+        } ?: reviewsByTargetId
+    }
+
+    private fun checkAndFillBestReview(
+        reviewsByTargetId: List<ReviewDetailDto>,
+        entityList: List<UserReview>
+    ): List<ReviewDetailDto> {
+        val targetIdMap = entityList.associateBy { it.reviewId }.mapValues { it.value.targetId }
+        reviewsByTargetId.forEach {
+            val targetId = targetIdMap[it.id]
+            if (getBestReviewByTargetId(targetId!!)?.contains(it.id) == true) {
+                it.best = true
+            }
+        }
+        return reviewsByTargetId
     }
 
     fun getReviewsByWriterId(userId: String, pageable: PageRequest): PageReviewDto {
@@ -277,7 +293,7 @@ class ReviewService(
         val totalElements = userReview.totalElements.toInt()
 
         return PageReviewDto(
-            ReviewDto(total, fillUserInReview(reviewDetailDtoList)),
+            ReviewDto(total, checkAndFillBestReview(fillUserInReview(reviewDetailDtoList), userReview.content)),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }
@@ -302,7 +318,7 @@ class ReviewService(
             contentId,
             pageable = PageRequest.of(0, 6)
         ).content
-        return if(entities.size > 0) entities.map { it.reviewId } else null
+        return if (entities.size > 0) entities.map { it.reviewId } else null
     }
 
     private fun handleExistingReviewEval(reviewEval: UserReviewEval, newEval: Int) {
