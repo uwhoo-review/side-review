@@ -71,7 +71,14 @@ const AccordionPerson = ({ personList }: any) => {
               </HWTypography>
             </div>
             <div css={styled.rightBox}>
-              <CardSliderPerson cardList={person} />
+              <CardSliderPerson
+                cardList={person}
+                onDelete={async (id: string) => {
+                  console.log(id);
+                  // await UWAxios.user.id);
+                  // setPerson((prev: any) => [...prev.filter((v: any) => v.id !== id)]);
+                }}
+              />
             </div>
           </div>
         </div>

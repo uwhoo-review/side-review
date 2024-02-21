@@ -12,12 +12,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useCommon } from "@src/providers/CommonProvider";
 
-const ReviewModifyModal = ({ itemId, review, onClose, ...props }: any) => {
+const ReviewModifyModal = ({ itemId, itemName, itemDate, review, onClose, ...props }: any) => {
   const LIMIT_BYTE = 2000;
 
   const commonContext = useCommon();
   const [text, setText] = useState<string>("");
-  const [tmpText, setTmpText] = useState<string>("");
   const [byteText, setByteText] = useState(0);
   const [isSpoiler, setIsSpoiler] = useState<boolean>(false);
 
@@ -29,6 +28,12 @@ const ReviewModifyModal = ({ itemId, review, onClose, ...props }: any) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["list", "review", itemId, "best", 0, 0, 6],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["list", "detail", itemId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["user", "review", "list"],
       });
     },
   });
@@ -44,31 +49,31 @@ const ReviewModifyModal = ({ itemId, review, onClose, ...props }: any) => {
       queryClient.invalidateQueries({
         queryKey: ["list", "detail", itemId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["user", "review", "list"],
+      });
     },
   });
 
-  useEffect(() => {
-    const res = getMaxByteText(tmpText, LIMIT_BYTE);
-    setText(res.s);
-    setByteText(res.byte);
-  }, [tmpText]);
 
   useEffect(() => {
-    setTmpText(review.content);
+    setText(review.content);
     setIsSpoiler(review.spoiler);
+    const res = getMaxByteText(text, LIMIT_BYTE);
+    setByteText(res.byte);
   }, []);
 
   return (
     <HWDialog {...props} customCss={styled.wrapper}>
       <HWDialog.Title onClose={onClose}>리뷰 수정</HWDialog.Title>
       <HWDialog.Content css={styled.contentWrapper}>
-        <div>
-{/*          <HWChip label={item.name} color={"best"} customCss={styled.chip} />
+        <div css={styled.topWrapper}>
+          <HWChip label={itemName} color={"best"} customCss={styled.chip} />
           <HWChip
-            label={new Date(item.date).getFullYear()}
+            label={new Date(itemDate).getFullYear()}
             color={"best"}
             customCss={styled.chip}
-          />*/}
+          />
         </div>
         <textarea
           placeholder={
@@ -76,7 +81,9 @@ const ReviewModifyModal = ({ itemId, review, onClose, ...props }: any) => {
           }
           value={text}
           onChange={(e) => {
-            setTmpText(e.target.value);
+            const res = getMaxByteText(e.target.value, LIMIT_BYTE);
+            setText(res.s);
+            setByteText(res.byte);
           }}
           css={styled.textarea}
         />

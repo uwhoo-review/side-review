@@ -8,17 +8,11 @@ import Color from "@src/common/styles/Color";
 import { IconChevronDoubleDown, IconChevronLeft, IconUpDown } from "@res/index";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import HWDialog from "@src/component/atoms/HWDialog/HWDialog";
 import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Backdrop, Fade, Grow, Modal, Slide, Slider } from "@mui/material";
-import { CONTENTS_TABS } from "@src/variables/APIConstants";
-import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
-import HWToggleButtonGroup from "@src/component/atoms/HWToggleButtonGroup/HWToggleButtonGroup";
-import HWToggleButton from "@src/component/atoms/HWToggleButton/HWToggleButton";
 
-const ReviewCardList = ({ size = 6 }: any) => {
+const ReviewCardList = ({ size = 6 , item}: any) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -32,7 +26,6 @@ const ReviewCardList = ({ size = 6 }: any) => {
   const [page, setPage] = useState(0);
   const [isSpoiler, setIsSpoiler] = useState(0);
   const [sort, setSort] = useState("best");
-  const [isReviewModal, setIsReviewModal] = useState(false);
 
   const { status, data, error } = useQuery({
     queryKey: ["list", "review", id, sort, isSpoiler, page, size],
@@ -139,6 +132,8 @@ const ReviewCardList = ({ size = 6 }: any) => {
                   <ReviewCard
                     key={v.id}
                     id={id}
+                    itemName={item.name}
+                    itemDate={item.date}
                     reviewId={v.id}
                     dislike={v.dislike}
                     like={v.like}
@@ -151,6 +146,7 @@ const ReviewCardList = ({ size = 6 }: any) => {
                     useModal={true}
                     user={v.user}
                     content={v.content}
+                    line={7}
                   >
                     {v.content}
                   </ReviewCard>
@@ -160,22 +156,7 @@ const ReviewCardList = ({ size = 6 }: any) => {
           )}
         </>
       </div>
-      {
-        <Modal
-          open={isReviewModal}
-          onClose={() => setIsReviewModal(false)}
-          css={styled.modal}
-          closeAfterTransition
-        >
-          <Slide in={isReviewModal} direction={"up"} style={{ borderTop: "1ps solid transparent" }}>
-            <div css={[styled.modalWrapper]}>
-              <CenterWrapper>
-                <ReviewCardList total={true} size={10} />
-              </CenterWrapper>
-            </div>
-          </Slide>
-        </Modal>
-      }
+
     </>
   );
 };

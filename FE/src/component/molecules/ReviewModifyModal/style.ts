@@ -29,6 +29,9 @@ export default {
     //display: flex;
     //flex-direction: column;
   `,
+  topWrapper: css`
+    margin-top: 20px;
+  `,
   chip: css`
     margin-right: 8px;
   `,
@@ -43,6 +46,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
   `,
   dialogAction: css`
     display: flex;

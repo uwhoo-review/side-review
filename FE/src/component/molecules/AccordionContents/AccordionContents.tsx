@@ -87,7 +87,7 @@ const AccordionContents = ({ contentsList }: any) => {
             <div css={styled.rightBox}>
               <CardSlider
                 cardList={contents}
-                onClose={async (id: string) => {
+                onDelete={async (id: string) => {
                   await UWAxios.user.deleteMyContents(id);
                   setContents((prev: any) => [...prev.filter((v: any) => v.id !== id)]);
                 }}

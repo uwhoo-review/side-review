@@ -12,9 +12,12 @@ import { useCommon } from "@src/providers/CommonProvider";
 import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import ReviewModifyModal from "@src/component/molecules/ReviewModifyModal/ReviewModifyModal";
+import ReviewCardModal from "@src/component/molecules/ReviewCardModal/ReviewCardModal";
 
 interface ReviewCardProps {
   id?: string;
+  itemName?: string;
+  itemDate?: string;
   reviewId?: string;
   dislike?: number;
   like?: number;
@@ -32,13 +35,13 @@ interface ReviewCardProps {
   user?: any;
   content?: string;
   useModal?: boolean;
-  modalOpen?: boolean;
-  onCloseModal?: () => void;
   onClick?: () => void;
 }
 
 const ReviewCard = ({
   id = "",
+  itemName = "",
+  itemDate = "",
   reviewId = "",
   dislike = 0,
   like = 0,
@@ -54,10 +57,8 @@ const ReviewCard = ({
   customCss,
   children,
   user,
-  content = "",
+  content,
   useModal = false,
-  modalOpen = false,
-    onCloseModal,
   onClick,
 }: ReviewCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -77,8 +78,8 @@ const ReviewCard = ({
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (reviewId: string) => {
-      return await UWAxios.review.deleteReview(reviewId);
+    mutationFn: async (rId: string) => {
+      return await UWAxios.review.deleteReview(rId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -86,6 +87,9 @@ const ReviewCard = ({
       });
       queryClient.invalidateQueries({
         queryKey: ["list", "detail", id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["user", "review", "list"],
       });
     },
   });
@@ -116,7 +120,7 @@ const ReviewCard = ({
           </div>
           <div css={styled.dateDiv}>{date}</div>
         </div>
-        {!useModal && user && (
+        {user.nickname !== "" && user.profile !== "" && (
           <div css={styled.topWrapper}>
             <div css={styled.chipWrapper}></div>
             <div css={styled.chipWrapper}>
@@ -131,7 +135,11 @@ const ReviewCard = ({
             </div>
           </div>
         )}
-        <div css={[styled.contents, line && styled.lineClamp(line)]}>{children}</div>
+        <div css={[styled.contents]}>
+          <div css={ line &&styled.lineClamp(line)}>
+            {children}
+          </div>
+        </div>
         {footer && (
           <>
             <Divider />
@@ -152,21 +160,17 @@ const ReviewCard = ({
                 </div>
               </div>
               <div css={styled.flex1}>
-                {modalOpen && user.id === commonContext.userInfo.id ? (
+                {user.id === commonContext.userInfo.id ? (
                   <>
                     <IconEdit
                       css={styled.thumb}
                       onClick={() => {
-                        onCloseModal && onCloseModal();
                         setModifyDialog(true);
-                        //@TODO 수정모달 밖에 필요, 모달 화면창을 다시 만들어야할듯?
-
                       }}
                     />
                     <IconDelete
                       css={styled.thumb}
                       onClick={() => {
-                        setIsOpen(false);
                         deleteMutation.mutate(reviewId);
                       }}
                     />
@@ -192,44 +196,43 @@ const ReviewCard = ({
           </>
         )}
       </div>
-      {useModal && isOpen && (
-        <>
-          <HWDialog open={Boolean(isOpen)} onClose={() => setIsOpen(false)}>
-            <ReviewCard
-              id={id}
-              reviewId={reviewId}
-              dislike={dislike}
-              like={like}
-              date={date}
-              best={best}
-              spoiler={spoiler}
-              footer={true}
-              user={user}
-              width={"800px"}
-              height={"570px"}
-              useModal={false}
-              modalOpen={true}
-              onCloseModal={() => setIsOpen(false)}
-            >
-              {children}
-            </ReviewCard>
-          </HWDialog>
-        </>
+      {useModal && (
+        <ReviewCardModal
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          onModifyOpen={() => setModifyDialog(true)}
+          review={{
+            id: reviewId,
+            best: best,
+            spoiler: spoiler,
+            content: content,
+            like: like,
+            dislike: dislike,
+            date: date,
+          }}
+          user={user}
+          itemId={id}
+        />
       )}
-      <ReviewModifyModal
-        width={"800px"}
-        open={modifyDialog}
-        onClose={() => setModifyDialog(false)}
-        review={{
-          content: content,
-          date: date,
-          id: reviewId,
-          like: like,
-          dislike: dislike,
-          spoiler: false,
-        }}
-        item={id}
-      />
+      {modifyDialog && (
+        <ReviewModifyModal
+          width={"800px"}
+          open={modifyDialog}
+          onClose={() => setModifyDialog(false)}
+          review={{
+            id: reviewId,
+            best: best,
+            spoiler: spoiler,
+            content: content,
+            like: like,
+            dislike: dislike,
+            date: date,
+          }}
+          itemId={id}
+          itemName={itemName}
+          itemDate={itemDate}
+        />
+      )}
     </>
   );
 };

@@ -35,6 +35,12 @@ export default {
     transform: translateX(${translateX}px);
     gap: 30px;
     .content-slide {
+      position: relative;
+      &:hover {
+        .content-close-button {
+          display: inline-flex;
+        }
+      }
     }
   `,
   card: css`
@@ -82,5 +88,19 @@ export default {
   `,
   dotPagination: css`
     //float: right;
+  `,
+
+  closeButton: css`
+    position: absolute;
+    right: -5px;
+    top: -10px;
+    color: #fff;
+    padding: 3px;
+    background-color: #000;
+    display: none;
+    z-index: 2;
+    &:hover {
+      background-color: #fff;
+    }
   `,
 };

@@ -3,9 +3,11 @@ import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { useEffect, useState } from "react";
 import styled from "./style";
 import PersonCardVertical from "@src/component/atoms/PersonCardVertical/PersonCardVertical";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
-const CardSliderPerson = ({ cardList }: any) => {
+const CardSliderPerson = ({ cardList, onDelete }: any) => {
   const navigate = useNavigate();
 
   const TOTAL_LIST = cardList.length;
@@ -64,6 +66,16 @@ const CardSliderPerson = ({ cardList }: any) => {
         {cardList.map((v: any, i: number) => {
           return (
             <div className={"content-slide"} key={v.id}>
+              {
+                <HWIconButton
+                  className={"content-close-button"}
+                  aria-label="close"
+                  onClick={() => onDelete(v.id)}
+                  css={[styled.closeButton]}
+                >
+                  <CloseIcon />
+                </HWIconButton>
+              }
               <PersonCardVertical
                 id={v.id}
                 name={v.name}

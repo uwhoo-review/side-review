@@ -92,7 +92,6 @@ const MyFootPrints = ({ toggle = "star" }: any) => {
   }, [useStarMatch.data]);
 
   useEffect(() => {
-    console.log(useReviewMatch);
     if (useReviewMatch.data) {
       setResultReview(useReviewMatch.data.reviews.review);
       setReviewPageInfo(useReviewMatch.data.pageInfo);
@@ -150,10 +149,10 @@ const MyFootPrints = ({ toggle = "star" }: any) => {
                             customCss={styled.card}
                             userRating={v.userRating}
                             type={"second"}
-                            // onClick={(e) => {
-                            //   e.stopPropagation();
-                            //   navigate(`/detail/${v.id}`);
-                            // }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/detail/${v.id}`);
+                            }}
                           />
                         </div>
                       );
@@ -185,12 +184,12 @@ const MyFootPrints = ({ toggle = "star" }: any) => {
                         dislike={v.dislike}
                         like={v.like}
                         date={v.date}
-                        // best={i < 7}
-                        // user={v.user}
                         spoiler={v.spoiler}
                         footer={true}
                         width={"100%"}
                         height={"280px"}
+                        content={v.content}
+                        user={v.user}
                         useModal={false}
                       >
                         {v.content}

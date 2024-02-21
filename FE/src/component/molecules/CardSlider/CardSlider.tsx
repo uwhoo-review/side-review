@@ -10,7 +10,7 @@ function switchValues(arr: any, index1: any, index2: any) {
   [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
 }
 
-const CardSlider = ({ cardList, onClose }: any) => {
+const CardSlider = ({ cardList, onDelete }: any) => {
   const TOTAL_LIST = cardList.length;
   const MOVE = 1;
   const TOTAL_PAGE = TOTAL_LIST <= 5 ? 1 : Math.ceil((TOTAL_LIST - 5) / MOVE) + 1;
@@ -92,7 +92,7 @@ const CardSlider = ({ cardList, onClose }: any) => {
   useEffect(() => {
     setCards(cardList);
     // console.log(cardList)
-  },[cardList])
+  }, [cardList]);
 
   return (
     <div css={styled.cardSlider(currentPage, TOTAL_PAGE)}>
@@ -110,7 +110,7 @@ const CardSlider = ({ cardList, onClose }: any) => {
                 <HWIconButton
                   className={"content-close-button"}
                   aria-label="close"
-                  onClick={() => onClose(v.id)}
+                  onClick={() => onDelete(v.id)}
                   css={[styled.closeButton]}
                 >
                   <CloseIcon />
@@ -131,7 +131,7 @@ const CardSlider = ({ cardList, onClose }: any) => {
                 moveCard={moveCard}
                 findCard={findCard}
                 isHoverScale={false}
-                rank={(i+1) < 4 ? i+1 : undefined}
+                rank={i + 1 < 4 ? i + 1 : undefined}
               />
             </div>
           );

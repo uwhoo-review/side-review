@@ -7,7 +7,7 @@ import Divider from "@src/component/atoms/Divider/Divider";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { Rating } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
-import ReviewModal from "@src/component/molecules/ReviewModal/ReviewModal";
+import ReviewCreateModal from "@src/component/molecules/ReviewCreateModal/ReviewCreateModal";
 import { useLocation } from "react-router-dom";
 import { useCommon } from "@src/providers/CommonProvider";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
@@ -98,14 +98,25 @@ const RatingDetailBox = ({ item }: any) => {
           )}
         </div>
       </div>
-      <ReviewModal width={"800px"} open={dialog} onClose={() => setDialog(false)} item={item} />
-      <ReviewModifyModal
-        width={"800px"}
-        open={modifyDialog}
-        onClose={() => setModifyDialog(false)}
-        review={item.review}
-        itemId={item.id}
-      />
+      {dialog && (
+        <ReviewCreateModal
+          width={"800px"}
+          open={dialog}
+          onClose={() => setDialog(false)}
+          item={item}
+        />
+      )}
+      {modifyDialog && (
+        <ReviewModifyModal
+          width={"800px"}
+          open={modifyDialog}
+          onClose={() => setModifyDialog(false)}
+          review={item.review}
+          itemId={item.id}
+          itemName={item.name}
+          itemDate={item.date}
+        />
+      )}
     </div>
   );
 };

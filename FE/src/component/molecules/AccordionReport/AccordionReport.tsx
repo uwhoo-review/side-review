@@ -14,28 +14,7 @@ import { useNavigate } from "react-router-dom";
 const AccordionReport = ({ user, report }: any) => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
-  const [groupRatings, setGroupRatings] = useState<any>([]);
 
-  useEffect(() => {
-    const updatedRatings = [];
-
-    for (let i = 0.5; i <= 5; i += 1) {
-      const rangeStart = i;
-      const rangeEnd = i + 0.5;
-      const count = report.ratings.reduce((acc: any, curr: any) => {
-        if (curr.rating >= rangeStart && curr.rating < rangeEnd) {
-          acc += curr.count;
-        }
-        return acc;
-      }, 0);
-      if (count > 0) {
-        updatedRatings.push({ rating: `${rangeStart}~${rangeEnd}`, count });
-      }
-    }
-
-    console.log(updatedRatings)
-    setGroupRatings([...updatedRatings]);
-  }, []);
 
   return (
     <MenuAccordion
@@ -63,6 +42,7 @@ const AccordionReport = ({ user, report }: any) => {
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
             <div>
+              {/*<DonutChartApex ratings={report.ratings} />*/}
               <DonutChartApex ratings={report.ratings} />
             </div>
           </div>
@@ -95,13 +75,13 @@ const AccordionReport = ({ user, report }: any) => {
             <Divider direction={"h"} length={"100%"} />
             <div>
               <HWTypography variant={"headlineXL"} family={"Pretendard"} color={"#ffffff"}>
-                {report?.actor?.name || ""}
+                {report.director?.name || "-"}
               </HWTypography>
             </div>
             <div
               css={styled.moreBtn}
               onClick={() => {
-                report?.actor && navigate(`/person/${report?.actor?.id}`);
+                report.director.name !== "" && navigate(`/person/${report.director?.id}`);
               }}
             >
               <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#B6B2EA"}>
@@ -117,13 +97,13 @@ const AccordionReport = ({ user, report }: any) => {
             <Divider direction={"h"} length={"100%"} />
             <div>
               <HWTypography variant={"headlineXL"} family={"Pretendard"} color={"#ffffff"}>
-                {report?.actor?.name || ""}
+                {report?.actor?.name || "-"}
               </HWTypography>
             </div>
             <div
               css={styled.moreBtn}
               onClick={() => {
-                report?.actor && navigate(`/person/${report?.actor?.id}`);
+                report.actor.name !== "" && navigate(`/person/${report.actor?.id}`);
               }}
             >
               <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#B6B2EA"}>

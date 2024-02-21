@@ -6,7 +6,6 @@ export default {
     width: ${width};
     height: ${height};
 
-    min-height: 140px;
     border-radius: ${radius};
 
     background-color: ${backgroundColor};
@@ -29,7 +28,9 @@ export default {
     height: 24px;
     margin-bottom: 10px;
   `,
-  topWrapper2: css``,
+  topWrapper2: css`
+  
+  `,
   chipWrapper: css`
     display: flex;
     align-items: center;
@@ -72,6 +73,8 @@ export default {
     font-style: normal;
     font-weight: 500;
     line-height: 20px;
+    overflow-y: auto;
+    word-break: break-all;
   `,
   lineClamp: (line?: number) => css`
     word-break: break-all;
@@ -112,5 +115,5 @@ export default {
     &:hover {
       color: #fff;
     }
-  `,
+  `
 };

@@ -12,7 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useCommon } from "@src/providers/CommonProvider";
 
-const ReviewModal = ({ item, onClose, ...props }: any) => {
+const ReviewCreateModal = ({ item, onClose, ...props }: any) => {
   const LIMIT_BYTE = 2000;
 
   const commonContext = useCommon();
@@ -45,7 +45,7 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
     <HWDialog {...props} customCss={styled.wrapper}>
       <HWDialog.Title onClose={onClose}>리뷰 쓰기</HWDialog.Title>
       <HWDialog.Content css={styled.contentWrapper}>
-        <div>
+        <div css={styled.topWrapper}>
           <HWChip label={item.name} color={"best"} customCss={styled.chip} />
           <HWChip
             label={new Date(item.date).getFullYear()}
@@ -103,4 +103,4 @@ const ReviewModal = ({ item, onClose, ...props }: any) => {
   );
 };
 
-export default ReviewModal;
+export default ReviewCreateModal;

@@ -10,6 +10,7 @@ import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
 import PhotoCard from "@src/component/atoms/PhotoCard/PhotoCard";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
+import ReviewModifyModal from "@src/component/molecules/ReviewModifyModal/ReviewModifyModal";
 
 const DetailContent = ({ data }: any) => {
   const [dialog, setDialog] = useState<any>(null);

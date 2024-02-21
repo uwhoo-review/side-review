@@ -18,7 +18,7 @@ export default {
     box-sizing: border-box;
 
     margin-top: 18px;
-    
+
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
@@ -29,6 +29,9 @@ export default {
     //display: flex;
     //flex-direction: column;
   `,
+  topWrapper: css`
+    margin-top: 20px;
+  `,
   chip: css`
     margin-right: 8px;
   `,
@@ -37,11 +40,12 @@ export default {
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    color: ${Color.dark.grey500}
+    color: ${Color.dark.grey500};
   `,
   flex: css`
     display: flex;
     justify-content: space-between;
     align-items: center;
-  `
+    margin-bottom: 20px;
+  `,
 };
