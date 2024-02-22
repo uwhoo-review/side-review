@@ -6,6 +6,7 @@ import com.sideReview.side.login.NickNameDuplicateException
 import com.sideReview.side.login.NicknameService
 import com.sideReview.side.mypage.MyPageService
 import com.sideReview.side.mypage.dto.FavoriteContentInputDto
+import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.review.ReviewService
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.*
 class MyPageController(
     val nicknameService: NicknameService,
     val myPageService: MyPageService,
-    val reviewService: ReviewService
+    val reviewService: ReviewService,
+    val opensearchClient: OpensearchClient
 ) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
 
@@ -167,7 +169,7 @@ class MyPageController(
         @RequestParam(required = false, defaultValue = "6") size: String
     ): ResponseEntity<Any> {
         val pageable = PageRequest.of(page.toInt(), size.toInt())
-        return ResponseEntity.ok(reviewService.getReviewsByWriterId(user.id, pageable))
+        return ResponseEntity.ok(reviewService.getReviewsByWriterId(user.id, pageable, opensearchClient))
     }
 
     @GetMapping("/star")

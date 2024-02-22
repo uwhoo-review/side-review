@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class OpenSearchGetService @Autowired constructor(val client: SearchClient) {
+class OpenSearchGetService @Autowired constructor(private val client: SearchClient) {
 
     /*
     * 직접 SearchClient를 통해 OpenSearch에 접근하여 데이터를 가져온다.

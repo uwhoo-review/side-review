@@ -18,5 +18,13 @@ data class ReviewDetailDto @JvmOverloads constructor(
     val like: Int = 0,
     val dislike: Int = 0,
     val spoiler: Boolean = false,
-    var best: Boolean = false
+    var best: Boolean = false,
+    var target: ReviewTargetDto = ReviewTargetDto()
+)
+@Serializable
+data class ReviewTargetDto @JvmOverloads constructor(
+    var contentId: String = "",
+    val name : String = "",
+    val season: Int = 1,
+    val date: String = ""
 )

@@ -28,6 +28,13 @@ data class ContentDocument(
     fun getYear(): String {
         return if (firstAirDate.isNullOrBlank()) "" else firstAirDate.substring(0, 4)
     }
+
+    fun getSeason(): Int {
+        val seasonString = id.split("_")
+        var season = "1"
+        if(seasonString.size > 1) season = seasonString[1].toString()
+        return season.toInt()
+    }
 }
 
 @Serializable

@@ -10,8 +10,12 @@ import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.StarRatingService
+import com.sideReview.side.review.UserReviewRepository
 import com.sideReview.side.review.dto.ReviewDetailDto
+import com.sideReview.side.review.dto.ReviewTargetDto
+import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.tmdb.dto.SeasonDto
+import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -256,6 +260,5 @@ class OpenSearchDetailService @Autowired constructor(
 //            )
 //        } else return null
 //    }
-
 
 }
