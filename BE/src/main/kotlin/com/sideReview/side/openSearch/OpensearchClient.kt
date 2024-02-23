@@ -390,6 +390,7 @@ class OpensearchClient(
             this.add(addFun, addParam)
         return formatter.format(this.time).toString()
     }
+
     fun fillContentInReview(
         reviewList: List<ReviewDetailDto>,
         entityList: List<UserReview>?,
@@ -403,8 +404,7 @@ class OpensearchClient(
         val docMap = getAllContents(contentIdList).associateBy { it.id }
         val entityMap =
             if (contentId == null) entityList!!.associateBy { it.reviewId }.mapValues { it.value.targetId }
-            else mapOf(reviewList[0].id to contentId)
-
+            else reviewList.associateBy { it.id }.mapValues { contentId }
         reviewList.forEach {
             val target = docMap[entityMap[it.id]]
             if (target != null) {

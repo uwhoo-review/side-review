@@ -34,8 +34,8 @@ class TestController(
     @GetMapping("/test")
     fun getTest(): ResponseEntity<Any> {
         val pageable = PageRequest.of(0, 6)
-        //return ResponseEntity.ok(reviewService.getReviewsByWriterId("110383138275584860058", pageable, opensearchClient))
-        return ResponseEntity.ok(myPageService.getMyPage("110383138275584860058"))
+        return ResponseEntity.ok(reviewService.getReviewsByWriterId("110383138275584860058", pageable, opensearchClient))
+        //return ResponseEntity.ok(myPageService.getMyPage("110383138275584860058"))
     }
 
     @GetMapping("/page")
