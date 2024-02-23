@@ -74,9 +74,8 @@ const AccordionPerson = ({ personList }: any) => {
               <CardSliderPerson
                 cardList={person}
                 onDelete={async (id: string) => {
-                  console.log(id);
-                  // await UWAxios.user.id);
-                  // setPerson((prev: any) => [...prev.filter((v: any) => v.id !== id)]);
+                  await UWAxios.user.deleteMyPerson(id);
+                  setPerson((prev: any) => [...prev.filter((v: any) => v.id !== id)]);
                 }}
               />
             </div>

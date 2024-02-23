@@ -137,8 +137,12 @@ export const UWAxios = {
       const res = await axiosBaseInstance.put<any>(`user/person?personId=${personId}`);
       return res.data;
     },
+    async deleteMyPerson(personId: string) {
+      const res = await axiosBaseInstance.delete<any>(`user/person?personId=${personId}`);
+      return res.data;
+    },
     async putMyContents(data: any) {
-      const res = await axiosBaseInstance.put<any>(`user`, data);
+      const res = await axiosBaseInstance.put<any>(`user/contents`, data);
       return res.data;
     },
     async addMyContents(contentId: string) {

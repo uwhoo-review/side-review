@@ -1,10 +1,11 @@
 import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
-import ContentCard from "@src/component/atoms/ContentCard/ContentCard";
 import { useCallback, useEffect, useState } from "react";
 import styled from "./style";
 import { useDrop } from "react-dnd";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import ContentDragCard from "@src/component/atoms/ContentDragCard/ContentDragCard";
+import {UWAxios} from "@src/common/axios/AxiosConfig";
 
 function switchValues(arr: any, index1: any, index2: any) {
   [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
@@ -62,36 +63,32 @@ const CardSlider = ({ cardList, onDelete }: any) => {
   );
 
   const moveCard = useCallback(
-    (fromId: string, toId: string) => {
-      console.log(fromId, toId);
-      console.log(findCard(fromId), findCard(toId));
+    async (fromId: string, toId: string) => {
       const fromCard = findCard(fromId);
       const toCard = findCard(toId);
-      switchValues(cards, fromCard.index, toCard.index);
+      const movingCard = cards.splice(fromCard.index, 1);
+      cards.splice(toCard.index, 0, movingCard[0]);
       setCards([...cards]);
+      console.log(cards);
 
-      /*    setCards((prevCards: any[]) =>
-        update(prevCards, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, prevCards[dragIndex] as any],
-          ],
-        }),
-    )*/
+      const dataSet = cards.map((v: any, i: number) => ({
+        contentId: v.id,
+        rank: i + 1,
+      }));
+      const res = await UWAxios.user.putMyContents(dataSet);
+      console.log(res);
+
     },
     [findCard, cards]
   );
 
-  const [, drop] = useDrop(() => ({ accept: "CARD" }));
-
   useEffect(() => {
-    const x = (firstIdx - 1) * (-196 - 20);
+    const x = (firstIdx - 1) * -222;
     setTranslateX(x);
   }, [firstIdx]);
 
   useEffect(() => {
     setCards(cardList);
-    // console.log(cardList)
   }, [cardList]);
 
   return (
@@ -105,7 +102,7 @@ const CardSlider = ({ cardList, onDelete }: any) => {
       <div className={"image-card-list"} css={styled.cardWrapper(translateX, false)}>
         {cards.map((v: any, i: number) => {
           return (
-            <div className={"content-slide"} key={v.id} ref={drop}>
+            <div className={"content-slide"} key={v.id}>
               {
                 <HWIconButton
                   className={"content-close-button"}
@@ -116,7 +113,7 @@ const CardSlider = ({ cardList, onDelete }: any) => {
                   <CloseIcon />
                 </HWIconButton>
               }
-              <ContentCard
+              <ContentDragCard
                 id={v.id}
                 className={`image-card`}
                 srcId={v.poster || ""}

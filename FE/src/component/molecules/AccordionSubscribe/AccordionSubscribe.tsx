@@ -9,7 +9,7 @@ import { PlatformConstants } from "@src/variables/PlatformConstants";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 
 const AccordionSubscribe = ({ ott }: { ott: number[] }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [subscribe, setSubscribe] = useState<number[]>(ott);
 
   useEffect(() => {

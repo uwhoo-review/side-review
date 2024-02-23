@@ -33,7 +33,7 @@ export default {
     min-height: 382px;
     transition: 0.5s ease transform;
     transform: translateX(${translateX}px);
-    gap: ${active ? "40px" : "20px"};
+    //gap: 35px;
 
     .content-slide {
       position: relative;
@@ -102,4 +102,9 @@ export default {
       background-color: #fff;
     }
   `,
+  sortableLine: css`
+    height: 274px;
+    width: 1px;
+    border: 1px solid yellow;
+  `
 };

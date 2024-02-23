@@ -2,10 +2,17 @@ import { css } from "@emotion/react";
 import Color from "@src/common/styles/Color";
 
 export default {
+  totalWrapper: css`
+    display: flex;
+    //justify-content: center;
+    //align-items: center;
+  `,
+  sortableWrapper: css`
+    padding: 10px;
+  `,
   wrapper: (active: boolean) => css`
     position: relative;
     opacity: ${active ? 1 : 0.5};
-    //width: 216px;
     &:hover {
       opacity: 1;
       .icon-launch {
@@ -79,7 +86,7 @@ export default {
 
     margin-bottom: 10px;
     position: relative;
-    
+
     &:hover {
       img {
         transform: ${isHoverScale ? "scale(1.1)" : "none"};
@@ -146,5 +153,12 @@ export default {
     line-height: 20px;
 
     z-index: 1;
+  `,
+  sortableLine: css`
+    height: 274px;
+    width: 6px;
+    border: 2px solid rgba(0, 0, 0, 0.25);
+    background-color: #fff;
+    //opacity: 1;
   `,
 };

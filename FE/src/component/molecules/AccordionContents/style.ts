@@ -27,8 +27,8 @@ export default {
     overflow: hidden;
   `,
   leftBox: css`
-    width: 230px;
-    flex: 0 0 230px;
+    width: 260px;
+    flex: 0 0 260px;
     height: 100%;
 
     display: flex;
@@ -38,7 +38,7 @@ export default {
     gap: 16px;
   `,
   rightBox: css`
-    width: calc(100% - 230px);
+    width: calc(100% - 260px);
     //width: 1276px;
     flex: 1 0;
     //overflow: hidden;

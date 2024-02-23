@@ -62,45 +62,6 @@ const ContentCard = ({
   );
   classNames = classNames.filter(Boolean);
 
-  const [{ isOver }, drop] = useDrop(
-    {
-      accept: "CARD",
-      collect: (monitor: any) => ({
-        isOver: monitor.isOver({ shallow: true }),
-      }),
-      hover({ id: draggedId }: any) {
-        if (draggedId !== id) {
-        }
-      },
-      drop({ id: draggedId }: any) {
-        if (draggedId !== id) {
-          const { index: dragIdx } = findCard(draggedId);
-          const { index: overIdx } = findCard(id);
-          moveCard && moveCard(draggedId, id);
-        }
-      },
-    },
-    [moveCard, findCard]
-  );
-
-  const [{ isDragging }, drag] = useDrag(
-    {
-      type: "CARD",
-      item: { id },
-      collect: (monitor: any) => ({
-        isDragging: monitor.isDragging(),
-      }),
-      end: (item, monitor) => {
-        // const { id: droppedId } = item;
-        // const didDrop = monitor.didDrop();
-        // console.log(didDrop, id, originalCard.id);
-        // if (!didDrop) {
-        //   // moveCard && moveCard(dropIdx, originalIndex);
-        // }
-      },
-    },
-    [id, moveCard]
-  );
 
   useEffect(() => {
     if (divRef.current) {
@@ -108,19 +69,14 @@ const ContentCard = ({
     }
   }, []);
 
-  const opacity = isDragging ? 0.2 : 1;
   return (
     <div
       className={classNames.join(" ")}
       css={[styled.wrapper(active), customCss]}
-      style={{ opacity }}
       onClick={onClick}
-      ref={(node) => {
-        drag(drop(node));
-      }}
       {...props}
     >
-      <div className={`card-box`} css={styled.imgWrapper(active, isOver, isHoverScale)}>
+      <div className={`card-box`} css={styled.imgWrapper(active, isHoverScale)}>
         {rank && rank < 100 && <div css={styled.rank}>{rank}</div>}
         <DefaultImage
           width="100%"
