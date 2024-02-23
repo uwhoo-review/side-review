@@ -69,14 +69,12 @@ const CardSlider = ({ cardList, onDelete }: any) => {
       const movingCard = cards.splice(fromCard.index, 1);
       cards.splice(toCard.index, 0, movingCard[0]);
       setCards([...cards]);
-      console.log(cards);
 
       const dataSet = cards.map((v: any, i: number) => ({
         contentId: v.id,
         rank: i + 1,
       }));
       const res = await UWAxios.user.putMyContents(dataSet);
-      console.log(res);
 
     },
     [findCard, cards]

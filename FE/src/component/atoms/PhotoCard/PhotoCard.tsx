@@ -89,9 +89,6 @@ const PhotoCard = ({
               <div
                 css={styled.modalWrapper}
                 onKeyDown={(e) => {
-                  console.log(e.key);
-                  // e.preventDefault();
-                  console.log(e.key);
                   if (e.key === "ArrowRight") {
                   } else if (e.key === "ArrowLeft") {
                     // onClickPrev(e);

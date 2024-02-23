@@ -8,8 +8,6 @@ import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 
 const MyPageTemplate = () => {
   const { userInfo } = useCommon();
-
-  console.log(userInfo);
   const { isLoading, data, error } = useQuery({
     queryKey: ["user", userInfo.id],
     queryFn: async () => {

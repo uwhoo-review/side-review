@@ -187,7 +187,7 @@ const MyFootPrints = ({ toggle = "star" }: any) => {
                         spoiler={v.spoiler}
                         footer={true}
                         width={"100%"}
-                        height={"280px"}
+                        height={"100%"}
                         content={v.content}
                         user={v.user}
                         useModal={false}

@@ -9,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { getCardURL } from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import { RatingDO, SeasonDO } from "@src/interfaces/api.interface";
-import { useDrag, useDrop, XYCoord } from "react-dnd";
-
+import { DragPreviewImage, useDrag, useDrop, XYCoord } from "react-dnd";
 interface ContentCardProps {
   id: string;
   srcId: string;
@@ -83,15 +82,14 @@ const ContentDragCard = ({
     [moveCard, findCard]
   );
 
-  const [{ isDragging }, drag] = useDrag(
+  const [{ opacity }, drag, preview] = useDrag(
     {
       type: "CARD",
       item: { id },
       collect: (monitor: any) => ({
-        isDragging: monitor.isDragging(),
+        opacity: monitor.isDragging() ? 0.2 : 1,
       }),
-      end: (item, monitor) => {
-      },
+      end: (item, monitor) => {},
     },
     [id, moveCard]
   );
@@ -102,9 +100,13 @@ const ContentDragCard = ({
     }
   }, []);
 
-  const opacity = isDragging ? 0.2 : 1;
   return (
     <div css={styled.totalWrapper}>
+      {/*<DragPreviewImage*/}
+      {/*  src={getCardURL({ type: "content", srcId: srcId })}*/}
+      {/*  connect={preview}*/}
+      {/*  css={styled.preview}*/}
+      {/*/>*/}
       <div
         css={styled.sortableWrapper}
         ref={(node) => {
@@ -138,6 +140,7 @@ const ContentDragCard = ({
             height="100%"
             alt=""
             src={getCardURL({ type: "content", srcId: srcId })}
+            ref={preview}
           />
           {season && season.now > 1 && <div css={styled.seasonLabel}>{`시즌 ${season.now}`}</div>}
         </div>

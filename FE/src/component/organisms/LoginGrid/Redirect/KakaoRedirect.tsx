@@ -13,7 +13,6 @@ const KakaoRedirect = () => {
 
   // 컴포넌트가 마운트되면 로그인 로직 실행
   useEffect(() => {
-    console.log("kakao login redirect");
     async function kakaoLogin() {
       const res = await UWAxios.login.getKakaoToken(code, process.env.KAKAO_CALLBACK_URL || ""); // 이 부분은 서버 API에 따라 바뀔 수 있으니 API 명세서를 잘 확인하세요.
       const userInfo = {

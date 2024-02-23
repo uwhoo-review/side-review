@@ -13,8 +13,6 @@ export const UWAxios = {
   },
   contents: {
     async getContents(data: any) {
-      console.log("api");
-
       const res = await axiosBaseInstance.post<ContentsResDO>(`contents`, data);
       return res.data;
     },

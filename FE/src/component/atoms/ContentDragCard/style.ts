@@ -13,6 +13,7 @@ export default {
   wrapper: (active: boolean) => css`
     position: relative;
     opacity: ${active ? 1 : 0.5};
+    cursor: grab;
     &:hover {
       opacity: 1;
       .icon-launch {
@@ -161,4 +162,9 @@ export default {
     background-color: #fff;
     //opacity: 1;
   `,
+  preview: css`
+    width: 100px;
+    height: 200px;
+    opacity: 0.3;
+  `
 };

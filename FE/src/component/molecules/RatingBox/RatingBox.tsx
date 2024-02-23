@@ -24,7 +24,6 @@ const RatingBox = ({contentId, userRating, ratingSize="30px"}:any) => {
       };
       if (rating === 0) {
         //rating 없을때
-        console.log("추가");
         const res = await UWAxios.star.postStart(data.contentId, data);
         setRating(val);
         commonContext.onAlert({
@@ -48,7 +47,6 @@ const RatingBox = ({contentId, userRating, ratingSize="30px"}:any) => {
           width: "400px"
         })
       } else {
-        console.log("변경");
         const res = await UWAxios.star.putStart(data.contentId, data);
         setRating(val);
         commonContext.onAlert({

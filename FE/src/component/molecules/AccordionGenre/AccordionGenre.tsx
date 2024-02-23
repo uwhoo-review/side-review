@@ -25,7 +25,6 @@ const AccordionGenre = ({ genreList }: any) => {
   // };
 
   useEffect(() => {
-    console.log(genreList);
     setGenre(genreList);
   }, [genreList]);
 

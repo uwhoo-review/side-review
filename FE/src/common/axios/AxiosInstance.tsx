@@ -19,7 +19,6 @@ const AxiosInterceptor = ({ children }: any) => {
   useEffect(() => {
     const requestInterceptor = axiosBaseInstance.interceptors.request.use(
       async (config) => {
-        console.log("re", commonContext.loginSession)
        if (config.headers) {
           // const sessionId = commonContext.loginSession;
           // // if (sessionId) config.headers.Cookie = `JSESSIONID=${sessionId}`;
