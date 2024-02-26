@@ -10,12 +10,8 @@ import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.StarRatingService
-import com.sideReview.side.review.UserReviewRepository
 import com.sideReview.side.review.dto.ReviewDetailDto
-import com.sideReview.side.review.dto.ReviewTargetDto
-import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.tmdb.dto.SeasonDto
-import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -232,33 +228,4 @@ class OpenSearchDetailService @Autowired constructor(
             contents.map { it.name }
         } else emptyList()
     }
-
-//    suspend fun getContentDocumentAsContentDto(id: String): ContentDto? {
-//        var response: SearchResponse? = null
-//        kotlin.runCatching {
-//            response = openSearchGetService.findDocumentById("content", id)
-//        }
-//        if (response != null) {
-//            val source = response!!.hits?.hits?.get(0)?.source
-//            val document = Gson().fromJson("$source", ContentDocument::class.java)
-//            val seasonList: MutableList<String> = getSeasonFromDocument(document)
-//            val personList = MapperUtils.parseToPersonDocument(findDocumentByContentId(id))
-//
-//            return ContentDto(
-//                id = document.id,
-//                name = document.name,
-//                platform = document.platform?.map { it.toString() }?.toList() ?: emptyList(),
-//                genre = document.genre?.map { it.toString() }?.toList() ?: emptyList(),
-//                year = document.firstAirDate?.substring(0, 4),
-//                synopsis = document.synopsis,
-//                trailer = document.trailer?.get(0),
-//                poster = document.poster,
-//                rating = starRatingService.calculateWeightAverage(document.rating, id),
-//                actors = filterCreditInfo(personList, id).first.map { it.name }.toList(),
-//                age = 0,
-//                season = makeSeasonInfo(id, seasonList.sorted()).list
-//            )
-//        } else return null
-//    }
-
 }

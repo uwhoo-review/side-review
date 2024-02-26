@@ -241,6 +241,7 @@ object MapperUtils {
             id = detailContentDto.id,
             poster = detailContentDto.poster,
             name = detailContentDto.name,
+            season = detailContentDto.getSeason(),
             date = detailContentDto.getYear(),
             director = detailContentDto.directors ?: emptyList(),
             genre = detailContentDto.genre,

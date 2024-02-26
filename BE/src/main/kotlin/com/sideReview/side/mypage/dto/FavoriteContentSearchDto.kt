@@ -4,6 +4,7 @@ data class FavoriteContentSearchDto(
     val id : String,
     val poster : String?,
     val name : String,
+    val season : Int = 1,
     val date : String? = null,
     val director : List<String>,
     val genre: List<Int>?,
