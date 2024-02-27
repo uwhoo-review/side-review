@@ -19,6 +19,8 @@ const MainTemplate = () => {
     refetchOnWindowFocus: false,
   });
 
+  console.log(data)
+
   return (
     <>
       {status === "pending" && <LoadingGrid />}

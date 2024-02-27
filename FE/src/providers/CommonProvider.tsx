@@ -10,9 +10,9 @@ import {
 import styled from "./style";
 import HWAlert from "@src/component/atoms/HWAlert";
 import { FilterProps } from "@src/interfaces/common.interface";
-import { UWHOO_LOGIN } from "@src/variables/LoginConstants";
+import { DEFAULT_USER_INFO, UWHOO_LOGIN } from "@src/variables/LoginConstants";
 import { getCookie } from "@src/tools/commonTools";
-import {UWAxios} from "@src/common/axios/AxiosConfig";
+import { UWAxios } from "@src/common/axios/AxiosConfig";
 
 const CommonContext = createContext<any | null>(null);
 export const useCommon = () => {
@@ -26,12 +26,7 @@ export const useCommon = () => {
 export const CommonProvider = ({ children }: { children: React.ReactElement }) => {
   const [isLogin, setIsLogin] = useState(false);
   const [loginSession, setLogoinSession] = useState("");
-  const [userInfo, setUserInfo] = useState({
-    id: "",
-    nickname: "",
-    profile: "",
-    type: "",
-  });
+  const [userInfo, setUserInfo] = useState(DEFAULT_USER_INFO);
 
   const [alert, setAlert] = useState({
     is: false,
@@ -87,9 +82,21 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
       width: undefined,
     });
   const onHandleUserInfo = (v: any) => setUserInfo((prev: any) => ({ ...prev, ...v }));
-  const onResetUserInfo = () => setUserInfo({ id: "", nickname: "", profile: "", type: "" });
+  const onResetUserInfo = () => setUserInfo(DEFAULT_USER_INFO);
   const onHandleLogin = (v: boolean) => setIsLogin(v);
   const onHandleLoginSession = (v: string) => setLogoinSession(v);
+
+  useEffect(() => {
+    if (isLogin) {
+      sessionStorage.setItem(
+        UWHOO_LOGIN,
+        JSON.stringify({
+          isLogin: isLogin,
+          userInfo: userInfo,
+        })
+      );
+    }
+  }, [userInfo, isLogin]);
 
   useLayoutEffect(() => {
     const loginInfoStr = sessionStorage.getItem(UWHOO_LOGIN);

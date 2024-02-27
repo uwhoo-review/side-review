@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 import { useCommon } from "@src/providers/CommonProvider";
 import { UWHOO_LOGIN } from "@src/variables/LoginConstants";
-import {setCookie} from "@src/tools/commonTools";
+import { setCookie } from "@src/tools/commonTools";
 
 export const axiosBaseInstance = axios.create({
   baseURL: "https://uwhoo-review.site/api",
@@ -19,9 +19,7 @@ const AxiosInterceptor = ({ children }: any) => {
   useEffect(() => {
     const requestInterceptor = axiosBaseInstance.interceptors.request.use(
       async (config) => {
-       if (config.headers) {
-          // const sessionId = commonContext.loginSession;
-          // // if (sessionId) config.headers.Cookie = `JSESSIONID=${sessionId}`;
+        if (config.headers) {
         }
         return config;
       },
@@ -67,7 +65,6 @@ const AxiosInterceptor = ({ children }: any) => {
               break;
             }
           }
-
         }
 
         return Promise.reject(error);
@@ -77,7 +74,7 @@ const AxiosInterceptor = ({ children }: any) => {
       axiosBaseInstance.interceptors.request.eject(requestInterceptor);
       axiosBaseInstance.interceptors.response.eject(responseInterceptor);
     };
-  }, [commonContext.loginSession]);
+  }, []);
 
   useEffect(() => {
     setIsRender(true);

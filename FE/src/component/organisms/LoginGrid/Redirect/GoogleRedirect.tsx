@@ -20,22 +20,10 @@ const GoogleRedirect = () => {
         ...res.userInfoDto,
         type: GOOGLE,
       };
-      const sessionId = res.sessionId;
 
       onHandleLogin(true);
-      onHandleLoginSession(sessionId);
       onHandleUserInfo(userInfo);
 
-      sessionStorage.setItem(
-        UWHOO_LOGIN,
-        JSON.stringify({
-          isLogin: true,
-          recentSite: GOOGLE,
-          sessionId: sessionId,
-          userInfo: userInfo,
-        })
-      );
-      // setCookie("JSESSIONID", sessionId, { maxAge: 3600 * 24 * 30 });
       setCookie(
         UWHOO_LOGIN,
         JSON.stringify({

@@ -19,20 +19,10 @@ const KakaoRedirect = () => {
         ...res.userInfoDto,
         type: KAKAO,
       };
-      const sessionId = res.sessionId;
 
       onHandleLogin(true);
-      onHandleLoginSession(sessionId);
       onHandleUserInfo(userInfo);
-      sessionStorage.setItem(
-        UWHOO_LOGIN,
-        JSON.stringify({
-          isLogin: true,
-          recentSite: KAKAO,
-          sessionId: sessionId,
-          userInfo: userInfo,
-        })
-      );
+
       setCookie(
         UWHOO_LOGIN,
         JSON.stringify({

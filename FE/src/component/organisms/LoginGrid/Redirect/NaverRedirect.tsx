@@ -20,21 +20,10 @@ const NaverRedirect = () => {
         ...res.userInfoDto,
         type: NAVER,
       };
-      const sessionId = res.sessionId;
 
       onHandleLogin(true);
-      onHandleLoginSession(sessionId);
       onHandleUserInfo(userInfo);
 
-      sessionStorage.setItem(
-        UWHOO_LOGIN,
-        JSON.stringify({
-          isLogin: true,
-          recentSite: NAVER,
-          sessionId: sessionId,
-          userInfo: userInfo,
-        })
-      );
       setCookie(
         UWHOO_LOGIN,
         JSON.stringify({
