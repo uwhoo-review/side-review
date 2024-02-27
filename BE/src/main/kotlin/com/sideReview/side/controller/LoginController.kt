@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.session.web.http.DefaultCookieSerializer
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.Cookie
@@ -109,7 +110,7 @@ class LoginController(
         }
     }
 
-    @GetMapping("/user/ott/{toggle}")
+    @PutMapping("/user/ott/{toggle}")
     fun changeToggle(
         @PathVariable toggle: Boolean,
         @LoginUser user: UserInfoDto
