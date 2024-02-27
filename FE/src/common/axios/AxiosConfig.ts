@@ -159,5 +159,9 @@ export const UWAxios = {
       const res = await axiosBaseInstance.put<any>(`user/genre`, data);
       return res.data;
     },
+    async subscribeOtt(ott: boolean) {
+      const res = await axiosBaseInstance.put<any>(`user/ott/${ott}`);
+      return res.data;
+    },
   },
 };

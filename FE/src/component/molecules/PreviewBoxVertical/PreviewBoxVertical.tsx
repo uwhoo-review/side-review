@@ -163,7 +163,11 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       className={"margin-top-12 flex flex-align-center gap-5"}
                       css={styled.height28}
                     >
-                      <RatingBox contentId={item.id} userRating={item.rating.user} ratingSize={"20px"} />
+                      <RatingBox
+                        contentId={item.id}
+                        userRating={item.rating.user}
+                        ratingSize={"20px"}
+                      />
                     </div>
                   </div>
                 </div>
@@ -276,7 +280,19 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                 )}
                 {item?.review?.review.map((v: any) => {
                   return (
-                    <ReviewCard best={true} date={"2023.02.29"} line={4} useModal={true}>
+                    <ReviewCard
+                      key={v.id}
+                      best={v.best}
+                      spoiler={v.spoiler}
+                      date={v.date}
+                      dislike={v.dislike}
+                      like={v.like}
+                      line={4}
+                      useModal={true}
+                      itemTarget={v.target}
+                      content={v.content}
+                      user={v.user}
+                    >
                       v
                     </ReviewCard>
                   );

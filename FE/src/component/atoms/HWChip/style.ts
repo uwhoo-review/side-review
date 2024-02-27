@@ -126,7 +126,7 @@ export default {
       }
       default: {
         return css`
-          background-color: #000;
+          background-color: #4e4e4e;
           color: #fff;
         `;
       }

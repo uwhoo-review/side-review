@@ -153,7 +153,7 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
                       dislike={v.dislike}
                       like={v.like}
                       date={v.date}
-                      best={i < 7}
+                      best={v.best}
                       spoiler={v.spoiler}
                       footer={true}
                       width={"100%"}
@@ -161,6 +161,11 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
                       content={v.content}
                       user={v.user}
                       useModal={false}
+                      itemTarget={v.target}
+                      isProfile={true}
+                      titleChip={false}
+                      dateChip={false}
+                      seasonChip={false}
                     >
                       {v.content}
                     </ReviewCard>

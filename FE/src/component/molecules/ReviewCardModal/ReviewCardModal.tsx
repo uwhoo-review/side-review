@@ -19,6 +19,7 @@ const ReviewCardModal = ({
   onClose,
   customCss,
   onClick,
+  itemTarget,
   user,
   ...props
 }: any) => {
@@ -60,6 +61,9 @@ const ReviewCardModal = ({
         >
           <div css={styled.topWrapper}>
             <div css={styled.chipWrapper}>
+              {user.id === commonContext.userInfo.id && (
+                <HWChip label={"내 리뷰"} css={styled.spoiler} />
+              )}
               {review.best && (
                 <HWChip
                   color={"best"}

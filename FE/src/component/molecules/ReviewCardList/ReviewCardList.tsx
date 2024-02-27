@@ -132,13 +132,11 @@ const ReviewCardList = ({ size = 6 , item}: any) => {
                   <ReviewCard
                     key={v.id}
                     id={id}
-                    itemName={item.name}
-                    itemDate={item.date}
                     reviewId={v.id}
                     dislike={v.dislike}
                     like={v.like}
                     date={v.date}
-                    best={true}
+                    best={v.best}
                     spoiler={v.spoiler}
                     footer={true}
                     width={"452px"}
@@ -146,6 +144,11 @@ const ReviewCardList = ({ size = 6 , item}: any) => {
                     useModal={true}
                     user={v.user}
                     content={v.content}
+                    itemTarget={v.target}
+                    isProfile={false}
+                    titleChip={false}
+                    dateChip={false}
+                    seasonChip={false}
                     line={7}
                   >
                     {v.content}

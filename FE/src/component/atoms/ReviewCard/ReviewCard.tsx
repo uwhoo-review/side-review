@@ -16,8 +16,6 @@ import ReviewCardModal from "@src/component/molecules/ReviewCardModal/ReviewCard
 
 interface ReviewCardProps {
   id?: string;
-  itemName?: string;
-  itemDate?: string;
   reviewId?: string;
   dislike?: number;
   like?: number;
@@ -35,13 +33,16 @@ interface ReviewCardProps {
   user?: any;
   content?: string;
   useModal?: boolean;
+  titleChip?: boolean;
+  dateChip?: boolean;
+  seasonChip?: boolean;
+  isProfile?: boolean;
+  itemTarget?: any;
   onClick?: () => void;
 }
 
 const ReviewCard = ({
   id = "",
-  itemName = "",
-  itemDate = "",
   reviewId = "",
   dislike = 0,
   like = 0,
@@ -58,7 +59,12 @@ const ReviewCard = ({
   children,
   user,
   content,
+  itemTarget,
   useModal = false,
+  titleChip = false,
+  dateChip = false,
+  isProfile = false,
+  seasonChip = false,
   onClick,
 }: ReviewCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -105,6 +111,14 @@ const ReviewCard = ({
       >
         <div css={styled.topWrapper}>
           <div css={styled.chipWrapper}>
+            {user.id === commonContext.userInfo.id && (
+              <HWChip label={"내 리뷰"} css={styled.spoiler} />
+            )}
+            {titleChip && itemTarget && <HWChip label={itemTarget.name} css={styled.spoiler} />}
+            {dateChip && itemTarget && <HWChip label={`${itemTarget.date}`} css={styled.spoiler} />}
+            {seasonChip && itemTarget && (
+              <HWChip color={"season"} label={`시즌 ${itemTarget.season}`} css={styled.spoiler} />
+            )}
             {best && (
               <HWChip
                 color={"best"}
@@ -120,7 +134,7 @@ const ReviewCard = ({
           </div>
           <div css={styled.dateDiv}>{date}</div>
         </div>
-        {user.nickname !== "" && user.profile !== "" && (
+        {isProfile && user.nickname !== "" && user.profile !== "" && (
           <div css={styled.topWrapper}>
             <div css={styled.chipWrapper}></div>
             <div css={styled.chipWrapper}>
@@ -136,9 +150,7 @@ const ReviewCard = ({
           </div>
         )}
         <div css={[styled.contents]}>
-          <div css={ line &&styled.lineClamp(line)}>
-            {children}
-          </div>
+          <div css={line && styled.lineClamp(line)}>{children}</div>
         </div>
         {footer && (
           <>
@@ -211,7 +223,8 @@ const ReviewCard = ({
             date: date,
           }}
           user={user}
-          itemId={id}
+          itemId={itemTarget.id}
+          itemTarget={itemTarget}
         />
       )}
       {modifyDialog && (
@@ -228,9 +241,9 @@ const ReviewCard = ({
             dislike: dislike,
             date: date,
           }}
-          itemId={id}
-          itemName={itemName}
-          itemDate={itemDate}
+          itemId={itemTarget.contentId}
+          itemName={itemTarget.name}
+          itemDate={itemTarget.date}
         />
       )}
     </>

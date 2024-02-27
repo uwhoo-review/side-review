@@ -164,7 +164,7 @@ const AccordionContents = ({ contentsList }: any) => {
                     <div css={styled.box3}>
                       {data?.content.map((v: any) => {
                         const sub = [];
-                        sub.push(v.year);
+                        sub.push(v.date);
                         v.director[0] && sub.push(v.director[0]);
                         v.country[0] && sub.push(v.country[0]);
                         v.genre.forEach((genre: any) => sub.push(GENRE_ID_NAME[genre]));
@@ -177,6 +177,7 @@ const AccordionContents = ({ contentsList }: any) => {
                             title={v.name}
                             subTitle={sub.join(" ∙ ")}
                             rating={v.rating}
+                            season={v.season}
                             onClick={async () => {
                               const res = await UWAxios.user.addMyContents(v.id);
                               // console.log(res);

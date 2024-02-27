@@ -179,17 +179,24 @@ const MyFootPrints = ({ toggle = "star" }: any) => {
                   {resultReview.map((v: any, i: number) => {
                     return (
                       <ReviewCard
+                        id={v.target.id}
                         key={v.id}
                         reviewId={v.id}
                         dislike={v.dislike}
                         like={v.like}
                         date={v.date}
-                        spoiler={v.spoiler}
                         footer={true}
                         width={"100%"}
                         height={"100%"}
                         content={v.content}
                         user={v.user}
+                        itemTarget={v.target}
+                        spoiler={v.spoiler}
+                        best={v.best}
+                        isProfile={false}
+                        titleChip={true}
+                        dateChip={true}
+                        seasonChip={true}
                         useModal={false}
                       >
                         {v.content}

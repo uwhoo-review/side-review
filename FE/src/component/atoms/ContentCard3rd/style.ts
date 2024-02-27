@@ -27,6 +27,9 @@ export default {
   box2: css`
     flex: 1 0;
   `,
+  subBox2: css`
+    display: flex;
+  `,
   box3: css`
     flex: 0 0;
     display: flex;
@@ -62,4 +65,9 @@ export default {
     font-weight: 600;
     line-height: 24px; /* 150% */
   `,
+  chip: css`
+    height: 20px;
+    margin-left: 10px;
+    font-size: 12px;
+  `
 };
