@@ -69,25 +69,6 @@ const Login = () => {
           <SpeechBubble customCss={styled.bubble}>최근 로그인</SpeechBubble>
         )}
       </div>
-      <div css={styled.btnWrapper}>
-        <HWButton
-          className={"login-btn"}
-          variant={"lower"}
-          css={styled.kakaoBtn}
-          // onClick={() => (window.location.href = "/oauth2/authorization/naver")}
-          onClick={async () => {
-            window.location.href = "api/oauth2/authorization/naver";
-            // onClick={() => (window.location.href = "/oauth2/authorization/naver")}
-          }}
-        >
-          <IconKakao width={"23px"} height={"23px"} />
-          <HWTypography variant={"bodyXL"}>테스트</HWTypography>
-        </HWButton>
-        {/*<}>네이버</a>*/}
-        <a href={"https://uwhoo-review.site/api/oauth2/authorization/naver"}>네이버</a>
-        <a href={"https://uwhoo-review.site/api/oauth2/authorization/google"}>구굴</a>
-        <a href={"https://uwhoo-review.site/api/oauth2/authorization/kakao"}>카카오</a>
-      </div>
     </div>
   );
 };

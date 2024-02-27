@@ -128,6 +128,8 @@ export default {
     height: 48px;
     margin-top: 10px;
     position: relative;
+    background-color: transparent;
+
   `,
   seasonLabel: css`
     position: absolute;

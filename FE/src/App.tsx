@@ -25,6 +25,7 @@ const App = () => (
     <AxiosInterceptor>
       {/*<div className={"scroll-area none-draggable"}>*/}
       <DndProvider backend={HTML5Backend}>
+
         <Routes>
           <Route path={"/"} element={<CommonTemplate />}>
             <Route index element={<MainPage />} />

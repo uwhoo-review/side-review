@@ -75,6 +75,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-apexcharts", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:1.4.1"],\
             ["react-dnd", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:16.0.1"],\
             ["react-dnd-html5-backend", "npm:16.0.1"],\
+            ["react-dnd-preview", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:8.0.3"],\
             ["react-dom", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:18.2.0"],\
             ["react-refresh", "npm:0.14.0"],\
             ["react-refresh-typescript", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:2.0.9"],\
@@ -5663,6 +5664,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-apexcharts", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:1.4.1"],\
             ["react-dnd", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:16.0.1"],\
             ["react-dnd-html5-backend", "npm:16.0.1"],\
+            ["react-dnd-preview", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:8.0.3"],\
             ["react-dom", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:18.2.0"],\
             ["react-refresh", "npm:0.14.0"],\
             ["react-refresh-typescript", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:2.0.9"],\
@@ -14702,6 +14704,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["react-dnd-html5-backend", "npm:16.0.1"],\
             ["dnd-core", "npm:16.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-dnd-preview", [\
+        ["npm:8.0.3", {\
+          "packageLocation": "./.yarn/cache/react-dnd-preview-npm-8.0.3-73bdadc57c-8.zip/node_modules/react-dnd-preview/",\
+          "packageDependencies": [\
+            ["react-dnd-preview", "npm:8.0.3"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:8.0.3", {\
+          "packageLocation": "./.yarn/__virtual__/react-dnd-preview-virtual-a15d8dfe14/0/cache/react-dnd-preview-npm-8.0.3-73bdadc57c-8.zip/node_modules/react-dnd-preview/",\
+          "packageDependencies": [\
+            ["react-dnd-preview", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:8.0.3"],\
+            ["@types/react", "npm:18.2.23"],\
+            ["@types/react-dnd", null],\
+            ["react", "npm:18.2.0"],\
+            ["react-dnd", "virtual:7cb02e6637ae98fe65a39faf374187a17ea0c7381cd4bf2c9523e2fc5d67201501ab7f2a9c036690b0a40985d821f23f412bc19b7cb47ffe8e6b54d76710662a#npm:16.0.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-dnd",\
+            "@types/react",\
+            "react-dnd",\
+            "react"\
           ],\
           "linkType": "HARD"\
         }]\

@@ -29,6 +29,7 @@ interface ContentCardProps {
   customCss?: SerializedStyles;
   isHoverScale?: boolean;
 }
+
 const ContentDragCard = ({
   id,
   srcId,
@@ -67,10 +68,6 @@ const ContentDragCard = ({
       collect: (monitor: any) => ({
         isOver: monitor.isOver({ shallow: true }),
       }),
-      hover({ id: draggedId }: any) {
-        if (draggedId !== id) {
-        }
-      },
       drop({ id: draggedId }: any) {
         if (draggedId !== id) {
           // const { index: dragIdx } = findCard(draggedId);
@@ -82,12 +79,13 @@ const ContentDragCard = ({
     [moveCard, findCard]
   );
 
-  const [{ opacity }, drag, preview] = useDrag(
+  const [{ opacity, isDragging }, drag, preview] = useDrag(
     {
       type: "CARD",
       item: { id },
       collect: (monitor: any) => ({
         opacity: monitor.isDragging() ? 0.2 : 1,
+        isDragging: monitor.isDragging(),
       }),
       end: (item, monitor) => {},
     },
@@ -102,11 +100,6 @@ const ContentDragCard = ({
 
   return (
     <div css={styled.totalWrapper}>
-      {/*<DragPreviewImage*/}
-      {/*  src={getCardURL({ type: "content", srcId: srcId })}*/}
-      {/*  connect={preview}*/}
-      {/*  css={styled.preview}*/}
-      {/*/>*/}
       <div
         css={styled.sortableWrapper}
         ref={(node) => {
@@ -120,6 +113,7 @@ const ContentDragCard = ({
           }}
         />
       </div>
+
       <div
         className={classNames.join(" ")}
         css={[styled.wrapper(active), customCss]}
@@ -127,23 +121,28 @@ const ContentDragCard = ({
         onClick={onClick}
         {...props}
       >
-        <div
-          className={`card-box`}
-          css={styled.imgWrapper(active, isHoverScale)}
-          ref={(node) => {
-            drag(node);
-          }}
-        >
+        <div className={`card-box`} css={styled.imgWrapper(active, isHoverScale)}>
           {rank && rank < 100 && <div css={styled.rank}>{rank}</div>}
-          <DefaultImage
-            width="100%"
-            height="100%"
-            alt=""
-            src={getCardURL({ type: "content", srcId: srcId })}
-            ref={preview}
-          />
           {season && season.now > 1 && <div css={styled.seasonLabel}>{`시즌 ${season.now}`}</div>}
+
+          <div
+            ref={(node) => {
+              drag(node);
+            }}
+          >
+            <DefaultImage
+              width="100%"
+              height="100%"
+              alt=""
+              src={getCardURL({ type: "content", srcId: srcId })}
+            />
+          </div>
+          <DragPreviewImage
+            connect={preview}
+            src={getCardURL({ type: "content", srcId: srcId, size: "w154" })}
+          />
         </div>
+
         <div css={styled.description}>
           <div className={"title"} css={styled.title}>
             <div

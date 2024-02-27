@@ -3718,6 +3718,7 @@ __metadata:
     react-apexcharts: ^1.4.1
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
+    react-dnd-preview: ^8.0.3
     react-dom: ^18.2.0
     react-refresh: ^0.14.0
     react-refresh-typescript: ^2.0.9
@@ -11502,6 +11503,16 @@ __metadata:
   dependencies:
     dnd-core: ^16.0.1
   checksum: e2368bf85d5632a5cd867b743feb54c9052d909ea5331608860fa455edf3c633ac791f5b338e3db29b19ea8670c0ba5fb43c9c1c2510760bea030811d726cdfa
+  languageName: node
+  linkType: hard
+
+"react-dnd-preview@npm:^8.0.3":
+  version: 8.0.3
+  resolution: "react-dnd-preview@npm:8.0.3"
+  peerDependencies:
+    react: ^16.14.0 || ^17.0.2 || ^18.0.0
+    react-dnd: ^16.0.1
+  checksum: 39eef618faa028a5b731012c27c31e9e07fa307b82ce51aeeb7ca312a65e419947173bbe4a02742db934f5e23a9fe02213ab569ef1d99ad83043adafc9456072
   languageName: node
   linkType: hard
 
