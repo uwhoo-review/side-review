@@ -17,6 +17,8 @@ const HWIconButton = React.forwardRef<HTMLButtonElement, HWIconButtonProps>(
       onClick,
       onDoubleClick,
       onMouseDown,
+      onMouseOver,
+      onMouseOut,
       ...props
     },
     ref
@@ -31,7 +33,10 @@ const HWIconButton = React.forwardRef<HTMLButtonElement, HWIconButtonProps>(
         onClick={onClick}
         onDoubleClick={onDoubleClick}
         onMouseDown={onMouseDown}
+        onMouseOut={onMouseOut}
         disableRipple={disableRipple}
+        onMouseOver={onMouseOver}
+
         {...props}
       >
         {children}

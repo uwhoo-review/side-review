@@ -10,6 +10,8 @@ export interface HWIconButtonProps extends DOMAttributes<HTMLButtonElement> {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onDoubleClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onMouseDown?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onMouseOver?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onMouseOut?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
   disablePadding?: boolean;
   disableRipple?: boolean;

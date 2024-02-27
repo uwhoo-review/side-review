@@ -1,10 +1,11 @@
-import {css} from "@emotion/react";
+import { css } from "@emotion/react";
 export default {
   wrapper: css`
     display: flex;
     align-items: center;
     gap: 10px;
     height: 100%;
+    position: relative;
   `,
   rating: (ratingSize: string) => css`
     font-size: ${ratingSize};
@@ -29,10 +30,13 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
-
   `,
   typo: css`
     cursor: pointer;
-  `
-
-}
+  `,
+  clear: css`
+    position: absolute;
+    left: -36px;
+    opacity: 0;
+  `,
+};
