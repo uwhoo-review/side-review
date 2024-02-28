@@ -19,8 +19,8 @@ data class NaverProfileDetail(
     val id: String,         // naver ID 별 고유 값
     val nickname: String?,
     val name: String,
-    val profile_image: String
-//    val email: String,
+    val profile_image: String,
+    val email: String
 //    val gender: String,     // F:여성, M: 남성, U: 확인 불가
 //    val age: String,
 //    val birthday: String,   // format: MM-DD

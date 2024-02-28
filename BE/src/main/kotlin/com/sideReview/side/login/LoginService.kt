@@ -35,6 +35,7 @@ class LoginService(
         var id: String = ""
         var name: String = ""
         var profile: String = ""
+        var email: String = ""
         when (type) {
             "naver" -> {
                 val dto = response as NaverProfileResponse
@@ -42,6 +43,7 @@ class LoginService(
                 name =
                     if (dto.response.nickname.isNullOrBlank()) nicknameService.makeNickname(0) else dto.response.nickname
                 profile = dto.response.profile_image
+                email = dto.response.email
             }
 
             "google" -> {
@@ -49,6 +51,7 @@ class LoginService(
                 id = dto.id
                 name = if (dto.name.isNullOrBlank()) nicknameService.makeNickname(2) else dto.name
                 profile = dto.picture
+                email = dto.email
             }
 
             "kakao" -> {
@@ -60,12 +63,14 @@ class LoginService(
                     else dto.kakao_account.profile.nickname
                 profile = if (dto.kakao_account.profile.thumbnail_image_url.isNullOrBlank()) ""
                 else dto.kakao_account.profile.thumbnail_image_url
+                email = dto.kakao_account.email
             }
         }
         val user = userInfoRepository.findById(id)
         return if (user.isPresent) {
             if (user.get().nickname != name) user.get().nickname = name
             if (user.get().profile != profile) user.get().profile = profile
+            if (user.get().email != email) user.get().email = email
             user.get()
         } else
             userInfoRepository.save(
@@ -74,6 +79,7 @@ class LoginService(
                     type,
                     name,
                     profile,
+                    email,
                     null,
                     null,
                     0,
