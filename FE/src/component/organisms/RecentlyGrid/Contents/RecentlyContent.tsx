@@ -12,6 +12,7 @@ import { ContentDO } from "@src/interfaces/api.interface";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import { useMutation } from "@tanstack/react-query";
+import OttToggleButton from "@src/component/atoms/OttToggleButton/OttToggleButton";
 
 const RecentlyContent = ({ data }: any) => {
   const mainRef = useRef<HTMLDivElement | null>(null);
@@ -40,6 +41,9 @@ const RecentlyContent = ({ data }: any) => {
 
   return (
     <div className="recently-content-wrapper" css={styled.wrapper} ref={mainRef}>
+      <CenterWrapper>
+        <OttToggleButton />
+      </CenterWrapper>
       <CenterWrapper customCss={styled.centerWrapper}>
         <div css={styled.header}>
           <div css={styled.headline}>
