@@ -1,6 +1,5 @@
 package com.sideReview.side.controller
 
-import com.sideReview.side.login.NicknameService
 import com.sideReview.side.mypage.MyPageService
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.review.ReviewService
@@ -34,7 +33,10 @@ class TestController(
     @GetMapping("/test")
     fun getTest(): ResponseEntity<Any> {
         val pageable = PageRequest.of(0, 6)
-        return ResponseEntity.ok(reviewService.getReviewsByWriterId("110383138275584860058", pageable, opensearchClient))
+        return ResponseEntity.ok(reviewService.getReviewsByWriterId(
+            "110383138275584860058",
+            pageable
+        ))
         //return ResponseEntity.ok(myPageService.getMyPage("110383138275584860058"))
     }
 

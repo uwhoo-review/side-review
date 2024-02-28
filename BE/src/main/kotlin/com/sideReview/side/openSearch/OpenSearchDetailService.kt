@@ -8,7 +8,6 @@ import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.parseSearchResponseToSimpleContentDto
 import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
-import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.tmdb.dto.SeasonDto
@@ -19,8 +18,7 @@ import org.springframework.stereotype.Service
 @Service
 class OpenSearchDetailService @Autowired constructor(
     private val starRatingService: StarRatingService,
-    private val openSearchGetService: OpenSearchGetService,
-    private val reviewService: ReviewService
+    private val openSearchGetService: OpenSearchGetService
 ) {
     /*
     * SearchClient에 직접 접근하지 않고 dto 생성에 정보가 더 필요한 경우
@@ -109,7 +107,7 @@ class OpenSearchDetailService @Autowired constructor(
             season = makeSeasonInfo(id, seasonList),
             directors = document.directors,
             episodeCnt = document.episodeCount,
-            review = if(userId == null) ReviewDetailDto() else reviewService.getOneReviewByWriterId(id, userId)
+            review = ReviewDetailDto()
         )
     }
 
@@ -166,7 +164,7 @@ class OpenSearchDetailService @Autowired constructor(
                         crewJob.contentId
                     )
                 )
-                if(content!=null){
+                if (content != null) {
                     if (!job.contains(crewJob.job)) job.add(crewJob.job)
                     jobList.add(
                         CrewItem(

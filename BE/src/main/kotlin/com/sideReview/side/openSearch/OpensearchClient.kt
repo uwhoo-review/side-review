@@ -11,6 +11,7 @@ import com.sideReview.side.mypage.dto.FavoriteContentSearchPageDto
 import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.mypage.dto.FavoritePersonDto
 import com.sideReview.side.openSearch.dto.*
+import com.sideReview.side.review.ContentReviewFacade
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.review.dto.ReviewTargetDto
 import com.sideReview.side.review.entity.UserReview
@@ -389,34 +390,6 @@ class OpensearchClient(
         if (addFun != null && addParam != null)
             this.add(addFun, addParam)
         return formatter.format(this.time).toString()
-    }
-
-    fun fillContentInReview(
-        reviewList: List<ReviewDetailDto>,
-        entityList: List<UserReview>?,
-        contentId: String?
-    ): List<ReviewDetailDto> {
-        val contentIdList: MutableList<String> = mutableListOf()
-        if (contentId == null)
-            contentIdList.addAll(entityList!!.map { it.targetId })
-        else contentIdList.add(contentId)
-
-        val docMap = getAllContents(contentIdList).associateBy { it.id }
-        val entityMap =
-            if (contentId == null) entityList!!.associateBy { it.reviewId }.mapValues { it.value.targetId }
-            else reviewList.associateBy { it.id }.mapValues { contentId }
-        reviewList.forEach {
-            val target = docMap[entityMap[it.id]]
-            if (target != null) {
-                it.target = ReviewTargetDto(
-                    contentId = target.id,
-                    name = target.name,
-                    season = target.getSeason(),
-                    date = target.getYear()
-                )
-            } else println("로직 변경 필요")
-        }
-        return reviewList
     }
 
 }

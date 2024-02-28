@@ -19,7 +19,7 @@ data class ContentDto(
     val actors: List<String>? = null,
     val age: String? = null,
     val season: Season? = null,
-    var review: ReviewDto? = null
+    var review: ReviewDto? = null           // 전체 리뷰
 )
 //
 //class ContentDeserializer : JsonDeserializer<ContentDto> {

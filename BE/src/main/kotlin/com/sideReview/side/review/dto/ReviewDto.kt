@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ReviewDto(
     val total: Int,
-    val review: List<ReviewDetailDto>
+    var review: List<ReviewDetailDto>
 )
 
 @Serializable
@@ -21,10 +21,11 @@ data class ReviewDetailDto @JvmOverloads constructor(
     var best: Boolean = false,
     var target: ReviewTargetDto = ReviewTargetDto()
 )
+
 @Serializable
 data class ReviewTargetDto @JvmOverloads constructor(
     var contentId: String = "",
-    val name : String = "",
+    val name: String = "",
     val season: Int = 1,
     val date: String = ""
 )

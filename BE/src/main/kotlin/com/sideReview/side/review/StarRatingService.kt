@@ -5,7 +5,9 @@ import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.Rating
-import com.sideReview.side.review.dto.*
+import com.sideReview.side.review.dto.PageRatedContentDto
+import com.sideReview.side.review.dto.StarRatingCreateDto
+import com.sideReview.side.review.dto.StarRatingUpdateDto
 import com.sideReview.side.review.entity.UserStarRating
 import com.sideReview.side.review.exception.StarRatingSaveDuplicateException
 import org.springframework.data.domain.PageRequest
@@ -36,8 +38,9 @@ class StarRatingService(
     @Transactional
     fun editStarRating(dto: StarRatingUpdateDto, userId: String) {
         if (userInfoRepository.existsById(userId)) {
-            val entity = userStarRatingRepository.findOneByTargetIdAndWriterId(dto.contentId, userId)
-            if(entity != null) {
+            val entity =
+                userStarRatingRepository.findOneByTargetIdAndWriterId(dto.contentId, userId)
+            if (entity != null) {
                 userStarRatingRepository.save(
                     UserStarRating(
                         id = entity.id,
@@ -47,8 +50,7 @@ class StarRatingService(
                     )
                 )
             }
-        }
-        else throw Exception("Cannot update star rating. User Id not found.")
+        } else throw Exception("Cannot update star rating. User Id not found.")
     }
 
     @Transactional
@@ -56,13 +58,16 @@ class StarRatingService(
         userStarRatingRepository.deleteByTargetIdAndWriterId(id, userId)
     }
 
-    private fun calculateWeightAverage(tmdbRating: Float?, id: String): Float {
+    private fun calculateWeightAverage(
+        tmdbRating: Float?,
+        userStarRatingList: List<UserStarRating>
+    ): Float {
         val tmdbWeight = 8
         val userWeight = 2
 
-        val userRating = userStarRatingRepository.findAllByTargetId(id)
+        val userRating = userStarRatingList
             .map { it.rating }
-            .average().takeIf { it.isFinite() } ?: null
+            .average().takeIf { it.isFinite() }
 
         var rating = tmdbRating ?: userRating ?: 0.0
         if (tmdbRating != null && userRating != null) {
@@ -79,7 +84,7 @@ class StarRatingService(
                 userStarRatingList.firstOrNull { it.writerId == userId }?.rating ?: 0.0f
             else 0.0f
         return RatingDto(
-            calculateWeightAverage(tmdbRating, id),
+            calculateWeightAverage(tmdbRating, userStarRatingList),
             userStarRatingList.size,
             userRating
         )
@@ -97,7 +102,7 @@ class StarRatingService(
             contentId,
             userId
         )
-        return rating?.rating?: 0.0f
+        return rating?.rating ?: 0.0f
     }
 
     fun getRatingsByWriterId(userId: String, pageable: PageRequest): PageRatedContentDto {

@@ -6,8 +6,7 @@ import com.sideReview.side.login.NickNameDuplicateException
 import com.sideReview.side.login.NicknameService
 import com.sideReview.side.mypage.MyPageService
 import com.sideReview.side.mypage.dto.FavoriteContentInputDto
-import com.sideReview.side.openSearch.OpensearchClient
-import com.sideReview.side.review.ReviewService
+import com.sideReview.side.review.ContentReviewFacade
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
@@ -20,8 +19,7 @@ import org.springframework.web.bind.annotation.*
 class MyPageController(
     val nicknameService: NicknameService,
     val myPageService: MyPageService,
-    val reviewService: ReviewService,
-    val opensearchClient: OpensearchClient
+    val contentReviewFacade: ContentReviewFacade
 ) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
 
@@ -118,7 +116,8 @@ class MyPageController(
     @PostMapping("/contents")
     fun addFavoriteContent(
         @LoginUser(required = false) user: UserInfoDto,
-        @RequestParam contentId : String) : ResponseEntity<Any>{
+        @RequestParam contentId: String
+    ): ResponseEntity<Any> {
         return ResponseEntity.ok(myPageService.addFavoriteContent(user.id, contentId))
     }
 
@@ -169,7 +168,7 @@ class MyPageController(
         @RequestParam(required = false, defaultValue = "6") size: String
     ): ResponseEntity<Any> {
         val pageable = PageRequest.of(page.toInt(), size.toInt())
-        return ResponseEntity.ok(reviewService.getReviewsByWriterId(user.id, pageable, opensearchClient))
+        return ResponseEntity.ok(contentReviewFacade.getReviewsByWriterId(user.id, pageable))
     }
 
     @GetMapping("/star")

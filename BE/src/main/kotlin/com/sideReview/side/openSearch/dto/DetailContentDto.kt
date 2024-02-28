@@ -22,7 +22,7 @@ data class DetailContentDto(
     val directors: List<String>? = null,
     val age: String? = "",
     val rating: RatingDto,
-    var review: ReviewDetailDto,
+    var review: ReviewDetailDto,          // 사용자의 리뷰
     var season: Season,
     val episodeCnt: Int? = 0
 ) {

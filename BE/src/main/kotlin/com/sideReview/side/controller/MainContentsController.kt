@@ -7,7 +7,7 @@ import com.sideReview.side.login.LoginService
 import com.sideReview.side.login.LoginUser
 import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.openSearch.dto.*
-import com.sideReview.side.review.ReviewService
+import com.sideReview.side.review.ContentReviewFacade
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/contents")
 class MainContentsController @Autowired constructor(
     private val opensearchClient: OpensearchClient,
-    private val reviewService: ReviewService,
-    private val loginService: LoginService
+    private val loginService: LoginService,
+    private val contentReviewFacade: ContentReviewFacade
 ) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
 
@@ -54,12 +54,12 @@ class MainContentsController @Autowired constructor(
             when (reDup.tab) {
                 "main" -> {
                     reDup.sort = "popularity"
-                    val popular = reviewService.fillReview(
+                    val popular = contentReviewFacade.fillReview(
                         opensearchClient.getContents(reDup, userId)
                     )
 
                     reDup.sort = "new"
-                    val latest = reviewService.fillReview(
+                    val latest = contentReviewFacade.fillReview(
                         opensearchClient.getContents(reDup, userId)
                     )
                     response = ResponseEntity.ok(
@@ -89,7 +89,7 @@ class MainContentsController @Autowired constructor(
                     // 요청 데이터 번호가 20 이전일 경우 1년 내의 결과 + popularity 순에서 모자란거 채워서 30개 생성
                     response = if (page < 20) {
                         ResponseEntity.ok(
-                            reviewService.fillReview(
+                            contentReviewFacade.fillReview(
                                 lastOneYear.subList(page, lastOneYear.size.coerceAtMost(19))
                                     .union(sortByPopular.subList(0, 10 + page))
                                     .toList()
@@ -97,7 +97,7 @@ class MainContentsController @Autowired constructor(
                         )
                     } else {
                         ResponseEntity.ok(
-                            reviewService.fillReview(sortByPopular.toList())
+                            contentReviewFacade.fillReview(sortByPopular.toList())
                         )
                     }
 
@@ -106,7 +106,7 @@ class MainContentsController @Autowired constructor(
                 "new", "open" -> {
                     reDup.sort = "new"
                     response = ResponseEntity.ok(
-                        reviewService.fillReview(
+                        contentReviewFacade.fillReview(
                             opensearchClient.getContents(reDup, userId)
                         )
                     )

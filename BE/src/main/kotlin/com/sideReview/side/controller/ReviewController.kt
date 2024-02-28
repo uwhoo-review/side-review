@@ -3,7 +3,7 @@ package com.sideReview.side.controller
 import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.login.LoginUser
-import com.sideReview.side.openSearch.OpensearchClient
+import com.sideReview.side.review.ContentReviewFacade
 import com.sideReview.side.review.ReviewService
 import com.sideReview.side.review.dto.ReviewCreateDto
 import com.sideReview.side.review.dto.ReviewEvaDto
@@ -18,7 +18,10 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/review")
-class ReviewController(private val reviewService: ReviewService, private val opensearchClient: OpensearchClient) {
+class ReviewController(
+    private val reviewService: ReviewService,
+    private val contentReviewFacade: ContentReviewFacade
+) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
 
     @PutMapping("")
@@ -79,18 +82,15 @@ class ReviewController(private val reviewService: ReviewService, private val ope
         @LoginUser(required = false) user: UserInfoDto?,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
-        val userId = ClientUtils.getUserId(request, user)
         val pageable = PageRequest.of(page.toInt(), size.toInt())
         try {
             return ResponseEntity.ok(
-                reviewService.getReviewsByTargetId(
+                contentReviewFacade.getReviewsByTargetId(
                     id,
                     sort,
                     spoiler,
                     type,
-                    pageable,
-                    userId,
-                    opensearchClient
+                    pageable
                 )
             )
         } catch (e: Exception) {

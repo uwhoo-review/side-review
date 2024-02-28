@@ -4,8 +4,6 @@ import com.sideReview.side.common.dto.PageInfoDto
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDTO
-import com.sideReview.side.openSearch.OpensearchClient
-import com.sideReview.side.openSearch.dto.ContentDto
 import com.sideReview.side.review.dto.*
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.review.entity.UserReviewEval
@@ -22,11 +20,14 @@ import java.util.*
 class ReviewService(
     private val userReviewRepository: UserReviewRepository,
     private val userInfoRepository: UserInfoRepository,
-    private val userReviewEvalRepository: UserReviewEvalRepository,
-    //private val opensearchClient: OpensearchClient
-    ) {
+    private val userReviewEvalRepository: UserReviewEvalRepository
+) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
 
+    /*
+    * review, review eval, user info를 채우는 서비스.
+    * content 정보는 ContentReviewFacade에서 채우고, 이 서비스에서는 빈 값으로 리턴한다.
+    * */
     @Transactional
     fun createOrUpdate(review: ReviewCreateDto, userId: String, userType: String) {
         val uuid = "${UUID.randomUUID()}"
@@ -74,7 +75,8 @@ class ReviewService(
         val review = userReviewRepository.findById(body.reviewId)
 
         review.ifPresent { existingReview ->
-            val reviewEval = userReviewEvalRepository.findByReviewIdAndWriterId(body.reviewId, userId)
+            val reviewEval =
+                userReviewEvalRepository.findByReviewIdAndWriterId(body.reviewId, userId)
 
             if (reviewEval == null) {
                 userReviewEvalRepository.save(
@@ -101,9 +103,7 @@ class ReviewService(
         sort: String,
         spoiler: String,
         type: String,
-        pageable: PageRequest,
-        userId: String,
-        opensearchClient: OpensearchClient
+        pageable: PageRequest
     ): PageReviewDto {
 
         val spoilerInt = spoiler.toIntOrNull()
@@ -219,37 +219,9 @@ class ReviewService(
         val reviewDetailDtoList = mapUserReviewToReviewDetailDTO(userReview.content)
 
         return PageReviewDto(
-            ReviewDto(total, fillMoreReviewInfo(fillUserInReview(reviewDetailDtoList), null, id, opensearchClient)),
+            ReviewDto(total, fillUserInReview(reviewDetailDtoList)),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
-    }
-
-    fun fillReview(targets: List<ContentDto>): List<ContentDto> {
-        val ids = targets.map { it.id }
-        val reviews =
-            userReviewRepository.findAllByTargetIdInAndSpoilerIsOrderByLikeDescDislikeAsc(ids, "1")
-
-        val reviewMap = mutableMapOf<String, MutableList<UserReview>>()
-        for (id in ids) reviewMap[id] = mutableListOf()
-        reviews.map { reviewMap[it.targetId]?.add(it) }
-        targets.map {
-            it.review = reviewMap[it.id]?.let { it1 ->
-                if (it1.size > 3) {
-                    val reviewDetailSubList = mapUserReviewToReviewDetailDTO(it1).subList(0, 3)
-                    ReviewDto(
-                        3,
-                        fillUserInReview(reviewDetailSubList)
-                    )
-                } else {
-                    val reviewDetailList = mapUserReviewToReviewDetailDTO(it1)
-                    ReviewDto(
-                        it1.size,
-                        fillUserInReview(reviewDetailList)
-                    )
-                }
-            }
-        }
-        return targets
     }
 
     fun fillUserInReview(reviewsByTargetId: List<ReviewDetailDto>): List<ReviewDetailDto> {
@@ -262,45 +234,12 @@ class ReviewService(
         }
         return reviewsByTargetId
     }
-    private fun fillMoreReviewInfo(
-        reviewList: List<ReviewDetailDto>,
-        entityList: List<UserReview>?,
-        contentId: String?,
-        opensearchClient: OpensearchClient
-    ): List<ReviewDetailDto> {
-        val contentFilledReviewList = opensearchClient.fillContentInReview(reviewList, entityList, contentId)
-        return if (contentId == null) checkAndFillBestReview(
-            contentFilledReviewList,
-            entityList!!)
-        else fillBestInReview(contentFilledReviewList, contentId)
-    }
-    private fun fillBestInReview(reviewsByTargetId: List<ReviewDetailDto>, contentId: String): List<ReviewDetailDto> {
-        val bestReviewIdList = getBestReviewByTargetId(contentId)
 
-        return bestReviewIdList?.let { bestIds ->
-            reviewsByTargetId.take(6).onEach { review ->
-                if (bestIds.contains(review.id)) {
-                    review.best = true
-                }
-            }
-        } ?: reviewsByTargetId
-    }
 
-    private fun checkAndFillBestReview(
-        reviewsByTargetId: List<ReviewDetailDto>,
-        entityList: List<UserReview>
-    ): List<ReviewDetailDto> {
-        val targetIdMap = entityList.associateBy { it.reviewId }.mapValues { it.value.targetId }
-        reviewsByTargetId.forEach {
-            val targetId = targetIdMap[it.id]
-            if (getBestReviewByTargetId(targetId!!)?.contains(it.id) == true) {
-                it.best = true
-            }
-        }
-        return reviewsByTargetId
-    }
-
-    fun getReviewsByWriterId(userId: String, pageable: PageRequest, opensearchClient: OpensearchClient): PageReviewDto {
+    fun getReviewsByWriterId(
+        userId: String,
+        pageable: PageRequest
+    ): PageReviewDto {
         val total = userReviewRepository.countAllByWriterId(userId)
         val userReview = userReviewRepository.findAllByWriterId(userId, pageable)
         val reviewDetailDtoList = mapUserReviewToReviewDetailDTO(userReview.content)
@@ -308,7 +247,10 @@ class ReviewService(
         val totalElements = userReview.totalElements.toInt()
 
         return PageReviewDto(
-            ReviewDto(total, fillMoreReviewInfo(fillUserInReview(reviewDetailDtoList), userReview.content, null, opensearchClient)),
+            ReviewDto(
+                total,
+                fillUserInReview(reviewDetailDtoList)
+            ),
             PageInfoDto(totalElements, totalPages, pageable.pageNumber)
         )
     }
@@ -316,14 +258,6 @@ class ReviewService(
     fun delete(reviewId: String, id: String) {
         if (!userInfoRepository.existsById(id)) throw ReviewUserIdInvalidException("Cannot delete review. User Not Found.")
         userReviewRepository.deleteById(reviewId)
-    }
-
-    private fun getBestReviewByTargetId(contentId: String): List<String>? {
-        val entities = userReviewRepository.findAllByTargetIdOrderByLikeDescDislikeAsc(
-            contentId,
-            pageable = PageRequest.of(0, 6)
-        ).content
-        return if (entities.size > 0) entities.map { it.reviewId } else null
     }
 
     private fun handleExistingReviewEval(reviewEval: UserReviewEval, newEval: Int) {
@@ -334,13 +268,25 @@ class ReviewService(
             userReviewEvalRepository.save(reviewEval)
         }
     }
+
     fun getOneReviewByWriterId(contentId: String, userId: String): ReviewDetailDto {
         val entity = userReviewRepository.findByTargetIdAndWriterId(contentId, userId)
-        var dto: MutableList<ReviewDetailDto> = mutableListOf()
+        val dto: MutableList<ReviewDetailDto> = mutableListOf()
         if (entity != null) {
-            val dtoList = fillUserInReview(MapperUtils.mapUserReviewToReviewDetailDTO(listOf(entity)))
+            val dtoList =
+                fillUserInReview(MapperUtils.mapUserReviewToReviewDetailDTO(listOf(entity)))
             dto.addAll(dtoList)
         }
         return if (dto.size > 0) dto[0] else ReviewDetailDto()
     }
+
+
+    fun getBestReviewByTargetId(contentId: String): List<String>? {
+        val entities = userReviewRepository.findAllByTargetIdOrderByLikeDescDislikeAsc(
+            contentId,
+            pageable = PageRequest.of(0, 6)
+        ).content
+        return if (entities.size > 0) entities.map { it.reviewId } else null
+    }
+
 }

@@ -18,6 +18,8 @@ import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.dto.RatedContentDto
 import com.sideReview.side.review.dto.ReviewDetailDto
+import com.sideReview.side.review.dto.ReviewDto
+import com.sideReview.side.review.dto.ReviewTargetDto
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.review.entity.UserStarRating
 import com.sideReview.side.tmdb.dto.*
@@ -185,7 +187,8 @@ object MapperUtils {
                     date = "${r.create}",
                     like = r.like,
                     dislike = r.dislike,
-                    spoiler = r.spoiler != "0"
+                    spoiler = r.spoiler != "0",
+                    target = ReviewTargetDto(r.targetId)
                 )
             )
         }
@@ -206,7 +209,7 @@ object MapperUtils {
             if (!detail.actors.isNullOrEmpty()) detail.actors.map { it.name } else null,
             detail.age,
             detail.season,
-            null // TODO. Review 추가
+            null
         )
     }
 
