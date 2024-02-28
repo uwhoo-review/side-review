@@ -227,9 +227,15 @@ class ReviewService(
     fun fillUserInReview(reviewsByTargetId: List<ReviewDetailDto>): List<ReviewDetailDto> {
         for (review in reviewsByTargetId) {
             if (review.user.type == "1") {
-                val user = userInfoRepository.findById(review.user.id).get()
-                review.user.nickname = user.nickname
-                review.user.profile = user.profile
+                val findById = userInfoRepository.findById(review.user.id)
+                if(findById.isPresent){
+                    val user =  findById.get()
+                    review.user.nickname = user.nickname
+                    review.user.profile = user.profile
+                }
+                else{
+                    review.user.nickname = "삭제된 유저"
+                }
             }
         }
         return reviewsByTargetId
