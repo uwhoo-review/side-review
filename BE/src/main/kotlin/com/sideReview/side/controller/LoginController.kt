@@ -14,11 +14,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.session.web.http.DefaultCookieSerializer
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -44,6 +40,9 @@ class LoginController(
     ): ResponseEntity<String> {
         val auth = naverClientAuth.getAuth(code, state).access_token
         val profile = naverClientProfile.getProfile("Bearer $auth")
+
+        val logger = LoggerFactory.getLogger(this::class.java)!!
+        logger.info(profile.toString())
         val saveUser = loginService.saveUser("naver", profile)
         return loginService.createOrUpdateSession(saveUser, request, response)
     }
