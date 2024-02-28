@@ -12,18 +12,18 @@ data class KakaoAuthResponse(
 //참고 : https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#kakaoaccount
 data class KakaoProfileResponse(
     val id: Long,
-    val kakao_account: KakaoAccount,
+    val kakao_account: KakaoAccount
 )
 
 data class KakaoAccount(
     val profile: KakaoProfileDetail,
-    val is_email_valid: Boolean,
+//    val is_email_valid: Boolean,
     val email: String
 )
 
 data class KakaoProfileDetail(
-    val nickname: String?,
+//    val nickname: String?,
     val thumbnail_image_url: String?,
-    val profile_image_url: String?,
-    val is_default_image: Boolean
+    val profile_image_url: String?
+//    val is_default_image: Boolean
 )
