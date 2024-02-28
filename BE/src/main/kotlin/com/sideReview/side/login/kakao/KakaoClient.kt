@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 
-@Headers("Content-type: application/x-www-form-urlencoded")
+//@Headers("Content-type: application/x-www-form-urlencoded")
 @FeignClient(name = "kakao", url = "https://kauth.kakao.com")
 interface KakaoClient {
 
