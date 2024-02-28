@@ -35,8 +35,8 @@ import RatingBox from "@src/component/molecules/RatingBox/RatingBox";
 
 interface PreviewBoxProps {
   item: ContentDO;
-  onPrev: () => void;
-  onNext: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
   customCss?: SerializedStyles;
 }
 
@@ -249,6 +249,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                 return (
                   <ReviewCard
                     id={item.id}
+                    reviewId={v.id}
                     key={v.id}
                     best={v.best}
                     spoiler={v.spoiler}

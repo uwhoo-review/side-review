@@ -19,7 +19,7 @@ const MyPageProfile = ({ user }: any) => {
   return (
     <div css={styled.wrapper}>
       <ProfileImage src={img1} size={"200px"} customCss={styled.profile} />
-      <span css={styled.typo1}>flyingpasta@naver.com</span>
+      <span css={styled.typo1}>{user.email || ""}</span>
       <div css={styled.textFieldWrapper}>
         <HWTextField
           onChange={(e) => {

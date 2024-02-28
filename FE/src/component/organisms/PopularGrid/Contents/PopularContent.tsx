@@ -34,16 +34,9 @@ const PopularContent = ({ data }: any) => {
     },
   });
 
-/*  useEffect(() => {
-    const handleScroll = () => {
-      const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
-      if (clientHeight + scrollTop >= scrollHeight && scrollTop !== 0) {
-        mutation.mutate({ p: popularList.length });
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [popularList.length]);*/
+  useEffect(() => {
+    selectedCardIdx !== null && setSelectedCard(data[selectedCardIdx]);
+  }, [data]);
 
   return (
     <div className="popular-content-wrapper" css={styled.wrapper} ref={mainRef}>

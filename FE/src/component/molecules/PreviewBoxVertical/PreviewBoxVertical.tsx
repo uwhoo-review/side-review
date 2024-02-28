@@ -278,10 +278,11 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                     </HWTypography>
                   </div>
                 )}
-                {item?.review?.review.map((v: any) => {
+                {item?.review?.review.slice(0,2).map((v: any) => {
                   return (
                     <ReviewCard
                       id={item.id}
+                      reviewId={v.id}
                       key={v.id}
                       best={v.best}
                       spoiler={v.spoiler}

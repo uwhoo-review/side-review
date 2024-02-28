@@ -59,6 +59,10 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
     setTranslateX(x);
   }, [firstIdx]);
 
+  useEffect(() => {
+    selectedCardIdx !== null && setSelectedCard(cardList[selectedCardIdx]);
+  }, [cardList]);
+
   return (
     <div css={styled.wrapper}>
       <CenterWrapper>
@@ -146,24 +150,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
           />
         </div>
       </CenterWrapper>
-      {selectedCard && (
-        <PreviewBox
-          item={selectedCard}
-          customCss={styled.previewBox}
-          onPrev={() => {
-            if (selectedCardIdx !== null && selectedCardIdx > 0) {
-              setSelectedCard(cardList[selectedCardIdx - 1]);
-              setSelectedCardIdx(selectedCardIdx - 1);
-            }
-          }}
-          onNext={() => {
-            if (selectedCardIdx !== null && selectedCardIdx < cardList.length) {
-              setSelectedCard(cardList[selectedCardIdx + 1]);
-              setSelectedCardIdx(selectedCardIdx + 1);
-            }
-          }}
-        />
-      )}
+      {selectedCard && <PreviewBox item={selectedCard} customCss={styled.previewBox} />}
     </div>
   );
 };

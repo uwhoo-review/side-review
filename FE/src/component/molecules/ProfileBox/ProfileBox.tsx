@@ -41,7 +41,7 @@ const ProfileBox = () => {
               <ProfileImage size={"60px"} src={commonContext.userInfo.profile} />
               <div css={styled.topRight}>
                 <div css={styled.typo1}>{commonContext.userInfo.nickname}</div>
-                <div css={styled.typo2}>flyingpasta@naver.com</div>
+                <div css={styled.typo2}>{commonContext.userInfo.email}</div>
               </div>
             </div>
             <div css={styled.bottom}>

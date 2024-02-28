@@ -26,14 +26,17 @@ const ReviewModifyModal = ({ itemId, itemName, itemDate, review, onClose, ...pro
       return await UWAxios.review.createReview(data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      /*queryClient.invalidateQueries({
         queryKey: ["list", "review", itemId, "best", 0, 0, 6],
       });
       queryClient.invalidateQueries({
         queryKey: ["list", "detail", itemId],
-      });
+      });*/
       queryClient.invalidateQueries({
         queryKey: ["user", "review", "list"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["list"],
       });
     },
   });
@@ -43,14 +46,17 @@ const ReviewModifyModal = ({ itemId, itemName, itemDate, review, onClose, ...pro
       return await UWAxios.review.deleteReview(reviewId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      /*queryClient.invalidateQueries({
         queryKey: ["list", "review", itemId, "best", 0, 0, 6],
       });
       queryClient.invalidateQueries({
         queryKey: ["list", "detail", itemId],
-      });
+      });*/
       queryClient.invalidateQueries({
         queryKey: ["user", "review", "list"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["list"],
       });
     },
   });

@@ -31,6 +31,10 @@ const UpcomingContent = ({ data }: any) => {
     },
   });
 
+  useEffect(() => {
+    selectedCardIdx !== null && setSelectedCard(data[selectedCardIdx]);
+  }, [data]);
+
   return (
     <div className="upcoming-content-wrapper" css={styled.wrapper} ref={mainRef}>
       <CenterWrapper customCss={styled.centerWrapper}>
