@@ -41,8 +41,8 @@ class LoginController(
         val auth = naverClientAuth.getAuth(code, state).access_token
         val profile = naverClientProfile.getProfile("Bearer $auth")
 
-        val logger = LoggerFactory.getLogger(this::class.java)!!
-        logger.info(profile.toString())
+//        val logger = LoggerFactory.getLogger(this::class.java)!!
+//        logger.info(profile.toString())
         val saveUser = loginService.saveUser("naver", profile)
         return loginService.createOrUpdateSession(saveUser, request, response)
     }

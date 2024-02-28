@@ -18,7 +18,6 @@ import com.sideReview.side.mypage.dto.FavoritePersonDetailDto
 import com.sideReview.side.openSearch.dto.*
 import com.sideReview.side.review.dto.RatedContentDto
 import com.sideReview.side.review.dto.ReviewDetailDto
-import com.sideReview.side.review.dto.ReviewDto
 import com.sideReview.side.review.dto.ReviewTargetDto
 import com.sideReview.side.review.entity.UserReview
 import com.sideReview.side.review.entity.UserStarRating
