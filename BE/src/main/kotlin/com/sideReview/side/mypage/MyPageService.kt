@@ -198,7 +198,7 @@ class MyPageService(
             id = userId,
             profile = user.profile,
             nickname = user.nickname,
-            email = ""
+            email = user.email?:""
         )
         val favorite = Favorite(
             person = getFavoritePeople(user),
