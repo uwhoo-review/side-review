@@ -248,6 +248,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
               {item?.review?.review.map((v: any) => {
                 return (
                   <ReviewCard
+                    id={item.id}
                     key={v.id}
                     best={v.best}
                     spoiler={v.spoiler}
@@ -260,7 +261,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     content={v.content}
                     user={v.user}
                   >
-                    v
+                    {v.content}
                   </ReviewCard>
                 );
               })}

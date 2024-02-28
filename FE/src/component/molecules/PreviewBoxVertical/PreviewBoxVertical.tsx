@@ -281,6 +281,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                 {item?.review?.review.map((v: any) => {
                   return (
                     <ReviewCard
+                      id={item.id}
                       key={v.id}
                       best={v.best}
                       spoiler={v.spoiler}
@@ -293,7 +294,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       content={v.content}
                       user={v.user}
                     >
-                      v
+                      {v.content}
                     </ReviewCard>
                   );
                 })}
