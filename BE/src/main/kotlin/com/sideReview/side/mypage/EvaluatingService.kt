@@ -17,16 +17,19 @@ class EvaluatingService(
     val opensearchClient: OpensearchClient,
     val starRatingService: StarRatingService
 ) {
-    fun getCaptivatingPerson(user: UserInfo): Pair<Pair<Int, String>?, Pair<Int, String>?> {
-        val ratedContentList = userStarRatingRepository.findAllByWriterId(user.userId)
-        val contentPeoplePair = opensearchClient.sumAllContentsPeople(ratedContentList)
+    fun getCaptivatingPerson(user: UserInfo?): Pair<Pair<Int, String>?, Pair<Int, String>?>? {
+        if (user != null) {
+            val ratedContentList = userStarRatingRepository.findAllByWriterId(user.userId)
+            val contentPeoplePair = opensearchClient.sumAllContentsPeople(ratedContentList)
 
-        val captivatingActor =
-            if (contentPeoplePair.first != null) findCaptivatingPerson(contentPeoplePair.first) else null
-        val captivatingDirector =
-            if (contentPeoplePair.second != null) findCaptivatingPerson(contentPeoplePair.second) else null
+            val captivatingActor =
+                if (contentPeoplePair.first != null) findCaptivatingPerson(contentPeoplePair.first) else null
+            val captivatingDirector =
+                if (contentPeoplePair.second != null) findCaptivatingPerson(contentPeoplePair.second) else null
 
-        return Pair(captivatingActor, captivatingDirector)
+            return Pair(captivatingActor, captivatingDirector)
+        }
+        else return null
     }
 
     fun getCaptivatingGenre(user: UserInfo): List<Genre> {

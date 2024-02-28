@@ -3,6 +3,7 @@ package com.sideReview.side.mypage
 import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserFavoriteContentIdClass
 import com.sideReview.side.common.entity.UserFavoritePerson
+import com.sideReview.side.common.entity.UserReport
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.*
@@ -16,6 +17,7 @@ import com.sideReview.side.review.dto.RatedContentDto
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class MyPageService(
@@ -189,10 +191,10 @@ class MyPageService(
     }
 
     fun getMyPage(userId: String): MyPageDto {
-        val userReport = userReportRepository.findById(userId).get()
+        val userReport = userReportRepository.findById(userId).getOrNull()
         val user = userInfoRepository.findById(userId).get()
         val captivatingPair = evaluatingService.getCaptivatingPerson(user)
-        val unique = evaluatingService.getUniqueRating(user)
+        val unique = user?.let { evaluatingService.getUniqueRating(it) }
 
         val userInfo = UserInfo(
             id = userId,
@@ -206,17 +208,17 @@ class MyPageService(
             genre = if (user.preferGenre != null) MapperUtils.parseStringToList(user.preferGenre!!) else emptyList()
         )
         val report = Report(
-            avgRating = if (userReport.avgRating != null) String.format("%.2f", userReport.avgRating).toFloat() else 0.0f,
-            maxRating = if (userReport.maxRating != null) userReport.maxRating else 0.0f,
-            reviewCount = userReport.reviewCount?.toInt(),
-            ratingCount = userReport.ratingCount?.toInt(),
+            avgRating = if (userReport?.avgRating != null) String.format("%.2f", userReport.avgRating).toFloat() else 0.0f,
+            maxRating = if (userReport?.maxRating != null) userReport.maxRating else 0.0f,
+            reviewCount = userReport?.reviewCount?.toInt(),
+            ratingCount = userReport?.ratingCount?.toInt(),
             ratings = starRatingService.getRatingByUserId(userId),
             genreFrequency = evaluatingService.getCaptivatingGenre(user),
-            actor = if (captivatingPair.first != null) Person(
+            actor = if (captivatingPair?.first != null) Person(
                 id = captivatingPair.first!!.first,
                 name = captivatingPair.first!!.second
             ) else Person(),
-            director = if (captivatingPair.second != null) Person(
+            director = if (captivatingPair?.second != null) Person(
                 id = captivatingPair.second!!.first,
                 name = captivatingPair.second!!.second
             ) else Person(),

@@ -20,7 +20,8 @@ class TestController(
 ) {
     @GetMapping("/init")
     fun getTmdb(): ResponseEntity<Any> {
-        return ResponseEntity.ok(tmdbContentService.getMoreInfo(tmdbContentService.getAllContents()))
+        //return ResponseEntity.ok(tmdbContentService.getMoreInfo(tmdbContentService.getAllContents()))
+        return ResponseEntity.ok(myPageService.getMyPage("112607867628232484018"))
     }
 
     @GetMapping("/init/person")
