@@ -13,7 +13,7 @@ class NicknameService(private val userInfoRepository: UserInfoRepository) {
         val adjectivePath = "/home/ubuntu/app/BE/src/main/resources/username_adjective.csv"
         while (true) {
             val adjLine = (1..1608).random()
-            val nounLine = (2..106).random()
+            val nounLine = (2..112).random()
 
             val username = readCsvCell(adjectivePath, adjLine, 0) + " " + readCsvCell(nounPath, nounLine, type)
 
