@@ -9,6 +9,7 @@ data class UserInfoDto @JvmOverloads constructor(
     var nickname: String = "",
     var profile: String = "",
     val type: String = "",
+    val email: String? = "",
     val toggle: Boolean = false
 ) {
     constructor(user: UserInfo) : this(
@@ -16,6 +17,7 @@ data class UserInfoDto @JvmOverloads constructor(
         user.nickname,
         user.profile,
         user.loginType,
+        user.email,
         user.toggle == 1
     )
 }
