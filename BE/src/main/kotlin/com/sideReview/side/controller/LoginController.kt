@@ -7,7 +7,8 @@ import com.sideReview.side.login.LoginUser
 import com.sideReview.side.login.google.GoogleClientAuth
 import com.sideReview.side.login.google.GoogleClientProfile
 import com.sideReview.side.login.google.dto.GoogleRequest
-import com.sideReview.side.login.kakao.KakaoClient
+import com.sideReview.side.login.kakao.KakaoClientAuth
+import com.sideReview.side.login.kakao.KakaoClientProfile
 import com.sideReview.side.login.naver.NaverClientAuth
 import com.sideReview.side.login.naver.NaverClientProfile
 import org.slf4j.LoggerFactory
@@ -25,7 +26,8 @@ class LoginController(
     val googleClientAuth: GoogleClientAuth,
     val naverClientAuth: NaverClientAuth,
     val naverClientProfile: NaverClientProfile,
-    val kakaoClient: KakaoClient,
+    val kakaoClientAuth: KakaoClientAuth,
+    val kakaoClientProfile: KakaoClientProfile,
     val loginService: LoginService,
     private val cookieSerializer: DefaultCookieSerializer
 ) {
@@ -73,8 +75,8 @@ class LoginController(
         response: HttpServletResponse
 
     ): ResponseEntity<String> {
-        val auth = kakaoClient.getAuth(uri, code)
-        val profile = kakaoClient.getProfile(
+        val auth = kakaoClientAuth.getAuth(uri, code)
+        val profile = kakaoClientProfile.getProfile(
             "${auth.token_type} ${auth.access_token}"
         )
         val saveUser = loginService.saveUser("kakao", profile)
