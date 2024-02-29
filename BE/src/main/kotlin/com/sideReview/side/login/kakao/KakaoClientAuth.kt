@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 
 //@Headers("Content-type: application/x-www-form-urlencoded")
-@FeignClient(name = "kakao", url = "https://kauth.kakao.com")
+@FeignClient(name = "kakaoAuth", url = "https://kauth.kakao.com")
 interface KakaoClientAuth {
 
     @PostMapping("/oauth/token?client_id=${Const.CLIENT_ID}&grant_type=authorization_code")

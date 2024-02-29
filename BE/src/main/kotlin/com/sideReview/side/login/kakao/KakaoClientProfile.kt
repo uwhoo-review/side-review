@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 
 //@Headers("Content-type: application/x-www-form-urlencoded")
-@FeignClient(name = "kakao", url = "https://kapi.kakao.com")
+@FeignClient(name = "kakaoProfile", url = "https://kapi.kakao.com")
 interface KakaoClientProfile {
     @GetMapping("/v2/user/me")
     fun getProfile(@RequestHeader("Authorization") auth: String): KakaoProfileResponse
