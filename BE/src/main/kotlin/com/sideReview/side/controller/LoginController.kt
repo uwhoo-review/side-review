@@ -74,15 +74,11 @@ class LoginController(
 
     ): ResponseEntity<String> {
         val auth = kakaoClient.getAuth(uri, code)
-        logger.info(auth.toString())
-        logger.info(auth.toString())
-        logger.info(auth.toString())
-        return ResponseEntity.ok("Aaa")
-//        val profile = kakaoClient.getProfile(
-//            "${auth.token_type} ${auth.access_token}"
-//        )
-//        val saveUser = loginService.saveUser("kakao", profile)
-//        return loginService.createOrUpdateSession(saveUser, request, response)
+        val profile = kakaoClient.getProfile(
+            "${auth.token_type} ${auth.access_token}"
+        )
+        val saveUser = loginService.saveUser("kakao", profile)
+        return loginService.createOrUpdateSession(saveUser, request, response)
     }
 
     @GetMapping("/logout")
