@@ -29,6 +29,7 @@ class LoginController(
     val loginService: LoginService,
     private val cookieSerializer: DefaultCookieSerializer
 ) {
+        val logger = LoggerFactory.getLogger(this::class.java)!!
 
     @GetMapping("/login/naver")
     fun getNaverProfile(
@@ -73,11 +74,15 @@ class LoginController(
 
     ): ResponseEntity<String> {
         val auth = kakaoClient.getAuth(uri, code)
-        val profile = kakaoClient.getProfile(
-            "${auth.token_type} ${auth.access_token}"
-        )
-        val saveUser = loginService.saveUser("kakao", profile)
-        return loginService.createOrUpdateSession(saveUser, request, response)
+        logger.info(auth.toString())
+        logger.info(auth.toString())
+        logger.info(auth.toString())
+        return ResponseEntity.ok("Aaa")
+//        val profile = kakaoClient.getProfile(
+//            "${auth.token_type} ${auth.access_token}"
+//        )
+//        val saveUser = loginService.saveUser("kakao", profile)
+//        return loginService.createOrUpdateSession(saveUser, request, response)
     }
 
     @GetMapping("/logout")
