@@ -95,7 +95,7 @@ class ReviewController(
             )
         } catch (e: Exception) {
             when (e) {
-                is ReviewGetAllSortException, is ReviewGetAllTypeException, is ReviewGetAllTypeException ->
+                is ReviewGetAllSortException, is ReviewGetAllTypeException ->
                     return ResponseEntity.badRequest().build()
 
                 else -> return ResponseEntity.internalServerError().build()

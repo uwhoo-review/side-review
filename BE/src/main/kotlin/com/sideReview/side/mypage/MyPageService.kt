@@ -197,7 +197,7 @@ class MyPageService(
         val userReport = userReportRepository.findById(userId).getOrNull()
         val user = userInfoRepository.findById(userId).get()
         val captivatingPair = evaluatingService.getCaptivatingPerson(user)
-        val unique = user?.let { evaluatingService.getUniqueRating(it) }
+        val unique = user.let { evaluatingService.getUniqueRating(it) }
 
         val userInfo = UserInfo(
             id = userId,

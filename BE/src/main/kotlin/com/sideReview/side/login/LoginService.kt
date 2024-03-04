@@ -100,8 +100,7 @@ class LoginService(
         val principals = sessionRegistry.allPrincipals
         for (principal in principals) {
             if (principal is UserDetails) {
-                val userDetails: UserDetails = principal as UserDetails
-                if (userDetails.username.equals(userInfoDto.id)) {
+                if (principal.username.equals(userInfoDto.id)) {
                     val sessions = sessionRegistry.getAllSessions(principal, false)
                     for (sessionInformation in sessions) {
                         // 각 세션에 대한 작업 수행
