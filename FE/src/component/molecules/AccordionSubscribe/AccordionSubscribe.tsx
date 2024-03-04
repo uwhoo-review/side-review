@@ -10,7 +10,7 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 
 const AccordionSubscribe = ({ ott }: { ott: number[] }) => {
   const [open, setOpen] = useState(true);
-  const [subscribe, setSubscribe] = useState<number[]>(ott);
+  const [subscribe, setSubscribe] = useState<number[]>([]);
 
   useEffect(() => {
     setSubscribe(ott);

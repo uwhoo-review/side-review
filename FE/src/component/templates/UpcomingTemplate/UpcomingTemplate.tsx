@@ -8,7 +8,7 @@ import UpcomingContent from "@src/component/organisms/UpcomingGrid/Contents/Upco
 
 const UpcomingTemplate = () => {
   const { status, data, error } = useQuery({
-    queryKey: ["list", "open", 0],
+    queryKey: ["list", CONTENTS_TABS.OPEN, 0],
     queryFn: async () =>
       await UWAxios.contents.getContents({ tab: CONTENTS_TABS.OPEN, pagination: 0 }),
     refetchOnWindowFocus: false,

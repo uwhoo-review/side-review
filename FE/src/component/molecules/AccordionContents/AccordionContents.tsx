@@ -180,9 +180,10 @@ const AccordionContents = ({ contentsList }: any) => {
                             season={v.season}
                             onClick={async () => {
                               const res = await UWAxios.user.addMyContents(v.id);
-                              // console.log(res);
-                              setContents((prev:any) => [...prev, res]);
-                              setIsModalOpen(false);
+                              if (res) {
+                                setContents((prev: any) => [...prev, res]);
+                                setIsModalOpen(false);
+                              }
                             }}
                           />
                         );

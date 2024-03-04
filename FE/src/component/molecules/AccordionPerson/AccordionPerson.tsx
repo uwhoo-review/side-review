@@ -154,8 +154,10 @@ const AccordionPerson = ({ personList }: any) => {
                             title={v.name}
                             onClick={async () => {
                               const res = await UWAxios.user.putMyPerson(v.id);
-                              setPerson((prev: any) => [...prev, res]);
-                              setIsModalOpen(false);
+                              if (res) {
+                                setPerson((prev: any) => [...prev, res]);
+                                setIsModalOpen(false);
+                              }
                             }}
                           />
                         );

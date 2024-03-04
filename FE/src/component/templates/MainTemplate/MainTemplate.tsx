@@ -7,23 +7,20 @@ import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 import {useCommon} from "@src/providers/CommonProvider";
+import {LIST} from "@src/variables/QueryKeys";
 
 const MainTemplate = () => {
-  const queryClient = useQueryClient();
-  const commonContext = useCommon();
-
-
-  const { status, data, error } = useQuery({
-    queryKey: ["list", CONTENTS_TABS.MAIN],
+  const { status, data, error, isLoading } = useQuery({
+    queryKey: [LIST, CONTENTS_TABS.MAIN],
     queryFn: async () => await UWAxios.contents.getContents({ tab: CONTENTS_TABS.MAIN }),
     refetchOnWindowFocus: false,
   });
 
-  console.log(data)
+  console.log(status, isLoading, data)
 
   return (
     <>
-      {status === "pending" && <LoadingGrid />}
+      {isLoading && <LoadingGrid />}
       {status === "success" && (
         <section css={styled.wrapper}>
           <div css={styled.contents}>

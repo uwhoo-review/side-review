@@ -19,7 +19,7 @@ const RecentlyContent = ({ data }: any) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedCard, setSelectedCard] = useState<ContentDO | null>(null);
   const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
-  const [popularList, setPopularList] = useState<any>(data);
+  const [popularList, setPopularList] = useState<any>([]);
   const virtuosoRef = useRef<any>();
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -37,6 +37,8 @@ const RecentlyContent = ({ data }: any) => {
 
   useEffect(() => {
     selectedCardIdx !== null && setSelectedCard(data[selectedCardIdx]);
+    setPopularList(data);
+
   }, [data]);
 
   return (

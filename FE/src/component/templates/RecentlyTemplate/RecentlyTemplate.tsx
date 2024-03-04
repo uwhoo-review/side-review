@@ -8,7 +8,7 @@ import RecentlyContent from "@src/component/organisms/RecentlyGrid/Contents/Rece
 
 const RecentlyTemplate = () => {
   const { status, data, error } = useQuery({
-    queryKey: ["list", "new", 0],
+    queryKey: ["list", CONTENTS_TABS.NEW, 0],
     queryFn: async () =>
       await UWAxios.contents.getContents({ tab: CONTENTS_TABS.NEW, pagination: 0 }),
     refetchOnWindowFocus: false,

@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 const MyPageContent = ({ data }: any) => {
   const [favorite, setFavorite] = useState(data.favorite);
   const [report, setReport] = useState(data.report);
-  const [ott, setOtt] = useState(data.ott);
+  const [ott, setOtt] = useState([]);
   const [user, setUser] = useState(data.user);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const MyPageContent = ({ data }: any) => {
     setReport(data.report);
     setOtt(data.ott);
     setUser(data.user);
-  }, []);
+  }, [data]);
 
   return (
     <div className={"mypage-content-wrapper"} css={styled.wrapper}>

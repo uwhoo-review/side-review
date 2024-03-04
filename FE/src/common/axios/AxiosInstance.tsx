@@ -67,7 +67,8 @@ const AxiosInterceptor = ({ children }: any) => {
           }
         }
 
-        return Promise.reject(error);
+        // return Promise.reject(error);
+        return error;
       }
     );
     return () => {
