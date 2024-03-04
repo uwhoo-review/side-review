@@ -21,6 +21,7 @@ class MyPageController(
     val myPageService: MyPageService,
     val contentReviewFacade: ContentReviewFacade
 ) {
+    val logger = LoggerFactory.getLogger(this::class.java)!!
 
     @GetMapping
     fun getMyPage(
@@ -78,14 +79,17 @@ class MyPageController(
         @RequestParam personId: String,
     ): ResponseEntity<Any> {
         var person: Any? = null
-        kotlin.runCatching {
+        try {
             myPageService.saveFavoritePerson(user.id, personId)
             runBlocking {
+                logger.info("in run blocking")
                 person = myPageService.getOnePerson(personId)
             }
-        }.onFailure {
+        } catch (it: Exception) {
+            logger.info("$$$$ fail $$$$")
             return ResponseEntity.internalServerError().body(it.message)
         }
+        logger.info("정상")
         return ResponseEntity.ok(person)
     }
 
