@@ -21,13 +21,11 @@ class MyPageController(
     val myPageService: MyPageService,
     val contentReviewFacade: ContentReviewFacade
 ) {
-    val logger = LoggerFactory.getLogger(this::class.java)!!
 
     @GetMapping
     fun getMyPage(
         @LoginUser(required = false) user: UserInfoDto
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
         return ResponseEntity.ok(myPageService.getMyPage(user.id))
     }
 
@@ -36,7 +34,6 @@ class MyPageController(
         @LoginUser(required = false) user: UserInfoDto,
         @RequestParam name: String
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
         try {
             nicknameService.editNickname(user.id, name)
         } catch (e: NickNameDuplicateException) {
@@ -52,8 +49,6 @@ class MyPageController(
         @RequestParam size: Int,
         @RequestParam page: Int
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
-
         var response: ResponseEntity<Any>
         runBlocking {
             response =
@@ -69,8 +64,6 @@ class MyPageController(
         @RequestParam size: Int,
         @RequestParam page: Int
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
-
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         runBlocking {
             response =
@@ -84,8 +77,6 @@ class MyPageController(
         @LoginUser(required = false) user: UserInfoDto,
         @RequestParam personId: String,
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
-
         var person: Any? = null
         kotlin.runCatching {
             myPageService.saveFavoritePerson(user.id, personId)
@@ -103,8 +94,6 @@ class MyPageController(
         @LoginUser(required = false) user: UserInfoDto,
         @RequestParam personId: String,
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
-
         kotlin.runCatching {
             myPageService.deleteFavoritePerson(user.id, personId)
         }.onFailure {
@@ -126,8 +115,6 @@ class MyPageController(
         @LoginUser(required = false) user: UserInfoDto,
         @RequestBody contentsList: List<FavoriteContentInputDto>
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
-
         return ResponseEntity.ok(myPageService.saveFavoriteContent(user.id, contentsList))
     }
 
@@ -136,8 +123,6 @@ class MyPageController(
         @LoginUser(required = false) user: UserInfoDto,
         @RequestParam("contentId") contentId: String
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
-
         return ResponseEntity.ok(myPageService.deleteFavoriteContent(user.id, contentId))
     }
 
@@ -146,8 +131,6 @@ class MyPageController(
         @LoginUser(required = false) user: UserInfoDto,
         @RequestBody ottList: List<Int>
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
-
         return ResponseEntity.ok(myPageService.saveOTT(user.id, ottList))
     }
 
@@ -156,8 +139,6 @@ class MyPageController(
         @LoginUser(required = false) user: UserInfoDto,
         @RequestBody genreList: List<Int>
     ): ResponseEntity<Any> {
-        logger.info(user.toString())
-
         return ResponseEntity.ok(myPageService.saveGenre(user.id, genreList))
     }
 
