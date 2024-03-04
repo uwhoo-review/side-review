@@ -3,6 +3,7 @@ package com.sideReview.side.mypage
 import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserFavoriteContentIdClass
 import com.sideReview.side.common.entity.UserFavoritePerson
+import com.sideReview.side.common.entity.UserFavoritePersonIdClass
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.*
@@ -13,7 +14,6 @@ import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.review.dto.PageRatedContentDto
 import com.sideReview.side.review.dto.RatedContentDto
-import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -53,8 +53,16 @@ class MyPageService(
     @Transactional
     fun saveFavoritePerson(userId: String, personId: String): UserFavoritePerson {
         val user = userInfoRepository.getReferenceById(userId)
-        val logger = LoggerFactory.getLogger(this::class.java)!!
-        logger.info(UserFavoritePerson(personId = personId, userInfo = user).toString())
+        if (userFavoritePersonRepository.existsById(
+                UserFavoritePersonIdClass(
+                    personId = personId,
+                    userInfo = userId
+                )
+            )
+        ) {
+            throw FavoritePersonDuplicateException()
+        }
+
         return userFavoritePersonRepository.save(
             UserFavoritePerson(personId = personId, userInfo = user)
         )
@@ -148,7 +156,7 @@ class MyPageService(
     fun addFavoriteContent(userId: String, contentId: String): FavoriteContentDto {
         val user = userInfoRepository.getReferenceById(userId)
         if (userFavoriteContentRepository.existsByUserInfoAndContentId(user, contentId))
-            throw Exception("This content already exists.")
+            throw FavoriteContentDuplicateException()
         val curRank = userFavoriteContentRepository.findMaxRank(userId)
         val rank = if (curRank == null) 1 else curRank + 1
         userFavoriteContentRepository.save(

@@ -4,11 +4,12 @@ import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.login.LoginUser
 import com.sideReview.side.login.NickNameDuplicateException
 import com.sideReview.side.login.NicknameService
+import com.sideReview.side.mypage.FavoriteContentDuplicateException
+import com.sideReview.side.mypage.FavoritePersonDuplicateException
 import com.sideReview.side.mypage.MyPageService
 import com.sideReview.side.mypage.dto.FavoriteContentInputDto
 import com.sideReview.side.review.ContentReviewFacade
 import kotlinx.coroutines.runBlocking
-import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,7 +22,6 @@ class MyPageController(
     val myPageService: MyPageService,
     val contentReviewFacade: ContentReviewFacade
 ) {
-    val logger = LoggerFactory.getLogger(this::class.java)!!
 
     @GetMapping
     fun getMyPage(
@@ -82,14 +82,13 @@ class MyPageController(
         try {
             myPageService.saveFavoritePerson(user.id, personId)
             runBlocking {
-                logger.info("in run blocking")
                 person = myPageService.getOnePerson(personId)
             }
-        } catch (it: Exception) {
-            logger.info("$$$$ fail $$$$")
-            return ResponseEntity.internalServerError().body(it.message)
+        } catch (e: FavoritePersonDuplicateException) {
+            return ResponseEntity.badRequest().body(e.message)
+        } catch (e: Exception) {
+            return ResponseEntity.internalServerError().body(e.message)
         }
-        logger.info("정상")
         return ResponseEntity.ok(person)
     }
 
@@ -111,7 +110,15 @@ class MyPageController(
         @LoginUser(required = false) user: UserInfoDto,
         @RequestParam contentId: String
     ): ResponseEntity<Any> {
-        return ResponseEntity.ok(myPageService.addFavoriteContent(user.id, contentId))
+        var content: Any? = null
+        try {
+            content = myPageService.addFavoriteContent(user.id, contentId)
+        } catch (e: FavoriteContentDuplicateException) {
+            return ResponseEntity.badRequest().body(e.message)
+        } catch (e: Exception) {
+            return ResponseEntity.internalServerError().body(e.message)
+        }
+        return ResponseEntity.ok(content)
     }
 
     @PutMapping("/contents")
