@@ -13,6 +13,7 @@ import com.sideReview.side.openSearch.OpensearchClient
 import com.sideReview.side.review.StarRatingService
 import com.sideReview.side.review.dto.PageRatedContentDto
 import com.sideReview.side.review.dto.RatedContentDto
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -52,6 +53,8 @@ class MyPageService(
     @Transactional
     fun saveFavoritePerson(userId: String, personId: String): UserFavoritePerson {
         val user = userInfoRepository.getReferenceById(userId)
+        val logger = LoggerFactory.getLogger(this::class.java)!!
+        logger.info(UserFavoritePerson(personId = personId, userInfo = user).toString())
         return userFavoritePersonRepository.save(
             UserFavoritePerson(personId = personId, userInfo = user)
         )
