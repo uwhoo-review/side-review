@@ -98,7 +98,7 @@ export const GENRE_NAME = {
   NEWS: "뉴스",
   REALITY: "리얼리티",
   SF: "SF, 판타지",
-  SOAP: "드라마",
+  SOAP: "연속극",
   TALK: "토크",
   WAR_POLITICS: "전쟁, 정치",
   WESTERN: "서부",

@@ -137,7 +137,7 @@ const AccordionPerson = ({ personList }: any) => {
                         검색 결과가 없습니다.
                       </HWTypography>
                       <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
-                        검색하신 `{searchVal}` 작품을 찾을 수 없습니다.
+                        검색하신 `{searchVal}`을(를) 찾을 수 없습니다.
                       </HWTypography>
                       <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
                         다른 검색어를 입력해보세요.

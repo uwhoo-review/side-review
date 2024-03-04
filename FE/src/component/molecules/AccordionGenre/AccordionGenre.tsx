@@ -8,21 +8,10 @@ import { IconCheck } from "@res/index";
 import HWDialog from "@src/component/atoms/HWDialog";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 
-const AccordionGenre = ({ genreList }: any) => {
+const AccordionGenre = ({ genreList, user }: any) => {
   const [open, setOpen] = useState(true);
 
   const [genre, setGenre] = useState<number[]>([]);
-  // const props = (v: number) => {
-  //   const idx = genre.indexOf(v);
-  //   return {
-  //     checked: genre.includes(v),
-  //     onClick: () => {
-  //       idx === -1
-  //         ? setGenre((prev) => [...prev, v])
-  //         : setGenre((prev) => [...prev.splice(idx, 1)]);
-  //     },
-  //   };
-  // };
 
   useEffect(() => {
     setGenre(genreList);
@@ -38,8 +27,8 @@ const AccordionGenre = ({ genreList }: any) => {
             </HWTypography>
             <HWTypography variant={"headlineXXS"} family={"Pretendard"} color={"#D9DAE5"}>
               <>
-                <span css={styled.typo1}>웨이드</span>
-                님이 좋아하는 장르는 어떤 것인가요? 맞춤 추천을 더 잘 제공할 수 있어요!{" "}
+                <span css={styled.typo1}>{user.nickname}</span>
+                님이 좋아하는 장르는 어떤 것인가요? 맞춤 추천을 더 잘 제공할 수 있어요!
               </>
             </HWTypography>
           </div>
