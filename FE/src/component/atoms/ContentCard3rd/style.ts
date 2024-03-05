@@ -19,6 +19,11 @@ export default {
       box-shadow: 0px 0px 0px 3px #5354dab2;
     }
   `,
+  disabled: css`
+    pointer-events: none;
+    background-color: #42424a;
+  `,
+
   box1: css`
     flex: 0 0 46px;
     width: 46px;
@@ -69,5 +74,5 @@ export default {
     height: 20px;
     margin-left: 10px;
     font-size: 12px;
-  `
+  `,
 };

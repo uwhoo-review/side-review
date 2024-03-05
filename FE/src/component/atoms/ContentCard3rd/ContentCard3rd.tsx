@@ -4,9 +4,9 @@ import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import { isNullOrEmpty } from "@src/tools/commonTools";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
 
-const ContentCard3rd = ({ type, src, title, subTitle, rating, season, onClick, rank }: any) => {
+const ContentCard3rd = ({ type, src, title, subTitle, rating, season, onClick, rank, disabled=false }: any) => {
   return (
-    <div css={styled.wrapper} onClick={onClick}>
+    <div css={[styled.wrapper, disabled && styled.disabled]} onClick={!disabled && onClick}>
       <div css={styled.box1}>
         <img src={src} css={styled.img} />
       </div>

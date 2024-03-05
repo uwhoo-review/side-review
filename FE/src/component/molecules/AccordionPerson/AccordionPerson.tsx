@@ -153,6 +153,7 @@ const AccordionPerson = ({ personList }: any) => {
                             src={getCardURL({ type: "content", srcId: v.profilePath })}
                             id={v.id}
                             title={v.name}
+                            disabled={v.selected}
                             onClick={async () => {
                               const res = await UWAxios.user.putMyPerson(v.id);
                               if (res) {

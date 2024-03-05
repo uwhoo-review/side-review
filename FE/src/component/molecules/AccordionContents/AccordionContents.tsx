@@ -179,6 +179,7 @@ const AccordionContents = ({ contentsList }: any) => {
                             subTitle={sub.join(" ∙ ")}
                             rating={v.rating}
                             season={v.season}
+                            disabled={v.selected}
                             onClick={async () => {
                               const res = await UWAxios.user.addMyContents(v.id);
                               if (res) {
