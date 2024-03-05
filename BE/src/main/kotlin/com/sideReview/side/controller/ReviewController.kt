@@ -1,6 +1,7 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.common.dto.UserInfoDto
+import com.sideReview.side.common.exception.UserIdNotFoundException
 import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.login.LoginUser
 import com.sideReview.side.review.ContentReviewFacade
@@ -39,7 +40,7 @@ class ReviewController(
             logger.error(e.message)
             logger.error(e.stackTraceToString())
             return when (e) {
-                is ReviewUserIdInvalidException -> {
+                is UserIdNotFoundException -> {
                     logger.error("UserId : ${ClientUtils.getUserId(request, user)}")
                     ResponseEntity.badRequest().body(e.message)
                 }
@@ -115,7 +116,7 @@ class ReviewController(
             logger.error(e.message)
             logger.error(e.stackTraceToString())
             return when (e) {
-                is ReviewUserIdInvalidException -> ResponseEntity.badRequest().body(e.message)
+                is UserIdNotFoundException -> ResponseEntity.badRequest().body(e.message)
                 else -> ResponseEntity.internalServerError().body(e.message)
             }
         }

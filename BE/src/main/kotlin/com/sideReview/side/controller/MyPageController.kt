@@ -1,6 +1,7 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.common.dto.UserInfoDto
+import com.sideReview.side.common.exception.UserIdNotFoundException
 import com.sideReview.side.login.LoginUser
 import com.sideReview.side.login.NickNameDuplicateException
 import com.sideReview.side.login.NicknameService
@@ -51,9 +52,28 @@ class MyPageController(
         @RequestParam page: Int
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any>
-        runBlocking {
-            response =
-                ResponseEntity.ok(myPageService.getKeywordContent(user.id, keyword, page, size))
+        try {
+            runBlocking {
+                val keywordContent = myPageService.getKeywordContent(user.id, keyword, page, size)
+                response =
+                    ResponseEntity.ok(
+                        myPageService.fillUserSelectedContent(
+                            keywordContent,
+                            user.id
+                        )
+                    )
+            }
+        } catch (e: Exception) {
+            response = when (e) {
+                is UserIdNotFoundException -> {
+                    ResponseEntity.badRequest().body(e.message)
+                }
+
+                else -> {
+                    ResponseEntity.internalServerError().body(e.message)
+                }
+            }
+
         }
         return response
     }
@@ -66,9 +86,29 @@ class MyPageController(
         @RequestParam page: Int
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
-        runBlocking {
-            response =
-                ResponseEntity.ok(myPageService.getKeywordPerson(keyword, page, size))
+
+        try {
+            runBlocking {
+                val keywordPerson = myPageService.getKeywordPerson(keyword, page, size)
+                response =
+                    ResponseEntity.ok(
+                        myPageService.fillUserSelectedPerson(
+                            keywordPerson,
+                            user.id
+                        )
+                    )
+            }
+        } catch (e: Exception) {
+            response = when (e) {
+                is UserIdNotFoundException -> {
+                    ResponseEntity.badRequest().body(e.message)
+                }
+
+                else -> {
+                    ResponseEntity.internalServerError().body(e.message)
+                }
+            }
+
         }
         return response
     }

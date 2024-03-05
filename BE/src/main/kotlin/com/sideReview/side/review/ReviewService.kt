@@ -1,6 +1,7 @@
 package com.sideReview.side.review
 
 import com.sideReview.side.common.dto.PageInfoDto
+import com.sideReview.side.common.exception.UserIdNotFoundException
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.common.util.MapperUtils.mapUserReviewToReviewDetailDTO
@@ -41,11 +42,11 @@ class ReviewService(
                         rev.content = review.content
                         rev.spoiler = if (review.spoiler) "1" else "0"
                     } else {
-                        throw ReviewUserIdInvalidException("Cannot Update Review. User Id does not match with Writer Id.")
+                        throw UserIdNotFoundException("Cannot Update Review. User Id does not match with Writer Id.")
                     }
                 } else throw ReviewGetIdInvalidException()
             } else {
-                throw ReviewUserIdInvalidException("Cannot Update Review. User Id not found.")
+                throw UserIdNotFoundException("Cannot Update Review. User Id not found.")
             }
         } else {
             // 신규 생성
@@ -262,7 +263,7 @@ class ReviewService(
     }
 
     fun delete(reviewId: String, id: String) {
-        if (!userInfoRepository.existsById(id)) throw ReviewUserIdInvalidException("Cannot delete review. User Not Found.")
+        if (!userInfoRepository.existsById(id)) throw UserIdNotFoundException("Cannot delete review. User Not Found.")
         userReviewRepository.deleteById(reviewId)
     }
 

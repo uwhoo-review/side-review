@@ -4,6 +4,7 @@ import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserFavoriteContentIdClass
 import com.sideReview.side.common.entity.UserFavoritePerson
 import com.sideReview.side.common.entity.UserFavoritePersonIdClass
+import com.sideReview.side.common.exception.UserIdNotFoundException
 import com.sideReview.side.common.repository.UserInfoRepository
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.mypage.dto.*
@@ -247,5 +248,42 @@ class MyPageService(
             favorite = favorite,
             report = report
         )
+    }
+
+    fun fillUserSelectedContent(
+        keywordContent: FavoriteContentSearchPageDto,
+        id: String
+    ): FavoriteContentSearchPageDto {
+        val ids = keywordContent.content.associateBy { it.id }
+        val user = userInfoRepository.findById(id)
+        if (user.isEmpty) {
+            throw UserIdNotFoundException("Cannot fill user selection. User Id Invalid.")
+        }
+        val favoriteContent = userFavoriteContentRepository.findAllByUserInfo(user.get())
+        if (favoriteContent.isNotEmpty()) {
+            favoriteContent.map {
+                if (ids.keys.contains(it.contentId)) {
+                    ids[it.contentId]!!.selected = true
+                }
+            }
+        }
+        return keywordContent
+    }
+
+    fun fillUserSelectedPerson(keywordPerson: FavoritePersonDto, id: String): FavoritePersonDto {
+        val ids = keywordPerson.person.associateBy { it.id.toString() }
+        val user = userInfoRepository.findById(id)
+        if (user.isEmpty) {
+            throw UserIdNotFoundException("Cannot fill user selection. User Id Invalid.")
+        }
+        val favoritePerson = userFavoritePersonRepository.findAllByUserInfo(user.get())
+        if (favoritePerson.isNotEmpty()) {
+            favoritePerson.map {
+                if (ids.keys.contains(it.personId)) {
+                    ids[it.personId]!!.selected = true
+                }
+            }
+        }
+        return keywordPerson
     }
 }
