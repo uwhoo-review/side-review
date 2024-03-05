@@ -37,13 +37,13 @@ export const UWAxios = {
     async getReview(
       id: string,
       sort: string,
-      spoiler: boolean,
+      spoiler: number,
       page: number,
       size: number,
       type?: string
     ) {
       const res = await axiosBaseInstance.get<any>(
-        `review/${id}?sort=${sort}&spoiler=${spoiler}&page=${page}&size=${size}&type=${type || 0}`
+        `review/${id}?sort=${sort}&spoiler=${spoiler}&page=${page}&size=${size}&type=${type || "0"}`
       );
       return res.data;
     },

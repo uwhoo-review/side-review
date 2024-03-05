@@ -30,6 +30,7 @@ import { getCardURL, isNullOrEmpty } from "@src/tools/commonTools";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useQuery } from "@tanstack/react-query";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
+import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
 const AccordionContents = ({ contentsList }: any) => {
   const PAGE_SIZE = 10;
@@ -41,7 +42,7 @@ const AccordionContents = ({ contentsList }: any) => {
   const [isSearch, setIsSearch] = useState(false);
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["mypage", "search", "content", page, PAGE_SIZE],
+    queryKey: QUERY_KEYS.userSearchContent(page, PAGE_SIZE),
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.user.getMyContents(searchVal, page, PAGE_SIZE);
     },

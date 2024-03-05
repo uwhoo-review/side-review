@@ -12,6 +12,7 @@ import FilterResultContents from "@src/component/organisms/SearchResultGrid/Cont
 import ResultHeader from "@src/component/organisms/SearchResultGrid/Header/ResultHeader";
 import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 import MainContent from "@src/component/organisms/MainGrid/Contents/MainContent";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
 const SearchResultTemplate = () => {
   const [searchParams] = useSearchParams();
@@ -19,7 +20,7 @@ const SearchResultTemplate = () => {
   const search = searchParams.get("search");
   const sort = searchParams.get("sort");
   const useMatchContent = useQuery({
-    queryKey: ["list", "search", "content", filter, search, sort, 0],
+    queryKey: QUERY_KEYS.searchContent({ filter, search, sort, p: 0 }),
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.contents.getSearchMatch(queryKey[2], {
         tab: CONTENTS_TABS.SEARCH,
@@ -32,7 +33,7 @@ const SearchResultTemplate = () => {
     refetchOnWindowFocus: false,
   });
   const useMatchPerson = useQuery({
-    queryKey: ["list", "search", "person", filter, search, sort, 0],
+    queryKey: QUERY_KEYS.searchPerson({ filter, search, sort, p: 0 }),
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.contents.getSearchMatch(queryKey[2], {
         tab: CONTENTS_TABS.SEARCH,
@@ -46,7 +47,7 @@ const SearchResultTemplate = () => {
     enabled: !!search,
   });
   const useMatchSimilar = useQuery({
-    queryKey: ["list", "search", "similar", filter, search, sort, 0],
+    queryKey: QUERY_KEYS.searchSimilar({ filter, search, sort, p: 0 }),
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.contents.getSearchSimilar({
         tab: CONTENTS_TABS.SEARCH,

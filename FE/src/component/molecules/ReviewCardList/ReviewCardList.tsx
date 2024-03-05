@@ -11,10 +11,10 @@ import { useEffect, useState } from "react";
 import WrapperTitle from "@src/component/atoms/WrapperTitle/WrapperTitle";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
-const ReviewCardList = ({ size = 6 , item}: any) => {
+const ReviewCardList = ({ id, size = 6 }: { id: string; size: number }) => {
   const navigate = useNavigate();
-  const { id } = useParams();
 
   const [reviewList, setReviewList] = useState<any>([]);
   const [totalCnt, setTotalCnt] = useState(0);
@@ -28,7 +28,7 @@ const ReviewCardList = ({ size = 6 , item}: any) => {
   const [sort, setSort] = useState("best");
 
   const { status, data, error } = useQuery({
-    queryKey: ["list", "review", id, sort, isSpoiler, page, size],
+    queryKey: QUERY_KEYS.review({ id, sort, isSpoiler, page, size }),
     queryFn: async ({ queryKey }) => {
       return await UWAxios.review.getReview(
         queryKey[2],
@@ -159,7 +159,6 @@ const ReviewCardList = ({ size = 6 , item}: any) => {
           )}
         </>
       </div>
-
     </>
   );
 };

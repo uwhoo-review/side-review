@@ -5,10 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 import PopularContent from "@src/component/organisms/PopularGrid/Contents/PopularContent";
 import RecentlyContent from "@src/component/organisms/RecentlyGrid/Contents/RecentlyContent";
+import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
 const RecentlyTemplate = () => {
-  const { status, data, error } = useQuery({
-    queryKey: ["list", CONTENTS_TABS.NEW, 0],
+  const { status, data, error, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.recentlyTabs(),
     queryFn: async () =>
       await UWAxios.contents.getContents({ tab: CONTENTS_TABS.NEW, pagination: 0 }),
     refetchOnWindowFocus: false,
@@ -16,7 +17,7 @@ const RecentlyTemplate = () => {
 
   return (
     <>
-      {status === "pending" && <LoadingGrid />}
+      {isLoading && <LoadingGrid />}
       {status === "success" && (
         <section className="new-template-wrapper" css={styled.wrapper}>
           <div css={styled.contents}>

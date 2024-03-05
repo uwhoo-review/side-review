@@ -11,6 +11,7 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useCommon } from "@src/providers/CommonProvider";
+import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
 const ReviewCreateModal = ({ item, onClose, ...props }: any) => {
   const LIMIT_BYTE = 2000;
@@ -26,11 +27,11 @@ const ReviewCreateModal = ({ item, onClose, ...props }: any) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list", "review", item.id, "best", 0, 0, 6],
+        queryKey: QUERY_KEYS.review({ id: item.id, sort: "best", isSpoiler: 0, page: 0, size: 6 }),
       });
       commonContext.isLogin &&
         queryClient.invalidateQueries({
-          queryKey: ["list", "detail", item.id],
+          queryKey: QUERY_KEYS.detail(item.id),
         });
     },
   });

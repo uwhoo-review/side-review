@@ -13,6 +13,7 @@ import ProfileImage from "@src/component/atoms/ProfileImage/ProfileImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import ReviewModifyModal from "@src/component/molecules/ReviewModifyModal/ReviewModifyModal";
 import ReviewCardModal from "@src/component/molecules/ReviewCardModal/ReviewCardModal";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
 interface ReviewCardProps {
   id?: string;
@@ -78,7 +79,7 @@ const ReviewCard = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: QUERY_KEYS.reviewAll,
       });
     },
   });
@@ -89,13 +90,13 @@ const ReviewCard = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list", "review", id, "best", 0, 0, 6],
+        queryKey: QUERY_KEYS.review({ id, sort: "best", isSpoiler: 0, page: 0, size: 6 }),
       });
       queryClient.invalidateQueries({
-        queryKey: ["list", "detail", id],
+        queryKey: QUERY_KEYS.detail(id),
       });
       queryClient.invalidateQueries({
-        queryKey: ["user", "review", "list"],
+        queryKey: QUERY_KEYS.footPrints,
       });
     },
   });

@@ -16,6 +16,7 @@ import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 import MoreViewButton from "@src/component/atoms/MoreViewButton/MoreViewButton";
 import ReviewCard from "@src/component/atoms/ReviewCard/ReviewCard";
 import ContentCardSec from "@src/component/atoms/ContentCardSec/ContentCardSec";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
 const MyFootPrints = ({ toggle = "star" }: any) => {
   const PAGE_SIZE = 6;
@@ -38,7 +39,7 @@ const MyFootPrints = ({ toggle = "star" }: any) => {
   const virtuosoRef = useRef<any>();
 
   const useStarMatch = useQuery({
-    queryKey: ["user", "star", "list", 0, PAGE_SIZE],
+    queryKey: QUERY_KEYS.footPrintsStar(0, PAGE_SIZE),
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.user.getMyStarCollect(queryKey[3], queryKey[4]);
     },
@@ -47,7 +48,7 @@ const MyFootPrints = ({ toggle = "star" }: any) => {
   });
 
   const useReviewMatch = useQuery({
-    queryKey: ["user", "review", "list", 0, PAGE_SIZE],
+    queryKey: QUERY_KEYS.footPrintsReview(0, PAGE_SIZE),
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.user.getMyReviewCollect(queryKey[3], queryKey[4]);
     },

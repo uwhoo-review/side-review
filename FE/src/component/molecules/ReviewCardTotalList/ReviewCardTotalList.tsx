@@ -12,10 +12,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import HWIconButton from "@src/component/atoms/HWIconButton/HWIconButton";
 import HWToggleButtonGroup from "@src/component/atoms/HWToggleButtonGroup/HWToggleButtonGroup";
 import HWToggleButton from "@src/component/atoms/HWToggleButton/HWToggleButton";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
+import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 
-const ReviewCardTotalList = ({ size = 6 }: any) => {
+const ReviewCardTotalList = ({ id, size = 6 }: { id: string; size: number }) => {
   const navigate = useNavigate();
-  const { id } = useParams();
 
   const [reviewList, setReviewList] = useState<any>([]);
   const [totalCnt, setTotalCnt] = useState(0);
@@ -39,9 +40,8 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
     };
   };
 
-
-  const { status, data, error } = useQuery({
-    queryKey: ["list", "review", id, sort, isSpoiler, page, size, toggle1],
+  const { status, data, error, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.review({ id, sort, isSpoiler, page, size, type: toggle1 }),
     queryFn: async ({ queryKey }) => {
       return await UWAxios.review.getReview(
         queryKey[2],
@@ -130,6 +130,7 @@ const ReviewCardTotalList = ({ size = 6 }: any) => {
               <HWToggleButton {...props1("2")}>익명리뷰</HWToggleButton>
             </HWToggleButtonGroup>
           </div>
+          {isLoading && <LoadingGrid />}
           {status === "success" && reviewList.length === 0 && (
             <div css={styled.emptyWrapper}>
               <HWTypography

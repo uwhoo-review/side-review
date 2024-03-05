@@ -11,6 +11,7 @@ import Divider from "@src/component/atoms/Divider/Divider";
 import Color from "@src/common/styles/Color";
 import { useCommon } from "@src/providers/CommonProvider";
 import styled from "./style";
+import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
 const ReviewCardModal = ({
   itemId,
@@ -33,7 +34,7 @@ const ReviewCardModal = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list", "review", itemId, "best", 0, 0, 6],
+        queryKey: QUERY_KEYS.reviewAll,
       });
     },
   });
@@ -44,10 +45,10 @@ const ReviewCardModal = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["list", "review", itemId, "best", 0, 0, 6],
+        queryKey: QUERY_KEYS.review({ id: itemId, sort: "best", isSpoiler: 0, page: 0, size: 6 }),
       });
       queryClient.invalidateQueries({
-        queryKey: ["list", "detail", itemId],
+        queryKey: QUERY_KEYS.detail(itemId),
       });
     },
   });

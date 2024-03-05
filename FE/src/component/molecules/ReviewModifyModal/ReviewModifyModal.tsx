@@ -11,6 +11,7 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { useCommon } from "@src/providers/CommonProvider";
+import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
 const ReviewModifyModal = ({ itemId, itemName, itemDate, review, onClose, ...props }: any) => {
   const LIMIT_BYTE = 2000;
@@ -26,17 +27,11 @@ const ReviewModifyModal = ({ itemId, itemName, itemDate, review, onClose, ...pro
       return await UWAxios.review.createReview(data);
     },
     onSuccess: () => {
-      /*queryClient.invalidateQueries({
-        queryKey: ["list", "review", itemId, "best", 0, 0, 6],
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.detail(itemId),
       });
       queryClient.invalidateQueries({
-        queryKey: ["list", "detail", itemId],
-      });*/
-      queryClient.invalidateQueries({
-        queryKey: ["user", "review", "list"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: QUERY_KEYS.reviewAll,
       });
     },
   });
@@ -46,17 +41,14 @@ const ReviewModifyModal = ({ itemId, itemName, itemDate, review, onClose, ...pro
       return await UWAxios.review.deleteReview(reviewId);
     },
     onSuccess: () => {
-      /*queryClient.invalidateQueries({
-        queryKey: ["list", "review", itemId, "best", 0, 0, 6],
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.review({ id: itemId, sort: "best", isSpoiler: 0, page: 0, size: 6 }),
       });
       queryClient.invalidateQueries({
-        queryKey: ["list", "detail", itemId],
-      });*/
-      queryClient.invalidateQueries({
-        queryKey: ["user", "review", "list"],
+        queryKey: QUERY_KEYS.detail(itemId),
       });
       queryClient.invalidateQueries({
-        queryKey: ["list"],
+        queryKey: QUERY_KEYS.footPrints,
       });
     },
   });

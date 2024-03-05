@@ -4,17 +4,15 @@ import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useQuery } from "@tanstack/react-query";
 import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
-import {LIST} from "@src/variables/QueryKeys";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
 const PopularTemplate = () => {
   const { status, data, error, isLoading } = useQuery({
-    queryKey: [LIST, CONTENTS_TABS.POPULARITY, 0],
+    queryKey: QUERY_KEYS.popularTabs(),
     queryFn: async () =>
       await UWAxios.contents.getContents({ tab: CONTENTS_TABS.POPULARITY, pagination: 0 }),
     refetchOnWindowFocus: false,
   });
-
-  console.log(data)
 
   return (
     <>

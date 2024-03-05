@@ -17,6 +17,7 @@ import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
+import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
 const AccordionPerson = ({ personList }: any) => {
   const PAGE_SIZE = 10;
@@ -28,7 +29,7 @@ const AccordionPerson = ({ personList }: any) => {
   const [isSearch, setIsSearch] = useState(false);
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["mypage", "search", "person", page, PAGE_SIZE],
+    queryKey: QUERY_KEYS.userSearchPerson(page, PAGE_SIZE),
     queryFn: async ({ queryKey }: any) => {
       return await UWAxios.user.getMyPerson(searchVal, page, PAGE_SIZE);
     },

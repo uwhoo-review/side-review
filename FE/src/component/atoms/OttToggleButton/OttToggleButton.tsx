@@ -6,8 +6,8 @@ import HWTooltip from "@src/component/atoms/HWTooltip/HWTooltip";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { GOOGLE, UWHOO_LOGIN } from "@src/variables/LoginConstants";
 import { useQueryClient } from "@tanstack/react-query";
-import {CONTENTS_TABS} from "@src/variables/APIConstants";
-import {LIST} from "@src/variables/QueryKeys";
+import { CONTENTS_TABS } from "@src/variables/APIConstants";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
 const OttToggleButton = () => {
   const { isLogin, onHandleUserInfo, userInfo } = useCommon();
@@ -33,11 +33,8 @@ const OttToggleButton = () => {
               setIsView(!isView);
               await UWAxios.user.subscribeOtt(!isView);
               onHandleUserInfo({ ...userInfo, toggle: !isView });
-              // queryClient.removeQueries({
-              //   queryKey: [LIST, CONTENTS_TABS.POPULARITY, 0],
-              // });
-              queryClient.invalidateQueries({
-                queryKey: [LIST],
+              queryClient.resetQueries({
+                queryKey: QUERY_KEYS.tabs,
               });
             }}
             disabled={status === "none"}

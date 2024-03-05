@@ -41,7 +41,7 @@ const DetailContent = ({ data }: any) => {
       <InformationBox item={data} />
       <CenterWrapper>
         <RatingDetailBox item={data} />
-        <ReviewCardList total={false} size={6} item={data} />
+        <ReviewCardList id={data.id} size={6} />
         <PersonCardList title={"출연 ∙ 제작"} cardList={[...personList]} />
         <BoxList
           title={"트레일러"}

@@ -5,10 +5,11 @@ import LoadingGrid from "@src/component/organisms/LoadingGrid/LoadingGrid";
 import PopularContent from "@src/component/organisms/PopularGrid/Contents/PopularContent";
 import { useQuery } from "@tanstack/react-query";
 import UpcomingContent from "@src/component/organisms/UpcomingGrid/Contents/UpcomingContent";
+import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
 const UpcomingTemplate = () => {
-  const { status, data, error } = useQuery({
-    queryKey: ["list", CONTENTS_TABS.OPEN, 0],
+  const { status, data, error, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.upcomingTabs(),
     queryFn: async () =>
       await UWAxios.contents.getContents({ tab: CONTENTS_TABS.OPEN, pagination: 0 }),
     refetchOnWindowFocus: false,
@@ -16,7 +17,7 @@ const UpcomingTemplate = () => {
 
   return (
     <>
-      {status === "pending" && <LoadingGrid />}
+      {isLoading && <LoadingGrid />}
       {status === "success" && (
         <section className="open-template-wrapper" css={styled.wrapper}>
           <div css={styled.contents}>

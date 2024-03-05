@@ -35,7 +35,6 @@ const UpcomingContent = ({ data }: any) => {
   useEffect(() => {
     selectedCardIdx !== null && setSelectedCard(data[selectedCardIdx]);
     setPopularList(data);
-
   }, [data]);
 
   return (
@@ -69,7 +68,7 @@ const UpcomingContent = ({ data }: any) => {
               ref={virtuosoRef}
               data={popularList}
               endReached={(index) => {
-                mutation.mutate({ p: popularList.length })
+                mutation.mutate({ p: popularList.length });
               }}
               useWindowScroll={true}
               components={{
