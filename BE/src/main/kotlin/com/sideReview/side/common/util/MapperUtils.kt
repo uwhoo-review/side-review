@@ -284,8 +284,8 @@ object MapperUtils {
 
     fun mapDetailToFavoritePersonDetail(dto: DetailPersonDto): FavoritePersonDetailDto {
         val jobList: MutableList<String> = mutableListOf()
-        if (dto.cast != null) jobList.add("Acting")
-        if (dto.crew != null) {
+        if (!dto.cast.isNullOrEmpty()) jobList.add("Acting")
+        if (!dto.crew.isNullOrEmpty()) {
             for (i in 0..<dto.crew!!.size) {
                 if (!jobList.contains(dto.crew!![i].job)) jobList.add(dto.crew!![i].job)
             }
@@ -343,8 +343,8 @@ object MapperUtils {
     fun mapPersonDocumentToFavoriteDetailDto(documentList: List<PersonDocument>): List<FavoritePersonDetailDto> {
         return documentList.map {
             val jobList: MutableList<String> = mutableListOf()
-            if (it.cast != null) jobList.add("Acting")
-            if (it.crew != null) {
+            if (!it.cast.isNullOrEmpty()) jobList.add("Acting")
+            if (!it.crew.isNullOrEmpty()) {
                 for (i in 0..< it.crew!!.size) {
                     if (!jobList.contains(it.crew!![i].job)) jobList.add(it.crew!![i].job)
                 }
