@@ -52,7 +52,7 @@ class MyPageService(
     }
 
     @Transactional
-    fun saveFavoritePerson(userId: String, personId: String): UserFavoritePerson {
+    fun saveFavoritePerson(userId: String, personId: String): FavoritePersonDetailDto {
         val user = userInfoRepository.getReferenceById(userId)
         if (userFavoritePersonRepository.existsById(
                 UserFavoritePersonIdClass(
@@ -63,10 +63,9 @@ class MyPageService(
         ) {
             throw FavoritePersonDuplicateException()
         }
+        userFavoritePersonRepository.save(UserFavoritePerson(personId = personId, userInfo = user))
 
-        return userFavoritePersonRepository.save(
-            UserFavoritePerson(personId = personId, userInfo = user)
-        )
+        return getOnePerson(personId)
     }
 
     @Transactional
