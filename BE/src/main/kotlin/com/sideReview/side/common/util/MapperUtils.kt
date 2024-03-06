@@ -338,7 +338,7 @@ object MapperUtils {
             val jobList: MutableList<String> = mutableListOf()
             if (it.cast != null) jobList.add("Acting")
             if (it.crew != null) {
-                for (i in 0..it.crew!!.size) {
+                for (i in 0..< it.crew!!.size) {
                     if (!jobList.contains(it.crew!![i].job)) jobList.add(it.crew!![i].job)
                 }
             }
