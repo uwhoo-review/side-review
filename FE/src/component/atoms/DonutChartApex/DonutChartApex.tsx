@@ -12,7 +12,7 @@ const DonutChartApex = ({ ratings }: any) => {
       const rangeStart = i;
       const rangeEnd = i + 0.5;
       const count = ratings.reduce((acc: any, curr: any) => {
-        if (curr.rating >= rangeStart && curr.rating < rangeEnd) {
+        if (curr.rating >= rangeStart && curr.rating <= rangeEnd) {
           acc += curr.count;
         }
         return acc;
