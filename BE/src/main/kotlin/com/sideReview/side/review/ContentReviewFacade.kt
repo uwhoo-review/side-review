@@ -49,8 +49,10 @@ class ContentReviewFacade(
     }
 
     fun fillReviewInDetail(detail: DetailContentDto, userId: String?): DetailContentDto {
-        if (userId != null)
-            detail.review = reviewService.getOneReviewByWriterId(detail.id, userId)
+        if (!userId.isNullOrBlank()){
+            val review = reviewService.getOneReviewByWriterId(detail.id, userId)
+            detail.review = fillMoreReviewInfo(listOfNotNull(review), detail.id).first()
+        }
         return detail
     }
 
