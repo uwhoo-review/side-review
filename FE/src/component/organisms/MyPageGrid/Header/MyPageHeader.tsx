@@ -19,6 +19,7 @@ const MyPageHeader = ({ data }: any) => {
   const [animation, setAnimation] = useState("");
   const [modalHeight, setModalHeight] = useState(750); // 초기 모달 높이
   const [toggle, setToggle] = useState("star");
+
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const startResize = (downEvent: React.MouseEvent<HTMLDivElement>) => {
@@ -41,6 +42,7 @@ const MyPageHeader = ({ data }: any) => {
     document.addEventListener("mousemove", mouseMoveHandler);
     document.addEventListener("mouseup", mouseUpHandler, { once: true });
   };
+
   return (
     <div className={"mypage-header-wrapper"} css={styled.wrapper}>
       <CenterWrapper>

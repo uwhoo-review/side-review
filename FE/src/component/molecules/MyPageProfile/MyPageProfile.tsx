@@ -4,7 +4,6 @@ import HWTextField from "@src/component/atoms/HWTextField/HWTextField";
 import { useEffect, useState } from "react";
 import HWTooltip from "@src/component/atoms/HWTooltip/HWTooltip";
 import { IconQuestion } from "@res/index";
-import img1 from "@res/temp/img5.png";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useCommon } from "@src/providers/CommonProvider";
@@ -18,7 +17,7 @@ const MyPageProfile = ({ user }: any) => {
 
   return (
     <div css={styled.wrapper}>
-      <ProfileImage src={img1} size={"200px"} customCss={styled.profile} />
+      <ProfileImage src={user.profile} size={"200px"} customCss={styled.profile} />
       <span css={styled.typo1}>{user.email || ""}</span>
       <div css={styled.textFieldWrapper}>
         <HWTextField

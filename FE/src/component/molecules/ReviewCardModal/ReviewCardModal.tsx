@@ -11,7 +11,7 @@ import Divider from "@src/component/atoms/Divider/Divider";
 import Color from "@src/common/styles/Color";
 import { useCommon } from "@src/providers/CommonProvider";
 import styled from "./style";
-import {QUERY_KEYS} from "@src/variables/QueryKeys";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
 const ReviewCardModal = ({
   itemId,
@@ -82,24 +82,14 @@ const ReviewCardModal = ({
             </div>
             <div css={styled.dateDiv}>{review.date}</div>
           </div>
-          {user && (
+          {user && user.type === "1" && (
             <div css={styled.topWrapper}>
               <div css={styled.chipWrapper} />
               <div css={styled.chipWrapper}>
-                {user.nickname === "" && user.profile === "" ? (
-                  <>
-                    <HWTypography variant={"bodyL"} color={"#9897A1"}>
-                      익명
-                    </HWTypography>
-                  </>
-                ) : (
-                  <>
-                    <ProfileImage src={user.profile} size={"26px"} />
-                    <HWTypography variant={"bodyL"} color={"#9897A1"}>
-                      {user.nickname}
-                    </HWTypography>
-                  </>
-                )}
+                <ProfileImage src={user.profile} size={"26px"} />
+                <HWTypography variant={"bodyL"} color={"#9897A1"}>
+                  {user.nickname}
+                </HWTypography>
               </div>
             </div>
           )}

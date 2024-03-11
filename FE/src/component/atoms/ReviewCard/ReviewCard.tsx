@@ -135,7 +135,7 @@ const ReviewCard = ({
           </div>
           <div css={styled.dateDiv}>{date}</div>
         </div>
-        {isProfile && user.nickname !== "" && user.profile !== "" && (
+        {isProfile && user.type === "1" && (
           <div css={styled.topWrapper}>
             <div css={styled.chipWrapper}></div>
             <div css={styled.chipWrapper}>
