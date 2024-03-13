@@ -85,12 +85,12 @@ class ContentReviewFacade(
 
     private fun fillBestInReview(
         reviewsByTargetId: List<ReviewDetailDto>,
-        contentId: String
+        contentId: String,
+        size: Int
     ): List<ReviewDetailDto> {
         val bestReviewIdList = reviewService.getBestReviewByTargetId(contentId)
-
         return bestReviewIdList?.let { bestIds ->
-            reviewsByTargetId.take(6).onEach { review ->
+            reviewsByTargetId.take(size).onEach { review ->
                 if (bestIds.contains(review.id)) {
                     review.best = true
                 }
@@ -126,7 +126,7 @@ class ContentReviewFacade(
         return if (contentId == null) checkAndFillBestReview(
             contentFilledReviewList
         )
-        else fillBestInReview(contentFilledReviewList, contentId)
+        else fillBestInReview(contentFilledReviewList, contentId, reviewList.size)
     }
 
     fun getReviewsByWriterId(
