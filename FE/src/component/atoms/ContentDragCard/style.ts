@@ -129,7 +129,9 @@ export default {
     margin-top: 10px;
     position: relative;
     background-color: transparent;
-
+  `,
+  dragBox: css`
+    height: 100%;
   `,
   seasonLabel: css`
     position: absolute;
@@ -168,5 +170,5 @@ export default {
     width: 100px;
     height: 200px;
     opacity: 0.3;
-  `
+  `,
 };

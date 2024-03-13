@@ -14,7 +14,11 @@ const BarChartApex = ({ genreFrequency }: any) => {
         },
       ],
       options: {
-        chart: {},
+        chart: {
+          toolbar: {
+            show: false,
+          },
+        },
         fill: {
           colors: ["#795DFF", "#9A85FF", "#B8A9FF", "#D2C9FF", "#E5E0FF"],
           opacity: 1,

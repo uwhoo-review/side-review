@@ -99,7 +99,7 @@ export function getCardURL({
   size?: string;
   autoplay?: boolean;
 }) {
-  if (srcId === "") return "";
+  if (isNullOrEmpty(srcId)) return "";
 
   const id = srcId?.replaceAll(/^\/|.jpg$|.png$/gi, "");
   const extension = srcId?.replace(/(\w|-)+./, "") || "jpg";

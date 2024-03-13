@@ -66,7 +66,7 @@ const ReviewCardTotalList = ({ id, size = 6 }: { id: string; size: number }) => 
       );
     },
     onSuccess: (res: any) => {
-      setReviewList((prev: any) => [...prev, ...res.review]);
+      if(res.review.length > 0) setReviewList((prev: any) => [...prev, ...res.review]);
     },
   });
 
@@ -173,7 +173,7 @@ const ReviewCardTotalList = ({ id, size = 6 }: { id: string; size: number }) => 
                   );
                 })}
               </div>
-              {pageInfo.totalElements > reviewList.length && (
+              {pageInfo.page < pageInfo.totalPages - 1 && (
                 <div
                   css={styled.plusBtn}
                   onClick={() => {

@@ -11,6 +11,7 @@ export default {
   `,
   textGroup: css`
     //width: 120px;
+    height: 44px;
     display: flex;
     flex-direction: column;
 

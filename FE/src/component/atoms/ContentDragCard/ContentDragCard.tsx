@@ -129,6 +129,7 @@ const ContentDragCard = ({
             ref={(node) => {
               drag(node);
             }}
+            css={styled.dragBox}
           >
             <DefaultImage
               width="100%"

@@ -64,6 +64,13 @@ const CardSliderPerson = ({ cardList, onDelete }: any) => {
       />
       <div className={"image-card-list"} css={styled.cardWrapper(translateX, false)}>
         {cardList.map((v: any, i: number) => {
+          const jobLen = v.job.length;
+          let job = "";
+          if (jobLen > 1) {
+            job = v.job[0] + ` + ${jobLen - 1}`;
+          } else {
+            job = v.job[0];
+          }
           return (
             <div className={"content-slide"} key={v.id}>
               {
@@ -79,7 +86,7 @@ const CardSliderPerson = ({ cardList, onDelete }: any) => {
               <PersonCardVertical
                 id={v.id}
                 name={v.name}
-                subName={v?.role || v?.job}
+                subName={job}
                 srcId={v.profilePath}
                 className={"image-card"}
                 key={i}
