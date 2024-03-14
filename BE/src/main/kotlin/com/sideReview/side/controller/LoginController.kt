@@ -93,7 +93,7 @@ class LoginController(
         @RequestParam type: String,
         @RequestParam(required = false) token: String,
         @RequestParam(required = false) redirectUrl: String
-    ): ResponseEntity<String> {
+    ): Any {
 
         try {
             val logger = LoggerFactory.getLogger(this::class.java)!!
@@ -138,9 +138,13 @@ class LoginController(
 
             "kakao" -> {
                 kakaoClientAuth.logout(redirectUrl)
+                return "kakao"
+            }
+            else -> {
+                return ResponseEntity.internalServerError().body("logout error : type not matched.")
             }
         }
-        return ResponseEntity.ok("logout success")
+        return ""
     }
 
     @PutMapping("/user/ott/{toggle}")
