@@ -48,7 +48,7 @@ class LoginController(
 //        val logger = LoggerFactory.getLogger(this::class.java)!!
 //        logger.info(profile.toString())
         val saveUser = loginService.saveUser("naver", profile)
-        return loginService.createOrUpdateSession(saveUser, request, response)
+        return loginService.createOrUpdateSession(saveUser, request, response, auth)
     }
 
     @GetMapping("/login/google")
@@ -65,7 +65,7 @@ class LoginController(
         )
         val profile = googleClientProfile.getProfile(auth.access_token)
         val saveUser = loginService.saveUser("google", profile)
-        return loginService.createOrUpdateSession(saveUser, request, response)
+        return loginService.createOrUpdateSession(saveUser, request, response, auth.access_token)
     }
 
     @GetMapping("/login/kakao")
@@ -81,7 +81,7 @@ class LoginController(
             "${auth.token_type} ${auth.access_token}"
         )
         val saveUser = loginService.saveUser("kakao", profile)
-        return loginService.createOrUpdateSession(saveUser, request, response)
+        return loginService.createOrUpdateSession(saveUser, request, response, auth.access_token)
     }
 
     @GetMapping("/logout")

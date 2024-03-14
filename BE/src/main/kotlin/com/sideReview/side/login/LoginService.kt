@@ -92,9 +92,10 @@ class LoginService(
     fun createOrUpdateSession(
         saveUser: UserInfo,
         request: HttpServletRequest,
-        response: HttpServletResponse
+        response: HttpServletResponse,
+        token: String
     ): ResponseEntity<String> {
-        val userInfoDto = UserInfoDto(saveUser)
+        val userInfoDto = UserInfoDto(saveUser, token)
 
         // 기존 세션 중 동일한 유저 정보를 가지고 있는 세션이 있으면 삭제
         val principals = sessionRegistry.allPrincipals

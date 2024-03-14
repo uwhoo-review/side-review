@@ -10,14 +10,16 @@ data class UserInfoDto @JvmOverloads constructor(
     var profile: String = "",
     val type: String = "",
     val email: String? = "",
-    val toggle: Boolean = false
+    val toggle: Boolean? = false,
+    val token: String? = ""
 ) {
-    constructor(user: UserInfo) : this(
+    constructor(user: UserInfo, token: String) : this(
         user.userId,
         user.nickname,
         user.profile,
         user.loginType,
         user.email,
-        user.toggle == 1
+        user.toggle == 1,
+        token
     )
 }
