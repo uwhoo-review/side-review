@@ -295,7 +295,7 @@ object MapperUtils {
             name = dto.name,
             profilePath = dto.profilePath,
             cast = dto.cast?.map { it.contentName } ?: emptyList(),
-            job = jobList
+            job = if(dto.job.isNullOrEmpty()) jobList else dto.job
         )
     }
 

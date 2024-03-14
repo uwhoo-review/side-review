@@ -134,7 +134,7 @@ class OpenSearchDetailService @Autowired constructor(
         val roleList: MutableList<CastItem> = mutableListOf()
         val jobList: MutableList<CrewItem> = mutableListOf()
 
-        if (document.cast != null && document.cast?.size!! > 0) {
+        if (!document.cast.isNullOrEmpty()) {
             job.add("Acting")
             for (castRole in document.cast!!) {
                 val content = parseSearchResponseToSimpleContentDto(
