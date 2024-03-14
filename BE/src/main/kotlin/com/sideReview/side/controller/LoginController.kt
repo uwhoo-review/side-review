@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.session.web.http.DefaultCookieSerializer
 import org.springframework.web.bind.annotation.*
+import java.net.URLEncoder
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -31,7 +32,7 @@ class LoginController(
     val loginService: LoginService,
     private val cookieSerializer: DefaultCookieSerializer
 ) {
-        val logger = LoggerFactory.getLogger(this::class.java)!!
+    val logger = LoggerFactory.getLogger(this::class.java)!!
 
     @GetMapping("/login/naver")
     fun getNaverProfile(
@@ -84,7 +85,13 @@ class LoginController(
     }
 
     @GetMapping("/logout")
-    fun logout(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<String> {
+    fun logout(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        @RequestParam type: String,
+        @RequestParam(required = false) token: String,
+        @RequestParam(required = false) redirectUrl: String
+    ): ResponseEntity<String> {
 
         try {
             val logger = LoggerFactory.getLogger(this::class.java)!!
@@ -103,13 +110,32 @@ class LoginController(
                 cookieSerializer.setSameSite("None")
                 response.addCookie(cookie)
             }
-
             // 사용자 인증 정보 삭제
             SecurityContextHolder.clearContext()
-            return ResponseEntity.ok("logout success")
         } catch (e: Exception) {
             return ResponseEntity.internalServerError().body(e.message)
         }
+
+        // 각 타입 별 토큰 만료
+        when (type) {
+            "naver" -> {
+                val response = naverClientAuth.deleteToken(URLEncoder.encode(token, "UTF-8"))
+                if (response.result != "success") {
+                    return ResponseEntity.internalServerError()
+                        .body("naver logout error : token expire failed.\n${response.error}\n${response.error_description}")
+                }
+            }
+
+            "google" -> {
+                googleClientAuth.revokeToken(token)
+            }
+
+            "kakao" -> {
+                kakaoClientAuth.logout(redirectUrl)
+            }
+        }
+
+        return ResponseEntity.ok("logout success")
     }
 
     @PutMapping("/user/ott/{toggle}")

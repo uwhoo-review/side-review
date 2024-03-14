@@ -1,10 +1,9 @@
 package com.sideReview.side.login.naver
 
 import com.sideReview.side.login.naver.dto.NaverAuthResponse
-import com.sideReview.side.login.naver.dto.NaverProfileResponse
+import com.sideReview.side.login.naver.dto.NaverLogoutResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestParam
 
 @FeignClient(name = "naverAuth", url = "https://nid.naver.com")
@@ -12,6 +11,10 @@ interface NaverClientAuth {
     @GetMapping("/oauth2.0/token?grant_type=authorization_code&client_id=${Const.CLIENT_ID}&client_secret=${Const.CLIENT_SECRET}")
     fun getAuth(@RequestParam code: String, @RequestParam state: String): NaverAuthResponse
 
+    @GetMapping("/oauth2.0/token?grant_type=delete&client_id=${Const.CLIENT_ID}&client_secret=${Const.CLIENT_SECRET}&service_provider='NAVER'")
+    fun deleteToken(
+        @RequestParam access_token: String
+    ): NaverLogoutResponse
 }
 
 private class Const {

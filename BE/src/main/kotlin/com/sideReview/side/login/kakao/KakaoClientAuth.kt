@@ -3,6 +3,7 @@ package com.sideReview.side.login.kakao
 import com.sideReview.side.login.kakao.dto.KakaoAuthResponse
 import feign.Headers
 import org.springframework.cloud.openfeign.FeignClient
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 
@@ -15,6 +16,9 @@ interface KakaoClientAuth {
         @RequestParam("redirect_uri") redirectUri: String,
         @RequestParam("code") authorizationCode: String,
     ): KakaoAuthResponse
+
+    @GetMapping("/oauth/logout?client_id=${Const.CLIENT_ID}")
+    fun logout(@RequestParam logout_redirect_uri: String)
 }
 
 
