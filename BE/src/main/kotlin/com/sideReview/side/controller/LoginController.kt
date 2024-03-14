@@ -12,10 +12,12 @@ import com.sideReview.side.login.kakao.KakaoClientProfile
 import com.sideReview.side.login.naver.NaverClientAuth
 import com.sideReview.side.login.naver.NaverClientProfile
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.session.web.http.DefaultCookieSerializer
 import org.springframework.web.bind.annotation.*
+import java.net.URI
 import java.net.URLEncoder
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
@@ -124,17 +126,20 @@ class LoginController(
                     return ResponseEntity.internalServerError()
                         .body("naver logout error : token expire failed.\n${response.error}\n${response.error_description}")
                 }
+                val uri = URI(redirectUrl)
+                ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(uri)
             }
 
             "google" -> {
                 googleClientAuth.revokeToken(token)
+                val uri = URI(redirectUrl)
+                ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(uri)
             }
 
             "kakao" -> {
                 kakaoClientAuth.logout(redirectUrl)
             }
         }
-
         return ResponseEntity.ok("logout success")
     }
 
