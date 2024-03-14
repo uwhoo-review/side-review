@@ -7,10 +7,14 @@ import { IconQuestion } from "@res/index";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useCommon } from "@src/providers/CommonProvider";
+import {QUERY_KEYS} from "@src/variables/QueryKeys";
+import {useQueryClient} from "@tanstack/react-query";
 
 const MyPageProfile = ({ user }: any) => {
   const [nickName, setNickName] = useState<string>("");
   const commonContext = useCommon();
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     setNickName(user.nickname);
   }, []);
@@ -39,11 +43,15 @@ const MyPageProfile = ({ user }: any) => {
           variant={"primary"}
           onClick={async () => {
             const res = await UWAxios.user.putNickName(nickName);
-            commonContext.onAlert({
+            queryClient.invalidateQueries({
+              queryKey: QUERY_KEYS.user,
+            });
+            /*commonContext.onAlert({
               is: true,
               type: "success",
+              title: "",
               children: "변경 완료!",
-            });
+            });*/
           }}
         >
           저장

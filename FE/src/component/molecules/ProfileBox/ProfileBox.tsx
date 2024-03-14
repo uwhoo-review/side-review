@@ -53,7 +53,12 @@ const ProfileBox = () => {
                 variant={"secondary"}
                 customCss={styled.btn2}
                 onClick={async () => {
-                  const res = await UWAxios.login.logout();
+                  const userInfo = commonContext.userInfo;
+                  const res = await UWAxios.login.logout(
+                    userInfo.type,
+                    userInfo.token,
+                    "/login/logout"
+                  );
                   if (res === "logout success") {
                     sessionStorage.removeItem(UWHOO_LOGIN);
                     window.location.reload();

@@ -79,8 +79,8 @@ export const UWAxios = {
       const res = await axiosBaseInstance.get<any>(`oauth2/authorization/naver`);
       return res.data;
     },
-    async logout() {
-      const res = await axiosBaseInstance.get<any>(`logout`);
+    async logout(type: string, token: string, redirectUrl: string) {
+      const res = await axiosBaseInstance.get<any>(`logout?type=${type}&token=${token}&redirectUrl=${redirectUrl}`);
       return res.data;
     },
   },

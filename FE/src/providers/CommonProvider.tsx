@@ -108,7 +108,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
         setUserInfo({ ...loginInfo.userInfo });
       }
     } else {
-      (async () => await UWAxios.login.logout())();
+      (async () => await UWAxios.login.logout(userInfo.type, userInfo.token, "/login/logout"))();
     }
   }, []);
 

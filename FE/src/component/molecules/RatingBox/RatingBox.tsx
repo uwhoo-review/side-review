@@ -81,7 +81,7 @@ const RatingBox = ({ contentId, userRating, ratingSize = "30px" }: any) => {
 
   return (
     <div css={styled.wrapper}>
-      <HWTooltip title={"Clear"}>
+      {/*<HWTooltip title={"Clear"}>*/}
         <HWIconButton
           onClick={handleClearRating}
           onMouseOver={() => setClearHover(true)}
@@ -90,7 +90,7 @@ const RatingBox = ({ contentId, userRating, ratingSize = "30px" }: any) => {
         >
           <IconInit />
         </HWIconButton>
-      </HWTooltip>
+      {/*</HWTooltip>*/}
       <Rating
         name="rating-value"
         value={clearHover ? 0 : rating}
