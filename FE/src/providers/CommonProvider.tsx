@@ -27,6 +27,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   const [isLogin, setIsLogin] = useState(false);
   const [loginSession, setLogoinSession] = useState("");
   const [userInfo, setUserInfo] = useState(DEFAULT_USER_INFO);
+  const [theme, setTheme] = useState("light");
 
   const [alert, setAlert] = useState({
     is: false,
@@ -67,7 +68,9 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
     yearRef,
     sortRef,
   };
-
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
   const onHandleFilter = (v: FilterProps) => setFilterState((prev) => ({ ...prev, ...v }));
   const onHandleFilterOpen = (v: boolean) => setIsFilterOpen(v);
   const onAlert = (item: any) => setAlert((prev) => ({ ...prev, ...item }));
@@ -88,7 +91,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
 
   useEffect(() => {
     if (isLogin) {
-      sessionStorage.setItem(
+      localStorage.setItem(
         UWHOO_LOGIN,
         JSON.stringify({
           isLogin: isLogin,
@@ -99,7 +102,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
   }, [userInfo, isLogin]);
 
   useLayoutEffect(() => {
-    const loginInfoStr = sessionStorage.getItem(UWHOO_LOGIN);
+    const loginInfoStr = localStorage.getItem(UWHOO_LOGIN);
     if (loginInfoStr) {
       const loginInfo = JSON.parse(loginInfoStr);
       if (loginInfo.isLogin && loginInfo.userInfo !== null) {
@@ -108,7 +111,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
         setUserInfo({ ...loginInfo.userInfo });
       }
     } else {
-      (async () => await UWAxios.login.logout(userInfo.type, userInfo.token, "/login/logout"))();
+      // (async () => await UWAxios.login.logout(userInfo.type, userInfo.token, "/login/logout"))();
     }
   }, []);
 

@@ -59,10 +59,12 @@ const ProfileBox = () => {
                     userInfo.token,
                     "/login/logout"
                   );
-                  if (res === "logout success") {
-                    sessionStorage.removeItem(UWHOO_LOGIN);
-                    window.location.reload();
-                  }
+                  localStorage.removeItem(UWHOO_LOGIN);
+                  window.location.reload();
+                  // if (res === "logout success") {
+                  //   localStorage.removeItem(UWHOO_LOGIN);
+                  //   window.location.reload();
+                  // }
                 }}
               >
                 <IconLogout width={"18px"} height={"18px"} />
