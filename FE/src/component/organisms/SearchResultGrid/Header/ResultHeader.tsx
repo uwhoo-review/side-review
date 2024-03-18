@@ -13,7 +13,9 @@ import {
   GENRE_ID_NAME,
   GENRE_NAME,
   PLATFORM_ID_NAME,
+  WATCH_RATING_ID_NAME,
 } from "@src/variables/CommonConstants";
+import HWTooltip from "@src/component/atoms/HWTooltip/HWTooltip";
 
 const ResultHeader = ({ content }: any) => {
   const commonContext = useCommon();
@@ -61,51 +63,72 @@ const ResultHeader = ({ content }: any) => {
           </div>
           <div css={styled.right}>
             {paramList.map(([key, value]: any) => {
-              if (key === "genre")
-                return value.split(",").map((v: any) => (
-                  <HWChip
-                    key={v}
-                    label={GENRE_ID_NAME[v]}
-                    customCss={styled.chip}
-                    onClick={() => {
-                      commonContext.onHandleFilterOpen(true);
+              if (key === "genre") {
+                const label = value
+                  .split(",")
+                  .map((v: any) => GENRE_ID_NAME[v])
+                  .join(", ");
+                return (
+                  <HWTooltip key={value} title={label}>
+                    <HWChip
+                      label={label}
+                      customCss={styled.chip}
+                      onClick={() => {
+                        commonContext.onHandleFilterOpen(true);
 
-                      if (commonContext.filterRef.genreRef?.current) {
-                        commonContext.filterRef.genreRef.current.click();
-                      }
-                    }}
-                  />
-                ));
-              if (key === "platform")
-                return value.split(",").map((v: any) => (
-                  <HWChip
-                    key={v}
-                    label={PLATFORM_ID_NAME[v]}
-                    customCss={styled.chip}
-                    onClick={() => {
-                      commonContext.onHandleFilterOpen(true);
+                        if (commonContext.filterRef.genreRef?.current) {
+                          commonContext.filterRef.genreRef.current.click();
+                        }
+                      }}
+                    />
+                  </HWTooltip>
+                );
+              }
+              if (key === "platform") {
+                const label = value
+                  .split(",")
+                  .map((v: any) => PLATFORM_ID_NAME[v])
+                  .join(", ");
+                return (
+                  <HWTooltip key={value} title={label}>
+                    <HWChip
+                      key={value}
+                      label={label}
+                      customCss={styled.chip}
+                      onClick={() => {
+                        commonContext.onHandleFilterOpen(true);
 
-                      if (commonContext.filterRef.platformRef?.current) {
-                        commonContext.filterRef.platformRef.current.click();
-                      }
-                    }}
-                  />
-                ));
-              if (key === "watch")
-                return value.split(",").map((v: any) => (
-                  <HWChip
-                    key={v}
-                    label={v}
-                    customCss={styled.chip}
-                    onClick={() => {
-                      commonContext.onHandleFilterOpen(true);
+                        if (commonContext.filterRef.platformRef?.current) {
+                          commonContext.filterRef.platformRef.current.click();
+                        }
+                      }}
+                    />
+                  </HWTooltip>
+                );
+              }
 
-                      if (commonContext.filterRef.watchRef?.current) {
-                        commonContext.filterRef.watchRef.current.click();
-                      }
-                    }}
-                  />
-                ));
+              if (key === "watch") {
+                const label = value
+                  .split(",")
+                  .map((v: any) => WATCH_RATING_ID_NAME[v])
+                  .join(", ");
+                return (
+                  <HWTooltip key={value} title={label}>
+                    <HWChip
+                      key={value}
+                      label={label}
+                      customCss={styled.chip}
+                      onClick={() => {
+                        commonContext.onHandleFilterOpen(true);
+
+                        if (commonContext.filterRef.watchRef?.current) {
+                          commonContext.filterRef.watchRef.current.click();
+                        }
+                      }}
+                    />
+                  </HWTooltip>
+                );
+              }
               if (key === "rating")
                 return (
                   <HWChip

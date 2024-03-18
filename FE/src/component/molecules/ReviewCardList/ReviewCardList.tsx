@@ -119,7 +119,7 @@ const ReviewCardList = ({ id, size = 6 }: { id: string; size: number }) => {
               <HWTypography
                 variant={"bodyL"}
                 family={"Pretendard-SemiBold"}
-                color={Color.dark.grey500}
+                color={Color.dark.grey400}
               >
                 이 작품에 작성된 리뷰가 없습니다.
               </HWTypography>

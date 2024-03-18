@@ -82,14 +82,15 @@ const RatingBox = ({ contentId, userRating, ratingSize = "30px" }: any) => {
   return (
     <div css={styled.wrapper}>
       {/*<HWTooltip title={"Clear"}>*/}
-        <HWIconButton
-          onClick={handleClearRating}
-          onMouseOver={() => setClearHover(true)}
-          onMouseOut={() => setClearHover(false)}
-          customCss={styled.clear}
-        >
-          <IconInit />
-        </HWIconButton>
+      <HWIconButton
+        onClick={handleClearRating}
+        onMouseOver={() => setClearHover(true)}
+        onMouseOut={() => setClearHover(false)}
+        customCss={styled.clear}
+        disabled={userRating === 0}
+      >
+        <IconInit />
+      </HWIconButton>
       {/*</HWTooltip>*/}
       <Rating
         name="rating-value"
@@ -97,13 +98,13 @@ const RatingBox = ({ contentId, userRating, ratingSize = "30px" }: any) => {
         max={5}
         precision={0.5}
         css={styled.rating(ratingSize)}
-        emptyIcon={<IconRatingEmpty style={{ marginLeft: "4px", marginRight: "4px" }} />}
-        icon={<IconRating style={{ marginLeft: "4px", marginRight: "4px" }} />}
+        emptyIcon={<IconRatingEmpty style={{ marginLeft: "3px", marginRight: "3px" }} />}
+        icon={<IconRating style={{ marginLeft: "3px", marginRight: "3px" }} />}
         onChange={handleChangeRating}
         disabled={!commonContext.isLogin && rating !== 0}
       />
       <Divider direction={"v"} length={"14px"} />
-      <HWTypography variant={"bodyS"} family={"Poppins"} color={Color.dark.grey500}>
+      <HWTypography variant={"bodyS"} family={"Pretendard"} color={Color.dark.grey500}>
         {rating === 0 ? (
           "별점을 매겨주세요!"
         ) : (

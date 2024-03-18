@@ -32,7 +32,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
-const AccordionContents = ({ contentsList }: any) => {
+const AccordionContents = ({ contentsList, user }: any) => {
   const PAGE_SIZE = 10;
   const [open, setOpen] = useState(true);
   const [contents, setContents] = useState(contentsList.sort((a: any, b: any) => a.rank - b.rank));
@@ -67,7 +67,7 @@ const AccordionContents = ({ contentsList }: any) => {
             </HWTypography>
             <HWTypography variant={"headlineXXS"} family={"Pretendard"} color={"#D9DAE5"}>
               <>
-                <span css={styled.typo1}>웨이드</span>
+                <span css={styled.typo1}>{user.nickname}</span>
                 님의 인생작을 알려주세요! 또 다른 인생작을 추천하는 데 참고할게요.
               </>
             </HWTypography>

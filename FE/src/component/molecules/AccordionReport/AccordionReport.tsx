@@ -15,7 +15,6 @@ const AccordionReport = ({ user, report }: any) => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 
-
   return (
     <MenuAccordion
       className={"accordion-report-wrapper"}
@@ -42,8 +41,18 @@ const AccordionReport = ({ user, report }: any) => {
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
             <div>
-              {/*<DonutChartApex ratings={report.ratings} />*/}
-              <DonutChartApex ratings={report.ratings} />
+              {report.ratings.length === 0 ? (
+                <div css={styled.emptyWrapper}>
+                  <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#C7C8D3"}>
+                    남겨진 평가가 없습니다.
+                  </HWTypography>
+                  <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"}>
+                    작품에 별점을 남겨보세요!
+                  </HWTypography>
+                </div>
+              ) : (
+                <DonutChartApex ratings={report.ratings} />
+              )}
             </div>
           </div>
           <div css={[styled.box, styled.box2]}>
@@ -79,7 +88,7 @@ const AccordionReport = ({ user, report }: any) => {
               </HWTypography>
             </div>
             <div
-              css={styled.moreBtn}
+              css={styled.moreBtn(report.director.name === "")}
               onClick={() => {
                 report.director.name !== "" && navigate(`/person/${report.director?.id}`);
               }}
@@ -101,7 +110,7 @@ const AccordionReport = ({ user, report }: any) => {
               </HWTypography>
             </div>
             <div
-              css={styled.moreBtn}
+              css={styled.moreBtn(report.actor.name === "")}
               onClick={() => {
                 report.actor.name !== "" && navigate(`/person/${report.actor?.id}`);
               }}
@@ -118,7 +127,18 @@ const AccordionReport = ({ user, report }: any) => {
             </HWTypography>
             <Divider direction={"h"} length={"100%"} />
             <div>
-              <BarChartApex genreFrequency={report.genreFrequency} />
+              {report.genreFrequency.length === 0 ? (
+                <div css={styled.emptyWrapper}>
+                  <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#C7C8D3"}>
+                    남겨진 평가가 없습니다.
+                  </HWTypography>
+                  <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"}>
+                    별점으로 시청기록을 알려주세요!
+                  </HWTypography>
+                </div>
+              ) : (
+                <BarChartApex genreFrequency={report.genreFrequency} />
+              )}
             </div>
           </div>
           <div css={[styled.box, styled.box7]}>
@@ -131,21 +151,32 @@ const AccordionReport = ({ user, report }: any) => {
               </HWTypography>
             </span>
             <Divider direction={"h"} length={"100%"} />
-            <div css={styled.flex}>
-              {report.unique.map((v: any) => (
-                <ContentCardSec
-                  key={v.id}
-                  id={v.id}
-                  srcId={v.poster}
-                  contentName={v.name}
-                  platform={v.platform}
-                  date={v.date}
-                  rating={v.rating}
-                  userRating={v.userRating}
-                  active={false}
-                />
-              ))}
-            </div>
+            {report.unique.length === 0 ? (
+              <div css={styled.emptyWrapper}>
+                <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} color={"#C7C8D3"}>
+                  남겨진 평가가 없습니다.
+                </HWTypography>
+                <HWTypography variant={"bodyS"} family={"Pretendard-Regular"} color={"#84838D"}>
+                  작품에 별점을 남겨보세요!
+                </HWTypography>
+              </div>
+            ) : (
+              <div css={styled.flex}>
+                {report.unique.map((v: any) => (
+                  <ContentCardSec
+                    key={v.id}
+                    id={v.id}
+                    srcId={v.poster}
+                    contentName={v.name}
+                    platform={v.platform}
+                    date={v.date}
+                    rating={v.rating}
+                    userRating={v.userRating}
+                    active={false}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

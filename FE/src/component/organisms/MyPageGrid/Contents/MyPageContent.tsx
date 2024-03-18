@@ -24,8 +24,8 @@ const MyPageContent = ({ data }: any) => {
     <div className={"mypage-content-wrapper"} css={styled.wrapper}>
       <CenterWrapper>
         <AccordionSubscribe ott={ott} />
-        <AccordionContents contentsList={favorite.contents} />
-        <AccordionPerson personList={favorite.person} />
+        <AccordionContents contentsList={favorite.contents} user={user} />
+        <AccordionPerson personList={favorite.person} user={user} />
         <AccordionGenre genreList={favorite.genre} user={user} />
         <AccordionReport report={report} user={user} />
       </CenterWrapper>

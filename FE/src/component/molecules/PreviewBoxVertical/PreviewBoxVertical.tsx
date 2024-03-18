@@ -100,7 +100,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                   <HWChip
                     variant={"text"}
                     color={"season"}
-                    label={item.season?.now + " 시즌"}
+                    label={"시즌 " + item.season?.now}
                     css={styled.chipAge}
                   />
                 )}
@@ -118,8 +118,8 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
           <div css={styled.bottomContents}>
             {viewState === "info" && (
               <div className={"bottom-info"}>
-                <div className={"grid"}>
-                  <div className={"col-5"}>
+                <div className={"row"} css={styled.ratingFlex}>
+                  <div className={"col-4"} css={styled.ratingSubBox1}>
                     <div>
                       <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
                         평균 별점
@@ -153,7 +153,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       )}
                     </div>
                   </div>
-                  <div className={"col-7"}>
+                  <div className={"col-8"} css={styled.ratingSubBox2}>
                     <div>
                       <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
                         내 별점
@@ -273,12 +273,16 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
               <div className={"bottom-review"}>
                 {item?.review?.total === 0 && (
                   <div css={styled.emptyReview}>
-                    <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
+                    <HWTypography
+                      variant={"bodyL"}
+                      family={"Pretendard-SemiBold"}
+                      color={Color.dark.grey400}
+                    >
                       이 작품에 작성된 리뷰가 없습니다.
                     </HWTypography>
                   </div>
                 )}
-                {item?.review?.review.slice(0,2).map((v: any) => {
+                {item?.review?.review.slice(0, 2).map((v: any) => {
                   return (
                     <ReviewCard
                       id={item.id}

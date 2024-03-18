@@ -172,8 +172,12 @@ export default {
   `,
   ratingFlex: css`
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
+    justify-content: space-between;
+  `,
+  ratingSubBox1: css`
+    flex: 0 0 114px;
+  `,
+  ratingSubBox2: css`
+    //flex: 1 0;
   `
 };

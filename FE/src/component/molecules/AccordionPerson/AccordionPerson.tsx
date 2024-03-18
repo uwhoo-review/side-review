@@ -19,7 +19,7 @@ import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
 import {QUERY_KEYS} from "@src/variables/QueryKeys";
 
-const AccordionPerson = ({ personList }: any) => {
+const AccordionPerson = ({ personList, user }: any) => {
   const PAGE_SIZE = 10;
   const [open, setOpen] = useState(true);
   const [person, setPerson] = useState(personList);
@@ -53,7 +53,7 @@ const AccordionPerson = ({ personList }: any) => {
               좋아하는 인물
             </HWTypography>
             <HWTypography variant={"headlineXXS"} family={"Pretendard"} color={"#D9DAE5"}>
-              <span css={styled.typo1}>웨이드</span>
+              <span css={styled.typo1}>{user.nickname}</span>
               님이 좋아하는 인물을 알려주세요! 좋아하는 사람의 작품 소식을 알려드릴게요.
             </HWTypography>
           </div>

@@ -110,7 +110,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       <HWChip
                         variant={"text"}
                         color={"season"}
-                        label={item.season.now + " 시즌"}
+                        label={"시즌 " + item.season?.now}
                         css={styled.chipAge}
                       />
                     )}
@@ -240,7 +240,11 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
             <div css={styled.bottomContents}>
               {item?.review?.total === 0 && (
                 <div css={styled.emptyReview}>
-                  <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
+                  <HWTypography
+                    variant={"bodyL"}
+                    family={"Pretendard-SemiBold"}
+                    color={Color.dark.grey400}
+                  >
                     이 작품에 작성된 리뷰가 없습니다.
                   </HWTypography>
                 </div>

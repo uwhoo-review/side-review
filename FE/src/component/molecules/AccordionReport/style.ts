@@ -70,7 +70,7 @@ export default {
     justify-content: space-around;
     align-items: center;
   `,
-  moreBtn: css`
+  moreBtn: (disabled: boolean) => css`
     position: absolute;
     right: 16px;
     bottom: 20px;
@@ -79,5 +79,18 @@ export default {
     justify-content: center;
     align-items: center;
     gap: 8px;
-  `
+    pointer-events: ${disabled ? "none" : "auto"};
+    opacity: ${disabled ? 0.5 : 1};
+  `,
+  emptyWrapper: css`
+    height: 314px;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    //background-color: #1e1e1e;
+    border-radius: 10px;
+  `,
 };
