@@ -17,14 +17,16 @@ import { CONTENTS_TABS } from "@src/variables/APIConstants";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import PersonCard from "@src/component/atoms/PersonCard/PersonCard";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
-import {QUERY_KEYS} from "@src/variables/QueryKeys";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
 const AccordionPerson = ({ personList, user }: any) => {
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 8;
   const [open, setOpen] = useState(true);
   const [person, setPerson] = useState(personList);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
+  const [searchFetch, setSearchFetch] = useState("");
+
   const [page, setPage] = useState(1);
   const [isSearch, setIsSearch] = useState(false);
 
@@ -103,12 +105,13 @@ const AccordionPerson = ({ personList, user }: any) => {
                   if (!isNullOrEmpty(searchVal) && e.key === "Enter") {
                     setIsSearch(true);
                     setPage(1);
+                    setSearchFetch(searchVal);
                     refetch();
                   }
                 }}
                 endAdorment={
                   !isNullOrEmpty(searchVal) && (
-                    <HWIconButton>
+                    <HWIconButton onClick={() => setSearchVal("")}>
                       <IconCancel />
                     </HWIconButton>
                   )
@@ -138,7 +141,7 @@ const AccordionPerson = ({ personList, user }: any) => {
                         검색 결과가 없습니다.
                       </HWTypography>
                       <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
-                        검색하신 `{searchVal}`을(를) 찾을 수 없습니다.
+                        검색하신 `{searchFetch}`을(를) 찾을 수 없습니다.
                       </HWTypography>
                       <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
                         다른 검색어를 입력해보세요.
@@ -168,7 +171,7 @@ const AccordionPerson = ({ personList, user }: any) => {
                   ))}
                 <footer css={styled.footer}>
                   <HWIconButton
-                    disabled={data?.pageInfo.page === 1}
+                    disabled={data?.pageInfo.page <= 1}
                     onClick={() => {
                       setPage(page - 1);
                     }}
@@ -177,11 +180,14 @@ const AccordionPerson = ({ personList, user }: any) => {
                   </HWIconButton>
                   <div>
                     <HWTypography variant={"bodyXS"} color={"#84838D"}>
-                      Page {data?.pageInfo.page} of {data?.pageInfo.totalPages}
+                      Page {data?.pageInfo.page} of {data?.pageInfo.totalPages || 1}
                     </HWTypography>
                   </div>
                   <HWIconButton
-                    disabled={data?.pageInfo.page === data?.pageInfo.totalPages}
+                    disabled={
+                      data?.pageInfo.page === data?.pageInfo.totalPages ||
+                      data?.pageInfo.totalPages === 0
+                    }
                     onClick={() => {
                       setPage(page + 1);
                     }}

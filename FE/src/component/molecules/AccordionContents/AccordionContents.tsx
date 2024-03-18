@@ -30,7 +30,7 @@ import { getCardURL, isNullOrEmpty } from "@src/tools/commonTools";
 import { UWAxios } from "@src/common/axios/AxiosConfig";
 import { useQuery } from "@tanstack/react-query";
 import LoadingDot from "@src/component/atoms/LoadingDot/LoadingDot";
-import {QUERY_KEYS} from "@src/variables/QueryKeys";
+import { QUERY_KEYS } from "@src/variables/QueryKeys";
 
 const AccordionContents = ({ contentsList, user }: any) => {
   const PAGE_SIZE = 10;
@@ -38,6 +38,8 @@ const AccordionContents = ({ contentsList, user }: any) => {
   const [contents, setContents] = useState(contentsList.sort((a: any, b: any) => a.rank - b.rank));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
+  const [searchFetch, setSearchFetch] = useState("");
+
   const [page, setPage] = useState(1);
   const [isSearch, setIsSearch] = useState(false);
 
@@ -116,13 +118,15 @@ const AccordionContents = ({ contentsList, user }: any) => {
                   if (!isNullOrEmpty(searchVal) && e.key === "Enter") {
                     setIsSearch(true);
                     setPage(1);
+                    setSearchFetch(searchVal);
+
                     refetch();
                   }
                 }}
                 placeholder={"작품의 제목을 검색해 주세요."}
                 endAdorment={
                   !isNullOrEmpty(searchVal) && (
-                    <HWIconButton>
+                        <HWIconButton onClick={() => setSearchVal("")}>
                       <IconCancel />
                     </HWIconButton>
                   )
@@ -155,7 +159,7 @@ const AccordionContents = ({ contentsList, user }: any) => {
                         검색 결과가 없습니다.
                       </HWTypography>
                       <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
-                        검색하신 `{searchVal}` 작품을 찾을 수 없습니다.
+                        검색하신 `{searchFetch}` 작품을 찾을 수 없습니다.
                       </HWTypography>
                       <HWTypography variant={"bodyS"} family={"Pretendard"} color={"#84838D"}>
                         다른 검색어를 입력해보세요.
@@ -194,7 +198,7 @@ const AccordionContents = ({ contentsList, user }: any) => {
                   ))}
                 <footer css={styled.footer}>
                   <HWIconButton
-                    disabled={data?.pageInfo.page === 1}
+                    disabled={data?.pageInfo.page <= 1}
                     onClick={() => {
                       setPage(page - 1);
                     }}
@@ -203,11 +207,14 @@ const AccordionContents = ({ contentsList, user }: any) => {
                   </HWIconButton>
                   <div>
                     <HWTypography variant={"bodyXS"} color={"#84838D"}>
-                      Page {data?.pageInfo.page} of {data?.pageInfo.totalPages}
+                      Page {data?.pageInfo.page} of {data?.pageInfo.totalPages || 1}
                     </HWTypography>
                   </div>
                   <HWIconButton
-                    disabled={data?.pageInfo.page === data?.pageInfo.totalPages}
+                    disabled={
+                      data?.pageInfo.page === data?.pageInfo.totalPages ||
+                      data?.pageInfo.totalPages === 0
+                    }
                     onClick={() => {
                       setPage(page + 1);
                     }}
