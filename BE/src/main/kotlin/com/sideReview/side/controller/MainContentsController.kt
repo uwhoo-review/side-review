@@ -72,7 +72,7 @@ class MainContentsController @Autowired constructor(
 
                 "popularity" -> {
                     val page = requestDto.pagination ?: 0
-
+                    val reDup2 = reDup.copy()
                     // 기간 filter 있는 맨 처음 20개를 제외하기 위해 가져옴.
                     reDup.pagination = 0
                     reDup.tab = "main"
@@ -80,11 +80,10 @@ class MainContentsController @Autowired constructor(
                     val lastOneYear = opensearchClient.getContents(reDup, userId)
 
                     // lastOneYear의 id를 제외, popularity 순으로 정렬, page-20번~30개 가져옴
-                    reDup = requestDto.copy()
-                    reDup.sort = "popularity"
-                    reDup.notQuery = lastOneYear.map { it.id }
-                    reDup.pagination = if (page < 20) page else page - 20
-                    val sortByPopular = opensearchClient.getContents(reDup, userId)
+                    reDup2.sort = "popularity"
+                    reDup2.notQuery = lastOneYear.map { it.id }
+                    reDup2.pagination = if (page < 20) page else page - 20
+                    val sortByPopular = opensearchClient.getContents(reDup2, userId)
 
                     // 요청 데이터 번호가 20 이전일 경우 1년 내의 결과 + popularity 순에서 모자란거 채워서 30개 생성
                     response = if (page < 20) {
