@@ -12,6 +12,4 @@ import org.springframework.web.bind.annotation.RequestParam
 interface GoogleClientAuth {
     @PostMapping("/token")
     fun getAuth(@RequestBody body: GoogleRequest): GoogleAuthResponse
-    @PostMapping("/revoke")
-    fun revokeToken(@RequestParam("token") token: String)
 }

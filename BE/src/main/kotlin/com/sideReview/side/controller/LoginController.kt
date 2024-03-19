@@ -5,6 +5,7 @@ import com.sideReview.side.login.LoginService
 import com.sideReview.side.login.LoginToggleUserIdInvalidException
 import com.sideReview.side.login.LoginUser
 import com.sideReview.side.login.google.GoogleClientAuth
+import com.sideReview.side.login.google.GoogleClientAuthRevoke
 import com.sideReview.side.login.google.GoogleClientProfile
 import com.sideReview.side.login.google.dto.GoogleRequest
 import com.sideReview.side.login.kakao.KakaoClientAuth
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse
 class LoginController(
     val googleClientProfile: GoogleClientProfile,
     val googleClientAuth: GoogleClientAuth,
+    val googleClientLogout: GoogleClientAuthRevoke,
     val naverClientAuth: NaverClientAuth,
     val naverClientProfile: NaverClientProfile,
     val kakaoClientAuth: KakaoClientAuth,
@@ -131,7 +133,7 @@ class LoginController(
             }
 
             "google" -> {
-                googleClientAuth.revokeToken(token)
+                googleClientLogout.revokeToken(token)
                 val uri = URI(redirectUrl)
                 ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(uri)
             }
