@@ -16,9 +16,6 @@ interface KakaoClientAuth {
         @RequestParam("redirect_uri") redirectUri: String,
         @RequestParam("code") authorizationCode: String,
     ): KakaoAuthResponse
-
-    @GetMapping("/oauth/logout?client_id=${Const.CLIENT_ID}")
-    fun logout(@RequestParam logout_redirect_uri: String)
 }
 
 

@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam
 interface NaverClientAuth {
     @GetMapping("/oauth2.0/token?grant_type=authorization_code&client_id=${Const.CLIENT_ID}&client_secret=${Const.CLIENT_SECRET}")
     fun getAuth(@RequestParam code: String, @RequestParam state: String): NaverAuthResponse
-
-    @GetMapping("/oauth2.0/token?grant_type=delete&client_id=${Const.CLIENT_ID}&client_secret=${Const.CLIENT_SECRET}&service_provider='NAVER'")
-    fun deleteToken(
-        @RequestParam access_token: String
-    ): NaverLogoutResponse
 }
 
 private class Const {

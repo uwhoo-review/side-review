@@ -5,7 +5,6 @@ import com.sideReview.side.login.LoginService
 import com.sideReview.side.login.LoginToggleUserIdInvalidException
 import com.sideReview.side.login.LoginUser
 import com.sideReview.side.login.google.GoogleClientAuth
-import com.sideReview.side.login.google.GoogleClientAuthRevoke
 import com.sideReview.side.login.google.GoogleClientProfile
 import com.sideReview.side.login.google.dto.GoogleRequest
 import com.sideReview.side.login.kakao.KakaoClientAuth
@@ -19,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.session.web.http.DefaultCookieSerializer
 import org.springframework.web.bind.annotation.*
 import java.net.URI
-import java.net.URLEncoder
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -28,7 +26,7 @@ import javax.servlet.http.HttpServletResponse
 class LoginController(
     val googleClientProfile: GoogleClientProfile,
     val googleClientAuth: GoogleClientAuth,
-    val googleClientLogout: GoogleClientAuthRevoke,
+//    val googleClientLogout: GoogleClientAuthRevoke,
     val naverClientAuth: NaverClientAuth,
     val naverClientProfile: NaverClientProfile,
     val kakaoClientAuth: KakaoClientAuth,
@@ -93,7 +91,6 @@ class LoginController(
         request: HttpServletRequest,
         response: HttpServletResponse,
         @RequestParam type: String,
-        @RequestParam(required = false) token: String,
         @RequestParam(required = false) redirectUrl: String
     ): Any {
 
@@ -121,32 +118,12 @@ class LoginController(
         }
 
         // 각 타입 별 토큰 만료
-        when (type) {
-            "naver" -> {
-                val response = naverClientAuth.deleteToken(URLEncoder.encode(token, "UTF-8"))
-                if (response.result != "success") {
-                    return ResponseEntity.internalServerError()
-                        .body("naver logout error : token expire failed.\n${response.error}\n${response.error_description}")
-                }
-                val uri = URI(redirectUrl)
-                ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(uri)
-            }
-
-            "google" -> {
-                googleClientLogout.revokeToken(token)
-                val uri = URI(redirectUrl)
-                ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(uri)
-            }
-
-            "kakao" -> {
-                kakaoClientAuth.logout(redirectUrl)
-                return "kakao"
-            }
-            else -> {
-                return ResponseEntity.internalServerError().body("logout error : type not matched.")
-            }
+        if (type == "kakao") {
+            val uri =
+                URI.create("https://kauth.kakao.com/oauth/logout?client_id=5226f263acf8306b81d4c11afbb2afc2&logout_redirect_uri=${redirectUrl}")
+            return ResponseEntity.status(HttpStatus.PERMANENT_REDIRECT).location(uri)
         }
-        return ""
+        return ResponseEntity.ok("logout success")
     }
 
     @PutMapping("/user/ott/{toggle}")
