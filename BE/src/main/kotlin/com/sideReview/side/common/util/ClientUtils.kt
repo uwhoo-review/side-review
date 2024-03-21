@@ -42,7 +42,7 @@ class ClientUtils {
             return user?.id ?: getUserId(request)
         }
 
-        private fun getUserType(userId: String): String {
+        fun getUserType(userId: String): String {
             //1:로그인 유저, 2:public
             return if (userId.contains(".") || userId.contains(":")) "2"
             else "1"

@@ -1,6 +1,8 @@
 package com.sideReview.side.controller
 
 import com.sideReview.side.common.dto.UserInfoDto
+import com.sideReview.side.common.entity.UserFavoriteContent
+import com.sideReview.side.common.entity.UserInfo
 import com.sideReview.side.common.util.ClientUtils
 import com.sideReview.side.common.util.MapperUtils
 import com.sideReview.side.login.LoginService
@@ -34,12 +36,16 @@ class MainContentsController @Autowired constructor(
     ): ResponseEntity<Any> {
         var response: ResponseEntity<Any> = ResponseEntity(HttpStatus.BAD_REQUEST)
         val userId = ClientUtils.getUserId(request, user)
+        val userEntity: UserInfo? =
+            if (ClientUtils.getUserType(userId) == "1")
+                loginService.getUser(userId)
+            else null
+        val userFavorite = userEntity?.favoriteContent
 
         runBlocking {
-            var reDup = requestDto.copy()
+            val reDup = requestDto.copy()
             // 로그인 user일 경우 ott_toggle이 true일 때 perferOtt로 filter추가.
-            if (ClientUtils.getUserType(request, user) == "1" && loginService.isOttTrue(userId)) {
-                val userEntity = loginService.getUser(userId)
+            if (userEntity != null && loginService.isOttTrue(userId)) {
                 if (userEntity.preferOtt != null && !userEntity.preferOtt.isNullOrBlank()) {
                     reDup.addFilter(
                         ContentRequestFilterDetail(
@@ -57,15 +63,21 @@ class MainContentsController @Autowired constructor(
                     val popular = contentReviewFacade.fillReview(
                         opensearchClient.getContents(reDup, userId)
                     )
+                    // userFavorite과 겹치는 id 모음
+                    val popFavorite = getMatchId(userFavorite, popular)
 
                     reDup.sort = "new"
                     val latest = contentReviewFacade.fillReview(
                         opensearchClient.getContents(reDup, userId)
                     )
+                    // userFavorite과 겹치는 id 모음
+                    val latFavorite = getMatchId(userFavorite, latest)
+
                     response = ResponseEntity.ok(
                         MainContentDto(
                             popular,
-                            latest
+                            latest,
+                            MainContentUserFavorite(popFavorite, latFavorite)
                         )
                     )
                 }
@@ -86,28 +98,30 @@ class MainContentsController @Autowired constructor(
                     val sortByPopular = opensearchClient.getContents(reDup2, userId)
 
                     // 요청 데이터 번호가 20 이전일 경우 1년 내의 결과 + popularity 순에서 모자란거 채워서 30개 생성
-                    response = if (page < 20) {
-                        ResponseEntity.ok(
-                            contentReviewFacade.fillReview(
-                                lastOneYear.subList(page, lastOneYear.size.coerceAtMost(19))
-                                    .union(sortByPopular.subList(0, 10 + page))
-                                    .toList()
-                            )
+                    val result = if (page < 20) {
+                        contentReviewFacade.fillReview(
+                            lastOneYear.subList(page, lastOneYear.size.coerceAtMost(19))
+                                .union(sortByPopular.subList(0, 10 + page))
+                                .toList()
                         )
                     } else {
-                        ResponseEntity.ok(
-                            contentReviewFacade.fillReview(sortByPopular.toList())
-                        )
+                        contentReviewFacade.fillReview(sortByPopular.toList())
                     }
+                    val favorite = getMatchId(userFavorite, result)
+
+                    response = ResponseEntity.ok(MainPopDto(result, favorite))
 
                 }
 
                 "new", "open" -> {
                     reDup.sort = "new"
+                    val result = contentReviewFacade.fillReview(
+                        opensearchClient.getContents(reDup, userId)
+                    )
+                    val favorite = getMatchId(userFavorite, result)
+
                     response = ResponseEntity.ok(
-                        contentReviewFacade.fillReview(
-                            opensearchClient.getContents(reDup, userId)
-                        )
+                        MainPopDto(result, favorite)
                     )
                 }
             }
@@ -169,4 +183,19 @@ class MainContentsController @Autowired constructor(
         }
         return response
     }
+
+    private fun getMatchId(
+        userFavorite: List<UserFavoriteContent>?,
+        content: List<ContentDto>
+    ): List<String>? {
+        return if (userFavorite != null) {
+            val favoriteContentIdList = userFavorite.map { it.contentId }
+            content.mapNotNull {
+                if (favoriteContentIdList.contains(it.id))
+                    it.id
+                else null
+            }
+        } else null
+    }
+
 }
