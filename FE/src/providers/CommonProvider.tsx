@@ -96,6 +96,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
         JSON.stringify({
           isLogin: isLogin,
           userInfo: userInfo,
+          date: new Date().getTime(),
         })
       );
     }
@@ -105,10 +106,16 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
     const loginInfoStr = localStorage.getItem(UWHOO_LOGIN);
     if (loginInfoStr) {
       const loginInfo = JSON.parse(loginInfoStr);
-      if (loginInfo.isLogin && loginInfo.userInfo !== null) {
-        setIsLogin(true);
-        setLogoinSession(loginInfo.sessionId);
-        setUserInfo({ ...loginInfo.userInfo });
+      const currentTime = new Date().getTime();
+      const timeElapsed = currentTime - parseInt(loginInfo.date, 10);
+      if (timeElapsed > 24 * 60 * 60 * 1000) {
+        localStorage.removeItem(UWHOO_LOGIN);
+      } else {
+        if (loginInfo.isLogin && loginInfo.userInfo !== null) {
+          setIsLogin(true);
+          setLogoinSession(loginInfo.sessionId);
+          setUserInfo({ ...loginInfo.userInfo });
+        }
       }
     } else {
       // (async () => await UWAxios.login.logout(userInfo.type, userInfo.token, "/login/logout"))();
