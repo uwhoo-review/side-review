@@ -37,7 +37,7 @@ const RecentlyContent = ({ data }: any) => {
 
   useEffect(() => {
     selectedCardIdx !== null && setSelectedCard(data[selectedCardIdx]);
-    setPopularList(data);
+    setPopularList(data.content);
 
   }, [data]);
 
