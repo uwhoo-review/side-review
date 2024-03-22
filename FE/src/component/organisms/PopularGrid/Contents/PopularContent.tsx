@@ -53,7 +53,7 @@ const PopularContent = ({ data }: any) => {
             </HWTypography>
           </div>
           <div css={styled.subHeadline}>
-            <HWTypography variant={"headlineXS"} family={"Pretendard"}>
+            <HWTypography variant={"headlineXS"} family={"Pretendard"} color={"#D9DAE5"}>
               💡 유후 유저들이 좋아하는 인기 작품을 확인해 보세요!
             </HWTypography>
           </div>

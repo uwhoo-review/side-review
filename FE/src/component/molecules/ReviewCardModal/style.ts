@@ -96,7 +96,7 @@ export default {
   flex1: css`
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     font-size: 24px;
     color: ${Color.dark.grey500};
   `,

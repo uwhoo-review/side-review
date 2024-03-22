@@ -24,7 +24,7 @@ import { VIDEO_URL } from "@src/variables/tmdbConstants";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
-import { getCardURL } from "@src/tools/commonTools";
+import {getCardURL, getYYYYMMDDFormat} from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import { GENRE_ID_NAME, WATCH_RATING_ID_NAME } from "@src/variables/CommonConstants";
 import TrailerCard from "@src/component/atoms/TrailerCard/TrailerCard";
@@ -253,7 +253,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <PlatformAvatar list={item.platform} max={3} />
+                      <PlatformAvatar list={item.platform} size={"30px"}  max={3} />
                     </div>
                   </div>
                 </div>
@@ -290,7 +290,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       key={v.id}
                       best={v.best}
                       spoiler={v.spoiler}
-                      date={v.date}
+                      date={getYYYYMMDDFormat(new Date(v.date),"comma")}
                       dislike={v.dislike}
                       like={v.like}
                       line={4}
@@ -298,6 +298,7 @@ const PreviewBoxVertical = ({ item, customCss }: PreviewBoxVerticalProps) => {
                       itemTarget={v.target}
                       content={v.content}
                       user={v.user}
+                      width={"404px"}
                     >
                       {v.content}
                     </ReviewCard>

@@ -23,7 +23,7 @@ import { SerializedStyles } from "@emotion/react";
 import HWChip from "@src/component/atoms/HWChip/HWChip";
 import HWAvatarGroup from "@src/component/atoms/HWAvatarGroup/HWAvatarGroup";
 import HWAvatar from "@src/component/atoms/HWAvatar/HWAvatar";
-import { getCardURL } from "@src/tools/commonTools";
+import {getCardURL, getYYYYMMDDFormat} from "@src/tools/commonTools";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import {
   GENRE_ID_NAME,
@@ -219,7 +219,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                       </HWTypography>
                     </div>
                     <div className={"margin-top-8"}>
-                      <PlatformAvatar list={item.platform} max={3} />
+                      <PlatformAvatar list={item.platform} size={"30px"} max={3} />
                     </div>
                   </div>
                 </div>
@@ -257,7 +257,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     key={v.id}
                     best={v.best}
                     spoiler={v.spoiler}
-                    date={v.date}
+                    date={getYYYYMMDDFormat(new Date(v.date),"comma")}
                     dislike={v.dislike}
                     like={v.like}
                     line={4}
@@ -265,6 +265,7 @@ const PreviewBox = ({ item, customCss, onPrev, onNext }: PreviewBoxProps) => {
                     itemTarget={v.target}
                     content={v.content}
                     user={v.user}
+                    width={"452px"}
                   >
                     {v.content}
                   </ReviewCard>

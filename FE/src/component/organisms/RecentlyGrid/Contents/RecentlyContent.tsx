@@ -54,7 +54,7 @@ const RecentlyContent = ({ data }: any) => {
             </HWTypography>
           </div>
           <div css={styled.subHeadline}>
-            <HWTypography variant={"headlineXS"} family={"Pretendard"}>
+            <HWTypography variant={"headlineXS"} family={"Pretendard"} color={"#D9DAE5"}>
               🍿 최신 공개 작품을 가장 먼저 확인해 보세요
             </HWTypography>
           </div>

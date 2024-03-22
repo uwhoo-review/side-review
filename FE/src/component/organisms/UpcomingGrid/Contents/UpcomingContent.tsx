@@ -50,7 +50,7 @@ const UpcomingContent = ({ data }: any) => {
             </HWTypography>
           </div>
           <div css={styled.subHeadline}>
-            <HWTypography variant={"headlineXS"} family={"Pretendard"}>
+            <HWTypography variant={"headlineXS"} family={"Pretendard"} color={"#D9DAE5"}>
               🔍 곧 공개되는 기대작 정보를 미리 확인해 보세요
             </HWTypography>
           </div>

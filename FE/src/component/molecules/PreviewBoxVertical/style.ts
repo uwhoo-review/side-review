@@ -63,31 +63,12 @@ export default {
     border-radius: 6px;
   `,
   bottomContents: css`
-    /*.bottom-info {
-      @keyframes translateX-1 {
-        from {
-          transform: scaleX(0);
-        }
-        to {
-          transform: scaleX(100%);
-        }
-      }
-      animation: translateX-1 1s ease;
-    }
-    .bottom-review {
-      @keyframes translateX-2 {
-        from {
-          transform: scaleX(0);
-        }
-        to {
-          transform: scaleX(100%);
-        }
-      }
-      animation: translateX-2 1s ease;
-    }*/
     .bottom-review {
       display: flex;
       flex-direction: column;
+      align-content: center;
+      justify-content: center;
+
       gap: 20px;
     }
   `,
@@ -179,5 +160,5 @@ export default {
   `,
   ratingSubBox2: css`
     //flex: 1 0;
-  `
+  `,
 };

@@ -22,6 +22,7 @@ export default {
     margin-top: 20px;
     display: flex;
     align-items: center;
+    color: #d9dae5;
   `,
   cardSlider: (currentPage: number, lastPage: number) => css`
     width: 1396px;
@@ -46,10 +47,7 @@ export default {
       }
     }
   `,
-  cardWrapper: (
-    translateX: any,
-    active: boolean
-  ) => css`
+  cardWrapper: (translateX: any, active: boolean) => css`
     display: flex;
     align-items: flex-end;
     width: 100%;
