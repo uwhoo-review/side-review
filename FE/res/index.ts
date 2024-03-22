@@ -60,6 +60,7 @@ import { ReactComponent as IconThumbDown } from "./icon/ic_thumb_down.svg";
 import { ReactComponent as IconToggleCircle } from "./icon/ic_toggle_circle.svg";
 import { ReactComponent as IconUpDown } from "./icon/ic_up_down.svg";
 import { ReactComponent as IconWrite } from "./icon/ic_write.svg";
+import IconMark150 from "./icon/ic_mark_150.png";
 
 /* ./logo */
 import { ReactComponent as IconApple } from "./logo/ic_apple.svg";
@@ -74,6 +75,7 @@ import { ReactComponent as IconWatcha } from "./logo/ic_watcha.svg";
 import { ReactComponent as IconWavve } from "./logo/ic_wavve.svg";
 
 export {
+    IconMark150,
   IconPlus,
   IconPlusBtn,
   IconCheckCircle,

@@ -1,5 +1,5 @@
 import styled from "./style";
-import { IconLaunch, IconNetflix, IconStar, IconTving, IconWatcha } from "@res/index";
+import { IconLaunch, IconMark150, IconNetflix, IconStar, IconTving, IconWatcha } from "@res/index";
 import { SerializedStyles } from "@emotion/react";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
@@ -62,7 +62,6 @@ const ContentCard = ({
   );
   classNames = classNames.filter(Boolean);
 
-
   useEffect(() => {
     if (divRef.current) {
       if (divRef.current?.clientWidth < divRef.current?.scrollWidth) setIsOverflow(true);
@@ -76,6 +75,7 @@ const ContentCard = ({
       onClick={onClick}
       {...props}
     >
+      <img src={IconMark150} css={styled.markImg} />
       <div className={`card-box`} css={styled.imgWrapper(active, isHoverScale)}>
         {rank && rank < 100 && <div css={styled.rank}>{rank}</div>}
         <DefaultImage

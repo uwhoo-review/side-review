@@ -6,6 +6,7 @@ import CarouselArrow from "@src/component/atoms/CarouselArrow/CarouselArrow";
 import PreviewBox from "@src/component/molecules/PreviewBox/PreviewBox";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import { ContentDO } from "@src/interfaces/api.interface";
+import { IconMark150 } from "@res/index";
 interface CardListProps {
   title: string;
   subTitle: string | ReactNode;

@@ -37,10 +37,15 @@ export default {
     align-items: center;
     gap: 78px;
     justify-content: space-between;
-    //z-index: 1;
   `,
   leftBox: css`
     flex: 0 0 276px;
+    position: relative;
+  `,
+  markImg: css`
+    position: absolute;
+    right: -50px;
+    bottom: -44px;
   `,
   rightBox: css`
     flex: 1;
@@ -69,15 +74,14 @@ export default {
   `,
   selectBox: css`
     //display: flex;
-    .HW-Outlined-SelectBox-Contents{
-      border: none;      
+    .HW-Outlined-SelectBox-Contents {
+      border: none;
       background-color: #00000080;
     }
-
   `,
   titleWrapper: css`
     display: flex;
     align-content: center;
     gap: 20px;
-  `
+  `,
 };

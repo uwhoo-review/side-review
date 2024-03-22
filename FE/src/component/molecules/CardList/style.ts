@@ -17,7 +17,7 @@ export default {
     font-style: normal;
     font-weight: 500;
     line-height: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     width: 100%;
     margin-top: 20px;
     display: flex;
@@ -56,11 +56,13 @@ export default {
     transform: translateX(${translateX}px);
     gap: ${active ? "40px" : "20px"};
     .content-slide {
+      margin-top: 20px;
     }
   `,
   card: css`
     cursor: pointer;
   `,
+
   leftPageBtn: css`
     position: absolute;
     top: calc(50% - 30px);

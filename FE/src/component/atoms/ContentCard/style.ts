@@ -69,6 +69,14 @@ export default {
     font-size: 24px !important;
     //z-index: 1;
   `,
+  markImg: css`
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    left: 10px;
+    top: -20px;
+    z-index: 1;
+  `,
   imgWrapper: (active: boolean, isHoverScale: boolean) => css`
     width: ${active ? "216px" : "196px"};
     height: ${active ? "324px" : "294px"};
@@ -79,7 +87,7 @@ export default {
 
     margin-bottom: 10px;
     position: relative;
-    
+
     &:hover {
       img {
         transform: ${isHoverScale ? "scale(1.1)" : "none"};
