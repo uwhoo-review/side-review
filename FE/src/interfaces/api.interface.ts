@@ -38,5 +38,8 @@ export interface RatingDO {
 export interface ContentsResDO {
   latest: ContentDO[];
   popular: ContentDO[];
+  favorite: {
+    latest: string[];
+    popular: string[];
+  };
 }
-

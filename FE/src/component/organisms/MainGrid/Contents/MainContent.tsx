@@ -25,6 +25,7 @@ const MainContent = ({ data }: MainContentProps) => {
           </>
         }
         cardList={data.popular || []}
+        favorite={data.favorite.popular}
       />
       <CardList
         title={"최신 개봉 작품"}
@@ -34,6 +35,7 @@ const MainContent = ({ data }: MainContentProps) => {
           </>
         }
         cardList={data.latest || []}
+        favorite={data.favorite.latest}
       />
     </div>
   );

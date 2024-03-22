@@ -121,6 +121,7 @@ const UpcomingContent = ({ data }: any) => {
                       rating={v.rating}
                       active={selectedCard ? selectedCard?.id === v.id : true}
                       customCss={styled.card}
+                      favorite={data.favorite.includes(v.id)}
                     />
                     {/*                    {isScrolling ? (
                       <ContentEmptyCard active={selectedCard ? selectedCard?.id === v.id : true} />

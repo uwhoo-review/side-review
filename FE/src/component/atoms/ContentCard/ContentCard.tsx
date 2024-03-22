@@ -29,6 +29,7 @@ interface ContentCardProps {
   findCard?: any;
   customCss?: SerializedStyles;
   isHoverScale?: boolean;
+  favorite?: boolean;
 }
 const ContentCard = ({
   id,
@@ -48,6 +49,7 @@ const ContentCard = ({
   moveCard,
   findCard,
   isHoverScale = true,
+  favorite = false,
   ...props
 }: ContentCardProps) => {
   const navigate = useNavigate();
@@ -75,7 +77,7 @@ const ContentCard = ({
       onClick={onClick}
       {...props}
     >
-      <img src={IconMark150} css={styled.markImg} />
+      {favorite && <img src={IconMark150} css={styled.markImg} />}
       <div className={`card-box`} css={styled.imgWrapper(active, isHoverScale)}>
         {rank && rank < 100 && <div css={styled.rank}>{rank}</div>}
         <DefaultImage

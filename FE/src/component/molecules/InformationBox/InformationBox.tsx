@@ -1,7 +1,15 @@
 import styled from "./style";
 import CenterWrapper from "@src/component/atoms/CenterWrapper/CenterWrapper";
 import bg1 from "@res/background/bg_moving.png";
-import {card1, IconMark150, IconNetflix, IconRating, IconRatingEmpty, IconStar, IconWatcha} from "@res/index";
+import {
+  card1,
+  IconMark150,
+  IconNetflix,
+  IconRating,
+  IconRatingEmpty,
+  IconStar,
+  IconWatcha,
+} from "@res/index";
 import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import { Avatar, AvatarGroup, Rating } from "@mui/material";
@@ -9,7 +17,7 @@ import Color from "@src/common/styles/Color";
 import HWButton from "@src/component/atoms/HWButton/HWButton";
 import Divider from "@src/component/atoms/Divider/Divider";
 import { useState } from "react";
-import {getCardURL, getYYYYMMDDFormat} from "@src/tools/commonTools";
+import { getCardURL, getYYYYMMDDFormat } from "@src/tools/commonTools";
 import { GENRE_ID_NAME } from "@src/variables/CommonConstants";
 import PlatformAvatar from "@src/component/molecules/PlatformAvatar/PlatformAvatar";
 import HWOutlinedSelectBox from "@src/component/atoms/HWOutlinedSelectBox";
@@ -25,7 +33,7 @@ const InformationBox = ({ item }: any) => {
         <div css={styled.subWrapper}>
           <div css={styled.leftBox}>
             <DefaultImage src={posterURL} width={"276px"} height={"414px"} />
-              <img src={IconMark150} css={styled.markImg}/>
+            <img src={IconMark150} css={styled.markImg} />
           </div>
           <div className={"grid"} css={styled.rightBox}>
             <div className="col-full">
@@ -129,7 +137,7 @@ const InformationBox = ({ item }: any) => {
                     family={"Pretendard"}
                     color={Color.dark.grey700}
                   >
-                    {getYYYYMMDDFormat(new Date(item.date),"comma") || "-"}
+                    {getYYYYMMDDFormat(new Date(item.date), "comma") || "-"}
                   </HWTypography>
                 </div>
                 <div className="col-3">

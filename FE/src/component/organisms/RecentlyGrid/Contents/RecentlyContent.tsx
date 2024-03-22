@@ -38,7 +38,6 @@ const RecentlyContent = ({ data }: any) => {
   useEffect(() => {
     selectedCardIdx !== null && setSelectedCard(data[selectedCardIdx]);
     setPopularList(data.content);
-
   }, [data]);
 
   return (
@@ -72,7 +71,7 @@ const RecentlyContent = ({ data }: any) => {
               ref={virtuosoRef}
               data={popularList}
               endReached={(index) => {
-                mutation.mutate({ p: popularList.length })
+                mutation.mutate({ p: popularList.length });
               }}
               useWindowScroll={true}
               components={{
@@ -125,6 +124,7 @@ const RecentlyContent = ({ data }: any) => {
                       rating={v.rating}
                       active={selectedCard ? selectedCard?.id === v.id : true}
                       customCss={styled.card}
+                      favorite={data.favorite.includes(v.id)}
                     />
                     {/*                    {isScrolling ? (
                       <ContentEmptyCard active={selectedCard ? selectedCard?.id === v.id : true} />

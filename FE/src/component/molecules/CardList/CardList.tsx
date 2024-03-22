@@ -11,8 +11,9 @@ interface CardListProps {
   title: string;
   subTitle: string | ReactNode;
   cardList: ContentDO[];
+  favorite: string[];
 }
-const CardList = ({ title, subTitle, cardList }: CardListProps) => {
+const CardList = ({ title, subTitle, cardList, favorite }: CardListProps) => {
   const [selectedCard, setSelectedCard] = useState<ContentDO | null>(null);
   const [selectedCardIdx, setSelectedCardIdx] = useState<number | null>(null);
 
@@ -138,6 +139,7 @@ const CardList = ({ title, subTitle, cardList }: CardListProps) => {
                     active={selectedCard ? selectedCard.id === v.id : true}
                     season={v.season}
                     customCss={styled.card}
+                    favorite={favorite.includes(v.id)}
                   />
                 </div>
               );
