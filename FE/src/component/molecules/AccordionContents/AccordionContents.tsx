@@ -202,6 +202,7 @@ const AccordionContents = ({ contentsList, user }: any) => {
                     onClick={() => {
                       setPage(page - 1);
                     }}
+                    css={styled.arrowBtn}
                   >
                     <IconChevronLeft />
                   </HWIconButton>
@@ -218,6 +219,7 @@ const AccordionContents = ({ contentsList, user }: any) => {
                     onClick={() => {
                       setPage(page + 1);
                     }}
+                    css={styled.arrowBtn}
                   >
                     <IconChevronRight />
                   </HWIconButton>

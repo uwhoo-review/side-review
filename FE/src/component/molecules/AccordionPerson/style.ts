@@ -48,8 +48,9 @@ export default {
   `,
   modalWrapper: css`
     .MuiDialog-paper {
-      background-color: #252525;
+      border-radius: 10px;
 
+      background-color: #252525;
     }
   `,
   modalContentBox: css`
@@ -83,6 +84,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+
+
+      gap: 42px;
+      margin-top: 20px;
   `,
   emptyBox: css`
     display: flex;
@@ -95,11 +100,21 @@ export default {
     height: 226px;
     border-radius: 8px;
     margin-top: 8px;
-
   `,
   iconBtn: css`
     height: 34px;
     width: 24px;
     background-color: #00000080;
-  `
+  `,
+  arrowBtn: css`
+    width: 24px;
+    height: 34px;
+    border-radius: 8px;
+    background-color: #00000099;
+    padding: 0;
+    color: #ffffff;
+    &:hover {
+      background-color: #000000cc;
+    }
+  `,
 };

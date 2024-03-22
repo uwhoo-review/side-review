@@ -48,6 +48,7 @@ export default {
   `,
   modalWrapper: css`
     .MuiDialog-paper {
+      border-radius: 10px;
       background-color: #252525;
     }
   `,
@@ -83,7 +84,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     gap: 42px;
     margin-top: 20px;
   `,
@@ -109,15 +110,24 @@ export default {
     height: 34px;
     border-radius: 8px;
     background-color: #00000099;
-
-    display: flex;
+    padding: 0;
+    color: #ffffff;
+    &:hover {
+      background-color: #000000cc;
+    }
+    /*    display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     color: #fff;
     &:hover {
-      background-color: #000000CC;
-
-    }
+      background-color: #000000cc;
+    }*/
   `,
+  /*  arrowBtn: css`
+    width: 24px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.5);
+  `,*/
 };
