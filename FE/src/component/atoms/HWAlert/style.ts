@@ -4,7 +4,10 @@ export const root = {
   wrapper: css`
     width: 320px;
     box-sizing: border-box;
-    color: #3e3e3e;
+    color: #ffffff;
+    background-color: #2c2c2c;
+    border: 1px solid #42424a;
+    border-radius: 10px;
     .MuiAlert-message {
       display: flex;
       flex-direction: column;
@@ -23,15 +26,20 @@ export const root = {
     width: 100%;
     justify-content: space-between;
     margin: unset;
+    font-family: Pretendard;
+
     .title {
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 22px;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 28px; /* 140% */
     }
     .time-info {
+      font-size: 14px;
+      font-style: normal;
       font-weight: 500;
-      font-size: 13px;
-      line-height: 22px;
+      line-height: 20px; /* 142.857% */
+      letter-spacing: -0.1px;
     }
   `,
 };
@@ -39,13 +47,13 @@ export const root = {
 export const backgroundColor = (type: "error" | "success" | "info") => {
   if (type === "error")
     return css`
-      background-color: #fdecea;
+      //background-color: #fdecea;
     `;
   if (type === "info")
     return css`
-      background-color: #e5f3fa;
+      //background-color: #e5f3fa;
     `;
   return css`
-    background-color: #eaf2ea;
+    //background-color: #eaf2ea;
   `;
 };
