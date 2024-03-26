@@ -150,6 +150,7 @@ const ReviewCardList = ({ id, size = 6 }: { id: string; size: number }) => {
                     dateChip={false}
                     seasonChip={false}
                     line={7}
+                    reviewList={reviewList}
                   >
                     {v.content}
                   </ReviewCard>

@@ -40,6 +40,7 @@ interface ReviewCardProps {
   isProfile?: boolean;
   itemTarget?: any;
   onClick?: () => void;
+  reviewList?: any[];
 }
 
 const ReviewCard = ({
@@ -67,6 +68,7 @@ const ReviewCard = ({
   isProfile = false,
   seasonChip = false,
   onClick,
+  reviewList = [],
 }: ReviewCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const commonContext = useCommon();
@@ -226,6 +228,7 @@ const ReviewCard = ({
           user={user}
           itemId={itemTarget.id}
           itemTarget={itemTarget}
+          reviewList={reviewList}
         />
       )}
       {modifyDialog && (

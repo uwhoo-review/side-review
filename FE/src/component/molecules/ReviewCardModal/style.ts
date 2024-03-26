@@ -20,6 +20,11 @@ export default {
     flex-direction: column;
     justify-content: space-between;
   `,
+  modalWrapper: css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
   topWrapper: css`
     display: flex;
     justify-content: space-between;
@@ -28,9 +33,7 @@ export default {
     height: 24px;
     margin-bottom: 10px;
   `,
-  topWrapper2: css`
-  
-  `,
+  topWrapper2: css``,
   chipWrapper: css`
     display: flex;
     align-items: center;
@@ -115,5 +118,15 @@ export default {
     &:hover {
       color: #fff;
     }
-  `
+  `,
+  leftPageBtn: css`
+    position: absolute;
+    top: calc(50% - 30px);
+    left: 10px;
+  `,
+  rightPageBtn: css`
+    position: absolute;
+    top: calc(50% - 30px);
+    right: 10px;
+  `,
 };
