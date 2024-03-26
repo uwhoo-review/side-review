@@ -176,7 +176,6 @@ const AccordionPerson = ({ personList, user }: any) => {
                       setPage(page - 1);
                     }}
                     css={styled.arrowBtn}
-
                   >
                     <IconChevronLeft />
                   </HWIconButton>
@@ -194,7 +193,6 @@ const AccordionPerson = ({ personList, user }: any) => {
                       setPage(page + 1);
                     }}
                     css={styled.arrowBtn}
-
                   >
                     <IconChevronRight />
                   </HWIconButton>

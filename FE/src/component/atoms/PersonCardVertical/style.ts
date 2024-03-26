@@ -10,12 +10,13 @@ export default {
     width: 102px;
   `,
   textGroup: css`
-    //width: 120px;
+    width: 102px;
     height: 44px;
     display: flex;
+    //justify-content: center;
     flex-direction: column;
 
-/*    overflow: hidden;
+    /*    overflow: hidden;
     span {
       display: block;
       white-space: nowrap;
@@ -28,5 +29,14 @@ export default {
     height: 82px;
     border-radius: 20px;
     flex-shrink: 0;
+  `,
+  typo1: css`
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    //display: flex;
+    //justify-content: center;
   `,
 };

@@ -3,6 +3,7 @@ import DefaultImage from "@src/component/atoms/DefaultImage/DefaultImage";
 import HWTypography from "@src/component/atoms/HWTypography/HWTypography";
 import Color from "@src/common/styles/Color";
 import { getCardURL } from "@src/tools/commonTools";
+import HWTooltip from "@src/component/atoms/HWTooltip/HWTooltip";
 
 const PersonCardVertical = ({
   id,
@@ -25,10 +26,12 @@ const PersonCardVertical = ({
         />
       </div>
       <div css={styled.textGroup}>
-        <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"}>
-          {name}
-        </HWTypography>
-        <HWTypography variant={"bodyS"} color={Color.dark.grey700}>
+        <HWTooltip title={name}>
+          <HWTypography variant={"bodyL"} family={"Pretendard-SemiBold"} customCss={styled.typo1}>
+            {name}
+          </HWTypography>
+        </HWTooltip>
+        <HWTypography variant={"bodyS"} color={Color.dark.grey700} customCss={styled.typo1}>
           {subName}
         </HWTypography>
       </div>
