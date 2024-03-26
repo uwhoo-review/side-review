@@ -37,6 +37,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
     timeInfo: undefined,
     children: <></>,
     width: undefined,
+    autoCloseTime: 4000,
   });
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -83,6 +84,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
       timeInfo: undefined,
       children: <></>,
       width: undefined,
+      autoCloseTime: 4000,
     });
   const onHandleUserInfo = (v: any) => setUserInfo((prev: any) => ({ ...prev, ...v }));
   const onResetUserInfo = () => setUserInfo(DEFAULT_USER_INFO);
@@ -165,6 +167,7 @@ export const CommonProvider = ({ children }: { children: React.ReactElement }) =
               disableCloseIcon={alert.disableCloseIcon}
               timeInfo={alert.timeInfo}
               onClose={() => setAlert((prev: any) => ({ ...prev, is: false }))}
+              autoCloseTime={alert.autoCloseTime}
             >
               {alert.children}
             </HWAlert>

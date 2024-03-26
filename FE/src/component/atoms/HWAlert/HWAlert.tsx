@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HWAlertProps } from "./type";
 import * as styled from "./style";
 import { Alert, AlertTitle } from "@mui/material";
@@ -15,6 +15,7 @@ const HWAlert = React.forwardRef<HTMLDivElement, HWAlertProps>(
       timeInfo,
       title = undefined,
       onClose,
+      autoCloseTime = 4000,
       ...props
     },
     ref
@@ -24,6 +25,13 @@ const HWAlert = React.forwardRef<HTMLDivElement, HWAlertProps>(
         onClose(e);
       }
     };
+
+    useEffect(() => {
+      if (autoCloseTime)
+        setTimeout(() => {
+          onClose && onClose();
+        }, autoCloseTime);
+    }, []);
 
     return (
       <Alert

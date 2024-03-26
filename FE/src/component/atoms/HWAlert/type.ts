@@ -9,5 +9,6 @@ export interface HWAlertProps {
   title?: React.ReactNode;
   timeInfo?: string;
   children: React.ReactNode;
-  onClose?: (e: React.SyntheticEvent) => void;
+  onClose?: (e?: React.SyntheticEvent) => void;
+  autoCloseTime?: number;
 }
