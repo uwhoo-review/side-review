@@ -15,7 +15,6 @@ data class SearchPersonDto(
     val content: List<PersonDto>
 )
 
-//@JsonAdapter(SimpleContentDeserializer::class)
 @Serializable
 data class SimpleContentDto( //content 관련 기본 dto #convention
     val id: String,
@@ -26,28 +25,3 @@ data class SimpleContentDto( //content 관련 기본 dto #convention
     val date: String? = null,
     val season: Season? = null
 )
-
-//class SimpleContentDeserializer : JsonDeserializer<SimpleContentDto> {
-//
-//    override fun deserialize(
-//        json: JsonElement?,
-//        typeOfT: Type?,
-//        context: JsonDeserializationContext?
-//    ): SimpleContentDto {
-//        val jsonObject =
-//            json?.asJsonObject ?: throw NullPointerException("Response Json String is null")
-//        val gson = Gson()
-//        val typeToken: Type = object : TypeToken<List<Int>>() {}.type
-//
-//        val id = jsonObject["id"].asString
-//        val name = jsonObject["name"].asString
-//        val platform = gson.fromJson<List<Int>>(jsonObject["platform"], typeToken)
-//        val poster = jsonObject["poster"]?.asString
-//        val rating = jsonObject["rating"]?.asDouble
-//        val year = jsonObject["firstAirDate"]?.asString?.substring(0, 4)
-//
-//        return SimpleContentDto(
-//            id, name, platform, poster, rating, year
-//        )
-//    }
-//}

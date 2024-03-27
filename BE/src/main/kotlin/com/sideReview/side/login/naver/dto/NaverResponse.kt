@@ -27,11 +27,3 @@ data class NaverProfileDetail(
 //    val birthyear: String,
 //    val mobile: String
 )
-
-data class NaverLogoutResponse(
-    val access_token: String,
-    val result: String,
-    val expires_in: Int,
-    val error: String,
-    val error_description: String
-)
