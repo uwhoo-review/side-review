@@ -1,7 +1,5 @@
 package com.sideReview.side.controller
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserInfo
@@ -187,7 +185,7 @@ class MainContentsController @Autowired constructor(
     private fun getMatchId(
         userFavorite: List<UserFavoriteContent>?,
         content: List<ContentDto>
-    ): List<String>? {
+    ): List<String> {
         return if (userFavorite != null) {
             val favoriteContentIdList = userFavorite.map { it.contentId }
             content.mapNotNull {
@@ -195,7 +193,7 @@ class MainContentsController @Autowired constructor(
                     it.id
                 else null
             }
-        } else null
+        } else listOf()
     }
 
 }
