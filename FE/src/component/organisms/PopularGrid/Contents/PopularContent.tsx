@@ -22,6 +22,7 @@ const PopularContent = ({ data }: any) => {
   const [popularList, setPopularList] = useState<any>([]);
   const virtuosoRef = useRef<any>();
   const [isScrolling, setIsScrolling] = useState(false);
+  const [favorite, setFavorite] = useState<string[]>([]);
 
   const mutation = useMutation({
     mutationFn: async ({ p }: any) => {
@@ -38,6 +39,7 @@ const PopularContent = ({ data }: any) => {
   useEffect(() => {
     selectedCardIdx !== null && setSelectedCard(data[selectedCardIdx]);
     setPopularList(data.content);
+    setFavorite(data.favorite || []);
   }, [data]);
 
   return (
@@ -124,7 +126,7 @@ const PopularContent = ({ data }: any) => {
                       rating={v.rating}
                       active={selectedCard ? selectedCard?.id === v.id : true}
                       customCss={styled.card}
-                      favorite={data.favorite.includes(v.id)}
+                      favorite={favorite.includes(v.id)}
                     />
                     {/*                    {isScrolling ? (
                       <ContentEmptyCard active={selectedCard ? selectedCard?.id === v.id : true} />
