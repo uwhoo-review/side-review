@@ -33,7 +33,7 @@ const InformationBox = ({ item }: any) => {
         <div css={styled.subWrapper}>
           <div css={styled.leftBox}>
             <DefaultImage src={posterURL} width={"276px"} height={"414px"} />
-            <img src={IconMark150} css={styled.markImg} />
+            {item.favorite && <img src={IconMark150} css={styled.markImg} />}
           </div>
           <div className={"grid"} css={styled.rightBox}>
             <div className="col-full">
