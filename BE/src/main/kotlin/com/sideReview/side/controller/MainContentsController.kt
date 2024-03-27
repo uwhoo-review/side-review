@@ -42,6 +42,9 @@ class MainContentsController @Autowired constructor(
             else null
         val userFavorite = userEntity?.favoriteContent
 
+        logger.info("### test log ###")
+        logger.info(userFavorite.toString())
+
         runBlocking {
             val reDup = requestDto.copy()
             // 로그인 user일 경우 ott_toggle이 true일 때 perferOtt로 filter추가.
@@ -72,7 +75,16 @@ class MainContentsController @Autowired constructor(
                     )
                     // userFavorite과 겹치는 id 모음
                     val latFavorite = getMatchId(userFavorite, latest)
-
+                    logger.info("### test log ###")
+                    logger.info(
+                        MainContentUserFavorite(popFavorite, latFavorite)
+                            .toString()
+                    )
+                    logger.info( MainContentDto(
+                        popular,
+                        latest,
+                        MainContentUserFavorite(popFavorite, latFavorite)
+                    ).toString())
                     response = ResponseEntity.ok(
                         MainContentDto(
                             popular,
@@ -108,7 +120,15 @@ class MainContentsController @Autowired constructor(
                         contentReviewFacade.fillReview(sortByPopular.toList())
                     }
                     val favorite = getMatchId(userFavorite, result)
-
+                    logger.info("### test log ###")
+                    logger.info(
+                        favorite
+                            .toString()
+                    )
+                    logger.info(
+                        MainPopDto(result, favorite)
+                            .toString()
+                    )
                     response = ResponseEntity.ok(MainPopDto(result, favorite))
 
                 }
