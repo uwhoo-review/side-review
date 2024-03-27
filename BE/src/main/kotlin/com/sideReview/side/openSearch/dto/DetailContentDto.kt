@@ -1,9 +1,9 @@
 package com.sideReview.side.openSearch.dto
 
-import kotlinx.serialization.Serializable
 import com.sideReview.side.common.dto.RatingDto
 import com.sideReview.side.review.dto.ReviewDetailDto
 import com.sideReview.side.tmdb.dto.SeasonDto
+import kotlinx.serialization.Serializable
 
 data class DetailContentDto(
     val id: String,
@@ -24,15 +24,17 @@ data class DetailContentDto(
     val rating: RatingDto,
     var review: ReviewDetailDto,          // 사용자의 리뷰
     var season: Season,
-    val episodeCnt: Int? = 0
+    val episodeCnt: Int? = 0,
+    var favorite: Boolean = false
 ) {
     fun getYear(): String {
         return if (date.isNullOrBlank()) "" else date.substring(0, 4)
     }
+
     fun getSeason(): Int {
         val seasonString = id.split("_")
         var season = "1"
-        if(seasonString.size > 1) season = seasonString[1].toString()
+        if (seasonString.size > 1) season = seasonString[1].toString()
         return season.toInt()
     }
 }
@@ -50,6 +52,7 @@ data class Crew(
     val job: String,
     val profilePath: String
 )
+
 @Serializable
 data class Season(
     val now: Int,
