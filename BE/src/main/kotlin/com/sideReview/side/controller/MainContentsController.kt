@@ -29,10 +29,6 @@ class MainContentsController @Autowired constructor(
     private val contentReviewFacade: ContentReviewFacade
 ) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
-    // Gson 객체 생성
-    private val gson: Gson = GsonBuilder()
-        .serializeNulls() // null 값을 포함하도록 설정
-        .create()
 
     @PostMapping("")
     fun getContents(
