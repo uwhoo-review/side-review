@@ -120,6 +120,7 @@ class LoginService(
 
         val httpSession = request.getSession(true)
         httpSession.setAttribute("user", userInfoDto)
+        httpSession.maxInactiveInterval = 86400;
 
         val logAuth = SecurityContextHolder.getContext().authentication
         if (logAuth != null && logAuth.principal is UserInfoDto) {
