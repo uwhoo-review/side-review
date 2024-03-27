@@ -1,5 +1,7 @@
 package com.sideReview.side.controller
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.sideReview.side.common.dto.UserInfoDto
 import com.sideReview.side.common.entity.UserFavoriteContent
 import com.sideReview.side.common.entity.UserInfo
@@ -27,6 +29,10 @@ class MainContentsController @Autowired constructor(
     private val contentReviewFacade: ContentReviewFacade
 ) {
     val logger = LoggerFactory.getLogger(this::class.java)!!
+    // Gson 객체 생성
+    private val gson: Gson = GsonBuilder()
+        .serializeNulls() // null 값을 포함하도록 설정
+        .create()
 
     @PostMapping("")
     fun getContents(
@@ -41,9 +47,6 @@ class MainContentsController @Autowired constructor(
                 loginService.getUser(userId)
             else null
         val userFavorite = userEntity?.favoriteContent
-
-        logger.info("### test log ###")
-        logger.info(userFavorite.toString())
 
         runBlocking {
             val reDup = requestDto.copy()
@@ -75,16 +78,6 @@ class MainContentsController @Autowired constructor(
                     )
                     // userFavorite과 겹치는 id 모음
                     val latFavorite = getMatchId(userFavorite, latest)
-                    logger.info("### test log ###")
-                    logger.info(
-                        MainContentUserFavorite(popFavorite, latFavorite)
-                            .toString()
-                    )
-                    logger.info( MainContentDto(
-                        popular,
-                        latest,
-                        MainContentUserFavorite(popFavorite, latFavorite)
-                    ).toString())
                     response = ResponseEntity.ok(
                         MainContentDto(
                             popular,
@@ -120,15 +113,6 @@ class MainContentsController @Autowired constructor(
                         contentReviewFacade.fillReview(sortByPopular.toList())
                     }
                     val favorite = getMatchId(userFavorite, result)
-                    logger.info("### test log ###")
-                    logger.info(
-                        favorite
-                            .toString()
-                    )
-                    logger.info(
-                        MainPopDto(result, favorite)
-                            .toString()
-                    )
                     response = ResponseEntity.ok(MainPopDto(result, favorite))
 
                 }
