@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled
 @Configuration
 @EnableScheduling
 class DataInsertScheduler(val openSearchSaveService: OpenSearchSaveService) {
-
+/*
     @Async
     @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     fun insertData() {
@@ -27,4 +27,5 @@ class DataInsertScheduler(val openSearchSaveService: OpenSearchSaveService) {
             }
         }
     }
+    */
 }
