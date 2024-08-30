@@ -59,11 +59,15 @@ class OpensearchClient(
     fun getOneContent(id: String, userId: String?): DetailContentDto {
         val detailContentDto: DetailContentDto
         runBlocking {
-            val response: SearchResponse = openSearchGetService.findDocumentById("content", id)
-            val document = MapperUtils.parseToContentDocument(response)[0]
+            try{
+                val response: SearchResponse = openSearchGetService.findDocumentById("content", id)
+                val document = MapperUtils.parseToContentDocument(response)[0]
 
-            detailContentDto =
-                openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
+                detailContentDto =
+                    openSearchDetailService.getContentDocumentAsDetailContentDto(document, userId)
+            } catch (e: Exception) {
+                
+            }
         }
         return detailContentDto
     }
